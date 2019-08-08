@@ -1,0 +1,38 @@
+.underline{
+    width: 200px;
+    border: 2px solid #F74A4A;
+    margin: 0px;    
+}
+
+.policy{
+    margin-top: 235px;
+}
+
+.fa .fa-search .fa-1x{
+border: none;
+color: red;
+}
+
+.editCard1Margin{
+    margin-left: 100px;
+}
+
+.editCard2Margin{
+    margin-right: 100px;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+  }
+  
+  select + i.fa {
+    float: right;
+    margin-top: -30px;
+    margin-right: 5px;
+    pointer-events: none;
+    background-color: transparent;
+    padding-right: 5px;
+  }
+

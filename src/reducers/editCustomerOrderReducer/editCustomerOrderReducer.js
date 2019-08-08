@@ -1,0 +1,17 @@
+import {GET_CITY,ADD_CUSTOMER,GET_CUSTOMER} from '../../actionCreators/index';
+
+export default function(state={},action){
+    
+    switch(action.type){
+        case GET_CITY:
+         return{...state, city:action.payload}
+
+        case ADD_CUSTOMER:
+        return{...state, add:action.payload}
+        
+        case GET_CUSTOMER:
+            return{...state, view:action.payload}
+         default:
+         return state;
+    }
+}

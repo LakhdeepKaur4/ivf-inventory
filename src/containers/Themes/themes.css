@@ -1,0 +1,56 @@
+.tagsThemes{
+    padding-left:30px;
+    padding-top:20px;
+}
+
+
+.parentThemes{
+    margin-top:15px;
+ 
+    width:100%;
+    height:100%;
+}
+.child1Themes{
+  
+    width:40%;
+    float:left;
+
+}
+.child2Themes{
+  
+    width:60%;
+    float:right;
+    margin-right: 30px;
+  
+
+}
+.bottomChild2Themes{
+    margin-top: 20px;
+    font-size:medium;
+    
+}
+.topChild2Themes{
+    font-size:medium;
+}
+.buttonTopThemes{
+    margin-top:4%;
+}
+.buttonBottomThemes{
+    margin-top:4%;
+}
+.dropDownThemes{
+    margin-left:20px;
+}
+.buttonActiveThemes{
+    background-color:black;
+    border-radius:40%;
+    width:140px;
+    color: white;
+}
+.buttonOffThemes{
+   
+    border-radius:40%;
+    width:140px;
+    margin-left:5px;
+}
+

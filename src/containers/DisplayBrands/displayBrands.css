@@ -1,0 +1,59 @@
+.brand_list .img_content_wprapper{
+    width: 100%;
+}
+.brand_list .img_content_wprapper h1,p{
+    font-family: Verdana;
+    
+}
+.brand_list .container{
+    background-color: #d7dade;
+}
+
+.brand_list .search_filter_wrapper{
+    width: 100%;
+    padding:15px;
+
+}
+.search{
+    display: inline-block;
+    width: 25%
+}
+ .filter{
+    display: inline-block;
+    width:20%;
+    margin-left: 30px;
+}
+.add_brands{
+    display: inline-block;
+    width:20%
+}
+.pagination{
+    display: inline-block;
+    float: right;
+}
+
+.brands_actions{
+    display: inline-block;
+    width:20%;
+}
+.brand_list .form-control{
+    background-color: #d7dade ;
+    border:none !important ;
+    
+}
+.brand_list ::placeholder{
+    color: black ;
+    opacity: 1;
+}
+..display_brands{
+    background-color: white;
+    text-align: center
+}
+
+.add_brands button{
+    border:none;
+    background-color: #d7dade;
+    outline: none;
+    border-color: transparent;
+    background-clip: padding-box;
+}

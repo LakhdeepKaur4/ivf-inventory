@@ -1,0 +1,25 @@
+.add_brand{
+    font-family: Muli;
+}
+.add_brand .brand_button{
+    background-color: #333333;
+    color: #FFFFFF;
+    border: none;
+    font-size: 12px;
+    margin-left:25%;
+    border-radius:4px;
+    margin-top:10px;
+    padding:9px 30px;
+    font-weight: bold;
+   
+}
+.add_brand label{
+    margin-left: 11px;
+    color: #555555;
+    font-size: 18px;
+    
+}
+.add_brand .heading{
+    color: #555555;
+    font-weight: bold;
+}

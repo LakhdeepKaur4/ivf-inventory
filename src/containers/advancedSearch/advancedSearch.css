@@ -1,0 +1,37 @@
+
+/* Advanced Search */
+
+
+.selectAdvancedSearch {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+  }
+  
+  .selectAdvancedSearch + i.fa {
+    float: right;
+    margin-top: -30px;
+    margin-right: 5px;
+    pointer-events: none;
+    background-color: transparent;
+    color: #777777;
+    padding-right: 5px;
+  }
+
+
+  .react-datepicker__input-container input{
+    background-color: transparent;
+  }
+
+  .col-10 input::placeholder{
+    color:#43425D;
+}
+
+ .containerAdvancedSearch{
+     background-color: #F2F4F7;
+ }
+
+
+
+
+

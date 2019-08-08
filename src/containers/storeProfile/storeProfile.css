@@ -1,0 +1,65 @@
+.headingsStoreProfile{
+   
+    margin-left:15px;
+    margin-top:15px;
+}
+
+.parentStoreStoreProfile{
+    
+    height:200px;
+      
+}
+.child1StoreProfile{
+   
+    width:50%;
+    
+    margin-left:15px;
+}
+.child2StoreProfile{
+  
+    margin-left:25px;
+    
+    
+}
+
+.h3StoreProfile{
+    margin-left:15px;
+}
+
+.dropStoreProfile{
+    width:40%;
+}
+.buttonActiveStoreProfile{
+    background-color:black;
+    border-radius:40%;
+    width:140px;
+    color: white;
+}
+.buttonOffStoreProfile{
+   
+    border-radius:40%;
+    width:140px
+}
+.buttonGroupStoreProfile{
+    margin-top:15px;
+    margin-left:15px;
+}
+.cardStoreProfile{
+    width:70%;
+    margin-left:15px;
+    
+}
+ .inputStoreProfile {
+    background-color: transparent !important;
+    border:none;
+} 
+.selectStoreProfile{
+    background-color: transparent !important;
+    border:none;
+}
+.child2StoreProfile label{
+    padding-left: 5px;
+} 
+.spanStoreProfile{
+   margin-left:15px;
+}

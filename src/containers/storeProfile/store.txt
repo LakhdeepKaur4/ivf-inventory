@@ -1,0 +1,4 @@
+ <div className="row">
+                    <h3>STORE PROFILE</h3>
+             </div>
+             <div className="row mt-3">Contact Info</div>

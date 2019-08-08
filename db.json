@@ -1,0 +1,149 @@
+{
+  "users": {
+    "email": "shubang30@gmail.com",
+    "password": "1234"
+  },
+  "themes": {
+    "heading": "Flatastic Business theme",
+    "dummyData": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "dropDown": [
+      "Make Command",
+      "Download CT",
+      "Download Original",
+      "Download Saved"
+    ]
+  },
+  "viewOrders": [
+    {
+      "link": "https://www.google.com/search?q=iv+future&oq=iv+&aqs=chrome.4.69i57j69i60l3j69i59j0.4925j0j7&sourceid=chrome&ie=UTF-8",
+      "date": "22/07/2019",
+      "orderId": "#CFZ8493ar",
+      "status": "Pending",
+      "customer": "Carter",
+      "stTotal": 34234,
+      "billing": "New Delhi",
+      "shipping": "New Delhi",
+      "order": "order is pending"
+    },
+    {
+      "link": "https://www.google.com/search?q=iv+future&oq=iv+&aqs=chrome.4.69i57j69i60l3j69i59j0.4925j0j7&sourceid=chrome&ie=UTF-8",
+      "date": "22/07/2019",
+      "orderId": "#CFZ8494ar",
+      "status": "Failed",
+      "customer": "Jitendra",
+      "stTotal": 2726,
+      "billing": "Romania",
+      "shipping": "Romania",
+      "order": "order is failed"
+    },
+    {
+      "link": "https://www.google.com/search?q=iv+future&oq=iv+&aqs=chrome.4.69i57j69i60l3j69i59j0.4925j0j7&sourceid=chrome&ie=UTF-8",
+      "date": "22/07/2019",
+      "orderId": "#CFZ8495ar",
+      "status": "Successful",
+      "customer": "Smith",
+      "stTotal": 73786,
+      "billing": "Bangalore",
+      "shipping": "Bangalore",
+      "order": "order is successfully"
+    }
+  ],
+  "products": [
+    {
+      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "sku": "SNT25",
+      "stock": 16,
+      "name": "Donald",
+      "price": 78
+    },
+    {
+      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "sku": "SNT25",
+      "stock": 32,
+      "name": "Smith",
+      "price": 85
+    }
+  ],
+    "products": [
+      { 
+        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+        "sku":"SNT25",
+        "stock":16,
+        "name":"Donald",
+        "price":78.00
+      },
+      { 
+        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+        "sku":"SNT25",
+        "stock":32,
+        "name":"Smith",
+        "price":85.00
+      }      
+    ],
+    
+    "editOrder": [ 
+    {
+      "id": "1",
+      "image": "hm.jpeg",
+      "unallocatedPrdt": "It is a long established fact that a reader",
+      "qty": "3",
+      "items": "It is a long established fact that a reader"
+    },
+    {
+      "id": "2",
+      "image": "hm.jpeg",
+      "unallocatedPrdt": "It is a long established fact that a reader",
+      "qty": "4",
+      "items": "It is a long established fact that a reader"
+    },
+    {
+      "id": "3",
+      "image": "hm.jpeg",
+      "unallocatedPrdt": "It is a long established fact that a reader",
+      "qty": "3",
+      "items": "It is a long established fact that a reader"
+    }
+  ],
+  "country": [
+    "India",
+    "Russia",
+    "Romania"
+  ],
+  "Currencies": [
+    "Usd",
+    "Eur",
+    "Aud",
+    "Cad",
+    "Gbp"
+  ],
+  "city": [
+    "New Delhi",
+    "Faridabad"
+  ],
+  "newCustomer": [
+    {
+      "name": "Priya",
+      "surname": "Verma",
+      "email": "priya17verma@gmail.com",
+      "address": "c-209",
+      "city": "New Delhi",
+      "region": "kalkaji",
+      "postalCode": "121008",
+      "phone": "9878787655",
+      "rememberMe": "on",
+      "id": "0iMiVMQ"
+    },
+    {
+      "name": "Rahul",
+      "surname": "Bagla",
+      "email": "rahul@gmail.com",
+      "address": "c-760",
+      "city": "Faridabad",
+      "region": "Govindpuri",
+      "postalCode": "121334",
+      "phone": "9878654357",
+      "rememberMe": "on",
+      "id": "Lfc9oZs"
+    }
+  ]
+}
