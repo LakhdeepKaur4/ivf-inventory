@@ -1,0 +1,62 @@
+{
+  "name": "nodejs-inventory",
+  "version": "1.3.6",
+  "description": "An open source Inventory and stock management tool",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "unit": "mocha --compilers js:babel-core/register test/unit/index.js",
+    "integration": "mocha --compilers js:babel-core/register test/integration/index.js",
+    "test": "npm run unit && npm run integration"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegomanjarres/nodejs-inventory.git"
+  },
+  "keywords": [
+    "Inventory",
+    "stock",
+    "warehouse",
+    "node",
+    "nodejs"
+  ],
+  "author": "Diego A. Manjarrés V.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diegomanjarres/nodejs-inventory/issues"
+  },
+  "homepage": "https://github.com/diegomanjarres/nodejs-inventory#readme",
+  "devDependencies": {
+    "async": "^2.5.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "body-parser": "^1.19.0",
+    "chai": "^4.1.0",
+    "eslint": "^4.2.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^3.4.2",
+    "sinon": "^2.3.8",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "@reactioncommerce/schemas": "github:reactioncommerce/schemas",
+    "babel-polyfill": "^6.26.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv-safe": "^6.1.0",
+    "express": "^4.15.3",
+    "http-status": "^1.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^4.11.2",
+    "nodemon": "^1.19.1",
+    "q": "^1.5.0",
+    "short-id": "0.1.0-1",
+    "simpl-schema": "^1.5.5"
+  }
+}
