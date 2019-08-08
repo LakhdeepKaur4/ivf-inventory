@@ -14,7 +14,6 @@ export function GetInitialCategory(){
 }
 
 export function GetParticularCategory(id){
-    console.log('action',id);
     
     const request = axios.get(`${URL}/category/${id}`)
     .then((response => response.data))
@@ -26,8 +25,6 @@ export function GetParticularCategory(id){
 }
 
 export function GetSubCategory(id){
-    console.log('actionsandy',id)
-
     const request = axios.get(`${URL}/category/${id}`)
     .then((response => response.data))
 
@@ -38,7 +35,6 @@ export function GetSubCategory(id){
 
 }
 export function onSubmit(values){
-    console.log('actionvaluessssss',values);
 
     const request = axios.post(`${URL}/category/`,values)
     .then((response => response.data))

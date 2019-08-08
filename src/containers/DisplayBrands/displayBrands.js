@@ -51,7 +51,6 @@ class Brands extends Component {
   // Handle search input
 
   handleSearchInput = e => {
-    console.log(" inside handleSearchInput", e.target);
     e.preventDefault();
     this.setState({ searchTxt: e.target.value });
   };

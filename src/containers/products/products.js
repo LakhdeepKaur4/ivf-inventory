@@ -25,7 +25,6 @@ class Products extends Component {
     productsItem=({productItem}) =>{
         
         if(productItem) {
-            console.log("=xdfdgfdgfdgfxdg===============",productItem)
            return productItem.map((item)=> {
                return (
                 <tr>
@@ -150,7 +149,6 @@ class Products extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     return {
         ProductItemReducer: state.ProductItemReducer
     }

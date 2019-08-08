@@ -28,7 +28,7 @@ class AddBrands extends Component {
     this.setState({ [event.target.name]: event.target.value });
     if(event.target.checked){
         this.setState({selected:event.target.value},()=>{
-          console.log('radio button value...', this.state.selected)
+          // console.log('radio button value...', this.state.selected)
         })
     }
   };
@@ -44,7 +44,6 @@ class AddBrands extends Component {
         status: selected,
         logo: picture
       };
-      console.log('add payload...', payload)
       this.props.addBrand(payload);
       this.setState({
         brandName: "",

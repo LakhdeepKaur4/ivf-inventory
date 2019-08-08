@@ -43,14 +43,12 @@ class AddProduct extends Component {
 
     // receives array of files that are done uploading when submit button is clicked
     handleSubmit = (files, allFiles) => {
-        console.log(files.map(f => f.meta))
         allFiles.forEach(f => f.remove())
     }
 
     addTag = (e) => {
         e.preventDefault();
         let count = $("#tag div").length;
-        console.log(count);
         if (count % 2 === 0 && count !== 0) {
             $('#tag').append('<div class="col-6 row ml-3 mr-2 mt-2"><input class="form-control col-11" style="width:100%;" type="text" placeholder="Tag"/><button type="button" class="btn col-1"><i class="fa fa-window-close" aria-hidden="true" style="margin : auto;"></i></button></div>');
         } else {
@@ -71,25 +69,15 @@ class AddProduct extends Component {
 
     handleFormSubmit =(e) => {
         e.preventDefault();
-        // fs.writeFile('../../../test.json','hello',err => {
-        //     if(err){
-        //         console.log(err);
-        //     }
-        // });
         const { home, title, permalink, subtitle, vendor, price, inventorytosale, inventorystock, description, country, template, sitemap, image, facebook, twitter, pinterest, google,tag,detailname, detailinfo}= this.state
-        console.log(home, title, permalink, subtitle, vendor, price, inventorytosale, inventorystock, description, country, template, sitemap, image, facebook, twitter, pinterest, google,tag,detailname, detailinfo);
-        // this.props.product
-        // console.log(this.state)
         this.props.postProduct(home, title, permalink, subtitle, vendor, price, inventorytosale, inventorystock, description, country, template, sitemap, image, facebook, twitter, pinterest, google,tag,detailname, detailinfo)
 
     }
 
     onChangeData=(e)=>{
-        console.log(e.target.value)
         this.setState({
             [e.target.name] : e.target.value
         })
-
     }
 
     render() {
@@ -239,7 +227,6 @@ class AddProduct extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state,"hjasdgjhsghjs")
     return {
         AddProductReducer: state.AddProductReducer
     }
