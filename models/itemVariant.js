@@ -137,6 +137,13 @@ var itemVariantSchema = new Schema({
   originCountry: {
     type: String,
   },
+  isActive:{
+    type: Boolean,
+    defaultValue: true
+  },
+  variantPicture: {
+    type: String
+  },
   options: {
     type: ["ItemVariant"]
   },
