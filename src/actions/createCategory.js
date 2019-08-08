@@ -3,9 +3,9 @@ import axios from 'axios';
 import{URL,GET_INITIAL_CATEGORY,GET_PARTICULAR_CATEGORY,GET_SUB_CATEGORY,ON_SUBMIT} from '../actionCreators/index';
 
 export function GetInitialCategory(){
-    
+    console.log('hiii action');
     const request = axios.get(`${URL}/category/initial`)
-    .then((response =>response.data))
+    .then((response => response.data))
 
     return {
         type: GET_INITIAL_CATEGORY,
