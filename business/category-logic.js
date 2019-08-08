@@ -10,13 +10,12 @@ exports.createCategory = async (req, res, next) => {
     let body = req.body;
     const category = await new Category(body).save();
     const categoryId = category._id;
-    console.log(categoryId);
-    // if (body.categoryThumbnail) {
+    let url = "../public/images/categoryThumbnails/";
     let index = body.fileName.lastIndexOf('.');
     body.fileExt = body.fileName.slice(index + 1);
     body.fileName = body.fileName.slice(0, index);
     body.picture = body.picture.split(',')[1];
-    await helper.saveToDisc(categoryId, body.fileName, body.fileExt, body.picture, (err, res) => {
+    await helper.saveToDisc(url, categoryId, body.fileName, body.fileExt, body.picture, (err, res) => {
       if (err) {
         console.log(err);
       } else {

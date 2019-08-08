@@ -8,7 +8,6 @@ exports.signin = async (req, res, next) => {
     try {
         console.log('register')
         let body = req.body;
-        console.log("req body>>>", body);
         if (!req.body.userName || !req.body.password) {
             res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ success: false, message: 'Please enter username and password.' });
         }
