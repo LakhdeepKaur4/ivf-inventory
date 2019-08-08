@@ -18,6 +18,7 @@ import AddBrands from './containers/AddBrands/addBrands'
 import AddCategory from './containers/categories/categories';
 import Header from './components/header/header';
 import createCategory from './containers/createCategory/createCategory';
+import DataToStore from './containers/dataToStore/dataToStore';
 import EditBrand from './containers/EditBrand/editBrand'
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
+          <Route path="/dataToSTore" component={DataToStore} />
             <Route path="/header" component={Header} />
             <Route path="/createcategory" component={createCategory} />
             <Route path="/sidebar" component={Sidebar} />
@@ -43,7 +45,6 @@ class App extends Component {
             <Route path="/editanorder" component={EditOrder} />
             <Route path="/products" component={Products} />
             <Route path="/addbrands" component={AddBrands}/>
-            
             {/* <Route path="/products" component={Products} /> */}
             <Route path="/categories" component={AddCategory} />
             <Route path="/editBrand/:id" component={EditBrand}/>

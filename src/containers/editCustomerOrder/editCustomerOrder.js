@@ -35,7 +35,7 @@ class EditCustomerOrder extends Component {
      }
 
     searchFilter = (search) => {
-        return function (x) { console.log(x)
+        return function (x) {
             return x.name.toLowerCase().includes(search.toLowerCase())  ||
             !search;
         }
@@ -63,22 +63,8 @@ class EditCustomerOrder extends Component {
     }
 
     viewCustomer=({view})=>{
-        console.log(view);
         if(view){
-           
-
-            return view.filter(this.searchFilter(this.state.search)).map((item)=>{ 
-             return(
-              <tr>
-            
-              <td>{item.name ?item.name:''}</td>
-              
-              
-            
-              </tr>
-             )
-              
-            })
+            return view.map((item)=><option key={item.id}>{item.name},{item.email}</option>)
         }
   }
 
@@ -92,48 +78,41 @@ class EditCustomerOrder extends Component {
                 </div>
 
                 <div className="md-stepper-horizontal" >
-                    <div className="md-step active done">
-                        <div className="md-step-circle" style={{backgroundColor:"#F74A4A"}} ><span>1</span></div>
-                        <div className="md-step-title">Step 1</div>
+                    <div className="md-step active ">
+                        <div className="md-step-circle border border-danger bg-transparent text-danger"><span>1</span></div>
+                        <div className="md-step-title">Customer info</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
-                    <div className="md-step active done">
-                        <div className="md-step-circle" style={{backgroundColor:"#F74A4A"}}><span>2</span></div>
-                        <div className="md-step-title">Step 2</div>
+                    <div className="md-step ">
+                        <div className="md-step-circle border border-secondary bg-transparent" style={{color:"#4D4F5C"}}><span>2</span></div>
+                        <div className="md-step-title">Products</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
-                    <div className="md-step done">
-                        <div className="md-step-circle"><span>3</span></div>
-                        <div className="md-step-title">Step 3</div>
+                    <div className="md-step ">
+                        <div className="md-step-circle border border-secondary bg-transparent"  style={{color:"#4D4F5C"}}><span>3</span></div>
+                        <div className="md-step-title">Finalize</div>
                         <div className="md-step-bar-left"></div>
-                        <div className="md-step-bar-right"></div>
-                    </div>
-                    <div className="md-step acitve done">
-                        <div className="md-step-circle"><span>4</span></div>
-                        <div className="md-step-title">Step 4</div>
-                        <div className="md-step-bar-left"></div>    
                         <div className="md-step-bar-right"></div>
                     </div>
                 </div>
-                    
-
                         <div className="card-group">
-                            <div className="card editCard1Margin" >
-
+                            <div className="card editCard1Margin">
                                 <div className="card-body" >
                                 <h5 className="card-title" >EXISTING Customer</h5>
                                 <hr className="underline"/>
                                 <div className="md-form active-purple-2 mb-3 row">
-                                <div className="col-1 m-auto" style={{fontSize:"1.5rem"}}><i className="fa fa-search"></i></div>
-                                <div className="col-11">
-                                    <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} value={this.state.search}
-                                        onChange={this.searchOnChange} /></div>
-                                </div>
-                                <div >
-                                    {this.viewCustomer(this.props.EditCustomerOrderReducer)}    
-                                    </div>
+                                    <div className="col-1 m-auto" style={{fontSize:"1.5rem"}}><i className="fa fa-search"></i></div>
+                                        <div className="col-11">
+                                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" list="customer" name="search"  style={{backgroundColor:'transparent'}} placeholder="Search by name and email"/>
+                                            <datalist id="customer">
+                                                    <option />
+                                                
+                                                    {this.viewCustomer(this.props.EditCustomerOrderReducer)} 
+                                                </datalist>
+                                        </div>
+                                </div>                                      
 
                                     <div style={{height:"54px"}}></div>  
                                                   
@@ -168,7 +147,8 @@ class EditCustomerOrder extends Component {
                                 <div className="row">
                                 <div className="md-form active-purple-2 mb-3 col-sm">
                                 <select className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="city" style={{backgroundColor:'transparent'}} type="select" onChange={this.onChangeData}>
-                                <option></option>
+                                <option selected="true" disabled="disabled">Select city</option>
+                               
                                 {this.getCity(this.props.EditCustomerOrderReducer)}
                                 </select>
                                 <i className="fa fa-angle-down"></i>
@@ -210,7 +190,6 @@ class EditCustomerOrder extends Component {
 }
 
 function mapStateToProps(state){
-    console.log(state)
     return{
         EditCustomerOrderReducer:state.EditCustomerOrderReducer
     }

@@ -7,10 +7,8 @@ class Sidebar extends Component {
     }
 
     componentDidMount() {
-        console.log(window.location.href);
         let page = window.location.href;
         page = page.slice(page.lastIndexOf("/") + 1);
-        console.log(page);
         this.setState({
             pageOn: page
         });

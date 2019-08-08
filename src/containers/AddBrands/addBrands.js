@@ -1,66 +1,72 @@
 import React, { Component } from "react";
-import './addBrands.css';
+import "./addBrands.css";
 // import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { addBrand} from "../../actions/brandsAction";
-import FileBase64 from 'react-file-base64'
+import { addBrand } from "../../actions/brandsAction";
+import FileBase64 from "react-file-base64";
 
 class AddBrands extends Component {
   state = {
     brandName: "",
     description: "",
-    selected: "Enabled",
+    selected: "",
     errorBrandName: "",
     errorDescription: "",
-    fileName:[],
-    picture:'',
-
+    fileName: [],
+    picture: ""
   };
 
   componentDidUpdate(prevProps) {
     if (prevProps.isNewBrandAdd !== this.props.isNewBrandAdd) {
       this.props.history.push("/brands");
-}
-  }
-
-  // Handle input change
-  handleInputChange=event=>{
-    event.preventDefault();
-    this.setState({[event.target.name]:event.target.value})
-
-  }
-
-  // Adding brand
-  addBrand=(event)=>{
-    event.preventDefault();
-    const{brandName,description,selected,picture}=this.state;
-    if(this.validateForm()){
-      let payload={
-        name:brandName,
-        description:description,
-        status:selected,
-        logo:picture
-      }
-      this.props.addBrand(payload)
-      this.setState({
-        brandName:'',
-        description:'',
-        selected:'',
-        picture:''
-      })
     }
   }
 
+  // Handle input change
+  handleInputChange = event => {
+    event.preventDefault();
+    this.setState({ [event.target.name]: event.target.value });
+    if(event.target.checked){
+        this.setState({selected:event.target.value},()=>{
+          console.log('radio button value...', this.state.selected)
+        })
+    }
+  };
+
+  // Adding brand
+  addBrand = event => {
+    event.preventDefault();
+    const { brandName, description, selected, picture } = this.state;
+    if (this.validateForm()) {
+      let payload = {
+        name: brandName,
+        description: description,
+        status: selected,
+        logo: picture
+      };
+      console.log('add payload...', payload)
+      this.props.addBrand(payload);
+      this.setState({
+        brandName: "",
+        description: "",
+        selected: "",
+        picture: ""
+      });
+    }
+  };
+
   //upload file
 
-  getFiles = (files) => {
-    this.setState({ fileName: files[0].name, picture: files[0].base64 },()=>{
-    });
-}
+  getFiles = files => {
+    this.setState(
+      { fileName: files[0].name, picture: files[0].base64 },
+      () => {}
+    );
+  };
   //Validations
 
   validateForm = () => {
-    let { brandName,description} = this.state;
+    let { brandName, description } = this.state;
     let errorBrandName = "";
     let errorDescription = "";
     let formIsValid = true;
@@ -83,10 +89,10 @@ class AddBrands extends Component {
       formIsValid = false;
       // errorDescription = "* Please enter alphabets only";
     }
-    
+
     this.setState({
       errorBrandName,
-      errorDescription,
+      errorDescription
     });
     return formIsValid;
   };
@@ -94,88 +100,95 @@ class AddBrands extends Component {
   render() {
     return (
       <div className="add_brand ">
-      <div className="container">
-        <div className="bg-light text-dark p-4 mt-1">
-          <p className="heading">ADD BRANDS</p>
-          <form>
-            <div>
-            <FileBase64
-        multiple={ true }
-        onDone={ this.getFiles } />
-            </div>
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <input
-                  type="text"
-                  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
-                  name="brandName"
-                  placeholder="Brand Name"
-                  value={this.state.brandName}
-                  onChange={this.handleInputChange}
-                />
+        <div className="container">
+          <div className="bg-light text-dark p-4 mt-1">
+            <p className="heading">ADD BRANDS</p>
+            <form>
+              <div>
+                <FileBase64 multiple={true} onDone={this.getFiles} />
               </div>
-              <div style={{ color: "red" }}>
-                            {this.state.errorBrandName}
-                          </div>
-            </div>
+              <div className="form-row">
+                <div className="form-group col-md-6">
+                  <input
+                    type="text"
+                    className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
+                    name="brandName"
+                    placeholder="Brand Name"
+                    value={this.state.brandName}
+                    onChange={this.handleInputChange}
+                  />
+                </div>
+                <div style={{ color: "red" }}>{this.state.errorBrandName}</div>
+              </div>
 
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <input
-                  type="text"
-                  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
-                  placeholder="Description"
-                  name='description'
-                  value={this.state.description}
-                  onChange={this.handleInputChange}/>
+              <div className="form-row">
+                <div className="form-group col-md-6">
+                  <input
+                    type="text"
+                    className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
+                    placeholder="Description"
+                    name="description"
+                    value={this.state.description}
+                    onChange={this.handleInputChange}
+                  />
+                </div>
+                <div style={{ color: "red" }}>
+                  {this.state.errorDescription}
+                </div>
               </div>
-              <div style={{ color: "red" }}>
-                            {this.state.errorDescription}
-                          </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <label htmlFor="status" style={{ fontWeight: 'bold'}}>Status</label>
-                
-                <div className="radio">
-          <label>
-            <input type="radio"name="status" 
-            value="Enabled"
-            checked={this.state.selected==='Enabled'} 
-            onChange={this.handleInputChange}/>
-            Enabled
-          </label>
-        </div>
-        <div className="radio">
-          <label>
-            <input type="radio" name="status"
-            value="Disabled" 
-            checked={this.state.selected === 'Disabled'}
-            onChange={this.handleInputChange} />
-            Disabled
-          </label>
-        </div>
+              <div className="form-row">
+                <div className="form-group col-md-6">
+                  <label htmlFor="status" style={{ fontWeight: "bold" }}>
+                    Status
+                  </label>
+
+                  <div className="radio">
+                    <label>
+                      <input
+                        type="radio"
+                        name="status"
+                        value="Enabled"
+                        checked={this.state.selected === true}
+                        onChange={this.handleInputChange}
+                      />
+                      Enabled
+                    </label>
+                  </div>
+                  <div className="radio">
+                    <label>
+                      <input
+                        type="radio"
+                        name="status"
+                        value="Disabled"
+                        checked={this.state.selected === false}
+                        onChange={this.handleInputChange}
+                      />
+                      Disabled
+                    </label>
+                  </div>
+                </div>
               </div>
-            </div>
-            
-          </form>
-          <button className="brand_button" type="submit" onClick={this.addBrand}>
+            </form>
+            <button
+              className="brand_button"
+              type="submit"
+              onClick={this.addBrand}
+            >
               SAVE BRAND
             </button>
+          </div>
         </div>
-      </div>
       </div>
     );
   }
 }
-const  mapStateToProps=state=> {
+const mapStateToProps = state => {
   return {
     BrandsReducer: state.BrandsReducer,
-    isNewBrandAdd:state.BrandsReducer.isNewBrandAdd,
-    
+    isNewBrandAdd: state.BrandsReducer.isNewBrandAdd
   };
-}
+};
 export default connect(
   mapStateToProps,
-  {addBrand}
+  { addBrand }
 )(AddBrands);

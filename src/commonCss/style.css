@@ -181,7 +181,7 @@ span.round-tab:hover {
 
 .has-search .form-control {
     padding-left: 2.375rem;
-    width: 102px;
+    /* width: 102px; */
 }
 
 .has-search .form-control-feedback {

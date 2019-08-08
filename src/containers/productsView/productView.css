@@ -1,14 +1,25 @@
-/* Product View */
 
-/* .view{
-    margin: 45px;
-    padding-top: 8%;
+/* Bootstrap 4 text input with search icon */
+
+.has-search .searchBox {
+  padding-left: 2.375rem;
+  width: 102px;
 }
 
-.list-inline {
-    padding-left: 15px;
-    list-style: none;
-} */
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+/* End Search */
+
 
 .table-responsive img{
     width: 60px;
@@ -18,15 +29,6 @@
 }
 
 
-/* .table-responsive button{
-    
-    border-radius: 24px;
-    width: 120px;
-    height: 37px;
-    margin-top: 10px;
-} */
-
-/* .table-responsive tbody  */
 
 .table-responsive .table td{
     vertical-align: baseline;
@@ -81,6 +83,38 @@
     background-color:  #FF9800;
     color: white;
   }
+
+  .button-main {
+    width: 184px;
+    height: 30px;
+    border: none;
+    border-radius:15px;
+    color: white;
+    padding: 2px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 65px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+
+  .button3 {
+    background-color: #333333; 
+    color: white; 
+    border: 2px solid  #333333;
+  }
+
+  .button3:hover {
+    background-color:  #333333;
+    color: white;
+  }
+
+
+
+
 
 
  

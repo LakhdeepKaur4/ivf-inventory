@@ -9,6 +9,7 @@ const initialState = {
     isBrandEnable:false,
     brandDetail:{},
     isBrandUpdate:false,
+    isBrandDetail:false,
 };
 
 const BrandsReducer = (state = initialState, action) => {
@@ -49,7 +50,8 @@ const BrandsReducer = (state = initialState, action) => {
         case BRAND_DETAIL:{
             return{
                 ...state,
-                brandDetail:action.payload
+                brandDetail:action.payload,
+                isBrandDetail:true
 
             }
         }

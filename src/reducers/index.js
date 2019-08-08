@@ -6,12 +6,10 @@ import ThemeReducer from './themesReducer/themesReducer';
 import StoreProfileReducer from './storeProfileReducer/storeProfileReducer';
 import EditOrderReducer from './editAnOrderReducer/editAnOrderReducer';
 import ProductsViewReducer from './productsViewReducer/productsViewReducer';
-<<<<<<< HEAD
 import CreateCategory from './createCategory/createCategory';
-=======
 import EditCustomerOrderReducer from './editCustomerOrderReducer/editCustomerOrderReducer';
->>>>>>> e188360c52bd710aeb0d3db1c3683f73f0298fd5
-
+import DataToStoreReducer from './dataToStoreReducer/dataToStoreReducer';
+import ProductItemReducer from './productItemReducer/productItemReducer';
 const rootReducer = combineReducers({
    ViewOrderReducer,
    AddProductReducer,
@@ -20,11 +18,9 @@ const rootReducer = combineReducers({
    BrandsReducer,
    EditOrderReducer,
    ProductsViewReducer,
-<<<<<<< HEAD
-   CreateCategory 
-=======
-   EditCustomerOrderReducer
-
->>>>>>> e188360c52bd710aeb0d3db1c3683f73f0298fd5
+   CreateCategory ,
+   EditCustomerOrderReducer,
+   DataToStoreReducer,
+   ProductItemReducer,
 })
 export default rootReducer;

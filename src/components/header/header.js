@@ -8,9 +8,10 @@ class Header extends Component{
         return(
 
             <div className="card-header" id="headerList" style={{backgroundColor:'white', height:'70px'}}>
-            <label style={{marginTop:'10px'}}><i className="fa fa-home" aria-hidden="true"  ></i>Home</label>
+            <label style={{marginTop:'10px'}}><i className="fa fa-home" aria-hidden="true"  ></i>Home<span>\</span><span>Filter & Search</span><span>\</span><span>Orders</span></label>
             <span style={{position: 'absolute', left: '51%'}}>
-            <span >Store Name</span>,
+            <span >Store Name</span>
+            <span>,</span>
             <span>Location</span>
             <span><i className="fa fa-angle-down" aria-hidden="true" ></i></span>
             </span>

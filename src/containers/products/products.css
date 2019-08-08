@@ -1,0 +1,42 @@
+ul li{
+    list-style: none;
+}
+
+.mainProductDiv { 
+    position: relative; 
+    height: 300px;
+} 
+.subDivBottom { 
+    position: absolute; 
+    bottom: 0px; 
+} 
+
+.productsMainContainer {
+    margin: auito;
+}
+
+.prLink {
+    width: 150px;
+    border: 2px solid #F74A4A;
+    margin: 0px;
+}
+
+.prLine {
+    width: 200px;
+    border: 2px solid #333333;
+    margin: 0px;
+}
+
+.stepbutton{
+    margin: 5px !important;
+    border-radius: 100px !important;
+}
+
+.prevBtn {
+    border:1px solid #43425D !important;
+    padding: 5px 20px 5px 20px !important;
+}
+
+.nxtBtn {
+    padding: 5px 30px 5px 30px !important;
+}

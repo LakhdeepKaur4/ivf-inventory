@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import {getProductsView} from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
-import './productView.css'
+import './productView.css';
 
 import Dashboard from '../../components/dashboard/dashboard';
 
@@ -16,7 +16,8 @@ class ProductsView extends Component{
             activePage: '1',
             limit:'5',
             totalItemsCount:'',
-            filterName:'name'
+            filterName:'name',
+            sortVal:false
         }
     }
     
@@ -35,7 +36,7 @@ class ProductsView extends Component{
      }
 
     searchFilter = (search) => {
-        return function (x) { console.log(x)
+        return function (x) { 
             return x.sku.toLowerCase().includes(search.toLowerCase())  ||
             x.stock.toString().includes(search.toString()) ||
             x.name.toLowerCase().includes(search.toLowerCase())   ||
@@ -43,14 +44,35 @@ class ProductsView extends Component{
         }
     }
 
+    onSort=()=>{
+    this.setState(()=>{
+        return {   
+            sortVal:true,
+                    
+                }});
+                       
+    }
+
+
+    onSortInv=()=>{
+        this.setState(()=>{
+            return {   sortVal: false,
+                        
+                    }});
+                           
+        }
+
+    onToggleDropDown = (option) => {
+        
+           this.props.onSizePerPageList(Number(option.target.value))
+          }
+
     productsResult=({productList})=>{
           if(productList){
-             
-
               return productList.sort((item1,item2)=>{
                 var cmprVal =  (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
                 return this.state.sortVal ? cmprVal : -cmprVal;
-                }).filter(this.searchFilter(this.state.search)).map((item)=>{ 
+               }).filter(this.searchFilter(this.state.search)).map((item)=>{ 
                return(
                 <tr>
                 <td scope="row"><input type="checkbox"/></td>
@@ -80,7 +102,7 @@ class ProductsView extends Component{
                 <thead>
                     <tr>
                     <th scope="col"><input type="checkbox"/></th>
-                    <th scope="col">Image</th>
+                    <th scope="col">IMAGES</th>
                     <th scope="col">SKU</th>
                     <th scope="col">STOCK</th>
                     <th scope="col">NAME</th>
@@ -140,19 +162,20 @@ class ProductsView extends Component{
                 <ul className="navbar-nav">
                
                 <li className="nav-item">
-                <span className="nav-link"><i class="fas fa-sort-amount-down" aria-hidden="true"></i></span>
+                <span className="nav-link" onClick={this.onSort}><i class="fas fa-sort-amount-down" aria-hidden="true"></i></span>
                 </li>
-
+            
                 <li className="nav-item">
-                <span className="nav-link"><i class="fas fa-sort-amount-up" aria-hidden="true"></i></span>
+                <span className="nav-link" onClick={this.onSortInv}><i class="fas fa-sort-amount-up" aria-hidden="true"></i></span>
                 </li>
                
                 <li className="nav-item">
                 <span className="nav-link"><i class="fas fa-th-large" aria-hidden="true"></i></span>
                 </li>
-                <li className="nav-item66">
+                <li className="nav-item">
                 <span className="nav-link">Limits 20<i class="fas fa-angle-down" aria-hidden="true"   style={{marginLeft: '5px'}} ></i></span>
                 </li>
+ 
                 <li className="nav-item dropdown">
                     <span className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Actions
@@ -163,13 +186,11 @@ class ProductsView extends Component{
                     <a className="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Features</a>
-                </li>
+                
                 <li className="nav-item">
                 <span className="nav-link" style={{paddingTop: '1px'}}><span className="form-group has-search">
                     <span className="fa fa-search form-control-feedback"></span>
-                    <input type="text" className="form-control" placeholder="Search" value={this.state.search}
+                    <input type="text" className="form-control searchBox " placeholder="Search" value={this.state.search}
                             onChange={this.searchOnChange} />
                 </span></span>
                 </li>
@@ -221,9 +242,13 @@ class ProductsView extends Component{
                  
               </ul>
               </div> */}
-           <div>
+              <div>
                  {tableData}
               </div>
+              <div>
+                 <button className="button-main button3">TO PROVISION</button>
+              </div>
+              
       
         </Dashboard>
         </div>

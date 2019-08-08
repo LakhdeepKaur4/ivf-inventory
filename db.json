@@ -48,22 +48,6 @@
       "order": "order is successfully"
     }
   ],
-  "products": [
-    {
-      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-      "sku": "SNT25",
-      "stock": 16,
-      "name": "Donald",
-      "price": 78
-    },
-    {
-      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-      "sku": "SNT25",
-      "stock": 32,
-      "name": "Smith",
-      "price": 85
-    }
-  ],
     "products": [
       { 
         "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
@@ -80,30 +64,103 @@
         "price":85.00
       }      
     ],
-    
+    "dataToStore":[
+      {
+        "brandImage":"brand1.png",
+        "storeName":"Cropp",
+        "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
+        "type":"Apparel"
+      },
+      {
+        "brandName":"brand2.png",
+        "storeName":"Reserved",
+        "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
+        "type":"Shoes"
+      },
+      {
+        "brandName":"brand2.png",
+        "storeName":"Brand House",
+        "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
+        "type":"Sports wear"
+      }
+
+    ],
+    "brands": [
+      { 
+        "name":"Nike",
+        "logo":"nike.png",
+        "description":"Nike, Inc. is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, apparel, equipment, accessories, and services. The company is headquartered near Beaverton, Oregon, in the Portland metropolitan area",
+        "products":1378,
+        "status":"Enabled"
+      },
+      { 
+        "name":"Levis",
+        "logo":"levis.png",
+        "description":"Levi Strauss & Co. is an American clothing company known worldwide for its Levi's brand of denim jeans. It was founded in May 1853 when German immigrant Levi Strauss moved from Buttenheim, Bavaria, to San Francisco, California to open a west coast branch of his brothers' New York dry goods business",
+        "products":1267,
+        "status":"Enabled"
+      },
+      { 
+        "name":"Adidas",
+        "logo":"adidas.png",
+        "description":"Adidas AG is a multinational corporation, founded and headquartered in Herzogenaurach, Germany, that designs and manufactures shoes, clothing and accessories. It is the largest sportswear manufacturer in Europe, and the second largest in the world, after Nike.",
+        "products":"1389",
+        "status":"Disabled"
+      },
+      { 
+        "name":"H&M",
+        "logo":"hm.png",
+        "description":"Hennes & Mauritz AB is a Swedish multinational clothing-retail company known for its fast-fashion clothing for men, women, teenagers and children. H&M and its associated companies operate in 62 countries with over 4,500 stores and as of 2015 employed around 132,000 people.",
+        "products":"13782",
+        "status":"Disabled"
+      },
+      { 
+        "name":"Starbucks Coffee",
+        "logo":"starbucks.png",
+        "description":"Starbucks Corporation is an American coffee company and coffeehouse chain. Starbucks was founded in Seattle, Washington in 1971. As of early 2019, the company operates over 30,000 locations worldwide",
+        "products":"1389",
+        "status":"Enabled"
+      }
+    ],
     "editOrder": [ 
     {
-      "id": "1",
-      "image": "hm.jpeg",
-      "unallocatedPrdt": "It is a long established fact that a reader",
-      "qty": "3",
-      "items": "It is a long established fact that a reader"
+      "id":"1",
+      "image":"hm.jpeg",
+      "unallocatedPrdt":"It is a long established fact that a reader",
+      "qty":"3",
+      "items":"It is a long established fact that a reader"
     },
     {
-      "id": "2",
-      "image": "hm.jpeg",
-      "unallocatedPrdt": "It is a long established fact that a reader",
-      "qty": "4",
-      "items": "It is a long established fact that a reader"
+      "name": "Levis",
+      "logo": "levis.png",
+      "description": "Levi Strauss & Co. is an American clothing company known worldwide for its Levi's brand of denim jeans. It was founded in May 1853 when German immigrant Levi Strauss moved from Buttenheim, Bavaria, to San Francisco, California to open a west coast branch of his brothers' New York dry goods business",
+      "products": 1267,
+      "status": "Enabled"
     },
     {
-      "id": "3",
-      "image": "hm.jpeg",
-      "unallocatedPrdt": "It is a long established fact that a reader",
-      "qty": "3",
-      "items": "It is a long established fact that a reader"
+      "name": "Adidas",
+      "logo": "adidas.png",
+      "description": "Adidas AG is a multinational corporation, founded and headquartered in Herzogenaurach, Germany, that designs and manufactures shoes, clothing and accessories. It is the largest sportswear manufacturer in Europe, and the second largest in the world, after Nike.",
+      "products": "1389",
+      "status": "Disabled"
+    },
+    {
+      "name": "H&M",
+      "logo": "hm.png",
+      "description": "Hennes & Mauritz AB is a Swedish multinational clothing-retail company known for its fast-fashion clothing for men, women, teenagers and children. H&M and its associated companies operate in 62 countries with over 4,500 stores and as of 2015 employed around 132,000 people.",
+      "products": "13782",
+      "status": "Disabled"
+    },
+    {
+      "name": "Starbucks Coffee",
+      "logo": "starbucks.png",
+      "description": "Starbucks Corporation is an American coffee company and coffeehouse chain. Starbucks was founded in Seattle, Washington in 1971. As of early 2019, the company operates over 30,000 locations worldwide",
+      "products": "1389",
+      "status": "Enabled"
     }
   ],
+ 
+  
   "country": [
     "India",
     "Russia",
@@ -115,6 +172,36 @@
     "Aud",
     "Cad",
     "Gbp"
+  ],
+  "group": [
+    "abc",
+    "xyz"
+  ],
+  "productsItem": [
+    {
+      "products": "https://pixabay.com/photos/adult-alone-bible-denim-pants-1869621/",
+      "name": "striped gangsta",
+      "shipped": "849 the cresent",
+      "quantity": "3",
+      "itemPrice": "59$",
+      "total": "178$"
+    },
+    {
+      "products": "https://pixabay.com/photos/adult-alone-bible-denim-pants-1869621/",
+      "name": "striped gangsta",
+      "shipped": "849 the cresent",
+      "quantity": "3",
+      "itemPrice": "59$",
+      "total": "178$"
+    },
+    {
+      "products": "https://pixabay.com/photos/adult-alone-bible-denim-pants-1869621/",
+      "name": "striped gangsta",
+      "shipped": "849 the cresent",
+      "quantity": "3",
+      "itemPrice": "59$",
+      "total": "178$"
+    }
   ],
   "city": [
     "New Delhi",

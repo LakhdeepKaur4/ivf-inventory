@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./displayBrands.css";
 import { connect } from "react-redux";
-import  * as BrandAction from "../../actions/brandsAction";
-import NikeImg from "../../../public/images/nike.png";
+import * as BrandAction from "../../actions/brandsAction";
+import StoreImg from "../../../public/images/store.png";
 import Pagination from "react-js-pagination";
 
 class Brands extends Component {
@@ -36,11 +36,10 @@ class Brands extends Component {
     this.props.getPageDetails(pageNumber);
   };
 
-  // Handle search input
+  // Handle Enable
 
-  handleSearchInput = e => {
-    e.preventDefault();
-    this.setState({ searchTxt: e.target.value });
+  handleEnable = id => {
+    this.props.enableBrand(id);
   };
 
   // Handle Disable
@@ -49,10 +48,12 @@ class Brands extends Component {
     this.props.disableBrand(id);
   };
 
-  // Handle Enable
+  // Handle search input
 
-  handleEnable = id => {
-    this.props.enableBrand(id);
+  handleSearchInput = e => {
+    console.log(" inside handleSearchInput", e.target);
+    e.preventDefault();
+    this.setState({ searchTxt: e.target.value });
   };
 
   // Handle Search
@@ -61,7 +62,6 @@ class Brands extends Component {
       return (
         x.name.toLowerCase().includes(search.toLowerCase()) ||
         x.products_quantity.toLowerCase().includes(search.toLowerCase()) ||
-        x.status.toLowerCase().includes(search.toLowerCase()) ||
         !search
       );
     };
@@ -98,7 +98,7 @@ class Brands extends Component {
               <td>
                 <div className="dropdown">
                   <button
-                    className="btn btn-secondary dropdown-toggle"
+                    className="btn"
                     type="button"
                     id="dropdownMenuButton"
                     data-toggle="dropdown"
@@ -111,11 +111,11 @@ class Brands extends Component {
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuButton"
                   >
-                    <a 
-                    className="dropdown-item"
-                    onClick={()=>this.handleEditBrand(item._id)}
+                    <a
+                      className="dropdown-item"
+                      onClick={() => this.handleEditBrand(item._id)}
                     >
-                      Edit 
+                      Edit
                     </a>
                     {item.status === false ? (
                       <a
@@ -146,9 +146,9 @@ class Brands extends Component {
     this.props.history.push("/addBrand");
   };
 
-  handleEditBrand=(id)=>{
-    this.props.history.push(`/editBrand/${id}`)
-  }
+  handleEditBrand = id => {
+    this.props.history.push(`/editBrand/${id}`);
+  };
   render() {
     let displayBrandsList = (
       <div className="table-responsive">
@@ -180,23 +180,19 @@ class Brands extends Component {
         <div className="container">
           <div className="img_content_wprapper">
             <h1>Brands</h1>
-            <p style={{ fontSize: "16px" }}>Nike</p>
+            <p style={{ fontSize: "16px" }}>MegaStore</p>
             <div className="row">
               <div className="col-4 m-auto">
                 <img
-                  src={NikeImg}
+                  src={StoreImg}
                   alt="pic"
                   style={{ width: "80px", height: "80px" }}
                   className="ml-5"
                 />
               </div>
               <div className="col-8">
-                <p>
-                  Nike, Inc. is an American multinational corporation that is
-                  engaged in the design,development, manufacturing, and
-                  worldwide marketing and sales of footwear, apparel, equipment,
-                  accessories, and services. The company is headquartered near
-                  Beaverton, Oregon, in the Portland metropolitan area
+                <p className="store_description">
+                International entertainment retailing chain, founded in early 1976 by (Sir) Richard Branson as a record shop on London’s Oxford Street. In 1979 the company opened their first Megastore at the end of Oxford Street and Tottenham Court Road.[1] The company expanded to hundreds of stores worldwide in the 1990s, but has lost a large number of stores in recent years, largely with the sale and eventual closing of the UK, US, Irish, Canadian, Australian, Italian, Spanish, French, Greek and Japanese stores. By 2015, current operations are exclusively in the Middle East and in North Africa, consisting of approximately 40 stores.[2]
                 </p>
               </div>
             </div>
@@ -220,8 +216,7 @@ class Brands extends Component {
             </div>
             <div className="filter">Filter</div>
             <div className="brands_actions">Action</div>
-            <div className="add_brands">
-              <button onClick={this.displayForm}>+ Add</button>
+            <div className="add_brands" onClick={this.displayForm}>+ Add
             </div>
             <div className="pagination">
               <Pagination
@@ -241,15 +236,15 @@ class Brands extends Component {
   }
 }
 
-const mapStateToProps = state=>{
+const mapStateToProps = state => {
   return {
     BrandsReducer: state.BrandsReducer,
     isBrandDisable: state.BrandsReducer.isBrandDisable,
     isBrandEnable: state.BrandsReducer.isBrandEnable
   };
-}
+};
 
 export default connect(
   mapStateToProps,
-  {...BrandAction}
+  { ...BrandAction }
 )(Brands);

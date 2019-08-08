@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { toasterMessage } from '../utils.js';
 
-import{URL,BRANDS_LIST,ADD_BRAND,DISABLE_BRAND,
+import{BRANDURL,BRANDS_LIST,ADD_BRAND,DISABLE_BRAND,
     ENABLE_BRAND,BRAND_DETAIL,UPDATE_BRAND_DETAILS} from '../actionCreators/index';
 
 export function getBrands(){
     return (dispatch)=>{
-        axios.get(URL)
+        axios.get(BRANDURL)
         .then(response=>{
             dispatch({type:BRANDS_LIST,payload:response.data})
         })
@@ -19,7 +19,7 @@ export function getBrands(){
 export function addBrand(data){
     return(dispatch)=>{
         axios
-        .post(URL,data)
+        .post(BRANDURL,data)
         .then(response => {
             if(response.status===200 &&response.data.message==='Successful creation'){
                 toasterMessage('success',response.data.message);
@@ -38,7 +38,7 @@ export function addBrand(data){
 export function enableBrand(id){
     return(dispatch)=>{
         axios
-        .put(`${URL}/enable/${id}`)
+        .put(`${BRANDURL}/enable/${id}`)
         .then(response => {
             if(response.status===200 &&response.data.message==='Brand enabled'){
                 toasterMessage('success',response.data.message);
@@ -58,7 +58,7 @@ export function enableBrand(id){
 export function disableBrand(id){
     return(dispatch)=>{
         axios
-        .put(`${URL}/disable/${id}`)
+        .put(`${BRANDURL}/disable/${id}`)
         .then(response => {
             if(response.status===200 &&response.data.message==='Brand disabled'){
                 toasterMessage('success',response.data.message);
@@ -77,7 +77,7 @@ export function disableBrand(id){
 
 export function getBrandDetails(id){
     return(dispatch)=>{
-        axios.get(`${URL}/brand/${id}`)
+        axios.get(`${BRANDURL}/brand/${id}`)
         .then(response=>{
             dispatch({type:BRAND_DETAIL,payload:response.data.brand})
 
@@ -90,11 +90,9 @@ export function getBrandDetails(id){
 }
 
 export  function updateBrandDetails(data,id){
-    console.log('inside updateBrandDetails func ')
     return (dispatch)=>{
-        axios.put(`${URL}/${id}`,data)
+        axios.put(`${BRANDURL}/${id}`,data)
         .then(response=>{
-            console.log('response update details....', response)
             if(response.status===200 && response.data.message==='Brand updated'){
                 toasterMessage('success',response.data.message);
                 dispatch({type:UPDATE_BRAND_DETAILS,payload:true})
