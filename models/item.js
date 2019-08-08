@@ -160,6 +160,13 @@ var itemSchema = new Schema({
     ref: "Brand",
     required: true
   },
+  isActive: {
+    type: Boolean,
+    defaultValue: true
+  },
+  productPicture: {
+    type: String
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

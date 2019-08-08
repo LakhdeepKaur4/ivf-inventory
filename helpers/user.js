@@ -12,9 +12,9 @@ exports.comparePassword = (passw, dbPassword, cb) => {
     });
 }
 
-exports.saveToDisc = (_id, name, fileExt, base64String, callback) => {
+exports.saveToDisc = (url,_id, name, fileExt, base64String, callback) => {
     console.log("HERE ", name, fileExt);
-    let pathFile = "../public/thumbnails/" + _id + '_' + new Date() + '_' + name + "." + fileExt;
+    let pathFile = url + _id + '_' + new Date() + '_' + name + "." + fileExt;
     let fileName = path.join(__dirname, pathFile);
     let dataBytes = Buffer.from(base64String, 'base64');
     // console.log(base64String);
