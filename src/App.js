@@ -19,7 +19,8 @@ import AddCategory from './containers/categories/categories';
 import Header from './components/header/header';
 import createCategory from './containers/createCategory/createCategory';
 import DataToStore from './containers/dataToStore/dataToStore';
-import EditBrand from './containers/EditBrand/editBrand'
+import EditBrand from './containers/EditBrand/editBrand';
+import FileStructure from './components/fileStructure/fileStructure';
 
 class App extends Component {
   render() {
@@ -27,7 +28,8 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
-          <Route path="/dataToSTore" component={DataToStore} />
+            <Route path="/filestructure" component={FileStructure} />
+            <Route path="/dataToSTore" component={DataToStore} />
             <Route path="/header" component={Header} />
             <Route path="/createcategory" component={createCategory} />
             <Route path="/sidebar" component={Sidebar} />
