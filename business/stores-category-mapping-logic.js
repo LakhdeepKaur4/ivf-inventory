@@ -1,7 +1,7 @@
 const MappedModel = require('../models/stores-category-mapping');
 const httpStatus = require('http-status');
 
-exports.createMapping = async (req, res, next) => {
+exports.createMapping = (req, res, next) => {
     try {
         const body = req.body;
 
@@ -10,8 +10,8 @@ exports.createMapping = async (req, res, next) => {
 
         const response = [];
 
-        const promise = await categories.map(async item => {
-            await MappedModel.findOne({ category_id: item }, (err, res) => {
+        const promise = categories.map(item => {
+            MappedModel.findOne({ category_id: item }, (err, res) => {
                 if (err) {
                     response.push(err);
                 }
