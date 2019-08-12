@@ -27,8 +27,7 @@ class AddBrands extends Component {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
     if (event.target.checked) {
-      this.setState({ selected: event.target.value }, () => {
-      });
+      this.setState({ selected: event.target.value })
     }
   };
 
