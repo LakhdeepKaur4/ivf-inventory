@@ -120,6 +120,17 @@ class Sidebar extends Component {
                                         </span>Filter Orders
                                     </a>
                                 </li>
+                                <li>
+                                    {(this.state.pageOn === 'blogPost') ? <a href="/blogPost">
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{color:"red"}}>Blog Post</span>
+                                    </a> : <a href="/blogPost">
+                                        <span>
+                                            <i className="far fa-circle" aria-hidden="true"></i>
+                                        </span>Blog post
+                                    </a>}
+                                </li>
                             </ul>
                         </li>
                     </ul>
