@@ -3,7 +3,6 @@ import axios from 'axios';
 import{URN, GET_COUNTRY,GET_CURRENCY} from '../actionCreators/index';
 
 export function getCountry(){
-    console.log('store profile');
     const request = axios.get(`${URN}/country`)
     .then((response =>response.data))
 

@@ -14,7 +14,6 @@ class Shipping extends Component{
     
     onCheck=(e)=>{
         var checked=e.target.checked
-        console.log(checked)
         this.setState({checked})
     }
 
