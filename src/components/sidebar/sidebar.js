@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './sidebar.css';
-
+import {Link} from 'react-router-dom'
 class Sidebar extends Component {
     state = {
         pageOn: ''
@@ -26,7 +26,7 @@ class Sidebar extends Component {
                         <li className="active sidebarHead">
                             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>STORES</a>
-                            <ul class="collapse list-unstyled sidebarColl" id="homeSubmenu">
+                            <ul className="collapse list-unstyled sidebarColl" id="homeSubmenu">
                                 <li>
                                     <a href="/productsView" id="abox" onClick={this.changeIcon}>
                                         <span>
@@ -53,38 +53,38 @@ class Sidebar extends Component {
                         <li className="active sidebarHead">
                             <a href="#inventorySubmenu" data-toggle="collapse" aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>INVENTORY</a>
-                            <ul class="collapse list-unstyled sidebarColl" id="inventorySubmenu">
+                            <ul className="collapse list-unstyled sidebarColl" id="inventorySubmenu">
                             <li>
-                                    {(this.state.pageOn === 'productsView') ? <a href="/productsView">
+                                    {(this.state.pageOn === 'productsView') ? <Link to="/productsView">
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{color:"red"}}>View Products</span>
-                                    </a> : <a href="/productsView">
+                                    </Link> : <Link to="/productsView">
                                         <span>
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>View Products
-                                    </a>}
+                                    </Link>}
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <Link to="/categories">
                                         <span>
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>View Categories
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <Link to="/brands">
                                         <span>
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>View Brands
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
                         <li className="active sidebarHead">
                             <a href="#provisionSubmenu" data-toggle="collapse" aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
-                            <ul class="collapse list-unstyled sidebarColl" id="provisionSubmenu">
+                            <ul className="collapse list-unstyled sidebarColl" id="provisionSubmenu">
                                 <li>
                                     <a href="#">
                                         <span>
@@ -112,7 +112,7 @@ class Sidebar extends Component {
                         <li className="active sidebarHead">
                             <a href="#ftSubmenu" data-toggle="collapse" aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>FILTER & SEARCH</a>
-                            <ul class="collapse list-unstyled sidebarColl" id="ftSubmenu">
+                            <ul className="collapse list-unstyled sidebarColl" id="ftSubmenu">
                                 <li>
                                     <a href="#">
                                         <span>
