@@ -27,11 +27,11 @@ class CreatePage extends Component {
                                     <label className="other">Other meta</label>
                                 </div>
                                 <div class="col-md-8" style={{ marginTop: "30px" }}>
-                                    <input type="text" placeholder="Page title" />
+                                    <input className="inputHandele" type="text" placeholder="Page title" />
 
-                                    <input type="text" placeholder="keywords" />
-                                    <input type="text" placeholder="description" />
-                                    <input type="text" placeholder="s. keywords" />
+                                    <input className="inputHandele" type="text" placeholder="keywords" />
+                                    <input className="inputHandele" type="text" placeholder="description" />
+                                    <input className="inputHandele" type="text" placeholder="s. keywords" />
                                     {/* <input
                   type="text"
                   placeholder="Template Layout"
@@ -49,6 +49,7 @@ class CreatePage extends Component {
                                     </select>
 
                                     <input
+                                        className="inputHandele"
                                         type="checkbox"
                                         id="home"
                                         style={{ marginTop: "20px", color: "#444444" }}
@@ -61,6 +62,7 @@ class CreatePage extends Component {
                                     </label>
                                     <br />
                                     <input
+                                        className="inputHandele"
                                         type="checkbox"
                                         id="home"
                                         style={{ marginTop: "17px", color: "#444444" }}
@@ -87,6 +89,7 @@ class CreatePage extends Component {
                                 </div>
                                 <div class="col-md-11">
                                     <input
+                                        className="inputHandele"
                                         type="radio"
                                         id="defaultChecked"
                                         checked
@@ -97,19 +100,20 @@ class CreatePage extends Component {
                                     </label>
                                     <br />
 
-                                    <input type="radio" id="defaultUnchecked" />
+                                    <input className="inputHandele" type="radio" id="defaultUnchecked" />
                                     <label className="radioText" for="defaultUnchecked">
                                         Link to website or doc
                                     </label>
                                     <br />
 
-                                    <input type="radio" id="defaultUnchecked2" />
+                                    <input className="inputHandele" type="radio" id="defaultUnchecked2" />
                                     <label className="radioText" for="defaultUnchecked2">
                                         Display Content from RSS
                                     </label>
                                     <br />
 
                                     <input
+                                        className="inputHandele"
                                         type="radio"
                                         id="defaultUnchecked3"
                                     // name="defaultExampleRadios"
@@ -120,6 +124,7 @@ class CreatePage extends Component {
                                     <br />
 
                                     <input
+                                        className="inputHandele"
                                         type="radio"
                                         id="defaultUnchecked4"
                                     // name="defaultExampleRadios"
@@ -138,6 +143,7 @@ class CreatePage extends Component {
                         </div>
                         <div className="col-md-10" style={{ marginTop: "63.15px" }}>
                             <input
+                                className="inputHandele"
                                 type="text"
                                 placeholder="Page title"
                                 style={{ display: "inline-block" }}
@@ -155,6 +161,7 @@ class CreatePage extends Component {
                             </div>
                             <br />
                             <input
+                                className="inputHandele"
                                 type="text"
                                 placeholder="Page URL"
                                 style={{ display: "inline-block" }}
@@ -171,12 +178,13 @@ class CreatePage extends Component {
               </div>
                             </div>
                             <input
+                                className="inputHandele"
                                 type="text"
                                 placeholder="Content"
                                 style={{ height: "82px" }}
                             />
-                            <input type="text" placeholder="Page in zone" />
-                            <input type="text" placeholder="URL" />
+                            <input className="inputHandele" type="text" placeholder="Page in zone" />
+                            <input className="inputHandele" type="text" placeholder="URL" />
                         </div>
                     </div>
                     <div className="row">
@@ -191,7 +199,8 @@ class CreatePage extends Component {
                             <label className="Pdesc">Navigation menu options</label>
                         </div>
                         <div className="col-md-10">
-                            <input
+                            <input 
+                                className="inputHandele"
                                 type="checkbox"
                                 style={{ marginRight: "13px", marginTop: "33px" }}
                                 id="navmenu"
@@ -215,37 +224,37 @@ class CreatePage extends Component {
                                 Parent page
             </label>
                             <br />
-                            <input type="checkbox" id="none" />
+                            <input className="inputHandele" type="checkbox" id="none" />
                             <label for="none" className="inputCheck">
                                 {" "}
                                 none
             </label>
                             <br />
-                            <input type="checkbox" id="none" />
+                            <input className="inputHandele" type="checkbox" id="none" />
                             <label for="none" className="inputCheck">
                                 {" "}
                                 Blog
             </label>
                             <br />
-                            <input type="checkbox" id="none" />
+                            <input className="inputHandele" type="checkbox" id="none" />
                             <label for="none" className="inputCheck">
                                 {" "}
                                 Contact Us
             </label>
                             <br />
-                            <input type="checkbox" id="none" />
+                            <input className="inputHandele" type="checkbox" id="none" />
                             <label for="none" className="inputCheck">
                                 {" "}
                                 Home
             </label>
                             <br />
-                            <input type="checkbox" id="none" />
+                            <input className="inputHandele" type="checkbox" id="none" />
                             <label for="none" className="inputCheck">
                                 {" "}
                                 Shop
             </label>
                             <br />
-                            <input type="checkbox" id="none" />
+                            <input className="inputHandele" type="checkbox" id="none" />
                             <label for="none" className="inputCheck">
                                 {" "}
                                 News
