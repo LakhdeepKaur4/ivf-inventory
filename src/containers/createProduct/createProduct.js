@@ -140,13 +140,13 @@ class CreateProduct extends Component {
                                                 <tr>
                                                     <td><span className="orderNo">13</span></td>
                                                     <td>{$imagePreview}</td>
-                                                    <td><i class="fa fa-close main-close" aria-hidden="true" ></i></td>
+                                                    <td><i className="fa fa-close main-close" aria-hidden="true" ></i></td>
                                                 </tr>
 
                                             </tbody>
                                         </table>
 
-                                        <div class="card-footer text-center border border-0 " style={{ backgroundColor: "rgba(0,0,0,0)", marginTop: "-15px", padding: "0px" }}>
+                                        <div className="card-footer text-center border border-0 " style={{ backgroundColor: "rgba(0,0,0,0)", marginTop: "-15px", padding: "0px" }}>
                                             <div className="previewComponent">
 
                                                 <input className="fileInput hidden"
@@ -154,8 +154,8 @@ class CreateProduct extends Component {
                                                     id="file"
                                                     onChange={(e) => this.handleImageChange(e)} ></input>
 
-                                                <label for="file">
-                                                    <div><i class="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
+                                                <label htmlFor="file">
+                                                    <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
                                                 </label>
                                             </div>
 
@@ -181,11 +181,11 @@ class CreateProduct extends Component {
                         <div className="card float-right">
                         </div>
                     </div>
-                    <div class="row justify-content-center text-muted">
-                        <div class="col-4 ml-5"><h5>Variants</h5></div>
+                    <div className="row justify-content-center text-muted">
+                        <div className="col-4 ml-5"><h5>Variants</h5></div>
                     </div>
                     <div className="float-right" style={{ width: '618px' }}>
-                        <div class="card table  text-muted" >
+                        <div className="card table  text-muted" >
                             <table>
                                 <thead>
                                     <tr>
@@ -199,13 +199,15 @@ class CreateProduct extends Component {
                                     </tr>
                                 </thead>
                                 <tbody style={{ backgroundColor: "rgb(242,244,247)", opacity: "50%" }}>
-                                    <td><span className="orderNo">11</span></td>
-                                    <td>image</td>
-                                    <td>Green T-shirt with badass cartoon design</td>
-                                    <td>$ 29.99</td>
-                                    <td>24</td>
-                                    <td>Visible</td>
-                                    <td><i className="fa fa-edit" aria-hidden="true"></i></td>
+                                    <tr>
+                                        <td><span className="orderNo">11</span></td>
+                                        <td>image</td>
+                                        <td>Green T-shirt with badass cartoon design</td>
+                                        <td>$ 29.99</td>
+                                        <td>24</td>
+                                        <td>Visible</td>
+                                        <td><i className="fa fa-edit" aria-hidden="true"></i></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
