@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as BrandAction from "../../actions/brandsAction";
 import StoreImg from "../../../public/images/store.png";
 import Pagination from "react-js-pagination";
+import Dashboard from "../../components/dashboard/dashboard";
 
 class Brands extends Component {
   constructor(props) {
@@ -16,19 +17,14 @@ class Brands extends Component {
       brandsList: [],
       filterName: "name",
       displayAddBrandsForm: false,
-      isDisable: false
+      isDisable: false,
+      multiSelect: [],
+      isChecked: [],
+      isAllSelect: false
     };
   }
   componentDidMount() {
     this.props.getBrands();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.isBrandEnable !== this.props.isBrandEnable ||
-      prevProps.isBrandDisable !== this.props.isBrandDisable
-    ) {
-    }
   }
 
   // Handle Page change
@@ -51,23 +47,50 @@ class Brands extends Component {
   // Handle search input
 
   handleSearchInput = e => {
-    console.log(" inside handleSearchInput", e.target);
     e.preventDefault();
     this.setState({ searchTxt: e.target.value });
   };
 
   // Handle Search
+
   searchFilter = search => {
     return function(x) {
       return (
         x.name.toLowerCase().includes(search.toLowerCase()) ||
-        x.products_quantity.toLowerCase().includes(search.toLowerCase()) ||
+        x.description.toLowerCase().includes(search.toLowerCase()) ||
         !search
       );
     };
   };
 
+  // Get  ids for multiple brands
+
+  handleMultiSelect = id => {
+    let isChecked=this.state.isChecked
+    isChecked[id]=true
+    this.setState({ multiSelect: [...this.state.multiSelect, id],isChecked:isChecked });
+  };
+
+  // Handle status change for multiple brands
+
+  handleMultiple = value => {
+    this.props.changeStatus(value, this.state.multiSelect);
+    this.setState({ multiSelect: [] ,isChecked:false});
+  };
+
+  // Handle all select
+
+  handleAllSelect = () => {
+    this.setState({ isAllSelect: true });
+  };
+
+
+  // View products for a particular brand
+  viewProducts=id=>{
+    this.props.history.push(`/productsView/${id}`)
+  }
   // Display brands list
+
   displayBrands = ({ brandsList }) => {
     if (brandsList) {
       return brandsList
@@ -76,7 +99,13 @@ class Brands extends Component {
           return (
             <tr key={item._id}>
               <td>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={this.state.isChecked[item._id]}
+                  onChange={() => {
+                    this.handleMultiSelect(item._id);
+                  }}
+                />
               </td>
               <td>
                 <img
@@ -132,7 +161,9 @@ class Brands extends Component {
                         Disable
                       </a>
                     )}
-                    <a className="dropdown-item">View Product</a>
+                    <a 
+                    className="dropdown-item"
+                    onClick={()=>{this.viewProducts(item._id)}}>View Product</a>
                   </div>
                 </div>
               </td>
@@ -158,8 +189,8 @@ class Brands extends Component {
               <th scope="col">
                 <input
                   type="checkbox"
-                  defaultChecked={this.state.chkbox}
-                  onChange={this.handleChangeChk}
+                  checked={this.state.isAllSelect}
+                  onChange={this.handleAllSelect}
                 />
               </th>
               <th scope="col">BRAND LOGO</th>
@@ -176,62 +207,109 @@ class Brands extends Component {
       </div>
     );
     return (
-      <div className="">
-        <div className="container">
-          <div className="img_content_wprapper">
-            <h1>Brands</h1>
-            <p style={{ fontSize: "16px" }}>MegaStore</p>
-            <div className="row">
-              <div className="col-4 m-auto">
-                <img
-                  src={StoreImg}
-                  alt="pic"
-                  style={{ width: "80px", height: "80px" }}
-                  className="ml-5"
-                />
-              </div>
-              <div className="col-8">
-                <p className="store_description">
-                International entertainment retailing chain, founded in early 1976 by (Sir) Richard Branson as a record shop on London’s Oxford Street. In 1979 the company opened their first Megastore at the end of Oxford Street and Tottenham Court Road.[1] The company expanded to hundreds of stores worldwide in the 1990s, but has lost a large number of stores in recent years, largely with the sale and eventual closing of the UK, US, Irish, Canadian, Australian, Italian, Spanish, French, Greek and Japanese stores. By 2015, current operations are exclusively in the Middle East and in North Africa, consisting of approximately 40 stores.[2]
-                </p>
+      <Dashboard>
+        <div className="">
+          <div className="container">
+            <div className="img_content_wprapper">
+              <h1>Brands</h1>
+              <p style={{ fontSize: "16px" }}>MegaStore</p>
+              <div className="row">
+                <div className="col-4 m-auto">
+                  <img
+                    src={StoreImg}
+                    alt="pic"
+                    style={{ width: "80px", height: "80px" }}
+                    className="ml-5"
+                  />
+                </div>
+                <div className="col-8">
+                  <p className="store_description">
+                    International entertainment retailing chain, founded in
+                    early 1976 by (Sir) Richard Branson as a record shop on
+                    London’s Oxford Street. In 1979 the company opened their
+                    first Megastore at the end of Oxford Street and Tottenham
+                    Court Road.[1] The company expanded to hundreds of stores
+                    worldwide in the 1990s, but has lost a large number of
+                    stores in recent years, largely with the sale and eventual
+                    closing of the UK, US, Irish, Canadian, Australian, Italian,
+                    Spanish, French, Greek and Japanese stores. By 2015, current
+                    operations are exclusively in the Middle East and in North
+                    Africa, consisting of approximately 40 stores.[2]
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="search_filter_wrapper">
-            <div className="search">
-              <div className="form-group has-search">
-                <span
-                  className="fa fa-search form-control-feedback"
-                  style={{ color: "black" }}
-                ></span>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={this.state.searchTxt}
-                  onChange={this.handleSearchInput}
-                  placeholder="Search"
+            <div className="search_filter_wrapper">
+              <div className="search">
+                <div className="form-group has-search">
+                  <span
+                    className="fa fa-search form-control-feedback"
+                    style={{ color: "black" }}
+                  ></span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.searchTxt}
+                    placeholder="Search"
+                    onChange={this.handleSearchInput}
+                  />
+                </div>
+              </div>
+              <div className="filter">Filter</div>
+              <div className="brands_actions">
+                <div className="dropdown">
+                  <button
+                    className="btn"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Action
+                  </button>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        this.handleMultiple("enabled");
+                      }}
+                    >
+                      Enable
+                    </a>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        this.handleMultiple("disabled");
+                      }}
+                    >
+                      Disable
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="add_brands" onClick={this.displayForm}>
+                + Add
+              </div>
+              <div className="pagination">
+                <Pagination
+                  activePage={this.state.activePage}
+                  itemsCountPerPage={this.state.limit}
+                  totalItemsCount={this.state.totalItemsCount}
+                  onChange={this.handlePageChange}
                 />
               </div>
             </div>
-            <div className="filter">Filter</div>
-            <div className="brands_actions">Action</div>
-            <div className="add_brands" onClick={this.displayForm}>+ Add
+            <div className="display_brands">
+              <div>{displayBrandsList}</div>
             </div>
-            <div className="pagination">
-              <Pagination
-                activePage={this.state.activePage}
-                itemsCountPerPage={this.state.limit}
-                totalItemsCount={this.state.totalItemsCount}
-                onChange={this.handlePageChange}
-              />
-            </div>
-          </div>
-          <div className="display_brands">
-            <div>{displayBrandsList}</div>
           </div>
         </div>
-      </div>
+      </Dashboard>
     );
   }
 }

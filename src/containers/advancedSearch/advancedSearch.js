@@ -36,7 +36,7 @@ class AdvancedSearch extends Component{
 
                                 <div className="md-form active-purple-2 mb-3">
                                 <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " style={{backgroundColor:'#F2F4F7'}} type="select">
-                                    <option>Order status</option>
+                                    <option style={{backgroundColor:"red"}}>Order status</option>
                                 </select>
                                 <i className="fa fa-angle-down"></i></div>
 

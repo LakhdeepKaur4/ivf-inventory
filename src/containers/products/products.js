@@ -5,6 +5,7 @@ import Dashboard from '../../components/dashboard/dashboard';
 import { getProductsItem } from '../../actions/productItemAction';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
+import FileStructure from '../../components/fileStructure/fileStructure';
 
 class Products extends Component {
 
@@ -14,6 +15,7 @@ class Products extends Component {
             search:'',
         }
     }
+
     componentDidMount(){
         this.props.getProductsItem();
     }
@@ -25,10 +27,9 @@ class Products extends Component {
     productsItem=({productItem}) =>{
         
         if(productItem) {
-            console.log("=xdfdgfdgfdgfxdg===============",productItem)
            return productItem.map((item)=> {
                return (
-                <tr>
+                <tr key={item.id}>
                     <td><img src={item.products} className="img-fluid" alt="Sheep" /></td>
                     <td>{item.name}</td>
                     <td>{item.shipped}</td>
@@ -121,7 +122,7 @@ class Products extends Component {
                         <div class="card-body mainProductDiv">
                             <h5>BROWSE Categories </h5>
                             <hr className="prLine" />
-                            <hr />
+                            <FileStructure />
                             <div class="subDivBottom">
                                     <p>Team of use.Privacy policy</p>
                             </div> 
@@ -150,7 +151,6 @@ class Products extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     return {
         ProductItemReducer: state.ProductItemReducer
     }

@@ -7,8 +7,6 @@ export const postProduct=(home, title, permalink, subtitle, vendor, price, inven
     const request = axios.post(`${URN}/product`, data)
     .then((response =>response.data))
 
-    console.log(request)
-
     return {
         type: ADD_PRODUCT,
         payload:request

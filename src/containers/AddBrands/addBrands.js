@@ -26,10 +26,8 @@ class AddBrands extends Component {
   handleInputChange = event => {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
-    if(event.target.checked){
-        this.setState({selected:event.target.value},()=>{
-          console.log('radio button value...', this.state.selected)
-        })
+    if (event.target.checked) {
+      this.setState({ selected: event.target.value })
     }
   };
 
@@ -44,7 +42,6 @@ class AddBrands extends Component {
         status: selected,
         logo: picture
       };
-      console.log('add payload...', payload)
       this.props.addBrand(payload);
       this.setState({
         brandName: "",

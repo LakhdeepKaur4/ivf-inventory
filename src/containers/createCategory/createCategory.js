@@ -86,7 +86,7 @@ class ClassCategory extends Component {
                 return true;
             }
             else {
-                getParticularCategory.category.map((item) => item.subCategories.map((item) => {
+                getParticularCategory.category.map((item) =>  item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
 
                         // <div style={{marginLeft:'20px'}} onClick={()=>this.getsubCategory(item._id)} className="fa fa-folder">{item.name}</div>

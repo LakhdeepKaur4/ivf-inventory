@@ -111,7 +111,7 @@ let navIcon=
         <li className="nav-item">
         <span className="nav-link" style={{paddingTop: '1px'}}><span className="form-group has-search">
             <span className="fa fa-search form-control-feedback"></span>
-            <input type="text" className="form-control" placeholder="Search" value={this.state.search}
+            <input type="text" className="form-control searchBox" placeholder="Search" value={this.state.search}
                     onChange={this.searchOnChange} />
         </span></span>
         </li>
