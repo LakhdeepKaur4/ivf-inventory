@@ -5,6 +5,7 @@ import {getCountry,getCurrency} from '../../actions/storeProfile';
 // import axios from 'axios';
 import './storeProfile.css';
 import $ from 'jquery';
+import Dashboard from '../../components/dashboard/dashboard';
 
 class storeProfile extends React.Component{
 
@@ -63,6 +64,7 @@ class storeProfile extends React.Component{
     render(){
         return(
             <div>
+                <Dashboard>
                 <div className="headingsStoreProfile ">
                     <h4>Store Profile</h4>
                     <h5 style={{paddingTop:'15px'}}>Contact Info</h5>
@@ -125,7 +127,7 @@ class storeProfile extends React.Component{
                     </div>
 
                 </div>
-                
+                </Dashboard>
              
             </div>
         )
@@ -135,7 +137,7 @@ class storeProfile extends React.Component{
 function mapStateToProps(state){
     console.log(state)
     return{
-        EditCustomerOrderReducer:state.EditCustomerOrderReducer
+        StoreProfileReducer:state.StoreProfileReducer
     }
 }
 

@@ -5,6 +5,7 @@ import { themes } from '../../actions/themes';
 import './themes.css';
 import axios from 'axios';
 import $ from 'jquery';
+import Dashboard from '../../components/dashboard/dashboard';
 
 class Themes extends React.Component{
 
@@ -52,6 +53,7 @@ class Themes extends React.Component{
     render(){
         return(
             <div>
+                <Dashboard>
                 <div className="tagsThemes">
                 <h4>Themes</h4>
                 <h5>Current theme</h5>
@@ -95,6 +97,7 @@ class Themes extends React.Component{
                 </div>
 
                 </div>
+                </Dashboard>
             </div>
         )
     }

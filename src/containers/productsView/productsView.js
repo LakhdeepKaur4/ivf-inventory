@@ -17,7 +17,8 @@ class ProductsView extends Component{
             limit:'5',
             totalItemsCount:'',
             filterName:'name',
-            sortVal:false
+            sortVal:false,
+            ids:[]
         }
     }
     
@@ -67,15 +68,24 @@ class ProductsView extends Component{
            this.props.onSizePerPageList(Number(option.target.value))
           }
 
+          pickIds=(Ids)=>{
+              console.log("selected ids",Ids);
+              var IDS = [];
+              IDS = this.state.ids;
+              IDS.push(Ids);
+              this.setState({ids:IDS})
+          }
+
     productsResult=({productList})=>{
           if(productList){
+              console.log('productlist',productList);
               return productList.sort((item1,item2)=>{
                 var cmprVal =  (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
                 return this.state.sortVal ? cmprVal : -cmprVal;
                }).filter(this.searchFilter(this.state.search)).map((item)=>{ 
                return(
                 <tr>
-                <td scope="row"><input type="checkbox"/></td>
+                <td scope="row"><input type="checkbox" onClick={()=>this.pickIds(item.id)}/></td>
                 <td><img src={item.image} className="img-fluid" alt="Sheep"/></td>
                 <td>{item.sku}</td>
                 <td>{item.stock}</td>
@@ -93,6 +103,12 @@ class ProductsView extends Component{
                 
               })
           }
+    }
+
+    navigate=()=>{
+        console.log('hii');
+        console.log(this.state.ids);
+        this.props.history.push(`/dataToStore/${this.state.ids}`)
     }
 
     render(){
@@ -123,7 +139,8 @@ class ProductsView extends Component{
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>
-                <h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4>
+                <div><h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4></div>
+                
                 <div className="collapse navbar-collapse justify-content-end" id="nav-content">   
                 <ul className="navbar-nav">
                 <li className="nav-item">
@@ -210,6 +227,27 @@ class ProductsView extends Component{
            <div>
                {navLink}
            </div>
+           <div className="md-stepper-horizontal orange">
+                    <div className="md-step activeProductsView">
+                        <div className="md-step-circle"><span>1</span></div>
+                        <div className="md-step-title">Select Products</div>
+                        <div className="md-step-bar-left"></div>
+                        <div className="md-step-bar-right"></div>
+                    </div>
+                    <div className="md-step">
+                        <div className="md-step-circle"><span>2</span></div>
+                        <div className="md-step-title">Save to Store</div>
+                        <div className="md-step-bar-left"></div>
+                      
+                        <div className="md-step-bar-right"></div>
+                    </div>
+                    <div className="md-step">
+                        <div className="md-step-circle"><span>3</span></div>
+                        <div className="md-step-title">Proceed</div>
+                        <div className="md-step-bar-left"></div>
+                        <div className="md-step-bar-right"></div>
+                    </div>
+                </div>
            <div>
                {navIcon}
            </div>
@@ -246,7 +284,7 @@ class ProductsView extends Component{
                  {tableData}
               </div>
               <div>
-                 <button className="button-main button3">TO PROVISION</button>
+                 <button className="button-main button3" onClick={this.navigate}>Next</button>
               </div>
               
       
