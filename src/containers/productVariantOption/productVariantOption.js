@@ -79,7 +79,7 @@ class ProductVariantOption extends Component {
                                             <div className="h5 small text-danger">Title</div>
                                             <div className="form-row">
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" placeholder="Variant 1" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" placeholder="Option 1" />
                                                 </div>
                                             </div>
                                             <div className="form-row">
