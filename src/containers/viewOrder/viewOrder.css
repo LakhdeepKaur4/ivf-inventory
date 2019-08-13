@@ -4,6 +4,7 @@
 .has-search .searchBox {
     padding-left: 2.375rem;
     width: 102px;
+    border: 0px;
 }
 
 .has-search .form-control-feedback {

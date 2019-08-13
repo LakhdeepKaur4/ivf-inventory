@@ -1,7 +1,10 @@
 export  const URN = 'http://localhost:4000';
-// export const URL='https://ivf-inventory.herokuapp.com/api'
-export const URL='http://192.168.1.104:3001/api';
+export const URL='https://ivf-inventory.herokuapp.com/api'
+// export const URL='http://192.168.1.104:3001/api';
 export const BRANDURL='http://192.168.1.113:3000/api/brands';
+// export const URL='https://ivf-inventory.herokuapp.com/api'
+// export const URL='http://192.168.1.104:3001/api';
+// export const BRANDURL='http://192.168.1.113:3000/api/brands';
 export const VIEW_ORDER='VIEW_ORDER';
 export const ADD_PRODUCT="ADD_PRODUCT";
 export const THEME_ORDER="THEME_ORDER";
@@ -26,6 +29,8 @@ export const UPDATE_BRAND_DETAILS='UPDATE_BRAND_DETAILS'
 export const GET_CITY='GET_CITY';
 export const ADD_CUSTOMER='ADD_CUSTOMER';
 export const GET_CUSTOMER='GET_CUSTOMER';
+export const GET_FILTER_PRODUCTS="GET_FILTER_PRODUCTS";
+export const GET_STORES="GET_STORES";
 export const CHANGE_STATUS='CHANGE_STATUS'
 
                     
