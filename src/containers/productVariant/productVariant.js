@@ -106,10 +106,10 @@ class ProductVariant extends Component {
                                                 </div>
                                                 <div className="form-row col-12">
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Heigth" style={{ marginLeft: '-4px' }} />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Height" style={{ marginLeft: '-4px' }} />
                                                     </div>
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Weigth" />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Weight" />
                                                     </div>
                                                 </div>
                                             </div>
