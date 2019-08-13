@@ -14,13 +14,13 @@ import Sidebar from './components/sidebar/sidebar';
 import EditCustomerOrder from './containers/editCustomerOrder/editCustomerOrder';
 import Products from './containers/products/products';
 import AddBrands from './containers/AddBrands/addBrands'
-// import Products from './containers/products/products';
 import AddCategory from './containers/categories/categories';
 import Header from './components/header/header';
 import createCategory from './containers/createCategory/createCategory';
 import DataToStore from './containers/dataToStore/dataToStore';
 import EditBrand from './containers/EditBrand/editBrand';
 import FileStructure from './components/fileStructure/fileStructure';
+import CreatePage from './containers/createPage/CreatePage';
 
 class App extends Component {
   render() {
@@ -28,6 +28,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
+            <Route path="/createpage" component={CreatePage}/>
             <Route path="/filestructure" component={FileStructure} />
             <Route path="/dataToSTore" component={DataToStore} />
             <Route path="/header" component={Header} />
@@ -41,13 +42,11 @@ class App extends Component {
             <Route path="/advancedSearch" exact component={AdvancedSearch}/>
             <Route path="/shipping" component={Shipping} />
             <Route path="/productsView" component={ProductsView} />
-            <Route path="/Filter&Search/orders" component={EditOrder} />
             <Route path="/addBrand" component={AddBrands}/>
             <Route path="/editCustomerOrder" component={EditCustomerOrder}/>
             <Route path="/editanorder" component={EditOrder} />
-            <Route path="/products" component={Products} />
             <Route path="/addbrands" component={AddBrands}/>
-            {/* <Route path="/products" component={Products} /> */}
+            <Route path="/products" component={Products} />
             <Route path="/categories" component={AddCategory} />
             <Route path="/editBrand/:id" component={EditBrand}/>
             <Route path="/" component={Login} />

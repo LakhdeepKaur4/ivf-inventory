@@ -1,7 +1,7 @@
 export  const URN = 'http://localhost:4000';
 // export const URL='https://ivf-inventory.herokuapp.com/api'
-export const URL='http://192.168.1.104:3001/api';
-export const BRANDURL='http://192.168.1.113:3000/api/brands';
+// export const URL='http://192.168.1.104:3001/api';
+// export const BRANDURL='http://192.168.1.113:3000/api/brands';
 export const VIEW_ORDER='VIEW_ORDER';
 export const ADD_PRODUCT="ADD_PRODUCT";
 export const THEME_ORDER="THEME_ORDER";
