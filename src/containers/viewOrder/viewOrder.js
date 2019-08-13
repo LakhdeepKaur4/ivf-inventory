@@ -39,10 +39,8 @@ class ViewOrder extends Component{
         }
     }
 
-    handlePageChange=(pageNumber)=> {
-        console.log(`active page is ${pageNumber}`);    
-            // this.props.getPageDetails(pageNumber);
-      }
+    handlePageChange=(pageNumber)=> { 
+    }
 
 
     viewOrderFun=({viewOrder})=>{

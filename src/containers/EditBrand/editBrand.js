@@ -82,7 +82,6 @@ class EditBrands extends Component {
   };
 
   render() {
-    console.log('inside edit component....', this.props.brandDetail)
     const { brandName, description } = this.state;
     return (
       <div className="edit_brand ">

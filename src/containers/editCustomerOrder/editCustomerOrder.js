@@ -42,6 +42,7 @@ class EditCustomerOrder extends Component {
     }
 
     getCity=({city})=>{
+        console.log(React.version);
         if(city){
             return city.map((item)=><option style={{color:"#4D4F5C"}} key={item.id}>{item}</option>
             )
@@ -76,11 +77,10 @@ class EditCustomerOrder extends Component {
                  <div className="mt-4 ml-4">
                     <h6>EDIT AN ORDER</h6>
                 </div>
-
                 <div className="md-stepper-horizontal" >
                     <div className="md-step active ">
                         <div className="md-step-circle border border-danger bg-transparent text-danger"><span>1</span></div>
-                        <div className="md-step-title">Customer info</div>
+                        <div className="md-step-title" style={{color:"#F74A4A"}}>Customer info</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
@@ -107,25 +107,19 @@ class EditCustomerOrder extends Component {
                                         <div className="col-11">
                                             <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" list="customer" name="search"  style={{backgroundColor:'transparent'}} placeholder="Search by name and email"/>
                                             <datalist id="customer">
-                                                    <option />
-                                                
+                                                    <option />                                 
                                                     {this.viewCustomer(this.props.EditCustomerOrderReducer)} 
                                                 </datalist>
                                         </div>
                                 </div>                                      
-
-                                    <div style={{height:"54px"}}></div>  
-                                                  
+                                    <div style={{height:"54px"}}></div>                                                 
                                     <hr className="policy"/>
                                     <span className="">Team of use.Privacy policy</span></div>                         
-                            </div>
-                          
+                            </div>                     
                             <div className="card editCard2Margin">
-                            
                                 <div className="card-body">
                                 <h5 className="card-title" >NEW Customer</h5>
                                 <hr className="underline"/>
-
                                 <div className="row">
                                 <div className="md-form active-purple-2 mb-3 col-sm">
                                 <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} name="name"  placeholder="name" onChange={this.onChangeData}/>
@@ -134,7 +128,6 @@ class EditCustomerOrder extends Component {
                                 <input  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} name="surname"  placeholder="surname" onChange={this.onChangeData} />
                                 </div>
                                 </div>
-
                                 <div className="row">
                                 <div className="md-form active-purple-2 mb-3 col-sm">
                                 <input  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="email" style={{backgroundColor:'transparent'}} name="email" placeholder="email" onChange={this.onChangeData}/>
@@ -142,8 +135,7 @@ class EditCustomerOrder extends Component {
                                 <div className="md-form active-purple-2 mb-3 col-sm">
                                 <input  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} name="address" placeholder="address" onChange={this.onChangeData}/>
                                 </div>
-                                </div>
-                                
+                                </div>                           
                                 <div className="row">
                                 <div className="md-form active-purple-2 mb-3 col-sm">
                                 <select className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="city" style={{backgroundColor:'transparent'}} type="select" onChange={this.onChangeData}>
@@ -157,7 +149,6 @@ class EditCustomerOrder extends Component {
                                 <input  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} name="region" placeholder="region" onChange={this.onChangeData} />
                                 </div>
                                 </div>
-
                                 <div className="row">
                                 <div className="md-form active-purple-2 mb-3 col-sm">
                                 <input  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} name="postalCode" placeholder="postal code" onChange={this.onChangeData} />
@@ -166,7 +157,6 @@ class EditCustomerOrder extends Component {
                                 <input  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} name="phone" placeholder="phone" onChange={this.onChangeData}/>
                                 </div>
                                 </div>
-
                                 <div className="form-check check" style={{ marginTop: '39.19px' }}>
                                 <input type="checkbox" className="form-check-input" id="exampleCheck1" style={{ borderRadius: '2px' }} name="rememberMe" onChange={this.onChangeData} />
                                 <label className='check-box' >Remember me</label>

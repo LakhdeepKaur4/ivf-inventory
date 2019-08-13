@@ -4,23 +4,16 @@ import './createCategory.css';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
-// import htmlToDraft from 'html-to-draftjs';
 import { bindActionCreators } from 'redux';
 import { GetInitialCategory, GetParticularCategory, GetSubCategory, onSubmit } from '../../actions/createCategory';
-
+import FileStructure from '../../components/fileStructure/fileStructure';
 import FileBase64 from 'react-file-base64';
-
 import $ from 'jquery';
-
 class ClassCategory extends Component {
-
     constructor(props) {
         super(props);
-
         this.state = {
-
             name: '',
-
             url: '',
             editorChange:EditorState.createEmpty(),
             description: '',
@@ -33,69 +26,39 @@ class ClassCategory extends Component {
             subParent: '',
             show: false,
             showSub: false
-
-
         }
     }
     componentDidMount() {
         this.props.GetInitialCategory();
         this.setState({ show: false, showSub: false });
     }
-
     change = (e) => {
         e.preventDefault()
         this.setState({ [e.target.name]: e.target.value })
-        console.log(this.state);
         this.setState({ show: false, showSub: false });
     }
-
-
     editorChange = (editorChange) => {
-        let desc=draftToHtml(convertToRaw(this.state.editorChange.getCurrentContent()));
-        console.log(desc);
-        
+        let desc=draftToHtml(convertToRaw(this.state.editorChange.getCurrentContent()));   
         desc = desc.toString();
         desc = desc.slice(desc.indexOf(">") + 1);
         desc = desc.slice(0, desc.indexOf("<"));
-        console.log(desc);
-
         this.setState({ editorChange,description:desc });
-// console.log(this.state.description);
         this.setState({ show: false, showSub: false });
-
     }
-
     getFiles = (files) => {
-        console.log(files);
         this.setState({ fileName: files[0].name, picture: files[0].base64 });
     }
-
-    submit = () => {
-        console.log(this.state);
+    submit = () => {      
         this.props.onSubmit({ ...this.state });
     }
     push = (id) => {
-
-        console.log('initial', id);
         this.setState({ parent: id });
         this.props.GetParticularCategory(id);
         this.setState({ show: true });
-    }
-
-    getsubCategory = (id) => {
-        console.log('edgvgdvggvdsdc', id);
-        this.props.GetSubCategory(id);
-        // this.setState({show:false,showSub:true});
-        this.setState({ parent: id })
-
-    }
+    } 
     getInitialCategory = ({ initialCategory }) => {
-
         if (initialCategory) {
-
-            console.log(initialCategory);
             return initialCategory.category.map((item) => {
-            
                 return (
                     <div id={item._id}><div className="fa fa-folder" onClick={() => this.push(item._id)} key={item._id} value={item._id}>
                         {item.name}</div></div>
@@ -103,14 +66,9 @@ class ClassCategory extends Component {
             }
             )
         }
-
     }
-
-    getParticularCategory = ({ getParticularCategory }) => {
-
-        console.log('dchvdcgd', getParticularCategory);
+    getParticularCategory = ({ getParticularCategory }) => {  
         if (getParticularCategory) {
-            console.log($(`#${this.state.parent}`).children().length);
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
             }
@@ -123,31 +81,18 @@ class ClassCategory extends Component {
                     <i class="fa fa-folder ml-3"
                     name="getParticularCategory" />${item.name}
                     </div></div>`),
-
                             $(`#${item._id} > div`).click(() => this.getCategory(item._id));
-
                     }
-
-
-
                 }))
             }
         }
     }
     getCategory = (id) => {
-        console.log('clo');
-        console.log("getCategory", id);
         this.setState({ parent: id, show: false, showSub: true });
         this.props.GetSubCategory(id);
-
-
-
-
     }
     getSubCategory = ({ getSubCategory }) => {
-        console.log('badsvhycgbdashcbdsjcfvdsgcfdhcfsdhcvdscvsdncgvsdncdscgt', getSubCategory);
         if (getSubCategory) {
-            console.log('badsvhycgbdashcbdsjcfvdsgcfdhcfsdhcvdscvsdncgvsdncdscgt', getSubCategory);
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
             }
@@ -157,19 +102,13 @@ class ClassCategory extends Component {
                         // <div style={{marginLeft:'30px'}}><input type="radio"/>{item.name}</div>
                         $(`#${this.state.parent}`).append(`<div key=${item._id}><i class="fa fa-folder ml-4"/>${item.name}</div>`);
                     }
-
-
                 }))
             }
-
         }
-
     }
-
     render() {
         return (
             <div>
-
                 <div className="m-auto p-5">
                     <div><b>Create Category</b></div>
                     <div className="row mt-3">
@@ -227,10 +166,8 @@ class ClassCategory extends Component {
                             />
                         </div>
                         <div className="col-4 card cardCreateCategory">
-                            {this.getInitialCategory(this.props.CreateCategory)}
-
-                            {this.state.show ? this.getParticularCategory(this.props.CreateCategory) : ''}
-                            {this.state.showSub ? this.getSubCategory(this.props.CreateCategory) : ''}
+                            
+                            <FileStructure/>
                         </div>
                     </div>
 
@@ -239,14 +176,11 @@ class ClassCategory extends Component {
         )
     }
 }
-
 function mapStateToProps(state) {
-    console.log(state)
     return {
         CreateCategory: state.CreateCategory
     }
 }
-
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         GetInitialCategory,
@@ -255,6 +189,4 @@ function mapDispatchToProps(dispatch) {
         onSubmit
     }, dispatch)
 }
-
-
 export default connect(mapStateToProps, mapDispatchToProps)(ClassCategory);

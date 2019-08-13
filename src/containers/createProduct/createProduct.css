@@ -38,7 +38,7 @@
     width: 346px; 
     overflow-y:scroll;
     display: grid;
-    /* background-color:rgb(242,244,247);  */
+   
     opacity:50%;
     box-sizing: inherit;
     
@@ -54,7 +54,7 @@
 
 /* product variant start*/
 .button-back{
-    top: 943px;
+    top: 1076px;
     left: 1135px;
     width: 170px;
     height: 36px;
@@ -77,9 +77,9 @@
 }
 
 .text-btn{
-    top: 953px;
-    left: 1368px;
-    width: 104px;
+    top: 1086px;
+    left: 1366px;
+    width: 108px;
     height: 15px;
     text-align: center;
     font: Bold 12px/15px Muli;
@@ -90,7 +90,7 @@
 }
 
 .text-btn-back{
-    top: 953px;
+    top: 1087px;
     left: 1204px;
     width: 32px;
     height: 15px;
@@ -102,18 +102,7 @@
     opacity: 1;
 }
 
-/* .button-variant{
-    top: 953px;
-    left: 1368px;
-    width: 104px;
-    height: 15px;
-    text-align: center;
-    font: Bold 12px/15px Muli;
-    letter-spacing: 0;
-    color: #FFFFFF;
-    text-transform: uppercase;
-    opacity: 1;
-} */
+
 /* product variant end*/
 
 

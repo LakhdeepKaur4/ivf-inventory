@@ -13,8 +13,6 @@ class storeProfile extends React.Component{
             this.state={
 
             }
-
-            
         }
 
         componentDidMount(){
@@ -25,14 +23,10 @@ class storeProfile extends React.Component{
 
     add=(e)=>{
         e.preventDefault();
-        console.log(e.currentTarget);
-        $(e.currentTarget).toggleClass('buttonActiveStoreProfile buttonOffStoreProfile')
-    //    this.setState({toggle:!this.state.toggle})
-       
+        $(e.currentTarget).toggleClass('buttonActiveStoreProfile buttonOffStoreProfile')       
     }
     getCountry=({getCountry})=>{
         if(getCountry){
-            console.log('ewhdhd',getCountry)
             return getCountry.map((item)=><option key={item.id}>{item}</option>)
         }
 
@@ -47,7 +41,6 @@ class storeProfile extends React.Component{
     }
     getTableCurrency=({getCurrency})=>{
         if(getCurrency){    
-            console.log('sdedhdvgdevdedevdnedgvedgevdhg',getCurrency);
             return getCurrency.map((item)=>{
                 return(
             <tr key={item.id}>
@@ -133,7 +126,6 @@ class storeProfile extends React.Component{
 }
 
 function mapStateToProps(state){
-    console.log(state)
     return{
         EditCustomerOrderReducer:state.EditCustomerOrderReducer
     }
