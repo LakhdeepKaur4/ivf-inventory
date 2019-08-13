@@ -101,7 +101,7 @@ class ProductVariantOption extends Component {
                                                         <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Width" style={{ marginLeft: '-4px' }} />
                                                     </div>
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Lenth" />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Length" />
                                                     </div>
                                                 </div>
                                                 <div className="form-row col-12">
