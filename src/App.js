@@ -21,6 +21,8 @@ import DataToStore from './containers/dataToStore/dataToStore';
 import EditBrand from './containers/EditBrand/editBrand';
 import FileStructure from './components/fileStructure/fileStructure';
 import CreatePage from './containers/createPage/CreatePage';
+import BlogPost from './containers/blogPost/blogPost';
+import BlogSettings from './containers/blogSettings/blogSettings';
 
 class App extends Component {
   render() {
@@ -49,7 +51,10 @@ class App extends Component {
             <Route path="/products" component={Products} />
             <Route path="/categories" component={AddCategory} />
             <Route path="/editBrand/:id" component={EditBrand}/>
+            <Route path="/blogPost" component={BlogPost}/>
+            <Route path="/blogSettings" component={BlogSettings}/>
             <Route path="/" component={Login} />
+           
             
            </Switch>
         </div>
