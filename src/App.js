@@ -20,6 +20,9 @@ import Header from './components/header/header';
 import createCategory from './containers/createCategory/createCategory';
 import DataToStore from './containers/dataToStore/dataToStore';
 import EditBrand from './containers/EditBrand/editBrand'
+import CreateProduct from './containers/createProduct/createProduct';
+import ProductVariant from './containers/productVariant/productVariant';
+import ProductVariantOption from './containers/productVariantOption/productVariantOption';
 
 class App extends Component {
   render() {
@@ -27,7 +30,10 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
-          <Route path="/dataToSTore" component={DataToStore} />
+            <Route path="/productVariantOption" component={ProductVariantOption} />
+            <Route path="/productVariant" component={ProductVariant} />
+            <Route path="/createProduct" component={CreateProduct} />
+            <Route path="/dataToSTore" component={DataToStore} />
             <Route path="/header" component={Header} />
             <Route path="/createcategory" component={createCategory} />
             <Route path="/sidebar" component={Sidebar} />

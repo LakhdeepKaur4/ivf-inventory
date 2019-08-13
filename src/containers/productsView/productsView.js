@@ -17,8 +17,15 @@ class ProductsView extends Component{
             limit:'5',
             totalItemsCount:'',
             filterName:'name',
-            sortVal:false
+            sortVal:false,
+            
         }
+    }
+
+    btnClick=()=>{
+        this.setState({checked:true})
+        console.log(this.state.checked)
+
     }
     
     componentDidMount(){
@@ -82,10 +89,9 @@ class ProductsView extends Component{
                 <td>{item.name}</td>
                 <td>{item.price} $</td>
                 <td>
-                    {/* <div><button type="button" className="btn btn-outline" style={{color:'#1ABC9C'}}>Success</button></div> */}
-                    {/* <div><button type="button" className="btn btn-outline">Warning</button></div> */}
-                    <div><button class="button button1">Visible</button></div>
-                    <div><button class="button button2">Invisible</button></div>
+                    
+                    <div><button class="button button1 active" onClick={this.btnClick}>Visible</button></div>
+                    <div><button class="button button2" onClick={this.btnClick}>Invisible</button></div>
                    </td>
                 <td><b>...</b></td>
                 </tr>
@@ -222,26 +228,7 @@ class ProductsView extends Component{
                              linkClasss='page-link'
                              />
             </div>
-             {/* <div>
-              <ul className="list-inline" style={{paddingLeft:'15px'}}>
-              <li className="list-inline-item"><span><i class="fas fa-sort-amount-down" aria-hidden="true"></i></span></li>
-                <li className="list-inline-item"><span><i class="fas fa-sort-amount-up" aria-hidden="true"></i></span></li>
-                <li className="list-inline-item">Limit 20<span><i className="fa fa-angle-down" aria-hidden="true"></i></span></li>
-                <li className="list-inline-item">Actions<span><i className="fa fa-angle-down" aria-hidden="true"></i></span></li>
-                <li className="list-inline-item"><span><i className="fa fa-plus" aria-hidden="true"></i></span><label>New</label></li>
-                 
-                
-                <li className="list-inline-item" style={{float:'right'}}>
-                <Pagination activePage={this.state.activePage}
-                             itemsCountPerPage={this.state.limit}
-                             totalItemsCount={this.state.totalItemsCount}
-                             onChange={this.handlePageChange}
-                             itemClass='page-item'
-                             linkClasss='page-link'/>
-                </li>
-                 
-              </ul>
-              </div> */}
+           
               <div>
                  {tableData}
               </div>
