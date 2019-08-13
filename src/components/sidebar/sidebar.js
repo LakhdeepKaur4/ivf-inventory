@@ -86,18 +86,26 @@ class Sidebar extends Component {
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className="collapse list-unstyled sidebarColl" id="provisionSubmenu">
                                 <li>
-                                    <a href="#">
+                                    {(this.state.pageOn === 'dataToSTore') ? <Link to="/dataToSTore">
                                         <span>
-                                            <i className="far fa-circle" aria-hidden="true"></i>
-                                        </span>Push Products
-                                    </a>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>Push Products</span>
+                                    </Link> : <Link to="/dataToSTore">
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Push Products
+                                    </Link>}
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    {(this.state.pageOn === 'vieworders') ? <Link to="/vieworders">
                                         <span>
-                                            <i className="far fa-circle" aria-hidden="true"></i>
-                                        </span>Push Orders
-                                    </a>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>Push Orders</span>
+                                    </Link> : <Link to="/vieworders">
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Push Orders
+                                    </Link>}
                                 </li>
                                 <li>
                                     <a href="#">
