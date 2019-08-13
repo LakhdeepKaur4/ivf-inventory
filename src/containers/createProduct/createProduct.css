@@ -54,7 +54,7 @@
 
 /* product variant start*/
 .button-back{
-    top: 1076px;
+    top: 943px;
     left: 1135px;
     width: 170px;
     height: 36px;
@@ -63,34 +63,19 @@
     opacity: 1;
 }
 
-
-
 .button-variant{
     top: 942px;
     left: 1335px;
     width: 170px;
-    height: 36px;
+    height: 40px;
     background: #333333 0% 0% no-repeat padding-box;
     border-radius: 115px;
     opacity: 1;
-    
 }
 
-.text-btn{
-    top: 1086px;
-    left: 1366px;
-    width: 108px;
-    height: 15px;
-    text-align: center;
-    font: Bold 12px/15px Muli;
-    letter-spacing: 0;
-    color: #FFFFFF;
-    text-transform: uppercase;
-    opacity: 1;
-}
 
 .text-btn-back{
-    top: 1087px;
+    top: 954px;
     left: 1204px;
     width: 32px;
     height: 15px;
@@ -101,6 +86,25 @@
     text-transform: uppercase;
     opacity: 1;
 }
+
+
+.text-btn{
+    top: 953px;
+    left: 1204px;
+    width: 32px;
+    height: 15px;
+    text-align: center;
+    font: Bold 12px/15px Muli;
+    letter-spacing: 0;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+
+
+
+
 
 
 /* product variant end*/

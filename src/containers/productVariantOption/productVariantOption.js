@@ -203,7 +203,7 @@ class ProductVariantOption extends Component {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="float-right">
+                        <div className="float-right m-5">
                             <button className="button-back mr-3"><span className="text-btn-back">BACK</span></button>
                             <button className="button-variant"><span className="text-btn">CREATE PRODUCT</span></button>
                         </div>
