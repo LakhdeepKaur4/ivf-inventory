@@ -5,4 +5,4 @@ const router = express.Router();
 
 router.route("/").post(controller.register);
 
-module.exports= router;
+module.exports = router;
