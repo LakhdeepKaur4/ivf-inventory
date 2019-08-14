@@ -144,7 +144,7 @@ exports.updateItems = async (req, res, next) => {
       if (variant.options.picture !== null && variant.options.picture != undefined) {
         await helper.saveToDisc(variantsUrl, variant._id, variant.options.fileName, variant.options.fileExt, variant.options.picture, (err, res) => {
           if (err) {
-            console.log(err);
+            console.log(err); 
           } else {
             let index = res.indexOf('../');
             let newPath = res.slice(index + 2, res.length);
