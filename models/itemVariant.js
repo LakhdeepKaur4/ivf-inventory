@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
+const metafields = require('./metafields');
+const Metafield = mongoose.model('Metafield').schema;
 
 var itemVariantSchema = new Schema({
   ancestors: [{
@@ -99,7 +101,6 @@ var itemVariantSchema = new Schema({
     defaultValue: "variant"
   },
   taxable: {
-    label: "Taxable",
     type: Boolean,
     defaultValue: true,
   },
@@ -119,7 +120,7 @@ var itemVariantSchema = new Schema({
     defaultValue: "Untitled Option"
   },
   metafields: {
-    // type: [Metafield],
+    type: [Metafield],
   },
   createdAt: {
     type: Date,
@@ -137,11 +138,32 @@ var itemVariantSchema = new Schema({
   originCountry: {
     type: String,
   },
-  isActive:{
+  isActive: {
     type: Boolean,
     defaultValue: true
   },
   variantPicture: {
+    type: String
+  },
+  size: {
+    type: String
+  },
+  color: {
+    type: String
+  },
+  ingredients: {
+    type: String
+  },
+  volume: {
+    type: String
+  },
+  directions: {
+    type: String
+  },
+  range: {
+    type: String
+  },
+  title: {
     type: String
   },
   options: {

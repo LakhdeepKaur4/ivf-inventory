@@ -12,7 +12,6 @@ exports.createBrand = (req, res, next) => {
     file = file.slice(file.indexOf(',') + 1);
 
     body.logo_url = `public/images/brandLogos/${body.name}.${fileExt}`;
-
     if (body.status === 'Enabled') {
       body.status = true;
     } else {
@@ -101,7 +100,6 @@ exports.updateBrand = (req, res, next) => {
         }
       })
     }
-    
   } catch (err) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
   }

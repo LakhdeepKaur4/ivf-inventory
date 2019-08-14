@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema
-const Price = require('./itemPrice');
+require('./itemPrice');
 const PriceRange = mongoose.model("PriceRange").schema;
-const variant = require('./itemVariant');
+require('./itemVariant');
 const ItemVariant = mongoose.model('ItemVariant').schema;
+require('./workflow');
+const Workflow = mongoose.model('WorkFlow').schema;
 
 var itemSchema = new Schema({
   name: {
@@ -120,7 +122,7 @@ var itemSchema = new Schema({
     type: String,
   },
   workflow: {
-    // type: Workflow,
+    type: Workflow,
   },
   minStockReq: {
     type: String,
