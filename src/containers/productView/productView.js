@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import {getProductsView} from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
-import './productView.css';
+// import './productView.css';
 
 import Dashboard from '../../components/dashboard/dashboard';
 
@@ -18,6 +18,8 @@ class ProductsView extends Component{
             totalItemsCount:'',
             filterName:'name',
             sortVal:false,
+            ids:[],
+            checked:false
             
         }
     }
@@ -74,15 +76,26 @@ class ProductsView extends Component{
            this.props.onSizePerPageList(Number(option.target.value))
           }
 
+          pickIds=(Ids)=>{
+              console.log("selected ids",Ids);
+              var IDS = [];
+              IDS = this.state.ids;
+              IDS.push(Ids);
+              this.setState({ids:IDS})
+            //  this.setState({checked:!this.state.checked})
+              
+          }
+
     productsResult=({productList})=>{
           if(productList){
+              console.log('productlist',productList);
               return productList.sort((item1,item2)=>{
                 var cmprVal =  (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
                 return this.state.sortVal ? cmprVal : -cmprVal;
                }).filter(this.searchFilter(this.state.search)).map((item)=>{ 
                return(
                 <tr>
-                <td scope="row"><input type="checkbox"/></td>
+                <td scope="row"><input type="checkbox" checked={this.state.checked} onClick={(e)=>this.pickIds(item.id)}/></td>
                 <td><img src={item.image} className="img-fluid" alt="Sheep"/></td>
                 <td>{item.sku}</td>
                 <td>{item.stock}</td>
@@ -101,13 +114,22 @@ class ProductsView extends Component{
           }
     }
 
+    navigate=()=>{
+        console.log('hii');
+        console.log(this.state.ids);
+        // this.props.history.push(`/dataToStore/${this.state.ids}`)
+    }
+    selectAll=()=>{
+        this.setState({checked:!this.state.checked})
+    }
+
     render(){
         let tableData=
         <div className="table-responsive card text-dark">
                <table className="table">
                 <thead>
                     <tr>
-                    <th scope="col"><input type="checkbox"/></th>
+                    <th scope="col"><input type="checkbox" onClick={this.selectAll}/></th>
                     <th scope="col">IMAGES</th>
                     <th scope="col">SKU</th>
                     <th scope="col">STOCK</th>
@@ -129,7 +151,8 @@ class ProductsView extends Component{
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>
-                <h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4>
+                <div><h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4></div>
+                
                 <div className="collapse navbar-collapse justify-content-end" id="nav-content">   
                 <ul className="navbar-nav">
                 <li className="nav-item">
@@ -216,9 +239,8 @@ class ProductsView extends Component{
            <div>
                {navLink}
            </div>
-           <div>
                {navIcon}
-           </div>
+           
            <div style={{float: 'right'}}>
            <Pagination activePage={this.state.activePage}
                              itemsCountPerPage={this.state.limit}
@@ -233,7 +255,7 @@ class ProductsView extends Component{
                  {tableData}
               </div>
               <div>
-                 <button className="button-main button3">TO PROVISION</button>
+                 <button className="button-main button3" onClick={this.navigate}>Next</button>
               </div>
               
       

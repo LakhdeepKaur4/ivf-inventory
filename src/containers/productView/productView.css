@@ -1,0 +1,130 @@
+
+/* Bootstrap 4 text input with search icon */
+
+.has-search .searchBox {
+    padding-left: 2.375rem;
+    width: 102px;
+    border: 0px;
+  }
+  
+  .has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+  }
+  
+  /* End Search */
+  
+  
+  .table-responsive img{
+      width: 60px;
+      height: 60px;
+      top: 475px;
+      left: 308px;
+  }
+  
+  
+  
+  .table-responsive .table td{
+      vertical-align: baseline;
+  }
+  
+  .wrapper {
+      display: flex;
+      align-items: stretch;
+  }
+  
+  #content {
+      padding: 20px;
+      min-height: 100vh;
+      transition: all 0.3s;
+  }
+  
+  .button {
+      width: 130px;
+      height: 30px;
+      border: none;
+      border-radius:15px;
+      color: white;
+      padding: 2px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+    
+    .button1 {
+      background-color: white; 
+      color: black; 
+      border: 2px solid #1ABC9C;
+    }
+    
+    .button1:hover {
+      background-color: #1ABC9C;
+      color: white;
+    }
+  
+    .button2 {
+      background-color: white; 
+      color: black; 
+      border: 2px solid  #FF9800;
+    }
+    
+    .button2:hover {
+      background-color:  #FF9800;
+      color: white;
+    }
+  
+    .button-main {
+      width: 184px;
+      height: 30px;
+      border: none;
+      border-radius:15px;
+      color: white;
+      padding: 2px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin-top: 65px;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+  
+    .button3 {
+      background-color: #333333; 
+      color: white; 
+      border: 2px solid  #333333;
+      float:right;
+    }
+  
+    .button3:hover {
+      background-color:  #333333;
+      color: white;
+    }
+    .activeProductsView .md-step-circle {
+  
+      border:1px solid red;
+      background: transparent !important;
+    }
+    .activeProductsView .md-step-circle span ,.md-stepper-horizontal .activeProductsView .md-step-title{
+      color:red;
+    }
+  
+  
+  
+  
+  
+  
+   
