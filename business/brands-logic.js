@@ -100,10 +100,6 @@ exports.updateBrand = (req, res, next) => {
         }
       })
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 0247bbbd343afb5b22e5ef62eaf1501f85c8621c
   } catch (err) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
   }
