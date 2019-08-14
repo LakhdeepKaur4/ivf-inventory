@@ -144,11 +144,6 @@ var itemSchema = new Schema({
     required: true,
     trim: true
   },
-  category: {
-    type: String,
-    required: true,
-    trim: true
-  },
   lossCost: {
     type: Number,
     required: true,
@@ -173,7 +168,11 @@ var itemSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     // required: true
-  }
+  },
+  category: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Category'
+    }]
 })
 
 module.exports = mongoose.model('Item', itemSchema)

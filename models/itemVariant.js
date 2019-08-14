@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-const metafields = require('./metafields');
+require('./metafields');
 const Metafield = mongoose.model('Metafield').schema;
+require('./workflow');
+const Workflow = mongoose.model('WorkFlow').schema;
+
 
 var itemVariantSchema = new Schema({
   ancestors: [{
@@ -133,7 +136,7 @@ var itemVariantSchema = new Schema({
     // type: [Event],
   },
   workflow: {
-    // type: Workflow,
+    type: Workflow,
   },
   originCountry: {
     type: String,

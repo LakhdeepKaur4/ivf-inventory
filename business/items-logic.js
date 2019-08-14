@@ -58,7 +58,7 @@ exports.createItems = async (req, res, next) => {
       await Item.update({ _id: itemId }, { $set: setObject }, { new: true });
       if (variant.options.picture !== null && variant.options.picture != undefined) {
         await helper.saveToDisc(variantsUrl, savedVariants._id, variant.options.fileName, variant.options.fileExt, variant.options.picture, (err, res) => {
-          if (err) { 
+          if (err) {
             console.log(err);
           } else {
             let index = res.indexOf('../');
@@ -144,7 +144,7 @@ exports.updateItems = async (req, res, next) => {
       if (variant.options.picture !== null && variant.options.picture != undefined) {
         await helper.saveToDisc(variantsUrl, variant._id, variant.options.fileName, variant.options.fileExt, variant.options.picture, (err, res) => {
           if (err) {
-            console.log(err); 
+            console.log(err);
           } else {
             let index = res.indexOf('../');
             let newPath = res.slice(index + 2, res.length);
@@ -191,8 +191,8 @@ exports.getVariantsByProductId = async (req, res, next) => {
     let itemVariant = await ItemVariant.find({ 'ancestors': { $in: [ObjectId(req.params.id)] } }, { new: true }).populate("ancestors");
     if (itemVariant) {
       return res.status(httpStatus.OK).send({ message: "Item Variant Page", itemVariant });
-    } 
-  } catch (error) { 
+    }
+  } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error.message });
   }
 }
@@ -236,28 +236,24 @@ exports.getProductByBrand = async (req, res, next) => {
     const brandId = req.params.id;
     const item = await Item.find({ brandId: brandId });
     if (item) {
-      return res.status(httpStatus.OK).send({ message: "Item", item });
+      return res.status(httpStatus.OK).send({ message: "Item by brand page", item });
     }
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error });
   }
 }
 
-// let upsertItem = (_item) => {
-//   if (_item._id) return Item.update({ _id: _item._id }, _item)
-//   return new Item(_item)
-//     .save()
-// }
+exports.getProductByCategory = async (req, res, next) => {
+  try {
+    const categoryId = req.params.id;
+    console.log(categoryId);
+    let category = await Item.find({ 'category': { $in: [ObjectId(categoryId)] } }, { new: true }).populate("category");
+    if (category) {
+      return res.status(httpStatus.OK).send({ message: "Item by category page", item:category });
+    }
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error });
+  }
+}
 
-// let getItems = () => (console.log("finding"))
 
-// let removeItem = (query) => (Item.remove(query))
-
-// function ItemsLogic() {
-//   return {
-//     upsertItem,
-//     getItems,
-//     removeItem
-//   }
-// }
-// module.exports = ItemsLogic

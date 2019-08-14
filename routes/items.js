@@ -16,6 +16,8 @@ router.route("/:itemId/:variantId").delete(controller.deleteItems);
  
 router.route("/brand/:id").get(controller.getProductByBrand);
 
+router.route("/category/:id").get(controller.getProductByCategory);
+
 router.route("/variant/:id").put(controller.updateVariant);
 
 router.route("/variant/:id").delete(controller.deleteVariants);
