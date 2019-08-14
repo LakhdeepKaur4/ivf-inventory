@@ -26,6 +26,7 @@ export const UPDATE_BRAND_DETAILS='UPDATE_BRAND_DETAILS'
 export const GET_CITY='GET_CITY';
 export const ADD_CUSTOMER='ADD_CUSTOMER';
 export const GET_CUSTOMER='GET_CUSTOMER';
-export const CHANGE_STATUS='CHANGE_STATUS'
+export const CHANGE_STATUS='CHANGE_STATUS';
+export const CREATE_PRODUCT='CREATE_PRODUCT';
 
                     

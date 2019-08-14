@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import Dashboard from '../../components/dashboard/dashboard';
+import {createProductDetails} from '../../actions/createProductAction';
+import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+// import { WithContext as ReactTags } from 'react-tag-input';
 import './createProduct.css';
 
 class CreateProduct extends Component {
@@ -9,9 +13,21 @@ class CreateProduct extends Component {
 
         this.state = {
             file: '',
-            imagePreviewUrl: ''
+            imagePreviewUrl: '',
+            name:''
         }
     }
+
+    componentDidMount=()=>{
+        this.props.createProductDetails();
+    }
+
+    onChange=(e)=>{
+       console.log(e.target.value);
+       this.setState({[e.target.name]: e.target.value});
+    }
+
+
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -33,7 +49,25 @@ class CreateProduct extends Component {
         }
         reader.readAsDataURL(file)
     }
-
+    
+    getProductData=({getProduct})=>{
+         if(getProduct){
+    
+            return getProduct.map(item=>{
+                 return(
+                                   <tr key={item.orderId}>
+                                        <td><span className="orderNo">{item.orderNo}</span></td>
+                                        <td>image</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.price}</td>
+                                        <td>{item.qty}</td>
+                                        {(item.visible==="Visible") ? <td style={{color:'green'}}> {item.visible} </td> : <td style ={{color:'red'}}> {item.visible}</td> }
+                                        <td><i className="fa fa-edit" aria-hidden="true"></i></td>
+                                    </tr> 
+                 )
+            })
+         }
+    }
     render() {
         let { imagePreviewUrl } = this.state;
         let $imagePreview = null;
@@ -79,7 +113,7 @@ class CreateProduct extends Component {
                                             <div className="h5 small text-danger">Title</div>
                                             <div className="form-row">
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" placeholder="T-shirt Sportwear Nike" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" name="name" placeholder="T-shirt Sportwear Nike" onChange={this.onChange}/>
                                                 </div>
                                             </div>
                                             <div className="form-row">
@@ -147,13 +181,16 @@ class CreateProduct extends Component {
                                         </table>
 
                                         <div className="card-footer text-center border border-0 " style={{ backgroundColor: "rgba(0,0,0,0)", marginTop: "-15px", padding: "0px" }}>
-                                            <div className="previewComponent">
-
-                                                <input className="fileInput hidden"
-                                                    type="file"
+                                            <div className="previewComponent mt-4">
+                                            <form onSubmit={(e)=>this.handleSubmit(e)}>
+                                                <input className="fileInput hidden" 
+                                                    type="file" 
                                                     id="file"
-                                                    onChange={(e) => this.handleImageChange(e)} ></input>
-
+                                                    onChange={(e)=>this.handleImageChange(e)} />
+                                                <button className="submitButton hidden" 
+                                                    type="submit" 
+                                                    onClick={(e)=>this.handleSubmit(e)}>Upload Image</button>
+                                                </form>
                                                 <label htmlFor="file">
                                                     <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
                                                 </label>
@@ -170,7 +207,8 @@ class CreateProduct extends Component {
                         <div className="row justify-content-end m-2 ">
                             <div className="col-4 text-muted">
                                 <h5>Tags</h5>
-                                <button type="button" className="btn btn-light text-muted" style={{ border: '1px solid' }}>Add Tags<i className="fa fa-plus ml-3"></i></button>
+                                <input type="text" className="addTag" placeholder="addtag"/><span className="fafa-plus"><i className="fa fa-plus ml-3 fa-1x"></i></span>
+                                {/* <button type="button" className="btn btn-light text-muted" style={{ border: '1px solid' }}>Add Tags<i className="fa fa-plus ml-3"></i></button> */}
                             </div>
                             <div className="col-4 text-muted">
                                 <h5>Metadata</h5>
@@ -199,19 +237,12 @@ class CreateProduct extends Component {
                                     </tr>
                                 </thead>
                                 <tbody style={{ backgroundColor: "rgb(242,244,247)", opacity: "50%" }}>
-                                    <tr>
-                                        <td><span className="orderNo">11</span></td>
-                                        <td>image</td>
-                                        <td>Green T-shirt with badass cartoon design</td>
-                                        <td>$ 29.99</td>
-                                        <td>24</td>
-                                        <td>Visible</td>
-                                        <td><i className="fa fa-edit" aria-hidden="true"></i></td>
-                                    </tr>
+                                    {this.getProductData(this.props.CreateProductReducer)}
+                                  
                                 </tbody>
                             </table>
                         </div>
-                        <div className="float-right">
+                        <div className="float-right m-5">
                             <button className="button-back mr-3"><span className="text-btn-back">BACK</span></button>
                             <button className="button-variant"><span className="text-btn">CREATE PRODUCT</span></button>
                         </div>
@@ -222,5 +253,16 @@ class CreateProduct extends Component {
     }
 }
 
-export default CreateProduct;
+function mapStateToProps(state){
+      console.log(state)
+    return{
+       CreateProductReducer: state.CreateProductReducer      
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return bindActionCreators({createProductDetails}, dispatch)
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CreateProduct);
 

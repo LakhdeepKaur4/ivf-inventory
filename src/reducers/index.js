@@ -10,6 +10,7 @@ import CreateCategory from './createCategory/createCategory';
 import EditCustomerOrderReducer from './editCustomerOrderReducer/editCustomerOrderReducer';
 import DataToStoreReducer from './dataToStoreReducer/dataToStoreReducer';
 import ProductItemReducer from './productItemReducer/productItemReducer';
+import CreateProductReducer from './createProductReducer/createProductReducer';
 const rootReducer = combineReducers({
    ViewOrderReducer,
    AddProductReducer,
@@ -22,5 +23,6 @@ const rootReducer = combineReducers({
    EditCustomerOrderReducer,
    DataToStoreReducer,
    ProductItemReducer,
+   CreateProductReducer
 })
 export default rootReducer;
