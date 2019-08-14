@@ -6,6 +6,7 @@ import {
   updateBrandDetails
 } from "../../actions/brandsAction";
 import FileBase64 from "react-file-base64";
+import Dashboard from "../../components/dashboard/dashboard";
 
 class EditBrands extends Component {
   state = {
@@ -84,6 +85,7 @@ class EditBrands extends Component {
   render() {
     const { brandName, description } = this.state;
     return (
+      <Dashboard>
       <div className="edit_brand ">
         {this.props.brandDetail ? (
           <div className="container">
@@ -187,6 +189,7 @@ class EditBrands extends Component {
           ""
         )}
       </div>
+      </Dashboard>
     );
   }
 }
