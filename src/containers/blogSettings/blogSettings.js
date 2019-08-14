@@ -37,10 +37,10 @@ class BlogSettings extends Component {
                                     <h6 style={{ color: "#555555" }}>About</h6>
                                 </div>
                                 <div className="md-form border border-top-0 border-right-0 border-left-0  rounded-0 active-purple-2 mb-3">
-                                    <h6 style={{ color: "#555555" }}>Social</h6>
+                                    <h6 style={{ color: "grey" }}>Social</h6>
                                 </div>
                                 <div className="md-form border border-top-0 border-right-0 border-left-0  rounded-0 active-purple-2 mb-3">
-                                    <h6 style={{ color: "#555555" }}>Comments</h6>
+                                    <h6 style={{ color: "grey" }}>Comments</h6>
                                 </div>
                               
                               
