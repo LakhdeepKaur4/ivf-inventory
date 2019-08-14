@@ -50,6 +50,7 @@
   ],
     "products": [
       { 
+        "id":"1",
         "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "sku":"SNT25",
         "stock":16,
@@ -57,28 +58,56 @@
         "price":78.00
       },
       { 
+        "id":"2",
         "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "sku":"SNT25",
         "stock":32,
         "name":"Smith",
         "price":85.00
-      }      
+      },
+      { 
+        "id":"3",
+        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+        "sku":"SNT25",
+        "stock":16,
+        "name":"Enrique",
+        "price":78.00
+      },
+      { 
+        "id":"4",
+        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+        "sku":"SNT25",
+        "stock":32,
+        "name":"Bruce",
+        "price":85.00
+      },
+      { 
+        "id":"5",
+        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+        "sku":"SNT25",
+        "stock":32,
+        "name":"Tony",
+        "price":85.00
+      }              
     ],
     "dataToStore":[
       {
-        "brandImage":"brand1.png",
+        "id":"1",
+        "brandImage":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "storeName":"Cropp",
         "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
         "type":"Apparel"
       },
       {
-        "brandName":"brand2.png",
+        "id":"2",
+        "brandImage":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "storeName":"Reserved",
         "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
         "type":"Shoes"
       },
       {
-        "brandName":"brand2.png",
+        "id":"3",
+        "brandImage":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "storeName":"Brand House",
         "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
         "type":"Sports wear"
@@ -232,5 +261,23 @@
       "rememberMe": "on",
       "id": "Lfc9oZs"
     }
-  ]
+  ],
+  "createProduct" :[
+    {
+      "orderNo":"11",
+      "image":"image",
+      "title":"Green T-shirt with badass cartoon design",
+      "price":"$ 29.99",
+      "qty":"24",
+      "visible":"Visible"
+    },
+    {
+      "orderNo":"12",
+      "image":"image",
+      "title":"Green T-shirt with badass cartoon design",
+      "price":"$ 14.99",
+      "qty":"12",
+      "visible":"Hidden"
+    }
+  ] 
 }

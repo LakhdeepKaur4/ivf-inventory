@@ -57,6 +57,7 @@ class BlogPost extends Component {
                                             <label className="ml-2" style={{color:"#888888"}}></label>
                                             <input id="file-upload" type="file" />
                                         </div>
+                                     
 
                                     </div>
                                 </div>

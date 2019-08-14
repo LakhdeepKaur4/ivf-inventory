@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import {getProductsView} from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
-import './productView.css';
+// import './productView.css';
 
 import Dashboard from '../../components/dashboard/dashboard';
 
@@ -17,8 +17,17 @@ class ProductsView extends Component{
             limit:'5',
             totalItemsCount:'',
             filterName:'name',
-            sortVal:false
+            sortVal:false,
+            ids:[],
+            checked:false
+            
         }
+    }
+
+    btnClick=()=>{
+        this.setState({checked:true})
+        console.log(this.state.checked)
+
     }
     
     componentDidMount(){
@@ -67,25 +76,35 @@ class ProductsView extends Component{
            this.props.onSizePerPageList(Number(option.target.value))
           }
 
+          pickIds=(Ids)=>{
+              console.log("selected ids",Ids);
+              var IDS = [];
+              IDS = this.state.ids;
+              IDS.push(Ids);
+              this.setState({ids:IDS})
+            //  this.setState({checked:!this.state.checked})
+              
+          }
+
     productsResult=({productList})=>{
           if(productList){
+              console.log('productlist',productList);
               return productList.sort((item1,item2)=>{
                 var cmprVal =  (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
                 return this.state.sortVal ? cmprVal : -cmprVal;
                }).filter(this.searchFilter(this.state.search)).map((item)=>{ 
                return(
                 <tr>
-                <td scope="row"><input type="checkbox"/></td>
+                <td scope="row"><input type="checkbox" checked={this.state.checked} onClick={(e)=>this.pickIds(item.id)}/></td>
                 <td><img src={item.image} className="img-fluid" alt="Sheep"/></td>
                 <td>{item.sku}</td>
                 <td>{item.stock}</td>
                 <td>{item.name}</td>
                 <td>{item.price} $</td>
                 <td>
-                    {/* <div><button type="button" className="btn btn-outline" style={{color:'#1ABC9C'}}>Success</button></div> */}
-                    {/* <div><button type="button" className="btn btn-outline">Warning</button></div> */}
-                    <div><button class="button button1">Visible</button></div>
-                    <div><button class="button button2">Invisible</button></div>
+                    
+                    <div><button class="button button1 active" onClick={this.btnClick}>Visible</button></div>
+                    <div><button class="button button2" onClick={this.btnClick}>Invisible</button></div>
                    </td>
                 <td><b>...</b></td>
                 </tr>
@@ -95,13 +114,22 @@ class ProductsView extends Component{
           }
     }
 
+    navigate=()=>{
+        console.log('hii');
+        console.log(this.state.ids);
+        // this.props.history.push(`/dataToStore/${this.state.ids}`)
+    }
+    selectAll=()=>{
+        this.setState({checked:!this.state.checked})
+    }
+
     render(){
         let tableData=
         <div className="table-responsive card text-dark">
                <table className="table">
                 <thead>
                     <tr>
-                    <th scope="col"><input type="checkbox"/></th>
+                    <th scope="col"><input type="checkbox" onClick={this.selectAll}/></th>
                     <th scope="col">IMAGES</th>
                     <th scope="col">SKU</th>
                     <th scope="col">STOCK</th>
@@ -123,7 +151,8 @@ class ProductsView extends Component{
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>
-                <h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4>
+                <div><h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4></div>
+                
                 <div className="collapse navbar-collapse justify-content-end" id="nav-content">   
                 <ul className="navbar-nav">
                 <li className="nav-item">
@@ -210,9 +239,8 @@ class ProductsView extends Component{
            <div>
                {navLink}
            </div>
-           <div>
                {navIcon}
-           </div>
+           
            <div style={{float: 'right'}}>
            <Pagination activePage={this.state.activePage}
                              itemsCountPerPage={this.state.limit}
@@ -222,31 +250,12 @@ class ProductsView extends Component{
                              linkClasss='page-link'
                              />
             </div>
-             {/* <div>
-              <ul className="list-inline" style={{paddingLeft:'15px'}}>
-              <li className="list-inline-item"><span><i class="fas fa-sort-amount-down" aria-hidden="true"></i></span></li>
-                <li className="list-inline-item"><span><i class="fas fa-sort-amount-up" aria-hidden="true"></i></span></li>
-                <li className="list-inline-item">Limit 20<span><i className="fa fa-angle-down" aria-hidden="true"></i></span></li>
-                <li className="list-inline-item">Actions<span><i className="fa fa-angle-down" aria-hidden="true"></i></span></li>
-                <li className="list-inline-item"><span><i className="fa fa-plus" aria-hidden="true"></i></span><label>New</label></li>
-                 
-                
-                <li className="list-inline-item" style={{float:'right'}}>
-                <Pagination activePage={this.state.activePage}
-                             itemsCountPerPage={this.state.limit}
-                             totalItemsCount={this.state.totalItemsCount}
-                             onChange={this.handlePageChange}
-                             itemClass='page-item'
-                             linkClasss='page-link'/>
-                </li>
-                 
-              </ul>
-              </div> */}
+           
               <div>
                  {tableData}
               </div>
               <div>
-                 <button className="button-main button3">TO PROVISION</button>
+                 <button className="button-main button3" onClick={this.navigate}>Next</button>
               </div>
               
       

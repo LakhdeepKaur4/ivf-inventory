@@ -1,0 +1,25 @@
+.activeDataToStore1 .md-step-circle {
+
+    border:1px solid #F74A4A;
+    background: transparent !important;
+  }
+  .activeDataToStore1 .md-step-circle span ,.md-stepper-horizontal .activeDataToStore1 .md-step-title{
+    color:#F74A4A;
+  }
+
+.inactive1 .md-step-circle {
+
+    border:1px solid #F74A4A;
+    background: transparent !important;
+  }
+  .inactive2 .md-step-circle {
+
+    border:1px solid #4D4F5C;
+    background: transparent !important;
+  }
+  .text-inactive2 {
+        color: #4D4F5C;
+  }
+  .activeDataToStore2 .md-step-circle span ,.md-stepper-horizontal .activeDataToStore2 .md-step-title{
+    color:#F74A4A;
+  }
