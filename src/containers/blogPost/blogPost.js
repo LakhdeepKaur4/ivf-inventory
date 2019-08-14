@@ -54,9 +54,10 @@ class BlogPost extends Component {
                                         </div>
                                         <div className="md-form active-purple-2 mb-3 col-7">
                                             <label for="file-upload" className="custom-file-upload">CHOOSE</label>
-                                            <label className="ml-2" style={{color:"#888888"}}></label>
+                                            {/* <label className="ml-2" style={{color:"#888888"}}></label> */}
                                             <input id="file-upload" type="file" />
                                         </div>
+                                     
 
                                     </div>
                                 </div>

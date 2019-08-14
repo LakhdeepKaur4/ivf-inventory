@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./displayBrands.css";
 import { connect } from "react-redux";
 import * as BrandAction from "../../actions/brandsAction";
-import StoreImg from "../../../public/images/store.png";
 import Pagination from "react-js-pagination";
 import Dashboard from "../../components/dashboard/dashboard";
 
@@ -80,10 +79,10 @@ class Brands extends Component {
 
   // Handle all select
 
-  handleAllSelect = () => {
-    this.setState({ isAllSelect: true });
+  handleAllSelect = event => {
+    let brandList=this.props.BrandsReducer
+    // this.setState({ isAllSelect: true });
   };
-
 
   // View products for a particular brand
   viewProducts=id=>{
@@ -163,7 +162,7 @@ class Brands extends Component {
                     )}
                     <a 
                     className="dropdown-item"
-                    onClick={()=>{this.viewProducts(item._id)}}>View Product</a>
+                    onClick={()=>{this.viewProducts(item._id)}}>View Products</a>
                   </div>
                 </div>
               </td>
@@ -189,7 +188,7 @@ class Brands extends Component {
               <th scope="col">
                 <input
                   type="checkbox"
-                  checked={this.state.isAllSelect}
+                  value="checkedall"
                   onChange={this.handleAllSelect}
                 />
               </th>
@@ -212,34 +211,7 @@ class Brands extends Component {
           <div className="container">
             <div className="img_content_wprapper">
               <h1>Brands</h1>
-              <p style={{ fontSize: "16px" }}>MegaStore</p>
-              <div className="row">
-                <div className="col-4 m-auto">
-                  <img
-                    src={StoreImg}
-                    alt="pic"
-                    style={{ width: "80px", height: "80px" }}
-                    className="ml-5"
-                  />
-                </div>
-                <div className="col-8">
-                  <p className="store_description">
-                    International entertainment retailing chain, founded in
-                    early 1976 by (Sir) Richard Branson as a record shop on
-                    London’s Oxford Street. In 1979 the company opened their
-                    first Megastore at the end of Oxford Street and Tottenham
-                    Court Road.[1] The company expanded to hundreds of stores
-                    worldwide in the 1990s, but has lost a large number of
-                    stores in recent years, largely with the sale and eventual
-                    closing of the UK, US, Irish, Canadian, Australian, Italian,
-                    Spanish, French, Greek and Japanese stores. By 2015, current
-                    operations are exclusively in the Middle East and in North
-                    Africa, consisting of approximately 40 stores.[2]
-                  </p>
-                </div>
-              </div>
             </div>
-
             <div className="search_filter_wrapper">
               <div className="search">
                 <div className="form-group has-search">
