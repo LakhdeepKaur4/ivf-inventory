@@ -4,6 +4,7 @@ import "./addBrands.css";
 import { connect } from "react-redux";
 import { addBrand } from "../../actions/brandsAction";
 import FileBase64 from "react-file-base64";
+import Dashboard from "../../components/dashboard/dashboard";
 
 class AddBrands extends Component {
   state = {
@@ -52,6 +53,12 @@ class AddBrands extends Component {
     }
   };
 
+
+  // Handle Cancle
+
+  handleCancle = () => {
+    this.props.history.push("/brands");
+  };
   //upload file
 
   getFiles = files => {
@@ -96,6 +103,7 @@ class AddBrands extends Component {
 
   render() {
     return (
+      <Dashboard>
       <div className="add_brand ">
         <div className="container">
           <div className="bg-light text-dark p-4 mt-1">
@@ -166,16 +174,26 @@ class AddBrands extends Component {
                 </div>
               </div>
             </form>
-            <button
+            <div>
+              <span><button
               className="brand_button"
               type="submit"
               onClick={this.addBrand}
             >
               SAVE BRAND
-            </button>
+            </button></span>
+            <span><button
+              className="brand_button"
+              type="submit"
+              onClick={this.handleCancle}
+            >
+              CANCLE
+            </button></span>
+            </div>
           </div>
         </div>
       </div>
+      </Dashboard>
     );
   }
 }

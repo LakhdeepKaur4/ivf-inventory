@@ -86,11 +86,11 @@ class Sidebar extends Component {
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className="collapse list-unstyled sidebarColl" id="provisionSubmenu">
                                 <li>
-                                    {(this.state.pageOn === 'dataToSTore') ? <Link to="/dataToSTore">
+                                    {(this.state.pageOn === 'pushProductsView') ? <Link to="/pushProductsView">
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Push Products</span>
-                                    </Link> : <Link to="/dataToSTore">
+                                    </Link> : <Link to="/pushProductsView">
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Push Products
@@ -137,6 +137,17 @@ class Sidebar extends Component {
                                         <span>
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>Blog post
+                                    </a>}
+                                </li>
+                                <li>
+                                    {(this.state.pageOn === 'blogSettings') ? <a href="/blogSettings">
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{color:"red"}}>Blog Settings</span>
+                                    </a> : <a href="/blogSettings">
+                                        <span>
+                                            <i className="far fa-circle" aria-hidden="true"></i>
+                                        </span>Blog Settings
                                     </a>}
                                 </li>
                             </ul>
