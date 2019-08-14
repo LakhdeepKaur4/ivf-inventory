@@ -7,12 +7,16 @@ module.exports = (router) => {
     const userRoutes = require('./user');
     const authRoutes = require('./auth');
     const categoryRoutes = require('./category');
-    const test = require('./test');
+    const storesProductmappingRoutes = require('./stores-product-mapping');
+    const storesBrandmappingRoutes = require('./stores-brand-mapping');
+    const storesCategorymappingRoutes = require('./stores-category-mapping');
 
-    router.use('/item',itemRoutes);
-    router.use('/brands',brandsRoutes);
-    router.use('/user',userRoutes);
-    router.use('/auth',authRoutes);
-    router.use('/category',categoryRoutes);
-    router.use('/test',test);
+    router.use('/item', itemRoutes);
+    router.use('/brands', brandsRoutes);
+    router.use('/user', userRoutes);
+    router.use('/auth', authRoutes);
+    router.use('/category', categoryRoutes);
+    router.use('/map/stores/products', storesProductmappingRoutes);
+    router.use('/map/stores/brands', storesBrandmappingRoutes);
+    router.use('/map/stores/categories', storesCategorymappingRoutes);
 }

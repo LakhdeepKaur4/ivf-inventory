@@ -17,7 +17,7 @@ exports.createBrand = (req, res, next) => {
     } else {
       body.status = false;
     }
-    
+
     fileStore(body.name, fileExt, file, '../public/images/brandLogos/', (err, resp) => {
       if (err) {
         return res.status(httpStatus.FAILED_DEPENDENCY).json(resp)
@@ -100,6 +100,10 @@ exports.updateBrand = (req, res, next) => {
         }
       })
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0247bbbd343afb5b22e5ef62eaf1501f85c8621c
   } catch (err) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
   }
@@ -155,9 +159,42 @@ exports.disableBrand = (req, res, next) => {
   }
 }
 
-// exports.getProducts = (req, res, next) => {
-// try {
+exports.multiEnableOrDisable = (req, res, next) => {
+  try {
+    const body = req.body;
+    if (body.status === "Enabled") {
+      body.status = true;
+    } else {
+      body.status = false;
+    }
+    const promise = body.ids.map(item => {
+      Brands.findOneAndUpdate({ _id: item }, {
+        $set: {
+          status: body.status
+        }
+      })
+        .then((err, brand) => {
+          if (err) {
+            response.push(err);
+          } else {
+            response.push(brand);
+          }
+        })
+    })
 
-// } catch (error) {
-//   return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
-// }
+    Promise.all(promise)
+      .then(result => {
+        if (body.status === true) {
+          res.status(httpStatus.OK).json({
+            message: "Brands enabled successfully"
+          })
+        } else {
+          res.status(httpStatus.OK).json({
+            message: "Brands disabled successfully"
+          })
+        }
+      })
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+  }
+}

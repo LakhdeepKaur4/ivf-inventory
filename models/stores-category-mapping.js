@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var StoresProductMap = new Schema({
-    product_id: {
+var StoresCategoryMap = new Schema({
+    category_id: {
         type: Schema.Types.ObjectId, 
-        ref: 'Product',
+        ref: 'Category',
         required: true
     },
     stores: {
@@ -13,4 +13,4 @@ var StoresProductMap = new Schema({
     }
 });
 
-module.exports = mongoose.model('StoresProductMapping', StoresProductMap);
+module.exports = mongoose.model('StoresCategoryMapping', StoresCategoryMap);
