@@ -42,6 +42,7 @@ class EditCustomerOrder extends Component {
     }
 
     getCity=({city})=>{
+        console.log(React.version);
         if(city){
             return city.map((item)=><option style={{color:"#4D4F5C"}} key={item.id}>{item}</option>
             )

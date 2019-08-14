@@ -4,6 +4,7 @@
 .has-search .searchBox {
   padding-left: 2.375rem;
   width: 102px;
+  border: 0px;
 }
 
 .has-search .form-control-feedback {
@@ -105,11 +106,20 @@
     background-color: #333333; 
     color: white; 
     border: 2px solid  #333333;
+    float:right;
   }
 
   .button3:hover {
     background-color:  #333333;
     color: white;
+  }
+  .activeProductsView .md-step-circle {
+
+    border:1px solid red;
+    background: transparent !important;
+  }
+  .activeProductsView .md-step-circle span ,.md-stepper-horizontal .activeProductsView .md-step-title{
+    color:red;
   }
 
 
