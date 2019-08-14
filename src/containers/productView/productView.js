@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import {getProductsView} from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
-import './productView.css';
+// import './productView.css';
 
 import Dashboard from '../../components/dashboard/dashboard';
 
@@ -18,7 +18,8 @@ class ProductsView extends Component{
             totalItemsCount:'',
             filterName:'name',
             sortVal:false,
-            ids:[]
+            ids:[],
+            checked:false
             
         }
     }
@@ -81,6 +82,8 @@ class ProductsView extends Component{
               IDS = this.state.ids;
               IDS.push(Ids);
               this.setState({ids:IDS})
+            //  this.setState({checked:!this.state.checked})
+              
           }
 
     productsResult=({productList})=>{
@@ -92,7 +95,7 @@ class ProductsView extends Component{
                }).filter(this.searchFilter(this.state.search)).map((item)=>{ 
                return(
                 <tr>
-                <td scope="row"><input type="checkbox" onClick={()=>this.pickIds(item.id)}/></td>
+                <td scope="row"><input type="checkbox" checked={this.state.checked} onClick={(e)=>this.pickIds(item.id)}/></td>
                 <td><img src={item.image} className="img-fluid" alt="Sheep"/></td>
                 <td>{item.sku}</td>
                 <td>{item.stock}</td>
@@ -114,7 +117,10 @@ class ProductsView extends Component{
     navigate=()=>{
         console.log('hii');
         console.log(this.state.ids);
-        this.props.history.push(`/dataToStore/${this.state.ids}`)
+        // this.props.history.push(`/dataToStore/${this.state.ids}`)
+    }
+    selectAll=()=>{
+        this.setState({checked:!this.state.checked})
     }
 
     render(){
@@ -123,7 +129,7 @@ class ProductsView extends Component{
                <table className="table">
                 <thead>
                     <tr>
-                    <th scope="col"><input type="checkbox"/></th>
+                    <th scope="col"><input type="checkbox" onClick={this.selectAll}/></th>
                     <th scope="col">IMAGES</th>
                     <th scope="col">SKU</th>
                     <th scope="col">STOCK</th>
@@ -233,30 +239,8 @@ class ProductsView extends Component{
            <div>
                {navLink}
            </div>
-           <div className="md-stepper-horizontal orange">
-                    <div className="md-step activeProductsView">
-                        <div className="md-step-circle"><span>1</span></div>
-                        <div className="md-step-title">Select Products</div>
-                        <div className="md-step-bar-left"></div>
-                        <div className="md-step-bar-right"></div>
-                    </div>
-                    <div className="md-step">
-                        <div className="md-step-circle"><span>2</span></div>
-                        <div className="md-step-title">Save to Store</div>
-                        <div className="md-step-bar-left"></div>
-                      
-                        <div className="md-step-bar-right"></div>
-                    </div>
-                    <div className="md-step">
-                        <div className="md-step-circle"><span>3</span></div>
-                        <div className="md-step-title">Proceed</div>
-                        <div className="md-step-bar-left"></div>
-                        <div className="md-step-bar-right"></div>
-                    </div>
-                </div>
-           <div>
                {navIcon}
-           </div>
+           
            <div style={{float: 'right'}}>
            <Pagination activePage={this.state.activePage}
                              itemsCountPerPage={this.state.limit}

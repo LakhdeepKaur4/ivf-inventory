@@ -6,7 +6,7 @@ import ViewOrder from './containers/viewOrder/viewOrder'
 import AddProduct from './containers/addProducts/addProducts'; 
 import EditOrder from './containers/editOrder/editOrder';
 import Shipping from './containers/shipping/shipping';
-import ProductsView from './containers/productsView/productsView';
+import PushProductsView from './containers/pushProductsView/pushProductsView';
 import Login from './containers/login/login';
 import Themes from './containers/Themes/themes';
 import StoreProfile from './containers/storeProfile/storeProfile';
@@ -28,6 +28,7 @@ import PushDataToStore from './containers/pushDataToStore/pushDataToStore';
 import CreatePage from './containers/createPage/CreatePage';
 import BlogPost from './containers/blogPost/blogPost';
 import BlogSettings from './containers/blogSettings/blogSettings';
+import ProductView from './containers/productView/productView';
 
 class App extends Component {
   render() {
@@ -35,6 +36,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
+          <Route path="/productsView" component={ProductView} />
             <Route path="/pushDataToStore" component={PushDataToStore} />
             <Route path="/productVariantOption" component={ProductVariantOption} />
             <Route path="/productVariant" component={ProductVariant} />
@@ -52,7 +54,7 @@ class App extends Component {
             <Route path="/brands" component={Brands} />
             <Route path="/advancedSearch" exact component={AdvancedSearch}/>
             <Route path="/shipping" component={Shipping} />
-            <Route path="/productsView" component={ProductsView} />
+            <Route path="/pushProductsView" component={PushProductsView} />
             <Route path="/addBrand" component={AddBrands}/>
             <Route path="/editCustomerOrder" component={EditCustomerOrder}/>
             <Route path="/editanorder" component={EditOrder} />
