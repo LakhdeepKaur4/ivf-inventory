@@ -2,8 +2,18 @@ import React, { Component } from "react";
 import './CreatePage.css';
 import Dashboard from "../../components/dashboard/dashboard";
 import $ from 'jquery';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
 
 class CreatePage extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            editorChange:EditorState.createEmpty(),
+            }
+    }
 
     componentDidMount() {
         $(function () {
@@ -13,253 +23,159 @@ class CreatePage extends Component {
         });
     }
 
+    editorChange = (editorChange) => {
+        let desc=draftToHtml(convertToRaw(this.state.editorChange.getCurrentContent()));   
+        desc = desc.toString();
+        desc = desc.slice(desc.indexOf(">") + 1);
+        desc = desc.slice(0, desc.indexOf("<"));
+        this.setState({ editorChange,description:desc });
+        this.setState({ show: false, showSub: false });
+    }
+
     render() {
         return (
             <div>
                 <Dashboard>
-                    <div className="create">CREATE PAGE</div>
-                    <div className="Pdesc">[Page Description]</div>
-                    <div className="subTitle">[SubTitle]</div>
-                    <div className="row">
-                        <div class="col-md-6">
-                            <div className="row">
-                                <div class="col-md-4">
-                                    <label className="other">Other meta</label>
-                                </div>
-                                <div class="col-md-8" style={{ marginTop: "30px" }}>
-                                    <input className="inputHandele" type="text" placeholder="Page title" />
-
-                                    <input className="inputHandele" type="text" placeholder="keywords" />
-                                    <input className="inputHandele" type="text" placeholder="description" />
-                                    <input className="inputHandele" type="text" placeholder="s. keywords" />
-                                    {/* <input
-                  type="text"
-                  placeholder="Template Layout"
-                  class="glyphicon glyphicon-menu-down"
-                /> */}
-
-                                    <select id="exampleFormControlSelect1" required>
-                                        <option value="group">Template Layout</option>
-                                        <option value="angular">Angular</option>
-                                        <option value="css">CSS</option>
-                                        <option value="design">Graphic Design</option>
-                                        <option value="ember">Ember</option>
-                                        <option value="html">HTML</option>
-                                        <option value="ia">Information Architecture</option>
-                                    </select>
-
-                                    <input
-                                        className="inputHandele"
-                                        type="checkbox"
-                                        id="home"
-                                        style={{ marginTop: "20px", color: "#444444" }}
-                                    />
-                                    <label
-                                        for="home"
-                                        style={{ marginLeft: "12px", color: "#43425D" }}
-                                    >
-                                        Display as home
-                                    </label>
-                                    <br />
-                                    <input
-                                        className="inputHandele"
-                                        type="checkbox"
-                                        id="home"
-                                        style={{ marginTop: "17px", color: "#444444" }}
-                                    />
-                                    <label
-                                        for="home"
-                                        style={{ marginLeft: "12px", color: "#43425D" }}
-                                    >
-                                        Restrict to Cast
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div className="row" style={{ marginTop: "30px" }}>
-                                <div class="col-md-1">
-                                    <label
-                                        // style={{  marginRight: "200px" }}
-                                        className="link"
-                                    >
-                                        Link
-                                    </label>
-                                </div>
-                                <div class="col-md-11">
-                                    <input
-                                        className="inputHandele"
-                                        type="radio"
-                                        id="defaultChecked"
-                                        checked
-                                        autocomplete="on  "
-                                    />
-                                    <label className="radioText" for="defaultChecked">
-                                        Content from editor below
-                                    </label>
-                                    <br />
-
-                                    <input className="inputHandele" type="radio" id="defaultUnchecked" />
-                                    <label className="radioText" for="defaultUnchecked">
-                                        Link to website or doc
-                                    </label>
-                                    <br />
-
-                                    <input className="inputHandele" type="radio" id="defaultUnchecked2" />
-                                    <label className="radioText" for="defaultUnchecked2">
-                                        Display Content from RSS
-                                    </label>
-                                    <br />
-
-                                    <input
-                                        className="inputHandele"
-                                        type="radio"
-                                        id="defaultUnchecked3"
-                                    // name="defaultExampleRadios"
-                                    />
-                                    <label className="radioText" for="defaultUnchecked3">
-                                        Allow people to send questions/comments via
-                                    </label>
-                                    <br />
-
-                                    <input
-                                        className="inputHandele"
-                                        type="radio"
-                                        id="defaultUnchecked4"
-                                    // name="defaultExampleRadios"
-                                    />
-                                    <label className="radioText" for="defaultUnchecked4">
-                                        Contained raw HTML entered in the text area below
-                                    </label>
-                                    <br />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   <div>
+                       <h3>CREATE PAGE</h3>
+                   </div>
+                   <div className="pageDesc mt-3">
+                       <h6>[Page Description]</h6>
+                       <p>[Subtitle]</p>
+                   </div>
                     <div className="row">
                         <div className="col-md-2">
-                            <label className="Pdesc">Web Page Details</label>
+                            <h5>Other Meta</h5>
                         </div>
-                        <div className="col-md-10" style={{ marginTop: "63.15px" }}>
-                            <input
-                                className="inputHandele"
-                                type="text"
-                                placeholder="Page title"
-                                style={{ display: "inline-block" }}
-                            />
-                            <div className="tooltip">
-                                (?)
-              <div
-                                    className="tooltiptext"
-                                    style={{
-                                        zIndex: 2000
-                                    }}
-                                >
-                                    help text
-              </div>
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="pagetitle" placeholder="Place title" />
                             </div>
-                            <br />
-                            <input
-                                className="inputHandele"
-                                type="text"
-                                placeholder="Page URL"
-                                style={{ display: "inline-block" }}
-                            />
-                            <div className="tooltip">
-                                (?)
-              <div
-                                    className="tooltiptext"
-                                    style={{
-                                        zIndex: 2000
-                                    }}
-                                >
-                                    help text
-              </div>
+                            <div className="form-group">
+                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="keywords" />
                             </div>
-                            <input
-                                className="inputHandele"
-                                type="text"
-                                placeholder="Content"
-                                style={{ height: "82px" }}
+                            <div className="form-group">
+                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="description" placeholder="Description" />
+                            </div>
+                            <div className="form-group">
+                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="s. keywords" />
+                            </div>
+                            <div className="md-form active-purple-2 mb-3">
+                                <select className="templateLayout form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                    <option style={{ backgroundColor: "red" }}>Template Layout</option>
+                                </select>
+                                <i className="fa fa-angle-down"></i>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="displayashome" />
+                                <label class="form-check-label" for="displayhome">
+                                    Display as home
+                                </label>
+                            </div>
+                        </div>
+                        <div className="col-md-1">
+                            <h5>Link</h5>
+                        </div>    
+                        <div className="col-md-5">
+                            <div>
+                                <input type="radio" id="huey" name="drone" value="huey" className="radioInput" />
+                                <label className="radioLabel" for="huey">Content from editor below</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="dewey" name="drone" value="dewey" className="radioInput" />
+                                <label className="radioLabel" for="dewey">Link to website or doc</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="louie" name="drone" value="louie" className="radioInput"/>
+                                <label className="radioLabel" for="louie">Display content from RSS</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="louie" name="drone" value="louie" className="radioInput"/>
+                                <label className="radioLabel" for="louie">Allow people to send questions/comments via...                           </label>
+                            </div>
+                            <div>
+                                <input type="radio" id="louie" name="drone" value="louie" className="radioInput"/>
+                                <label className="radioLabel" for="louie">Contain raw HTML entered in the textarea below</label>
+                            </div>
+                        </div>
+                        </div>
+                            <div>
+                                <h5>Web Page Details</h5>
+                            </div>
+                            <div className="col-md-6 ml-5">
+                                <div className="form-group">
+                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="pagetitle" placeholder="Page title" />
+                                </div>
+                                <div className="form-group">
+                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="Page Url" />
+                                </div>
+                                <div className="form-group">
+                                    <textarea type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="description" placeholder="Content" />
+                                </div>
+                                <div className="form-group">
+                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="Page n zone" />
+                                </div>
+                                <div className="form-group">
+                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="URL" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <h5>Page content</h5>
+                            </div>
+                    <div className="row mt-3">
+                        <div className="col-8 ml-5">
+                            <Editor
+                                editorState={this.state.editorChange}
+                                wrapperClassName="demo-wrapper"
+                                editorClassName="demo-editor"
+                                onEditorStateChange={this.editorChange}
+                                className="card bg-light"
                             />
-                            <input className="inputHandele" type="text" placeholder="Page in zone" />
-                            <input className="inputHandele" type="text" placeholder="URL" />
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-1.5">
-                            <label className="Pdesc">Page Content</label>
+                        <div className="col-md-3">
+                             <h5>Navigation menu option</h5>
                         </div>
-                        <div className="col-md-10.5 boxClass" />
-                    </div>
-                    <div className=" mainBox" />
-                    <div className="row">
-                        <div className="col-md-2">
-                            <label className="Pdesc">Navigation menu options</label>
+                        <div className="col-md-7">
+                            <div>
+                                <input className="radioInput" type="checkbox" />
+                                <label className="radioLabel">Nav Menu</label>
+                                <span className="m-3">(show this in nav)</span>
+                                <span>(?)</span>
+                            </div>
                         </div>
-                        <div className="col-md-10">
-                            <input 
-                                className="inputHandele"
-                                type="checkbox"
-                                style={{ marginRight: "13px", marginTop: "33px" }}
-                                id="navmenu"
-                            />
-                            <label for="navmenu" style={{ color: "#43425D" }}>
-                                Nav menu<span className="spanType">(show this in nav)</span>
-                                <span className="tooltip">
-                                    (?)<span className="tooltiptext">help text</span>
-                                </span>
-                            </label>
-                            <br />
-                            <label
-                                style={{
-                                    fontSize: "14px",
-                                    fontWeight: "bold",
-                                    color: "#555555",
-                                    marginTop: "27px",
-                                    marginBottom: "17px"
-                                }}
-                            >
-                                Parent page
-            </label>
-                            <br />
-                            <input className="inputHandele" type="checkbox" id="none" />
-                            <label for="none" className="inputCheck">
-                                {" "}
-                                none
-            </label>
-                            <br />
-                            <input className="inputHandele" type="checkbox" id="none" />
-                            <label for="none" className="inputCheck">
-                                {" "}
-                                Blog
-            </label>
-                            <br />
-                            <input className="inputHandele" type="checkbox" id="none" />
-                            <label for="none" className="inputCheck">
-                                {" "}
-                                Contact Us
-            </label>
-                            <br />
-                            <input className="inputHandele" type="checkbox" id="none" />
-                            <label for="none" className="inputCheck">
-                                {" "}
-                                Home
-            </label>
-                            <br />
-                            <input className="inputHandele" type="checkbox" id="none" />
-                            <label for="none" className="inputCheck">
-                                {" "}
-                                Shop
-            </label>
-                            <br />
-                            <input className="inputHandele" type="checkbox" id="none" />
-                            <label for="none" className="inputCheck">
-                                {" "}
-                                News
-            </label>
-                            <br />
+                    </div>    
+                    <div >
+                        <div className="col-md-12">
+                            <h6>Parent page</h6>
+                        </div>
+                        <div>
+                            <input className="radioInput" type="checkbox" />
+                            <label className="radioLabel">None</label>
+                        </div>
+                        <div>
+                            <input className="radioInput" type="checkbox" />
+                            <label className="radioLabel">Blog</label>
+                        </div>
+                        <div>
+                            <input className="radioInput" type="checkbox" />
+                            <label className="radioLabel">Contact us</label>
+                        </div>
+                        <div>
+                            <input className="radioInput" type="checkbox" />
+                            <label className="radioLabel">Home</label>
+                        </div>
+                        <div>
+                            <input className="radioInput" type="checkbox" />
+                            <label className="radioLabel">Shop</label>
+                        </div>
+                        <div>
+                            <input className="radioInput" type="checkbox" />
+                            <label className="radioLabel">Nav Menu</label>
                         </div>
                     </div>
                 </Dashboard>
