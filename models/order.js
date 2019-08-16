@@ -4,7 +4,7 @@ const sequelize = require('../config/mysql');
 
 const Orders = sequelize.define('orders',{
     orderId: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
@@ -13,7 +13,7 @@ const Orders = sequelize.define('orders',{
         type: Sequelize.STRING
     },
     discount: {
-        type: Sequelize.NUMBER
+        type: Sequelize.FLOAT
     },
     email: {
         type: Sequelize.STRING

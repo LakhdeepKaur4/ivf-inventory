@@ -4,13 +4,13 @@ const sequelize = require('../config/mysql');
 
 const Payments = sequelize.define('payments',{
     paymentId: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
     amount: {
-        type: Sequelize.NUMBER
+        type: Sequelize.FLOAT
     },
     displayName: {
         type: Sequelize.STRING

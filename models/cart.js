@@ -1,30 +1,26 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
+const Sequelize = require('sequelize');
 
-var cartProductsSchema = new Schema({
-    currency: {
-        type: String,
-        required: true,
+const sequelize = require('../config/mysql');
+
+const Carts = sequelize.define('carts',{
+    cartId: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
     },
-    email: {
-        type: Intl,
-        trim: true
+    currency: {
+        type: Sequelize.STRING
     },
     discount: {
-        type: Boolean
+        type: Sequelize.FLOAT
     },
-    currency: {
-        type: String,
-        required: true
-    },
-    productVendor: {
-        type: String,
-        required: true
+    email: {
+        type: Sequelize.STRING
     },
     createdAt: {
-        type: Date,
-      },
-})
+        type: Sequelize.DATE
+    }
+});
 
-module.exports = mongoose.model('CartProducts', cartProductsSchema)
-
+module.exports = Carts;

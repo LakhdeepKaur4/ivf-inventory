@@ -4,7 +4,7 @@ const sequelize = require('../config/mysql');
 
 const Customers = sequelize.define('customers',{
     customerId: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true

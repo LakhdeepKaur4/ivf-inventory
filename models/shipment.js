@@ -4,7 +4,7 @@ const sequelize = require('../config/mysql');
 
 const Shipments = sequelize.define('shipments',{
     shipmentId: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
