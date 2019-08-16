@@ -25,6 +25,41 @@
     height: 29px;
 }
 
+.addDiv{
+    top: 677px;
+    left: 953px;
+    width: 70px;
+    height: 24px;
+    border: 1px solid #999999;
+    border-radius: 4px;
+    opacity: 1;
+}
+
+.addTag{
+    top: 683px;
+    left: 964px;
+    width: 37px;
+    height: 13px;
+    text-align: left;
+    font: Regular 10px/20px Muli;
+    letter-spacing: 0.6px;
+    color: #999999;
+    opacity: 1;
+}
+
+
+.fafa-plus{
+    top: 685px;
+    left: 1007px;
+    width: 8px;
+    height: 10px;
+    text-align: left;
+    font: Light 10px/40px Font Awesome 5 Pro;
+    letter-spacing: 0;
+    color: #999999;
+    opacity: 1;
+}
+
 .hidden{
     opacity: 0;
     visibility: hidden;
@@ -50,6 +85,7 @@
     background-color: #FFFFFF;
 
 }
+
 
 
 /* product variant start*/
