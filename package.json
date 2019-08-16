@@ -57,7 +57,7 @@
     "mysql2": "^1.6.5",
     "nodemon": "^1.19.1",
     "q": "^1.5.0",
-    "sequelize": "^5.13.1",
+    "sequelize": "^5.15.0",
     "short-id": "0.1.0-1",
     "simpl-schema": "^1.5.5"
   }
