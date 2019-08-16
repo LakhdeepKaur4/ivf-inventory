@@ -1,14 +1,17 @@
-/**
- * Created by daman on 11/27/2015.
- */
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const Sequelize = require('sequelize');
 
-let orderSchema = new Schema({
-  transaction: Object,
-  orderCost: Number,
-  issueDate: Date,
-  effectiveDate: Date,
-  user: Object
-})
-module.exports = mongoose.model('Order', orderSchema)
+const sequelize = require('../config/mysql');
+
+const Orders = sequelize.define('orders',{
+    orderId: {
+        type: Sequelize.STRING,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
+    dateCreated: {
+        type: Sequelize.DATE
+    }
+});
+
+module.exports = Orders;

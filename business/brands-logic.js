@@ -158,7 +158,9 @@ exports.disableBrand = (req, res, next) => {
 exports.multiEnableOrDisable = (req, res, next) => {
   try {
     const body = req.body;
-    if (body.status === "Enabled") {
+    const response = [];
+    
+    if (body.status === "enabled") {
       body.status = true;
     } else {
       body.status = false;
