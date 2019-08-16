@@ -2,31 +2,34 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../config/mysql');
 
-const Addresses = sequelize.define('addresses',{
-    addressId: {
+const CartProducts = sequelize.define('cartProducts',{
+    cartProductId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    address1: {
+    SKU: {
         type: Sequelize.STRING
     },
-    address2: {
+    quantity: {
+        type: Sequelize.INTEGER
+    },
+    price: {
+        type: Sequelize.FLOAT
+    },
+    currency: {
         type: Sequelize.STRING
     },
-    city: {
+    productVendor: {
         type: Sequelize.STRING
     },
-    country: {
+    productTitle: {
         type: Sequelize.STRING
     },
-    postalCode: {
-        type: Sequelize.STRING
-    },
-    region: {
+    variantTitle: {
         type: Sequelize.STRING
     }
 });
 
-module.exports = Addresses;
+module.exports = CartProducts;
