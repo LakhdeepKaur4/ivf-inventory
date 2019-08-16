@@ -12,6 +12,7 @@
 var express = require('express');
 var app = express();
 const cors = require('cors');
+const Sequelize = require('sequelize');
 var bodyParser = require('body-parser');
 const path = require('path');
 // var mongoose = require('mongoose');
@@ -53,6 +54,17 @@ app.get('/', function(req, res){
 var routes = require('./routes');
 
 app.use('/api', routes);
+
+const mysqlDB = require('./config/mysql');
+require('./config/relations');
+
+mysqlDB.sync({force:false})
+.then(res => {
+    console.log(res);
+})
+.catch(err => {
+    console.log(err);
+})
 
 app.listen(port, () => console.info(`server started on port ${port} (${env})`));
 

@@ -247,7 +247,7 @@ exports.getProductByCategory = async (req, res, next) => {
   try {
     const categoryId = req.params.id;
     console.log(categoryId);
-    let category = await Item.find({ 'category': { $in: [ObjectId(categoryId)] } }, { new: true }).populate("category");
+    let category = await Item.find({ 'category': { $in: [ObjectId(categoryId)] } },{ new: true }).populate("category");
     if (category) {
       return res.status(httpStatus.OK).send({ message: "Item by category page", item:category });
     }
