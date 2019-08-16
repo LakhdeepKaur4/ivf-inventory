@@ -187,10 +187,13 @@ exports.updateItems = async (req, res, next) => {
 
 exports.getVariantsByProductId = async (req, res, next) => {
   try {
-    // console.log("****");
-    let itemVariant = await ItemVariant.find({ 'ancestors': { $in: [ObjectId(req.params.id)] } }, { new: true }).populate("ancestors");
-    if (itemVariant) {
-      return res.status(httpStatus.OK).send({ message: "Item Variant Page", itemVariant });
+    console.log("****");
+    let item = await ItemVariant.find({ 'ancestors': { $in: [ObjectId(req.params.id)] } }, { new: true }).populate("ancestors", "sku").exec((err, resp) => {
+      if (err) console.log(err);
+      else console.log("))))", resp)
+    });
+    if (item) {
+      return res.status(httpStatus.OK).send({ message: "Item Page", item });
     }
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error.message });
@@ -246,13 +249,12 @@ exports.getProductByBrand = async (req, res, next) => {
 exports.getProductByCategory = async (req, res, next) => {
   try {
     const categoryId = req.params.id;
-    console.log(categoryId);
-    let category = await Item.find({ 'category': { $in: [ObjectId(categoryId)] } },{ new: true }).populate("category");
+    let category = await Item.find({ 'category': [ObjectId(categoryId)] }, { new: true }).select({ "name": 1, "shopId": 1, "description": 1, "variants": 1, "productType": 1, "originCountry": 1 }).populate('category', 'name');
     if (category) {
-      return res.status(httpStatus.OK).send({ message: "Item by category page", item:category });
+      return res.status(httpStatus.OK).send({ message: "Item by category page", item: category });
     }
   } catch (error) {
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error });
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
   }
 }
 
