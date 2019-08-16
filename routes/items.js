@@ -8,8 +8,18 @@ router.route("/").post(controller.createItems);
 
 router.route("/").get(controller.getItems);
 
-router.route("/:id").put(controller.updateItems);
+router.route("/:id").get(controller.getVariantsByProductId);
 
-router.route("/:id").delete(controller.deleteItems);
+router.route("/:itemId").put(controller.updateItems);
+ 
+router.route("/:itemId/:variantId").delete(controller.deleteItems);
+ 
+router.route("/brand/:id").get(controller.getProductByBrand);
+
+router.route("/category/:id").get(controller.getProductByCategory);
+
+router.route("/variant/:id").put(controller.updateVariant);
+
+router.route("/variant/:id").delete(controller.deleteVariants);
 
 module.exports = router;
