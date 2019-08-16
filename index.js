@@ -60,10 +60,10 @@ require('./config/relations');
 
 mysqlDB.sync({force:false})
 .then(res => {
-    console.log(res);
+    console.log('Connection Succeded');
 })
 .catch(err => {
-    console.log(err);
+    console.log('MySql connection error',err);
 })
 
 app.listen(port, () => console.info(`server started on port ${port} (${env})`));
