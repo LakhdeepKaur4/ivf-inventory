@@ -15,7 +15,8 @@ relations.orders.belongsTo(relations.shipments, { foreignKey: 'shipmentId' });
 relations.addresses.belongsTo(relations.customers, { foreignKey: 'customerId' });
 relations.customers.hasMany(relations.addresses, { foreignKey: 'customerId' });
 relations.shipments.belongsTo(relations.addresses, { foreignKey: 'addressId' });
-relations.cartProducts.belongsTo(relations.carts), { foreignKey: 'cartId' };
+relations.cartProducts.belongsTo(relations.carts, { foreignKey: 'cartId' });
+relations.carts.hasMany(relations.cartProducts, { foreignKey: 'cartId' })
 relations.orders.belongsTo(relations.carts, { foreignKey: 'cartId' });
 
 module.exports = relations;
