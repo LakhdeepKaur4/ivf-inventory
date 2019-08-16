@@ -14,6 +14,8 @@ router.route("/enable/:id").put(controller.enableBrand);
 
 router.route("/disable/:id").put(controller.disableBrand);
 
+router.route("/multiselect").put(controller.multiEnableOrDisable);
+
 router.route("/:id").put(controller.updateBrand);
 
 router.route("/:id").delete(controller.deleteBrand);
