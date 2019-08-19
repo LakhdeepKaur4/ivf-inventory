@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {createProductDetails, postProduct} from '../../actions/createProductAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 
@@ -8,11 +11,29 @@ class ProductVariant extends Component {
         super(props);
 
         this.state = {
-            file: '',
-            imagePreviewUrl: ''
+            fileName: '',
+            picture: '',
+            variant1:'',
+            optionTitle:'',
+            originCountry:'',
+            width:'',
+            length:'',
+            height:'',
+            weight:''
+
         }
     }
 
+    componentDidMount=()=>{
+        this.props.createProductDetails();
+    }
+
+    onChange=(e)=>{
+        
+        this.setState({[e.target.name]: e.target.value});
+     }
+
+ 
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -27,22 +48,61 @@ class ProductVariant extends Component {
 
         reader.onloadend = () => {
             this.setState({
-                file: file,
-                imagePreviewUrl: reader.result
+                fileName: file.name,
+                picture: reader.result
             });
         }
         reader.readAsDataURL(file)
     }
 
+    displayVariantForm = () => {
+        this.props.history.push("/productVariant");
+      };
+    
+    displayOptionForm = () => {
+        this.props.history.push("/productVariantOption");
+      };
+    
+    previousForm = () => {
+        this.props.history.push("/createProduct");
+    };
+
+    formSubmit = () => {
+        console.log(this.state, "submit=================")
+        this.props.postProduct(this.state);
+    }
+
+    
+
+    getProductData=({getProduct})=>{
+        if(getProduct){
+   
+           return getProduct.map(item=>{
+                return(
+                                  <tr key={item.orderId}>
+                                       <td><span className="orderNo">{item.orderNo}</span></td>
+                                       <td>image</td>
+                                       <td>{item.title}</td>
+                                       <td>{item.price}</td>
+                                       <td>{item.qty}</td>
+                                       {(item.visible==="Visible") ? <td style={{color:'green'}}> {item.visible} </td> : <td style ={{color:'red'}}> {item.visible}</td> }
+                                       <td><i className="fa fa-edit" aria-hidden="true"></i></td>
+                                   </tr> 
+                )
+           })
+        }
+   }
+
     render() {
-        let { imagePreviewUrl } = this.state;
+        let { picture } = this.state;
         let $imagePreview = null;
-        // $imagePreview = (<img src={imagePreviewUrl} style={{width:"60px"}}/>);
-        if (imagePreviewUrl) {
-            $imagePreview = (<img src={imagePreviewUrl} style={{ width: "60px" }} />);
+    
+        if (picture) {
+            $imagePreview = (<img src={picture} style={{ width: "60px" }} />);
         } else {
             $imagePreview = (<div className="previewText "><label className="ml-3 ">image</label></div>);
         }
+       
 
         return (
             <div>
@@ -57,14 +117,14 @@ class ProductVariant extends Component {
                                 <div className="col-sm">
                                     <label className="ml-3">Actions<span ><i className="fas fa-chevron-circle-down" aria-hidden="true" style={{ marginLeft: "14px" }}></i></span></label>
                                     <div className="card mainCard border border-0">
-                                        <div className="variants">
-                                            <h5>Variants<span><i className="fa fa-plus" aria-hidden="true" style={{ float: 'right' }}></i></span></h5>
-                                            <div>Variant1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
+                                    <div className="variants">
+                                            <h5>Variants<span onClick={this.displayVariantForm}><i className="fa fa-plus" aria-hidden="true" style={{ float: 'right' }}></i></span></h5>
+                                            <div>Variant 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
                                                 <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
                                                 <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
-                                                <div className="h5 small"><span className="text-danger">Hidden</span> <span>- L SIZE</span></div>
+                                                <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color green</span></div>
                                                 <div>Option 2<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
-                                                <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- L SIZE</span></div>
+                                                <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- color red</span></div>
                                             </div>
                                             <div>Variant1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
                                                 <div className="h5 small"><span className="text-danger">Hidden</span> <span>- L SIZE</span></div>
@@ -75,22 +135,22 @@ class ProductVariant extends Component {
                                 <div className="col-sm">
                                     <label><h5>Details</h5></label>
                                     <div className=" text-dark">
-                                        <form>
+                                        <form onSubmit={this.formSubmit}>
                                             <div className="h5 small text-danger">Title</div>
                                             <div className="form-row">
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" placeholder="Variant 1" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" name="variant1" onChange={this.onChange} placeholder="Variant 1" />
                                                 </div>
                                             </div>
                                             <div className="form-row">
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" placeholder="Option Title" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="optionTitle" name="optionTitle" onChange={this.onChange} placeholder="Option Title" />
                                                 </div>
                                             </div>
                                             <div className="form-row">
 
                                                 <div className="form-group  mb-3" style={{ width: '225px' }}>
-                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " name="originCountry" onChange={this.onChange} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
                                                         <option>Origin country</option>
                                                         <option>INDIA</option>
                                                         <option>RUSSIA</option>
@@ -98,18 +158,18 @@ class ProductVariant extends Component {
                                                     <i className="fa fa-angle-down"></i></div>
                                                 <div className="form-row col-12">
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Width" style={{ marginLeft: '-4px' }} />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="width" name="width" onChange={this.onChange} placeholder="Width" style={{ marginLeft: '-4px' }} />
                                                     </div>
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Length" />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="length" name="length" onChange={this.onChange} placeholder="Length" />
                                                     </div>
                                                 </div>
                                                 <div className="form-row col-12">
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Height" style={{ marginLeft: '-4px' }} />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="height" name="height" onChange={this.onChange} placeholder="Height" style={{ marginLeft: '-4px' }} />
                                                     </div>
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Weight" />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="weigth" name="weight" onChange={this.onChange} placeholder="Weight" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,7 +239,7 @@ class ProductVariant extends Component {
                     </div>
                     <div className="float-right" style={{ width: '618px' }}>
                         <div className="card table  text-muted" >
-                            <table>
+                        <table>
                                 <thead>
                                     <tr>
                                         <th>ORDER</th>
@@ -188,25 +248,18 @@ class ProductVariant extends Component {
                                         <th>PRICE</th>
                                         <th>QTY</th>
                                         <th>VISIBLE</th>
-                                        <th><i className="fa fa-plus" aria-hidden="true"></i></th>
+                                        <th><span  onClick={this.displayOptionForm}><i className="fa fa-plus" aria-hidden="true"></i></span></th>
                                     </tr>
                                 </thead>
                                 <tbody style={{ backgroundColor: "rgb(242,244,247)", opacity: "50%" }}>
-                                    <tr>
-                                    <td><span className="orderNo">11</span></td>
-                                    <td>image</td>
-                                    <td>Green T-shirt with badass cartoon design</td>
-                                    <td>$ 29.99</td>
-                                    <td>24</td>
-                                    <td>Visible</td>
-                                    <td><i className="fa fa-edit" aria-hidden="true"></i></td>
-                                    </tr>
+                                    {this.getProductData(this.props.CreateProductReducer)}
+                                  
                                 </tbody>
                             </table>
                         </div>
                         <div className="float-right m-5">
-                            <button className="button-back mr-3"><span className="text-btn-back">BACK</span></button>
-                            <button className="button-variant"><span className="text-btn">CREATE PRODUCT</span></button>
+                            <button  className="button-back mr-3" onClick={this.previousForm}><span className="text-btn-back">BACK</span></button>
+                            <button type="submit" className="button-variant" onClick={this.formSubmit}><span className="text-btn">CREATE VARIANT</span></button>
                         </div>
                     </div>
                 </Dashboard>
@@ -215,5 +268,16 @@ class ProductVariant extends Component {
     }
 }
 
-export default ProductVariant;
+function mapStateToProps(state){
+    console.log(state)
+  return{
+     CreateProductReducer: state.CreateProductReducer      
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({createProductDetails,postProduct}, dispatch)
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ProductVariant);
 

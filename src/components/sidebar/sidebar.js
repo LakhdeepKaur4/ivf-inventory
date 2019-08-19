@@ -100,11 +100,11 @@ class Sidebar extends Component {
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className="collapse list-unstyled sidebarColl" id="provisionSubmenu">
                                 <li>
-                                    {(this.state.pageOn === 'dataToSTore') ? <Link to="/dataToSTore" onClick={this.clicked('#provisionSubmenuLink')}>
+                                    {(this.state.pageOn === 'dataToSTore') ? <Link to="/pushProductsView" onClick={this.clicked('#provisionSubmenuLink')}>
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Push Products</span>
-                                    </Link> : <Link to="/dataToSTore" onClick={this.clicked('#provisionSubmenuLink')}>
+                                    </Link> : <Link to="/pushProductsView" onClick={this.clicked('#provisionSubmenuLink')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Push Products

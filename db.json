@@ -51,6 +51,7 @@
     "products": [
       { 
         "id":"1",
+        "flag":"1",
         "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "sku":"SNT25",
         "stock":16,
@@ -59,6 +60,7 @@
       },
       { 
         "id":"2",
+        "flag":"2",
         "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "sku":"SNT25",
         "stock":32,
@@ -67,6 +69,7 @@
       },
       { 
         "id":"3",
+        "flag":"3",
         "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "sku":"SNT25",
         "stock":16,
@@ -75,6 +78,7 @@
       },
       { 
         "id":"4",
+        "flag":"4",
         "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "sku":"SNT25",
         "stock":32,
@@ -83,6 +87,7 @@
       },
       { 
         "id":"5",
+        "flag":"5",
         "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
         "sku":"SNT25",
         "stock":32,

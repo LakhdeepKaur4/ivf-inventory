@@ -18,16 +18,17 @@ class ProductsView extends Component{
             totalItemsCount:'',
             filterName:'name',
             sortVal:false,
+            visible:true,
             ids:[],
             checked:false
             
         }
     }
 
-    btnClick=()=>{
+    btnClick=(id,flag)=>{
         this.setState({checked:true})
         console.log(this.state.checked)
-
+            this.setState({visible:!this.state.visible})
     }
     
     componentDidMount(){
@@ -65,10 +66,8 @@ class ProductsView extends Component{
 
     onSortInv=()=>{
         this.setState(()=>{
-            return {   sortVal: false,
-                        
-                    }});
-                           
+            return {   sortVal: false,     
+                    }});         
         }
 
     onToggleDropDown = (option) => {
@@ -101,10 +100,9 @@ class ProductsView extends Component{
                 <td>{item.stock}</td>
                 <td>{item.name}</td>
                 <td>{item.price} $</td>
-                <td>
-                    
-                    <div><button class="button button1 active" onClick={this.btnClick}>Visible</button></div>
-                    <div><button class="button button2" onClick={this.btnClick}>Invisible</button></div>
+                <td>    
+                <div><button class="button button1 active" onClick={this.btnClick}>{this.state.visible?'Visible':'Invisible'}</button></div>
+                    <div><button class="button button2" onClick={this.btnClick}>Bookmark</button></div>
                    </td>
                 <td><b>...</b></td>
                 </tr>
