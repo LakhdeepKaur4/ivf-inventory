@@ -10,6 +10,7 @@ import CreateCategory from './createCategory/createCategory';
 import EditCustomerOrderReducer from './editCustomerOrderReducer/editCustomerOrderReducer';
 import DataToStoreReducer from './dataToStoreReducer/dataToStoreReducer';
 import ProductItemReducer from './productItemReducer/productItemReducer';
+import CreateProductReducer from './createProductReducer/createProductReducer';
 import PushDataToStore from './pushDataToStore/pushDataToStore';
 import BlogReducer from './blogReducer/blogReducer';
 const rootReducer = combineReducers({
@@ -25,6 +26,8 @@ const rootReducer = combineReducers({
    DataToStoreReducer,
    ProductItemReducer,
    PushDataToStore,
-   BlogReducer
+   BlogReducer,
+   CreateProductReducer
+   
 })
 export default rootReducer;

@@ -14,7 +14,7 @@ import Sidebar from './components/sidebar/sidebar';
 import EditCustomerOrder from './containers/editCustomerOrder/editCustomerOrder';
 import Products from './containers/products/products';
 import AddBrands from './containers/AddBrands/addBrands'
-import AddCategory from './containers/categories/categories';
+import Categories from './containers/categories/categories';
 import Header from './components/header/header';
 import createCategory from './containers/createCategory/createCategory';
 import DataToStore from './containers/dataToStore/dataToStore';
@@ -22,7 +22,6 @@ import EditBrand from './containers/EditBrand/editBrand'
 import CreateProduct from './containers/createProduct/createProduct';
 import ProductVariant from './containers/productVariant/productVariant';
 import ProductVariantOption from './containers/productVariantOption/productVariantOption';
-
 import FileStructure from './components/fileStructure/fileStructure';
 import PushDataToStore from './containers/pushDataToStore/pushDataToStore';
 import CreatePage from './containers/createPage/CreatePage';
@@ -61,7 +60,7 @@ class App extends Component {
             <Route path="/editanorder" component={EditOrder} />
             <Route path="/addbrands" component={AddBrands}/>
             <Route path="/products" component={Products} />
-            <Route path="/categories" component={AddCategory} />
+            <Route path="/categories" component={Categories} />
             <Route path="/editBrand/:id" component={EditBrand}/>
             <Route path="/blogPost" component={BlogPost}/>
             <Route path="/blogSettings" component={BlogSettings}/>
