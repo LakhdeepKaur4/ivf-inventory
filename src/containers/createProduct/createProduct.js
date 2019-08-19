@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Dashboard from '../../components/dashboard/dashboard';
 import { createProductDetails,postProduct } from '../../actions/createProductAction';
+import {getBrands} from '../../actions/brandsAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { WithContext as ReactTags } from 'react-tag-input';
+import _ from 'underscore';
 import './createProduct.css';
+
 
 
 
@@ -14,35 +17,35 @@ class CreateProduct extends Component {
         super(props);
 
         this.state = {
+            brandId:'',
             fileName: '',
             picture: '',
-            name: '',
+            name:'',
+            title: '',
             subTitle: '',
             vendor: '',
             description: '',
             originCountry: '',
             template: '',
-            tags: [
-                { id: "shirt", text: "shirt" }
-            ],
-            tagsDetail: [
-                { id: "lorem ipsum", text: "lorem ipsum" }
-            ],
-            tagsInfo: [
-                { id: "dolor sit amet", text: "dolor sit amet" }
-            ],
+            hashtags: [],
+            tagsDetail: [],
+            tagsInfo: [],
 
 
 
         }
     }
 
-
+    componentDidMount() {
+        
+        this.props.getBrands();
+        this.props.createProductDetails();
+      }
 
     handleDelete = (i) => {
-        const { tags } = this.state;
+        const { hashtags } = this.state;
         this.setState({
-            tags: tags.filter((tag, index) => index !== i),
+            hashtags: hashtags.filter((tag, index) => index !== i),
         });
     }
 
@@ -61,7 +64,7 @@ class CreateProduct extends Component {
     }
 
     handleAddition = (tag) => {
-        this.setState(state => ({ tags: [...state.tags, tag] }));
+        this.setState(state => ({ hashtags: [...state.hashtags, tag] }));
     }
 
     handleAdditionDetail = (tag) => {
@@ -72,14 +75,14 @@ class CreateProduct extends Component {
     }
 
     handleDrag = (tag, currPos, newPos) => {
-        const tags = [...this.state.tags];
+        const tags = [...this.state.hashtags];
         const newTags = tags.slice();
 
         newTags.splice(currPos, 1);
         newTags.splice(newPos, 0, tag);
 
         // re-render
-        this.setState({ tags: newTags });
+        this.setState({ hashtags: newTags });
     }
 
     handleDragDetail = (tag, currPos, newPos) => {
@@ -105,14 +108,20 @@ class CreateProduct extends Component {
     }
 
 
-
-    componentDidMount = () => {
-        this.props.createProductDetails();
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
     }
 
-    onChange = (e) => {
-      
-        this.setState({ [e.target.name]: e.target.value });
+
+    onChangeBrand = (e) => {
+        let selected= e.target.value
+        console.log(selected)
+        
+        this.setState({
+            brandId: selected
+        })
+        
+
     }
 
  
@@ -147,8 +156,7 @@ class CreateProduct extends Component {
     };
 
     formSubmit = () => {
-        
-        console.log(this.state, "submit=================")
+        console.log(this.state,"form=========")
         this.props.postProduct(this.state);
     }
 
@@ -170,6 +178,26 @@ class CreateProduct extends Component {
             })
         }
     }
+
+    
+    // brand dropdown
+    brandName=({brandsList})=>{
+        if(brandsList){
+           return(
+            brandsList.map((item) =>{
+                   return(
+                       <option key={item._id} value={item._id}>
+                        {item.name}
+                       </option>
+                   )
+               }
+               )
+           )
+
+        }
+       
+    }
+    
 
 
     render() {
@@ -227,6 +255,19 @@ class CreateProduct extends Component {
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" name="name" placeholder="T-shirt Sportwear Nike" onChange={this.onChange} />
                                                 </div>
                                             </div>
+
+                                            <div className="form-group  mb-3" style={{ width: '225px' }}>
+                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " placeholder="brand" name="_id"  onChange={this.onChangeBrand} style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                    <option selected="true" disabled="disabled">Select Brands</option>
+                                                        {this.brandName(this.props.BrandsReducer)}
+                                                    </select>
+                                                    <i className="fa fa-angle-down"></i>
+                                                </div>
+
+                                                {/* <Input type="select" defaultValue='no-value' name="countryName" onChange={this.onChangeCountry}>
+                                                <DefaultSelect/>
+                                                    {this.countryName(this.props.cityMasterReducer)}
+                                                </Input > */}
                                             <div className="form-row">
                                                 <div className="form-group">
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" name="subTitle" placeholder="Subtitle" onChange={this.onChange} />
@@ -319,7 +360,7 @@ class CreateProduct extends Component {
                             <div className="col-4 text-muted">
                                 <h5>Tags</h5>
                                 <div>
-                                    <ReactTags tags={this.state.tags}
+                                    <ReactTags tags={this.state.hashtags}
                                         handleDelete={this.handleDelete}
                                         handleAddition={this.handleAddition}
                                         handleDrag={this.handleDrag}
@@ -388,14 +429,16 @@ class CreateProduct extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
+   
     return {
-        CreateProductReducer: state.CreateProductReducer
+        CreateProductReducer: state.CreateProductReducer,
+        BrandsReducer: state.BrandsReducer
+    
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createProductDetails,postProduct }, dispatch)
+    return bindActionCreators({ createProductDetails,postProduct,getBrands }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct);

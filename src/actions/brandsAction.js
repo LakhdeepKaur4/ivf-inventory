@@ -13,6 +13,7 @@ import {
 } from "../actionCreators/index";
 
 export function getBrands() {
+  
   return dispatch => {
     axios
       .get(BRANDURL)

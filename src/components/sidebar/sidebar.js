@@ -22,7 +22,7 @@ class Sidebar extends Component {
     }
 
     clicked = link => {
-        console.log(link);
+        // console.log(link);
         // this.setState({link: link});
         localStorage.setItem('link',link);
     }

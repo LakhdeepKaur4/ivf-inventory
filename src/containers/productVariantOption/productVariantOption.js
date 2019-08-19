@@ -136,6 +136,7 @@ class ProductVariantOption extends Component {
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" placeholder="Option 1" />
                                                 </div>
                                             </div>
+
                                             <div className="form-row">
                                                 <div className="form-group">
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" placeholder="Option Title" />
@@ -149,7 +150,8 @@ class ProductVariantOption extends Component {
                                                         <option>U.K</option>
                                                         <option>RUSSIA</option>
                                                     </select>
-                                                    <i className="fa fa-angle-down"></i></div>
+                                                    <i className="fa fa-angle-down"></i>
+                                                </div>
                                                 <div className="form-row col-12">
                                                     <div className="form-group col-6">
                                                         <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Width" style={{ marginLeft: '-4px' }} />

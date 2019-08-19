@@ -35,7 +35,8 @@
     "redux-promise": "^0.6.0",
     "redux-saga": "^1.0.5",
     "redux-thunk": "^2.3.0",
-    "serve": "^11.1.0"
+    "serve": "^11.1.0",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {},
   "scripts": {
