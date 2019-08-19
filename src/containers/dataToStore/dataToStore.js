@@ -18,12 +18,21 @@ class DataToStore extends Component{
             limit:'5',
             totalItemsCount:'',
             productId:[],
-            storeIds:[]
+            storeIds:[],
+            allIds: []
         }
     }
 
     componentDidMount(){
-        this.props.getDataStore();
+        this.props.getDataStore()
+        .then(res => {
+            console.log(res)
+            let Ids = [];
+            res.payload.map(item => {
+                Ids.push(item.id);
+            })
+            this.setState({ allIds: Ids });
+        });
         console.log(location.href);
         var urlAr= location.href.split('/');
         var ids=urlAr[urlAr.length-1];
@@ -33,10 +42,14 @@ class DataToStore extends Component{
     }
 
    
-    getStoreId=(id)=>{
+    getStoreId=(id,action)=>{
         var IDS = [];
         IDS = this.state.storeIds;
-              IDS.push(id);
+        if (action === true) {
+            IDS.push(id);
+        } else {
+            IDS.splice(IDS.indexOf(id), 1);
+        }     
         this.setState({storeIds:IDS})
         console.log(this.state.storeIds);
 
@@ -49,7 +62,9 @@ class DataToStore extends Component{
            return dataStore.map((item=>{
                return(
                    <tr>
-                       <td><input type="checkbox" onClick={()=>this.getStoreId(item.id)}></input></td>
+                       <td><input type="checkbox" checked={(this.state.storeIds.includes(item.id)) ? true:false} onClick={(e)=>{
+                            let action = e.currentTarget.checked;
+                           this.getStoreId(item.id,action)}}></input></td>
                        <td><img src={item.brandImage} className="img-fluid" alt="store"/></td>
                        <td>{item.storeName}</td>
                        <td>{item.location}</td>
@@ -68,6 +83,13 @@ class DataToStore extends Component{
     navigatePrevious=()=>{
         this.props.history.push('/productsView')
     }
+    selectAll = (action) => {
+        if (action === true) {
+            this.setState({ storeIds: this.state.allIds });
+        } else {
+            this.setState({ storeIds: [] });
+        }  
+    }
    
     render(){
         let viewOrderData=
@@ -75,7 +97,9 @@ class DataToStore extends Component{
         <table className="table">
         <thead>
              <tr style={{color:"#777777"}}>
-             <th scope="col"><input type="checkbox"></input></th>
+             <th scope="col"><input type="checkbox" onClick={(e)=>{
+                this.selectAll(e.currentTarget.checked)
+             }}></input></th>
              <th scope="col">BRAND NAME</th>
              <th scope="col">STORE NAME</th>
              <th scope="col">LOCATION</th>
