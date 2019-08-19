@@ -8,6 +8,8 @@ router.route("/").post(controller.createBrand);
 
 router.route("/").get(controller.getBrands);
 
+router.route("/:id").get(controller.getBrandsByPage);
+
 router.route("/brand/:id").get(controller.getBrand);
 
 router.route("/enable/:id").put(controller.enableBrand);

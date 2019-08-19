@@ -10,6 +10,7 @@ module.exports = (router) => {
     const storesProductmappingRoutes = require('./stores-product-mapping');
     const storesBrandmappingRoutes = require('./stores-brand-mapping');
     const storesCategorymappingRoutes = require('./stores-category-mapping');
+    const ordersRoutes = require('./orders');
 
     router.use('/item', itemRoutes);
     router.use('/brands', brandsRoutes);
@@ -19,4 +20,5 @@ module.exports = (router) => {
     router.use('/map/stores/products', storesProductmappingRoutes);
     router.use('/map/stores/brands', storesBrandmappingRoutes);
     router.use('/map/stores/categories', storesCategorymappingRoutes);
+    router.use('/orders', ordersRoutes);
 }

@@ -1,5 +1,6 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 var brandsSchema = new Schema({
     name: {
@@ -24,7 +25,8 @@ var brandsSchema = new Schema({
         type: String,
         required: true
     }
-})
+});
 
-module.exports = mongoose.model('Brands', brandsSchema)
+brandsSchema.plugin(mongoosePaginate);
 
+module.exports = mongoose.model('Brands', brandsSchema);

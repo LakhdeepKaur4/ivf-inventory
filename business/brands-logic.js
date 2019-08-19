@@ -159,7 +159,7 @@ exports.multiEnableOrDisable = (req, res, next) => {
   try {
     const body = req.body;
     const response = [];
-    
+
     if (body.status === "enabled") {
       body.status = true;
     } else {
@@ -193,6 +193,20 @@ exports.multiEnableOrDisable = (req, res, next) => {
         }
       })
   } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+  }
+}
+
+exports.getBrandsByPage = (req, res, next) => {
+  try {
+    Brands.paginate({}, { page: req.params.id, limit: 10 })
+      .then(brands => {
+        return res.status(httpStatus.OK).json({ brands });
+      })
+      .catch(err => {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+      })
+  } catch (err) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
   }
 }
