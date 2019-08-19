@@ -4,6 +4,7 @@ const Order = require('../models/order');
 exports.updateOrder = async (req, res, next) => {
     try {
         const orderId = req.params.orderId;
+        console.log("&&&&&")
         const updates = req.body;
         Order.findById(orderId)
             .then((order) => {
@@ -15,3 +16,4 @@ exports.updateOrder = async (req, res, next) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
     }
 }
+
