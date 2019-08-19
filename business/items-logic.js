@@ -6,8 +6,9 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
 exports.createItems = async (req, res, next) => {
-  try {
+  try { 
     let body = req.body;
+    console.log("body",req.body);
     const item = await new Item(body).save();
     const itemId = item._id;
     let itemsUrl = "../public/images/items/";
@@ -26,7 +27,7 @@ exports.createItems = async (req, res, next) => {
           let newPath = res.slice(index + 2, res.length);
           Item.update({ _id: itemId }, { $set: { productPicture: newPath } }, (err, resp) => {
             if (err) console.error(err);
-            else console.log(resp)
+            else console.log(resp);
           });
         }
       })
@@ -72,8 +73,10 @@ exports.createItems = async (req, res, next) => {
         })
       }
     })
+    console.log("********************")
     return res.status(httpStatus.OK).json({ message: "Successfully product created" });
   } catch (error) {
+    console.log("error",error);
     return res.send(error);
   }
 };
@@ -99,7 +102,7 @@ exports.updateItems = async (req, res, next) => {
     let variantsUrl = "../public/images/variants/";
     if (body.picture !== null && body.picture != undefined) {
       index = body.fileName.lastIndexOf('.');
-      body.fileExt = body.fileName.slice(index + 1);
+      body.fileExt = body.fileName.slice(index + 1);  
       body.fileName = body.fileName.slice(0, index);
       body.picture = body.picture.split(',')[1];
       await helper.saveToDisc(itemsUrl, req.params.itemId, body.fileName, body.fileExt, body.picture, (err, res) => {
