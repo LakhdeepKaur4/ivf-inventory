@@ -48,116 +48,78 @@
       "order": "order is successfully"
     }
   ],
-    "products": [
-      { 
-        "id":"1",
-        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-        "sku":"SNT25",
-        "stock":16,
-        "name":"Donald",
-        "price":78.00
-      },
-      { 
-        "id":"2",
-        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-        "sku":"SNT25",
-        "stock":32,
-        "name":"Smith",
-        "price":85.00
-      },
-      { 
-        "id":"3",
-        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-        "sku":"SNT25",
-        "stock":16,
-        "name":"Enrique",
-        "price":78.00
-      },
-      { 
-        "id":"4",
-        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-        "sku":"SNT25",
-        "stock":32,
-        "name":"Bruce",
-        "price":85.00
-      },
-      { 
-        "id":"5",
-        "image":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-        "sku":"SNT25",
-        "stock":32,
-        "name":"Tony",
-        "price":85.00
-      }              
-    ],
-    "dataToStore":[
-      {
-        "id":"1",
-        "brandImage":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-        "storeName":"Cropp",
-        "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
-        "type":"Apparel"
-      },
-      {
-        "id":"2",
-        "brandImage":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-        "storeName":"Reserved",
-        "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
-        "type":"Shoes"
-      },
-      {
-        "id":"3",
-        "brandImage":"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-        "storeName":"Brand House",
-        "location":"United Kingdom 46 Park Avenue WIGAN WN22 5IU",
-        "type":"Sports wear"
-      }
-
-    ],
-    "brands": [
-      { 
-        "name":"Nike",
-        "logo":"nike.png",
-        "description":"Nike, Inc. is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, apparel, equipment, accessories, and services. The company is headquartered near Beaverton, Oregon, in the Portland metropolitan area",
-        "products":1378,
-        "status":"Enabled"
-      },
-      { 
-        "name":"Levis",
-        "logo":"levis.png",
-        "description":"Levi Strauss & Co. is an American clothing company known worldwide for its Levi's brand of denim jeans. It was founded in May 1853 when German immigrant Levi Strauss moved from Buttenheim, Bavaria, to San Francisco, California to open a west coast branch of his brothers' New York dry goods business",
-        "products":1267,
-        "status":"Enabled"
-      },
-      { 
-        "name":"Adidas",
-        "logo":"adidas.png",
-        "description":"Adidas AG is a multinational corporation, founded and headquartered in Herzogenaurach, Germany, that designs and manufactures shoes, clothing and accessories. It is the largest sportswear manufacturer in Europe, and the second largest in the world, after Nike.",
-        "products":"1389",
-        "status":"Disabled"
-      },
-      { 
-        "name":"H&M",
-        "logo":"hm.png",
-        "description":"Hennes & Mauritz AB is a Swedish multinational clothing-retail company known for its fast-fashion clothing for men, women, teenagers and children. H&M and its associated companies operate in 62 countries with over 4,500 stores and as of 2015 employed around 132,000 people.",
-        "products":"13782",
-        "status":"Disabled"
-      },
-      { 
-        "name":"Starbucks Coffee",
-        "logo":"starbucks.png",
-        "description":"Starbucks Corporation is an American coffee company and coffeehouse chain. Starbucks was founded in Seattle, Washington in 1971. As of early 2019, the company operates over 30,000 locations worldwide",
-        "products":"1389",
-        "status":"Enabled"
-      }
-    ],
-    "editOrder": [ 
+  "products": [
     {
-      "id":"1",
-      "image":"hm.jpeg",
-      "unallocatedPrdt":"It is a long established fact that a reader",
-      "qty":"3",
-      "items":"It is a long established fact that a reader"
+      "id": "1",
+      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "sku": "SNT25",
+      "stock": 16,
+      "name": "Donald",
+      "price": 78
+    },
+    {
+      "id": "2",
+      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "sku": "SNT25",
+      "stock": 32,
+      "name": "Smith",
+      "price": 85
+    },
+    {
+      "id": "3",
+      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "sku": "SNT25",
+      "stock": 16,
+      "name": "Enrique",
+      "price": 78
+    },
+    {
+      "id": "4",
+      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "sku": "SNT25",
+      "stock": 32,
+      "name": "Bruce",
+      "price": 85
+    },
+    {
+      "id": "5",
+      "image": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "sku": "SNT25",
+      "stock": 32,
+      "name": "Tony",
+      "price": 85
+    }
+  ],
+  "dataToStore": [
+    {
+      "id": "1",
+      "brandImage": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "storeName": "Cropp",
+      "location": "United Kingdom 46 Park Avenue WIGAN WN22 5IU",
+      "type": "Apparel"
+    },
+    {
+      "id": "2",
+      "brandImage": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "storeName": "Reserved",
+      "location": "United Kingdom 46 Park Avenue WIGAN WN22 5IU",
+      "type": "Shoes"
+    },
+    {
+      "id": "3",
+      "brandImage": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "storeName": "Brand House",
+      "location": "United Kingdom 46 Park Avenue WIGAN WN22 5IU",
+      "type": "Sports wear"
+    }
+  ],
+  "brands": [
+    {
+      "name": "Nike",
+      "logo": "nike.png",
+      "description": "Nike, Inc. is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, apparel, equipment, accessories, and services. The company is headquartered near Beaverton, Oregon, in the Portland metropolitan area",
+      "products": 1378,
+      "status": "Enabled"
     },
     {
       "name": "Levis",
@@ -188,8 +150,43 @@
       "status": "Enabled"
     }
   ],
- 
-  
+  "editOrder": [
+    {
+      "id": "1",
+      "image": "hm.jpeg",
+      "unallocatedPrdt": "It is a long established fact that a reader",
+      "qty": "3",
+      "items": "It is a long established fact that a reader"
+    },
+    {
+      "name": "Levis",
+      "logo": "levis.png",
+      "description": "Levi Strauss & Co. is an American clothing company known worldwide for its Levi's brand of denim jeans. It was founded in May 1853 when German immigrant Levi Strauss moved from Buttenheim, Bavaria, to San Francisco, California to open a west coast branch of his brothers' New York dry goods business",
+      "products": 1267,
+      "status": "Enabled"
+    },
+    {
+      "name": "Adidas",
+      "logo": "adidas.png",
+      "description": "Adidas AG is a multinational corporation, founded and headquartered in Herzogenaurach, Germany, that designs and manufactures shoes, clothing and accessories. It is the largest sportswear manufacturer in Europe, and the second largest in the world, after Nike.",
+      "products": "1389",
+      "status": "Disabled"
+    },
+    {
+      "name": "H&M",
+      "logo": "hm.png",
+      "description": "Hennes & Mauritz AB is a Swedish multinational clothing-retail company known for its fast-fashion clothing for men, women, teenagers and children. H&M and its associated companies operate in 62 countries with over 4,500 stores and as of 2015 employed around 132,000 people.",
+      "products": "13782",
+      "status": "Disabled"
+    },
+    {
+      "name": "Starbucks Coffee",
+      "logo": "starbucks.png",
+      "description": "Starbucks Corporation is an American coffee company and coffeehouse chain. Starbucks was founded in Seattle, Washington in 1971. As of early 2019, the company operates over 30,000 locations worldwide",
+      "products": "1389",
+      "status": "Enabled"
+    }
+  ],
   "country": [
     "India",
     "Russia",
@@ -260,24 +257,59 @@
       "phone": "9878654357",
       "rememberMe": "on",
       "id": "Lfc9oZs"
-    }
-  ],
-  "createProduct" :[
-    {
-      "orderNo":"11",
-      "image":"image",
-      "title":"Green T-shirt with badass cartoon design",
-      "price":"$ 29.99",
-      "qty":"24",
-      "visible":"Visible"
     },
     {
-      "orderNo":"12",
-      "image":"image",
-      "title":"Green T-shirt with badass cartoon design",
-      "price":"$ 14.99",
-      "qty":"12",
-      "visible":"Hidden"
+      "name": "sandeep",
+      "surname": "kumar",
+      "email": "sandeepkumar13009@gmail.com",
+      "address": "2131/1 prem nagar road shadipur",
+      "city": "New Delhi",
+      "region": "Delhi",
+      "postalCode": "110008",
+      "phone": "8650888613",
+      "rememberMe": "on",
+      "id": "AmdoAAI"
     }
-  ] 
+  ],
+  "createProduct": [
+    {
+      "orderNo": "11",
+      "image": "image",
+      "title": "Green T-shirt with badass cartoon design",
+      "price": "$ 29.99",
+      "qty": "24",
+      "visible": "Visible"
+    },
+    {
+      "orderNo": "12",
+      "image": "image",
+      "title": "Green T-shirt with badass cartoon design",
+      "price": "$ 14.99",
+      "qty": "12",
+      "visible": "Hidden"
+    }
+  ],
+
+  "blog": [
+    { 
+      "title":"Fashion Tips and tricks for business and showbiz",
+      "author":"Daniel",
+      "pubes":"Fashion"
+    },
+    { 
+      "title":"Fashion Tips and tricks for business and showbiz",
+      "author":"Darwin",
+      "pubes":"Shopping"
+    },
+    {
+      "title":"Fashion Tips and tricks for business and showbiz",
+      "author":"Abdul",
+      "pubes":"Travel"
+    },
+    {
+      "title":"Fashion Tips and tricks for business and showbiz",
+      "author":"Andrew",
+      "pubes":"Fashion"
+    }
+  ]
 }

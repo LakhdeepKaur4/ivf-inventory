@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Dashboard from '../../components/dashboard/dashboard';
-
 import $ from 'jquery';
 
 class BlogSettings extends Component {
