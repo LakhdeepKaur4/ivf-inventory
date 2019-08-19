@@ -1,64 +1,93 @@
-const Order = require('../models/order')
-const Q = require('q')
-const ObjectID = require('mongodb')
-  .ObjectID
-module.exports = function OrdersLogic(TransactionsLogic) {
-  let saveOrder = (order) => {
-    return new Order(order)
-      .save()
-  }
+const Orders = require('../config/relations').orders;
+const Customers = require('../config/relations').customers;
+const Carts = require('../config/relations').carts;
+const CartProducts = require('../config/relations').cartProducts;
+const Addresses = require('../config/relations').addresses;
+const Payments = require('../config/relations').payments;
+const Shipments = require('../config/relations').shipments;
 
-  let getOrders = (query) => (Order.find(query))
+const httpStatus = require('http-status');
 
-  let removeOrder = (query) => (Order.remove(query))
+exports.getOrders = (req, res, next) => {
+  Orders.findAll({
+    include: [
+      { model: Customers },
+      { model: Carts }
+    ]
+  })
+    .then(orders => {
+      console.log(orders);
+      res.json(orders);
+    })
+}
 
-  let makeOrderEffective = (userId, orderId) => {
-    return Order.findOneAndUpdate({ user: userId, '_id': new ObjectID(orderId) }, { $set: { 'effectiveDate': new Date() } })
-      .then(order => {
-        return TransactionsLogic.saveTransaction(order.transaction)
+exports.getOrderById = (req, res, next) => {
+  Orders.findOne({
+    where: {
+      orderId: req.params.id
+    },
+    include: [
+      { model: Customers },
+      { model: Carts }
+    ]
+  })
+    .then(orders => {
+      console.log(orders);
+      res.json(orders);
+    })
+}
+
+exports.create = (req, res, next) => {
+  try {
+    const body = req.body;
+    let customerId, addressId, shipmentId, paymentId, cartId;
+    Customers.create(body.customer)
+      .then(customer => {
+        customerId = customer.customerId;
+        body.address.customerId = customer.customerId;
+        Addresses.create(body.address)
+          .then(address => {
+            body.shipment.addressId = address.addressId;
+            Shipments.create(body.shipment)
+              .then(shipment => {
+                shipmentId = shipment.shipmentId;
+                Payments.create(body.payment)
+                  .then(payment => {
+                    paymentId = payment.paymentId;
+                    Carts.create(body.cart)
+                      .then(cart => {
+                        cartId = cart.cartId;
+                        body.cart.products.map(item => {
+                          item.cartId = cart.cartId;
+                          CartProducts.create(item);
+                        })
+                        let order = {
+                          ...body.order,
+                          customerId: customerId,
+                          cartId: cartId,
+                          shipmentId: shipmentId,
+                          paymentId: paymentId
+                        }
+                        Orders.create(order)
+                        .then(order => {
+                          Orders.findOne({
+                            where:{
+                              orderId: order.orderId
+                            },
+                            include: [
+                              {model: Customers}
+                            ]
+                          })
+                          .then(order => {
+                            return res.status(httpStatus.OK).json({ order });
+                          })
+                        })
+                      })
+                  })
+              })
+          })
       })
-  }
-
-  let getItemsActiveOrders = (userID, itemsIDs, date) => {
-    let ordersQuerybyItemIdAndUser = {
-      user: userID,
-      'transaction.item': {
-        $in: itemsIDs
-      }
-    }
-    let activeOrdersQuery = {
-      $or: [
-        { effectiveDate: { $exists: false }, ...ordersQuerybyItemIdAndUser },
-        { effectiveDate: { $gte: date }, ...ordersQuerybyItemIdAndUser }
-      ]
-    }
-    return getOrders(activeOrdersQuery)
-  }
-
-  let getItemOrderCost = (userID, itemID, mode, params) => {
-    let ordersQuery = {
-      user: userID,
-      'transaction.item': itemID
-    }
-    return getOrders(ordersQuery)
-      .then((orders) => {
-        return Q(orderCostModes[mode](orders, ...params))
-      })
-  }
-
-  const orderCostModes = {
-    lastOnly: (orders) => (orders.slice(-1)[0]),
-    lastNAverage: (orders, n) => (
-      orders.slice(-n).reduce((p, c) => p + c.orderCost, 0) / n
-    )
-  }
-
-  return {
-    saveOrder,
-    getOrders,
-    removeOrder,
-    makeOrderEffective,
-    getItemsActiveOrders,
-    getItemOrderCost
+  } catch (err) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
   }
 }
