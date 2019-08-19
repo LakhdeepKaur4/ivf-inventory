@@ -261,5 +261,28 @@
       "rememberMe": "on",
       "id": "Lfc9oZs"
     }
+  ],
+
+  "blog": [
+    { 
+      "title":"Fashion Tips and tricks for business and showbiz",
+      "author":"Daniel",
+      "pubes":"Fashion"
+    },
+    { 
+      "title":"Fashion Tips and tricks for business and showbiz",
+      "author":"Darwin",
+      "pubes":"Shopping"
+    },
+    {
+      "title":"Fashion Tips and tricks for business and showbiz",
+      "author":"Abdul",
+      "pubes":"Travel"
+    },
+    {
+      "title":"Fashion Tips and tricks for business and showbiz",
+      "author":"Andrew",
+      "pubes":"Fashion"
+    }
   ]
 }

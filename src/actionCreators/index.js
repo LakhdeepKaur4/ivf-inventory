@@ -31,6 +31,7 @@ export const ADD_CUSTOMER='ADD_CUSTOMER';
 export const GET_CUSTOMER='GET_CUSTOMER';
 export const GET_FILTER_PRODUCTS="GET_FILTER_PRODUCTS";
 export const GET_STORES="GET_STORES";
-export const CHANGE_STATUS='CHANGE_STATUS'
+export const CHANGE_STATUS='CHANGE_STATUS';
+export const GET_BLOG ='GET_BLOG';
 
                     
