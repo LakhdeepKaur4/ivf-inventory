@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './sidebar.css';
 import { Link } from 'react-router-dom'
-import $ from 'jquery';
+
 class Sidebar extends Component {
     state = {
         pageOn: '',
@@ -53,7 +53,7 @@ class Sidebar extends Component {
 
     componentDidMount() {
         let page = window.location.href;        
-        page = page.slice(page.lastIndexOf("/") + 1);
+        page = page.split("/")[3];
         this.setState({
             pageOn: page,
             link: localStorage.getItem('link')
