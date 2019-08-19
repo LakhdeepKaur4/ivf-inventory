@@ -91,3 +91,20 @@ exports.create = (req, res, next) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
   }
 }
+
+exports.updateOrder = async (req, res, next) => {
+    try {
+        const orderId = req.params.orderId;
+        console.log("&&&&&")
+        const updates = req.body;
+        Orders.findById(orderId)
+            .then((order) => {
+                order.save(updates);
+            }).then(result => {
+                res.send(httpStatus.OK).json({ message: "Updated Order succesfully", result });
+            })
+    } catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+    }
+}
+
