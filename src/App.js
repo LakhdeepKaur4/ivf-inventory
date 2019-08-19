@@ -22,7 +22,6 @@ import EditBrand from './containers/EditBrand/editBrand'
 import CreateProduct from './containers/createProduct/createProduct';
 import ProductVariant from './containers/productVariant/productVariant';
 import ProductVariantOption from './containers/productVariantOption/productVariantOption';
-
 import FileStructure from './components/fileStructure/fileStructure';
 import PushDataToStore from './containers/pushDataToStore/pushDataToStore';
 import CreatePage from './containers/createPage/CreatePage';

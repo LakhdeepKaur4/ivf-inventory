@@ -52,7 +52,7 @@
       border: none;
       border-radius:15px;
       color: white;
-      padding: 2px 32px;
+      /* padding: 2px 32px; */
       text-align: center;
       text-decoration: none;
       display: inline-block;
@@ -91,7 +91,7 @@
       border: none;
       border-radius:15px;
       color: white;
-      padding: 2px 32px;
+      /* padding: 2px 32px; */
       text-align: center;
       text-decoration: none;
       display: inline-block;
