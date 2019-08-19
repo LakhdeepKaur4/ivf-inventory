@@ -54,8 +54,10 @@
     "http-status": "^1.3.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^4.11.2",
+    "mysql2": "^1.6.5",
     "nodemon": "^1.19.1",
     "q": "^1.5.0",
+    "sequelize": "^5.15.0",
     "short-id": "0.1.0-1",
     "simpl-schema": "^1.5.5"
   }

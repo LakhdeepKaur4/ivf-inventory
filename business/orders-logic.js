@@ -1,64 +1,19 @@
-const Order = require('../models/order')
-const Q = require('q')
-const ObjectID = require('mongodb')
-  .ObjectID
-module.exports = function OrdersLogic(TransactionsLogic) {
-  let saveOrder = (order) => {
-    return new Order(order)
-      .save()
-  }
+const httpStatus = require('http-status');
+const Order = require('../models/order');
 
-  let getOrders = (query) => (Order.find(query))
-
-  let removeOrder = (query) => (Order.remove(query))
-
-  let makeOrderEffective = (userId, orderId) => {
-    return Order.findOneAndUpdate({ user: userId, '_id': new ObjectID(orderId) }, { $set: { 'effectiveDate': new Date() } })
-      .then(order => {
-        return TransactionsLogic.saveTransaction(order.transaction)
-      })
-  }
-
-  let getItemsActiveOrders = (userID, itemsIDs, date) => {
-    let ordersQuerybyItemIdAndUser = {
-      user: userID,
-      'transaction.item': {
-        $in: itemsIDs
-      }
+exports.updateOrder = async (req, res, next) => {
+    try {
+        const orderId = req.params.orderId;
+        console.log("&&&&&")
+        const updates = req.body;
+        Order.findById(orderId)
+            .then((order) => {
+                order.save(updates);
+            }).then(result => {
+                res.send(httpStatus.OK).json({ message: "Updated Order succesfully", result });
+            })
+    } catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
     }
-    let activeOrdersQuery = {
-      $or: [
-        { effectiveDate: { $exists: false }, ...ordersQuerybyItemIdAndUser },
-        { effectiveDate: { $gte: date }, ...ordersQuerybyItemIdAndUser }
-      ]
-    }
-    return getOrders(activeOrdersQuery)
-  }
-
-  let getItemOrderCost = (userID, itemID, mode, params) => {
-    let ordersQuery = {
-      user: userID,
-      'transaction.item': itemID
-    }
-    return getOrders(ordersQuery)
-      .then((orders) => {
-        return Q(orderCostModes[mode](orders, ...params))
-      })
-  }
-
-  const orderCostModes = {
-    lastOnly: (orders) => (orders.slice(-1)[0]),
-    lastNAverage: (orders, n) => (
-      orders.slice(-n).reduce((p, c) => p + c.orderCost, 0) / n
-    )
-  }
-
-  return {
-    saveOrder,
-    getOrders,
-    removeOrder,
-    makeOrderEffective,
-    getItemsActiveOrders,
-    getItemOrderCost
-  }
 }
+
