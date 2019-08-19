@@ -6,6 +6,8 @@ require('./itemVariant');
 const ItemVariant = mongoose.model('ItemVariant').schema;
 require('./workflow');
 const Workflow = mongoose.model('WorkFlow').schema;
+require('./shippingParcel');
+const ShippingParcel = mongoose.model('ShippingParcel').schema;
 
 var itemSchema = new Schema({
   name: {
@@ -66,7 +68,7 @@ var itemSchema = new Schema({
     defaultValue: true,
   },
   parcel: {
-    // type: ShippingParcel,
+    type: ShippingParcel,
   },
   hashtags: {
     type: Array,
@@ -126,27 +128,27 @@ var itemSchema = new Schema({
   },
   minStockReq: {
     type: String,
-    required: true,
+    // required: true,
     trim: true
   },
   optStock: {
     type: Number,
-    required: true,
+    // required: true,
     trim: true
   },
   units: {
     type: String,
-    required: true,
+    // required: true,
     trim: true
   },
   unitsType: {
     type: String,
-    required: true,
+    // required: true,
     trim: true
   },
   lossCost: {
     type: Number,
-    required: true,
+    // required: true,
     trim: true
   },
   variants: {
@@ -161,9 +163,9 @@ var itemSchema = new Schema({
     type: Boolean,
     defaultValue: true
   },
-  productPicture: {
+  productPicture: [{
     type: String
-  },
+  }],
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
