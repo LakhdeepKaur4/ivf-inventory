@@ -2,28 +2,28 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../config/mysql');
 
-const Orders = sequelize.define('orders',{
-    orderId: {
+const Payments = sequelize.define('payments',{
+    paymentId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    currency: {
-        type: Sequelize.STRING
-    },
-    discount: {
+    amount: {
         type: Sequelize.FLOAT
     },
-    email: {
+    displayName: {
+        type: Sequelize.STRING
+    },
+    method: {
+        type: Sequelize.STRING
+    },
+    paymentMethod: {
         type: Sequelize.STRING
     },
     createdAt: {
         type: Sequelize.DATE
-    },
-    updatedAt: {
-        type: Sequelize.DATE
     }
 });
 
-module.exports = Orders;
+module.exports = Payments;

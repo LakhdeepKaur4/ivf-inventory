@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../config/mysql');
 
-const Orders = sequelize.define('orders',{
-    orderId: {
+const Carts = sequelize.define('carts',{
+    cartId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -20,10 +20,7 @@ const Orders = sequelize.define('orders',{
     },
     createdAt: {
         type: Sequelize.DATE
-    },
-    updatedAt: {
-        type: Sequelize.DATE
     }
 });
 
-module.exports = Orders;
+module.exports = Carts;
