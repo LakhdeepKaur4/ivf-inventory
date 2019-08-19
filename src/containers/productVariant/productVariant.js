@@ -117,14 +117,14 @@ class ProductVariant extends Component {
                                 <div className="col-sm">
                                     <label className="ml-3">Actions<span ><i className="fas fa-chevron-circle-down" aria-hidden="true" style={{ marginLeft: "14px" }}></i></span></label>
                                     <div className="card mainCard border border-0">
-                                        <div className="variants">
+                                    <div className="variants">
                                             <h5>Variants<span onClick={this.displayVariantForm}><i className="fa fa-plus" aria-hidden="true" style={{ float: 'right' }}></i></span></h5>
-                                            <div>Variant1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
+                                            <div>Variant 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
                                                 <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
                                                 <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
-                                                <div className="h5 small"><span className="text-danger">Hidden</span> <span>- L SIZE</span></div>
+                                                <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color green</span></div>
                                                 <div>Option 2<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
-                                                <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- L SIZE</span></div>
+                                                <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- color red</span></div>
                                             </div>
                                             <div>Variant1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
                                                 <div className="h5 small"><span className="text-danger">Hidden</span> <span>- L SIZE</span></div>
