@@ -12,6 +12,7 @@ import thunk from "redux-thunk";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-dropzone-uploader/dist/styles.css'
 
+
 const sagaMiddleware = createSagaMiddleware()
 
 const store= applyMiddleware(promise,sagaMiddleware,thunk)(createStore)

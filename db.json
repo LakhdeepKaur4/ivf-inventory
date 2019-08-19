@@ -266,5 +266,23 @@
       "rememberMe": "on",
       "id": "Lfc9oZs"
     }
-  ]
+  ],
+  "createProduct" :[
+    {
+      "orderNo":"11",
+      "image":"image",
+      "title":"Green T-shirt with badass cartoon design",
+      "price":"$ 29.99",
+      "qty":"24",
+      "visible":"Visible"
+    },
+    {
+      "orderNo":"12",
+      "image":"image",
+      "title":"Green T-shirt with badass cartoon design",
+      "price":"$ 14.99",
+      "qty":"12",
+      "visible":"Hidden"
+    }
+  ] 
 }

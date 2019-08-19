@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
 
-class AddCategory extends Component {
+class Categories extends Component {
     constructor(props) {
         super(props);
 
@@ -122,4 +122,4 @@ but also the leap into electronic typesetting, remaining essentially unchanged.<
         )
     }
 }
-export default AddCategory;
+export default Categories;
