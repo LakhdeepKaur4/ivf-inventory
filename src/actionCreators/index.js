@@ -1,6 +1,5 @@
 const config = require('../../config/env');
 
-
 export const URN = config.inventory.service;
 export const URL= config.inventory.api;
 // export const URL='http://192.168.1.104:3001/api';
