@@ -19,7 +19,8 @@ class Brands extends Component {
       isDisable: false,
       multiSelect: [],
       isChecked: [],
-      isAllSelect: false
+      isAllSelect:false,
+      allChecked:false
     };
   }
   componentDidMount() {
@@ -74,14 +75,23 @@ class Brands extends Component {
 
   handleMultiple = value => {
     this.props.changeStatus(value, this.state.multiSelect);
-    this.setState({ multiSelect: [] ,isChecked:false});
+    this.setState({ multiSelect: [] ,isChecked:false,allChecked:false});
   };
 
   // Handle all select
 
-  handleAllSelect = event => {
-    let brandList=this.props.BrandsReducer
-    // this.setState({ isAllSelect: true });
+  handleAllSelect = action => {
+    if(action===true){
+      let ids=[]
+      let brands=this.props.BrandsReducer
+      brands.brandsList.map(item=>{
+        ids.push(item._id)
+      })
+      this.setState({multiSelect:ids,isAllSelect:true,allChecked:true})
+    }
+    else{
+      this.setState({multiSelect:[]})
+    }
   };
 
   // View products for a particular brand
@@ -97,7 +107,15 @@ class Brands extends Component {
         .map(item => {
           return (
             <tr key={item._id}>
-              <td>
+              {this.state.isAllSelect?(
+                <td>
+                <input
+                  type="checkbox"
+                  checked={this.state.allChecked}
+                />
+              </td>
+              ):(
+                <td>
                 <input
                   type="checkbox"
                   checked={this.state.isChecked[item._id]}
@@ -106,6 +124,7 @@ class Brands extends Component {
                   }}
                 />
               </td>
+              )}
               <td>
                 <img
                   style={{ width: "30px", height: "30px" }}
@@ -188,8 +207,9 @@ class Brands extends Component {
               <th scope="col">
                 <input
                   type="checkbox"
-                  value="checkedall"
-                  onChange={this.handleAllSelect}
+                  onClick={(e) => {
+                    this.handleAllSelect(e.currentTarget.checked);
+                }}
                 />
               </th>
               <th scope="col">BRAND LOGO</th>
