@@ -8,6 +8,7 @@ import Dashboard from '../../components/dashboard/dashboard';
 import './dataToStore.css';
 
 class DataToStore extends Component{
+    flag = false;
     constructor(props){
         super(props);
 
@@ -19,26 +20,39 @@ class DataToStore extends Component{
             totalItemsCount:'',
             productId:[],
             storeIds:[],
-            allIds: []
+            allIds: [],
+            flag:false
         }
     }
 
     componentDidMount(){
+        window.onpopstate = ()=>{ 
+            this.flag = true;
+        }
+
+        if (localStorage.getItem('store') !== null) {
+            let stores = localStorage.getItem('store').split(',');
+            this.setState({ storeIds: stores });
+        }
         this.props.getDataStore()
         .then(res => {
-            console.log(res)
             let Ids = [];
             res.payload.map(item => {
                 Ids.push(item.id);
             })
             this.setState({ allIds: Ids });
         });
-        console.log(location.href);
         var urlAr= location.href.split('/');
-        var ids=urlAr[urlAr.length-1];
-        console.log('shubnag',ids);
+        var ids=urlAr[4];
+        localStorage.setItem('product',ids);
         this.setState({productId:ids});
-        // console.log(this.state);
+    }
+
+    componentWillUnmount(){
+
+        if (!this.flag) {
+            localStorage.clear();   
+        }
     }
 
    
@@ -51,14 +65,10 @@ class DataToStore extends Component{
             IDS.splice(IDS.indexOf(id), 1);
         }     
         this.setState({storeIds:IDS})
-        console.log(this.state.storeIds);
-
     }
 
     viewOrderFun=({dataStore})=>{
         if(dataStore){
-            console.log("dataStore",dataStore)           
-
            return dataStore.map((item=>{
                return(
                    <tr>
@@ -75,13 +85,13 @@ class DataToStore extends Component{
         }
 
     }
-    navigateNext=()=>{
-        console.log(this.state.productId);
-        console.log(this.state.storeIds);
+    navigateNext=()=>{;
+        this.flag = true;
         this.props.history.push(`/pushDataToStore/${this.state.productId}/${this.state.storeIds}`)
     }
     navigatePrevious=()=>{
-        this.props.history.push('/productsView')
+        this.flag = true;
+        this.props.history.push(`/pushProductsView/${this.state.productId}`)
     }
     selectAll = (action) => {
         if (action === true) {
@@ -97,7 +107,7 @@ class DataToStore extends Component{
         <table className="table">
         <thead>
              <tr style={{color:"#777777"}}>
-             <th scope="col"><input type="checkbox" onClick={(e)=>{
+             <th scope="col"><input type="checkbox"  checked={(this.state.storeIds.length === this.state.allIds.length) ? true : false} onClick={(e)=>{
                 this.selectAll(e.currentTarget.checked)
              }}></input></th>
              <th scope="col">BRAND NAME</th>
@@ -194,8 +204,8 @@ let navIcon=
               
                  <div>{viewOrderData}</div>
                  <div>
-                 <button className="button-main button3" onClick={this.navigateNext}>Next</button>
-                 <button className="button-main button3" onClick={this.navigatePrevious}>Previous</button>
+                 <button className="button-main button3"  onClick={this.navigateNext}>Next</button>
+                 <button className="button-main button3"  style={{marginRight:'10px'}} onClick={this.navigatePrevious}>Previous</button>
               </div>
                  </Dashboard>
         </div>

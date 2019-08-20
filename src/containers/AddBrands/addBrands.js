@@ -25,10 +25,9 @@ class AddBrands extends Component {
 
   // Handle input change
   handleInputChange = event => {
-    event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
     if (event.target.checked) {
-      this.setState({ selected: event.target.value })
+      this.setState({ selected: event.target.value });
     }
   };
 
@@ -53,10 +52,9 @@ class AddBrands extends Component {
     }
   };
 
-
   // Handle Cancle
 
-  handleCancle = () => {
+  handleCancel = () => {
     this.props.history.push("/brands");
   };
   //upload file
@@ -104,95 +102,99 @@ class AddBrands extends Component {
   render() {
     return (
       <Dashboard>
-      <div className="add_brand ">
-        <div className="container">
-          <div className="bg-light text-dark p-4 mt-1">
-            <p className="heading">ADD BRANDS</p>
-            <form>
+        <div className="add_brand ">
+          <div className="container">
+            <div className="bg-light text-dark p-4 mt-1">
+              <p className="heading">ADD BRANDS</p>
+              <form>
+                <div>
+                  <FileBase64 multiple={true} onDone={this.getFiles} />
+                </div>
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <input
+                      type="text"
+                      className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
+                      name="brandName"
+                      placeholder="Brand Name"
+                      value={this.state.brandName}
+                      onChange={this.handleInputChange}
+                    />
+                  </div>
+                  <div style={{ color: "red" }}>
+                    {this.state.errorBrandName}
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <input
+                      type="text"
+                      className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
+                      placeholder="Description"
+                      name="description"
+                      value={this.state.description}
+                      onChange={this.handleInputChange}
+                    />
+                  </div>
+                  <div style={{ color: "red" }}>
+                    {this.state.errorDescription}
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <label htmlFor="status" style={{ fontWeight: "bold" }}>
+                      Status
+                    </label>
+
+                    <div className="radio">
+                      <label>
+                        <input
+                          type="radio"
+                          name="status"
+                          value="Enabled"
+                          onChange={this.handleInputChange}
+                        />
+                        Enabled
+                      </label>
+                    </div>
+                    <div className="radio">
+                      <label>
+                        <input
+                          type="radio"
+                          name="status"
+                          value="Disabled"
+                          onChange={this.handleInputChange}
+                        />
+                        Disabled
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </form>
               <div>
-                <FileBase64 multiple={true} onDone={this.getFiles} />
+                <span>
+                  <button
+                    className="brand_button"
+                    type="submit"
+                    onClick={this.addBrand}
+                  >
+                    SAVE BRAND
+                  </button>
+                </span>
+                <span>
+                  <button
+                    className="brand_button"
+                    type="submit"
+                    onClick={this.handleCancel}
+                  >
+                    CANCEL
+                  </button>
+                </span>
               </div>
-              <div className="form-row">
-                <div className="form-group col-md-6">
-                  <input
-                    type="text"
-                    className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
-                    name="brandName"
-                    placeholder="Brand Name"
-                    value={this.state.brandName}
-                    onChange={this.handleInputChange}
-                  />
-                </div>
-                <div style={{ color: "red" }}>{this.state.errorBrandName}</div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-group col-md-6">
-                  <input
-                    type="text"
-                    className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
-                    placeholder="Description"
-                    name="description"
-                    value={this.state.description}
-                    onChange={this.handleInputChange}
-                  />
-                </div>
-                <div style={{ color: "red" }}>
-                  {this.state.errorDescription}
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group col-md-6">
-                  <label htmlFor="status" style={{ fontWeight: "bold" }}>
-                    Status
-                  </label>
-
-                  <div className="radio">
-                    <label>
-                      <input
-                        type="radio"
-                        name="status"
-                        value="Enabled"
-                        checked={this.state.selected === true}
-                        onChange={this.handleInputChange}
-                      />
-                      Enabled
-                    </label>
-                  </div>
-                  <div className="radio">
-                    <label>
-                      <input
-                        type="radio"
-                        name="status"
-                        value="Disabled"
-                        checked={this.state.selected === false}
-                        onChange={this.handleInputChange}
-                      />
-                      Disabled
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </form>
-            <div>
-              <span><button
-              className="brand_button"
-              type="submit"
-              onClick={this.addBrand}
-            >
-              SAVE BRAND
-            </button></span>
-            <span><button
-              className="brand_button"
-              type="submit"
-              onClick={this.handleCancle}
-            >
-              CANCLE
-            </button></span>
             </div>
           </div>
         </div>
-      </div>
       </Dashboard>
     );
   }
