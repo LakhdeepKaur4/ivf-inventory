@@ -215,6 +215,17 @@ class Sidebar extends Component {
                                         </span>Blog Settings
                                     </a>}
                                 </li>
+                                <li>
+                                    {(this.state.pageOn === 'blog') ? <a href="/blog">
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{color:"red"}}>Blog</span>
+                                    </a> : <a href="/blog">
+                                        <span>
+                                            <i className="far fa-circle" aria-hidden="true"></i>
+                                        </span>Blog 
+                                    </a>}
+                                </li>
                             </ul>
                         </li>
                     </ul>
