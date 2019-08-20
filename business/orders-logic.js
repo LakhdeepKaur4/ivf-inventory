@@ -5,6 +5,7 @@ const CartProducts = require('../config/relations').cartProducts;
 const Addresses = require('../config/relations').addresses;
 const Payments = require('../config/relations').payments;
 const Shipments = require('../config/relations').shipments;
+const Order = require('../models/order');
 
 const httpStatus = require('http-status');
 
@@ -95,16 +96,16 @@ exports.create = (req, res, next) => {
 exports.updateOrder = async (req, res, next) => {
     try {
         const orderId = req.params.orderId;
-        const updates = req.body;
-        Order.update(orderId, {
-            $set: updates
-        }, (err, order) => {
-            if (err) {
-                return res.json({ message: 'Updation error', err });
-            } else {
-                return res.status(httpStatus.OK).send({ message: "Order updated", order });
-            }
+        const updates = req.body
+        const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(relation => {
+            return relation.update(updates)
         })
+        if (updatedOrder) {
+            return res.status(httpStatus.OK).json({
+                message: "Order Updated Page",
+                updatedOrder: updatedOrder
+            });
+        }
     } catch (error) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
     }
