@@ -12,8 +12,10 @@ const httpStatus = require('http-status');
 exports.getOrders = (req, res, next) => {
   Orders.findAll({
     include: [
-      { model: Customers },
-      { model: Carts }
+      { model: Customers, include: [{ model: Addresses }] },
+      { model: Carts, include: [{ model: CartProducts }] },
+      { model: Shipments },
+      { model: Payments }
     ]
   })
     .then(orders => {
@@ -28,8 +30,10 @@ exports.getOrderById = (req, res, next) => {
       orderId: req.params.id
     },
     include: [
-      { model: Customers },
-      { model: Carts }
+      { model: Customers, include: [{ model: Addresses }] },
+      { model: Carts, include: [{ model: CartProducts }] },
+      { model: Shipments },
+      { model: Payments }
     ]
   })
     .then(orders => {
@@ -70,19 +74,22 @@ exports.create = (req, res, next) => {
                           paymentId: paymentId
                         }
                         Orders.create(order)
-                        .then(order => {
-                          Orders.findOne({
-                            where:{
-                              orderId: order.orderId
-                            },
-                            include: [
-                              {model: Customers}
-                            ]
-                          })
                           .then(order => {
-                            return res.status(httpStatus.OK).json({ order });
+                            Orders.findOne({
+                              where: {
+                                orderId: order.orderId
+                              },
+                              include: [
+                                { model: Customers, include: [{ model: Addresses }] },
+                                { model: Carts, include: [{ model: CartProducts }] },
+                                { model: Shipments },
+                                { model: Payments }
+                              ]
+                            })
+                              .then(order => {
+                                return res.status(httpStatus.OK).json({ order });
+                              })
                           })
-                        })
                       })
                   })
               })
