@@ -18,39 +18,47 @@ class PushDataToStore extends React.Component {
     }
 
     componentDidMount() {
-        console.log(location.href);
+        window.onpopstate = ()=>{
+            this.flag = true;
+        }
         var urlAr = location.href.split('/');
-        console.log('urlAr', urlAr);
         var storeId = urlAr[urlAr.length - 1];
-        var productId = urlAr[urlAr.length - 2];
-        console.log('shubnag', storeId);
-        console.log('shubnag', productId);
+        var productId = urlAr[urlAr.length - 2];;
         this.setState({ productId: productId.split(",") });
         this.setState({ storeId: storeId.split(",") });
+        localStorage.setItem('product',productId.split(","));
+        localStorage.setItem('store',storeId.split(","));
         this.props.getProducts();
         this.props.getStores();
 
     }
-
-    getData = () => {
-        console.log(this.state.productId,
-            this.state.storeId);
+    componentWillUnmount(){;
+        if (!this.flag) {
+            localStorage.clear();   
+        }
     }
-
     getProducts = ({ getFilterProducts }, { getStores }) => {
         if (getFilterProducts) {
-            console.log('getFilter profducras', getFilterProducts);
             return getFilterProducts.map((item) => {
                 if (this.state.productId.includes(item.id)) {
                     if (getStores) {
-                        console.log(getStores)
                         return getStores.map((store) => {
 
                             if (this.state.storeId.includes(store.id)) {
                                 return (
                                     <tr key={store.id}>
-                                        <td>{item.name}<img src={item.image} className="img-fluid" alt="Sheep"/></td>
-                                        <td>{store.storeName}<img src={store.brandImage} className="img-fluid" alt="store"/></td>
+                                        <td>
+                                            <div className="prductWithStore">
+                                                <span>{item.name}</span>
+                                                <img src={item.image} className="img-fluid" alt="Sheep"/>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="prductWithStore">
+                                                <span>{store.storeName}</span>
+                                                <img src={store.brandImage} className="img-fluid" alt="store"/>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             }
@@ -60,17 +68,11 @@ class PushDataToStore extends React.Component {
             })
         }
     }
-
-    getStores = ({ getStores }) => {
-        if (getStores) {
-            console.log('getStore', getStores);
-        }
-
-    }
-    submit=(e)=>{
-        e.preventDefault();
-        $('.buttonActivePushDataToStore').toggleClass('buttonActivePushDataToStore buttonOffPushDataToStore');
-        $(e.currentTarget).toggleClass('buttonActivePushDataToStore buttonOffPushDataToStore');
+    navigateBack=()=>{
+            this.flag = true;
+        this.props.history.push(`/dataToStore/${this.state.productId}/${this.state.storeId}`)
+        // $('.buttonActivePushDataToStore').toggleClass('buttonActivePushDataToStore buttonOffPushDataToStore');
+        // $(e.currentTarget).toggleClass('buttonActivePushDataToStore buttonOffPushDataToStore');
         
     }
     render() {
@@ -122,8 +124,8 @@ class PushDataToStore extends React.Component {
                         </div>
                     </div>
                     <div className="col-3 pushDataToStore">
-                        <div><button onClick={this.submit} className="buttonOffPushDataToStore">Back</button></div>
-                        <div><button id="firstpdts" onClick={this.submit} className="buttonOffPushDataToStore">Proceed</button></div>
+                        <div><button onClick={this.navigateBack} className="button-main button3" style= {{marginTop:'auto'}}>Back</button></div>
+                        <div><button id="firstpdts" onClick={this.navigateAhead} className="button-main button3">Proceed</button></div>
                     </div>
                     </div>
                 </div>
@@ -134,7 +136,6 @@ class PushDataToStore extends React.Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         PushDataToStore: state.PushDataToStore
     }

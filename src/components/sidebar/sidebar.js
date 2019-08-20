@@ -101,7 +101,7 @@ class Sidebar extends Component {
                             </ul>
                         </li>
                         <li className="active sidebarHead">
-                            <a id="inventorySubmenuLink" href="#inventorySubmenu"
+                            <a id="inventorySubmenuLink" href="javascript:void(0)" 
                              onClick={this.toggleMenu.bind(this,"inventory")} aria-expanded='false' >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>INVENTORY</a>
                             <ul className={
@@ -140,7 +140,7 @@ class Sidebar extends Component {
                             </ul>
                         </li>
                         <li className="active sidebarHead">
-                            <a id="provisionSubmenuLink" href="#provisionSubmenu"
+                            <a id="provisionSubmenuLink" href="javascript:void(0)" 
                              onClick={this.toggleMenu.bind(this,"provision")} aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className={

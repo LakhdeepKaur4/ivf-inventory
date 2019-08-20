@@ -4,13 +4,10 @@ import { connect } from 'react-redux';
 import { getProductsView } from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
 import './pushProductView.css';
-
 import Dashboard from '../../components/dashboard/dashboard';
-
 class ProductsView extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             search: '',
             activePage: '1',
@@ -19,18 +16,19 @@ class ProductsView extends Component {
             filterName: 'name',
             sortVal: false,
             ids: [],
-            allIds: []
-
+            allIds: [],
+            flag: false
         }
     }
-
     btnClick = () => {
         this.setState({ checked: true })
-        console.log(this.state.checked)
-
     }
 
     componentDidMount() {
+        if (localStorage.getItem('product') !== null) {
+            let products = localStorage.getItem('product').split(',');
+            this.setState({ ids: products });
+        }
         this.props.getProductsView()
             .then(res => {
                 let Ids = [];
@@ -41,6 +39,15 @@ class ProductsView extends Component {
             });
     }
 
+    componentWillUnmount() {
+        
+        if (!this.state.flag) {
+            localStorage.clear();
+        }
+       
+    }
+
+  // This function will be used in pagination in later stage.
 
     handlePageChange = (pageNumber) => {
         console.log(`active page is ${pageNumber}`);
@@ -87,7 +94,6 @@ class ProductsView extends Component {
     }
 
     pickIds = (Id, action) => {
-        console.log("selected ids", Id);
         var IDS = [];
         IDS = this.state.ids;
         if (action === true) {
@@ -104,8 +110,6 @@ class ProductsView extends Component {
             productList.map(item => {
                 Ids.push(item.id);
             })
-            //   this.setState({allIds:Ids});
-            console.log('productlist', productList);
             return productList.sort((item1, item2) => {
                 var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
                 return this.state.sortVal ? cmprVal : -cmprVal;
@@ -121,23 +125,14 @@ class ProductsView extends Component {
                         <td>{item.stock}</td>
                         <td>{item.name}</td>
                         <td>{item.price}</td>
-                        <td>
-
-                            <div><button class="button button1 active" onClick={this.btnClick}>Visible</button></div>
-                            <div><button class="button button2" onClick={this.btnClick}>Invisible</button></div>
-                        </td>
-                        <td><b>...</b></td>
                     </tr>
                 )
 
             })
         }
     }
-
     navigate = () => {
-        // e.preventDefault();
-        // console.log('hii');
-        // console.log(this.state.ids);
+        this.setState({ flag: true })
         this.props.history.push(`/dataToStore/${this.state.ids}`)
     }
     selectAll = (action) => {
@@ -145,7 +140,7 @@ class ProductsView extends Component {
             this.setState({ ids: this.state.allIds });
         } else {
             this.setState({ ids: [] });
-        }  
+        }
     }
 
     render() {
@@ -154,7 +149,7 @@ class ProductsView extends Component {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th scope="col"><input type="checkbox" onClick={
+                            <th scope="col"><input type="checkbox" checked={(this.state.ids.length === this.state.allIds.length) ? true : false} onClick={
                                 (e) => {
                                     this.selectAll(e.currentTarget.checked);
                                 }
@@ -165,8 +160,6 @@ class ProductsView extends Component {
                             <th scope="col">NAME</th>
                             <th scope="col">PRICE</th>
                             <th scope="col"></th>
-                            <th scope="col">ACTIONS</th>
-                            <th scope="col">...</th>
                         </tr>
                     </thead>
                     <tbody>

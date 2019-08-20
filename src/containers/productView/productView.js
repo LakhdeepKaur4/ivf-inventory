@@ -93,6 +93,9 @@ class ProductsView extends Component {
     //     //  this.setState({checked:!this.state.checked})
 
     //   }
+    handleDisable= id =>{
+        console.log(id);
+    }
 
     productsResult = ({ productList }) => {
         if (productList) {
@@ -113,7 +116,49 @@ class ProductsView extends Component {
                             <div><button class="button button1 active" onClick={()=>this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
                             <div><button class="button button2" onClick={this.btnClick}>Bookmark</button></div>
                         </td>
-                        <td><b>...</b></td>
+                        <td>
+                <div className="dropdown">
+                  <button
+                    className="btn"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    ...
+                  </button>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <a
+                      className="dropdown-item"
+                      onClick={() => this.handleEditBrand(item.id)}
+                    >
+                      Edit
+                    </a>
+                    {item.status === false ? (
+                      <a
+                        className="dropdown-item"
+                        onClick={() => this.handleEnable(item.id)}
+                      >
+                        Publish
+                      </a>
+                    ) : (
+                      <a
+                        className="dropdown-item"
+                        onClick={() => this.handleDisable(item.id)}
+                      >
+                       Hide
+                      </a>
+                    )}
+                    {/* <a 
+                    className="dropdown-item"
+                    onClick={()=>{this.viewProducts(item._id)}}>View Products</a> */}
+                  </div>
+                </div>
+              </td>
                     </tr>
                 )
 
@@ -160,7 +205,7 @@ class ProductsView extends Component {
                 </button>
                 <div><h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4></div>
 
-                <div className="collapse navbar-collapse justify-content-end" id="nav-content">
+                {/* <div className="collapse navbar-collapse justify-content-end" id="nav-content">
                     <ul className="navbar-nav">
                         <li className="nav-item">
                             <a className="nav-link" href="#">All</a>
@@ -182,7 +227,7 @@ class ProductsView extends Component {
                             <a className="nav-link" href="#">Visible</a>
                         </li>
                     </ul>
-                </div>
+                </div> */}
             </nav>
 
 
