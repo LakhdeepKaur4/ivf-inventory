@@ -12,7 +12,9 @@ import {
   CHANGE_STATUS
 } from "../actionCreators/index";
 
+
 export function getBrands() {
+  
   return dispatch => {
     axios
       .get(BRANDURL)
@@ -38,9 +40,12 @@ export function addBrand(data) {
           dispatch({ type: ADD_BRAND, payload: true });
           dispatch(getBrands());
         }
+        else if( response.status===200 && response.data.message==='Creation error'){
+          toasterMessage("error",response.data.message)
+        }
       })
       .catch(err => {
-        toasterMessage("error", err);
+        toasterMessage("error",err);
       });
   };
 }
