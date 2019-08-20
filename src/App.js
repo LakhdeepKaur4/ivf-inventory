@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Brands from './containers/DisplayBrands/displayBrands';
 import AdvancedSearch from './containers/advancedSearch/advancedSearch';
 import ViewOrder from './containers/viewOrder/viewOrder'
-import AddProduct from './containers/addProducts/addProducts'; 
+import AddProduct from './containers/addProducts/addProducts';
 import EditOrder from './containers/editOrder/editOrder';
 import Shipping from './containers/shipping/shipping';
 import PushProductsView from './containers/pushProductsView/pushProductsView';
@@ -36,12 +36,12 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
-          <Route path="/productsView" component={ProductView} />
+            <Route path="/productsView" component={ProductView} />
             <Route path="/pushDataToStore" component={PushDataToStore} />
             <Route path="/productVariantOption" component={ProductVariantOption} />
             <Route path="/productVariant" component={ProductVariant} />
             <Route path="/createProduct" component={CreateProduct} />
-            <Route path="/createpage" component={CreatePage}/>
+            <Route path="/createpage" component={CreatePage} />
             <Route path="/filestructure" component={FileStructure} />
             <Route path="/dataToStore" component={DataToStore} />
             <Route path="/header" component={Header} />
@@ -52,27 +52,26 @@ class App extends Component {
             <Route path="/vieworders" component={ViewOrder} />
             <Route path="/create" component={AddProduct} />
             <Route path="/brands" component={Brands} />
-            <Route path="/advancedSearch" exact component={AdvancedSearch}/>
+            <Route path="/advancedSearch" exact component={AdvancedSearch} />
             <Route path="/shipping" component={Shipping} />
             <Route path="/pushProductsView" component={PushProductsView} />
-            <Route path="/addBrand" component={AddBrands}/>
-            <Route path="/editCustomerOrder" component={EditCustomerOrder}/>
+            <Route path="/addBrand" component={AddBrands} />
+            <Route path="/editCustomerOrder" component={EditCustomerOrder} />
             <Route path="/editanorder" component={EditOrder} />
-            <Route path="/addbrands" component={AddBrands}/>
+            <Route path="/addbrands" component={AddBrands} />
             <Route path="/products" component={Products} />
             <Route path="/categories" component={Categories} />
-            <Route path="/editBrand/:id" component={EditBrand}/>
-            <Route path="/blogPost" component={BlogPost}/>
-            <Route path="/blogSettings" component={BlogSettings}/>
-            <Route path="/blog" component={Blog}/>
+            <Route path="/editBrand/:id" component={EditBrand} />
+            <Route path="/blogPost" component={BlogPost} />
+            <Route path="/blogSettings" component={BlogSettings} />
+            <Route path="/blog" component={Blog} />
             <Route path="/" component={Login} />
-           
-            
-           </Switch>
+
+          </Switch>
         </div>
 
       </BrowserRouter>
-     );
+    );
   }
 }
 
