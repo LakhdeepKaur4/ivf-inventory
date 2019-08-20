@@ -18,15 +18,19 @@ class Brands extends Component {
       displayAddBrandsForm: false,
       isDisable: false,
       multiSelect: [],
-      isChecked: [],
-      isAllSelect:false,
-      allChecked:false
+      isAllSelect: false,
+      editId:'',
     };
   }
   componentDidMount() {
     this.props.getBrands();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.brandDetail !== this.props.brandDetail) {
+      this.props.history.push(`/editBrand/${this.state.editId}`);
+    }
+  }
   // Handle Page change
   handlePageChange = pageNumber => {
     this.props.getPageDetails(pageNumber);
@@ -63,41 +67,57 @@ class Brands extends Component {
     };
   };
 
-  // Get  ids for multiple brands
-
-  handleMultiSelect = id => {
-    let isChecked=this.state.isChecked
-    isChecked[id]=true
-    this.setState({ multiSelect: [...this.state.multiSelect, id],isChecked:isChecked });
-  };
-
-  // Handle status change for multiple brands
+  // Change status for multiple brands
 
   handleMultiple = value => {
     this.props.changeStatus(value, this.state.multiSelect);
-    this.setState({ multiSelect: [] ,isChecked:false,allChecked:false});
+    this.setState({ multiSelect: [], isAllSelect: false });
   };
 
-  // Handle all select
+  // Select all brands
 
   handleAllSelect = action => {
-    if(action===true){
-      let ids=[]
-      let brands=this.props.BrandsReducer
-      brands.brandsList.map(item=>{
-        ids.push(item._id)
-      })
-      this.setState({multiSelect:ids,isAllSelect:true,allChecked:true})
-    }
-    else{
-      this.setState({multiSelect:[]})
+    if (action === true) {
+      let ids = [];
+      let brands = this.props.BrandsReducer;
+
+      brands.brandsList.map(item => {
+        ids.push(item._id);
+      });
+      this.setState({ multiSelect: ids, isAllSelect: true });
+    } else {
+      this.setState({ multiSelect: [] });
     }
   };
 
   // View products for a particular brand
-  viewProducts=id=>{
-    this.props.history.push(`/productsView/${id}`)
-  }
+
+  viewProducts = id => {
+    this.props.history.push(`/productsView/${id}`);
+  };
+
+  // Get Ids for selected brands
+
+  getId = (id, action) => {
+    let ids = this.state.multiSelect;
+    if (action === true) {
+      ids.push(id);
+    } else {
+      ids.splice(ids.indexOf(id), 1);
+    }
+    this.setState({ multiSelect: ids });
+  };
+
+  // Navigate to add brands component
+  displayForm = () => {
+    this.props.history.push("/addBrand");
+  };
+
+  // Handle Edit brand
+  handleEditBrand = id => {
+    this.props.getBrandDetails(id)
+    this.setState({editId:id});
+  };
   // Display brands list
 
   displayBrands = ({ brandsList }) => {
@@ -107,24 +127,17 @@ class Brands extends Component {
         .map(item => {
           return (
             <tr key={item._id}>
-              {this.state.isAllSelect?(
-                <td>
+              <td>
                 <input
                   type="checkbox"
-                  checked={this.state.allChecked}
-                />
-              </td>
-              ):(
-                <td>
-                <input
-                  type="checkbox"
-                  checked={this.state.isChecked[item._id]}
-                  onChange={() => {
-                    this.handleMultiSelect(item._id);
+                  checked={
+                    this.state.multiSelect.includes(item._id) ? true : false
+                  }
+                  onClick={e => {
+                    this.getId(item._id, e.currentTarget.checked);
                   }}
                 />
               </td>
-              )}
               <td>
                 <img
                   style={{ width: "30px", height: "30px" }}
@@ -179,9 +192,14 @@ class Brands extends Component {
                         Disable
                       </a>
                     )}
-                    <a 
-                    className="dropdown-item"
-                    onClick={()=>{this.viewProducts(item._id)}}>View Products</a>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        this.viewProducts(item._id);
+                      }}
+                    >
+                      View Products
+                    </a>
                   </div>
                 </div>
               </td>
@@ -191,13 +209,8 @@ class Brands extends Component {
     }
   };
 
-  displayForm = () => {
-    this.props.history.push("/addBrand");
-  };
+  
 
-  handleEditBrand = id => {
-    this.props.history.push(`/editBrand/${id}`);
-  };
   render() {
     let displayBrandsList = (
       <div className="table-responsive">
@@ -207,9 +220,10 @@ class Brands extends Component {
               <th scope="col">
                 <input
                   type="checkbox"
-                  onClick={(e) => {
+                  checked={this.state.isAllSelect}
+                  onClick={e => {
                     this.handleAllSelect(e.currentTarget.checked);
-                }}
+                  }}
                 />
               </th>
               <th scope="col">BRAND LOGO</th>
@@ -310,7 +324,8 @@ const mapStateToProps = state => {
   return {
     BrandsReducer: state.BrandsReducer,
     isBrandDisable: state.BrandsReducer.isBrandDisable,
-    isBrandEnable: state.BrandsReducer.isBrandEnable
+    isBrandEnable: state.BrandsReducer.isBrandEnable,
+    brandDetail: state.BrandsReducer.brandDetail
   };
 };
 
