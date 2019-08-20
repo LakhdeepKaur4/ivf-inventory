@@ -102,8 +102,8 @@ class Sidebar extends Component {
                             </ul>
                         </li>
                         <li className="active sidebarHead">
-                            <a id="inventorySubmenuLink" href="#inventorySubmenu"
-                                onClick={this.toggleMenu.bind(this, "inventory")} aria-expanded='false' >
+                            <a id="inventorySubmenuLink" href="javascript:void(0)" 
+                             onClick={this.toggleMenu.bind(this,"inventory")} aria-expanded='false' >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>INVENTORY</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.inventory.isOpen ? "show" : ''}`
@@ -145,8 +145,8 @@ class Sidebar extends Component {
                             </ul>
                         </li>
                         <li className="active sidebarHead">
-                            <a id="provisionSubmenuLink" href="#provisionSubmenu"
-                                onClick={this.toggleMenu.bind(this, "provision")} aria-expanded="false" >
+                            <a id="provisionSubmenuLink" href="javascript:void(0)" 
+                             onClick={this.toggleMenu.bind(this,"provision")} aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.provision.isOpen ? "show" : ''}`
@@ -218,6 +218,17 @@ class Sidebar extends Component {
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Blog Settings
+                                    </a>}
+                                </li>
+                                <li>
+                                    {(this.state.pageOn === 'blog') ? <a href="/blog">
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{color:"red"}}>Blog</span>
+                                    </a> : <a href="/blog">
+                                        <span>
+                                            <i className="far fa-circle" aria-hidden="true"></i>
+                                        </span>Blog 
                                     </a>}
                                 </li>
                             </ul>

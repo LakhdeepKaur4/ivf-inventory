@@ -57,8 +57,7 @@ class Blog extends Component{
                     id="dropdownMenuButton"
                     data-toggle="dropdown"
                     aria-haspopup="true"
-                    aria-expanded="false"
-                  >
+                    aria-expanded="false">
                     ...
                   </button>
                   <div

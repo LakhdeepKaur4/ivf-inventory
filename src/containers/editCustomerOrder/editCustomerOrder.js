@@ -12,6 +12,7 @@ class EditCustomerOrder extends Component {
     constructor(props){
         super(props);
         this.state={   
+            customerId:'',
             search:'', 
             name:'',
             surname:'',
@@ -27,10 +28,11 @@ class EditCustomerOrder extends Component {
 
     componentDidMount(){
      this.props.getCity();
-     this.props.getCustomer();
+    //  this.props.getCustomer();
     }
 
     searchOnChange = (e) => {
+        this.props.getCustomer(e.target.value);
         this.setState({ search: e.target.value })
      }
 
@@ -42,7 +44,6 @@ class EditCustomerOrder extends Component {
     }
 
     getCity=({city})=>{
-        console.log(React.version);
         if(city){
             return city.map((item)=><option style={{color:"#4D4F5C"}} key={item.id}>{item}</option>
             )
@@ -64,8 +65,8 @@ class EditCustomerOrder extends Component {
     }
 
     viewCustomer=({view})=>{
-        if(view){
-            return view.map((item)=><option key={item.id}>{item.name},{item.email}</option>)
+        if(view){console.log(view)
+            return view.customer ? view.customer.map((item)=><option key={item.customerId}>{item.name}</option>):''
         }
   }
 
@@ -105,7 +106,7 @@ class EditCustomerOrder extends Component {
                                 <div className="md-form active-purple-2 mb-3 row">
                                     <div className="col-1 m-auto" style={{fontSize:"1.5rem"}}><i className="fa fa-search"></i></div>
                                         <div className="col-11">
-                                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" list="customer" name="search"  style={{backgroundColor:'transparent'}} placeholder="Search by name and email"/>
+                                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" list="customer" name="search" onChange={this.searchOnChange}  style={{backgroundColor:'transparent'}} placeholder="Search by name and email"/>
                                             <datalist id="customer">
                                                     <option />                                 
                                                     {this.viewCustomer(this.props.EditCustomerOrderReducer)} 

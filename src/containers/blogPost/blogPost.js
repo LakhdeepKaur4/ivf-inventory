@@ -38,7 +38,7 @@ class BlogPost extends Component {
                                 </div>
                                 <div className="md-form active-purple-2 mb-3">
                                     <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
-                                        type="text" style={{ backgroundColor: 'transparent' }} placeholder="Washing very sensitive T-shirts tips & tricks" />
+                                        type="text" style={{ backgroundColor: 'transparent' }} placeholder="Title" />
                                 </div>
                                 <div style={{ height: "54px" }}></div>
                                 <div className="md-form active-purple-2 mb-3">
