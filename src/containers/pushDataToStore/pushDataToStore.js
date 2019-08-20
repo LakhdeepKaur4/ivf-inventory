@@ -75,6 +75,9 @@ class PushDataToStore extends React.Component {
         // $(e.currentTarget).toggleClass('buttonActivePushDataToStore buttonOffPushDataToStore');
         
     }
+    navigateAhead=()=>{
+        this.props.history.push('/')
+    }
     render() {
         return (
             <div>
