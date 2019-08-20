@@ -18,6 +18,9 @@ const Orders = sequelize.define('orders',{
     email: {
         type: Sequelize.STRING
     },
+    storeId: {
+        type: Sequelize.INTEGER
+    },
     createdAt: {
         type: Sequelize.DATE
     },
