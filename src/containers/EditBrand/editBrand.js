@@ -60,7 +60,7 @@ class EditBrands extends Component {
     this.setState({
       brandName: "",
       description: "",
-      selected: "",
+      status: "",
       picture: ""
     });
   };
