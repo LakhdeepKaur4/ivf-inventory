@@ -21,3 +21,48 @@
 .radioInput {
   margin: .4rem;
 }
+
+.tip {
+  position: relative;
+  display:inline-block !important;
+}
+  
+.tip .tiptext{
+  visibility: hidden;
+  background-color: black;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  width: 120px;
+  color:white;
+  position: absolute;
+  z-index: 1;
+  }
+  
+  
+  .tip:hover .tiptext{
+  visibility:visible;
+  }
+
+  .vt-center {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .tip .tiptext::after{
+  position: absolute;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  content: " ";
+  top:50%;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+  }
+
+  .parentContent {
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+  }

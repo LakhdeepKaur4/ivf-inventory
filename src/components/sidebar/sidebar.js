@@ -1,59 +1,60 @@
 import React, { Component } from 'react';
 import './sidebar.css';
 import { Link } from 'react-router-dom'
-import $ from 'jquery';
+
 class Sidebar extends Component {
     state = {
         pageOn: '',
-        link:'',
-        menuState:{
-        'stores':{
-            isOpen:false
-        },
-        'inventory':{
-            isOpen:false
-        },
-        'provision':{
-            isOpen:false
-        },
-        'filter_and_search':{
-            isOpen:false
-        }
+        link: '',
+        menuState: {
+            'stores': {
+                isOpen: false
+            },
+            'inventory': {
+                isOpen: false
+            },
+            'provision': {
+                isOpen: false
+            },
+            'filter_and_search': {
+                isOpen: false
+            }
         }
     }
-    
-    constructor(){
+
+    constructor() {
         super();
         let menuItemStr = localStorage.getItem('menuItem');
-        if(menuItemStr) {
+        if (menuItemStr) {
             let menuState = JSON.parse(menuItemStr);
-            this.state.menuState = menuState;        
+            this.state.menuState = menuState;
         }
-        else{
+        else {
 
         }
     }
 
-    toggleMenu(menuName){
-        this.setState(prevState=>{
-            let prevMenuState = prevState.menuState;            
+    toggleMenu(menuName) {
+        this.setState(prevState => {
+            let prevMenuState = prevState.menuState;
             return {
                 ...prevMenuState,
-                menuState:{...prevMenuState,
-                    [menuName]:{
+                menuState: {
+                    ...prevMenuState,
+                    [menuName]: {
                         ...prevMenuState[menuName],
-                        isOpen:!prevMenuState[menuName].isOpen
+                        isOpen: !prevMenuState[menuName].isOpen
                     }
                 }
             };
-        },()=>{
+        }, () => {
             localStorage.setItem('menuItem', JSON.stringify(this.state.menuState));
         });
     }
 
     componentDidMount() {
-        let page = window.location.href;        
-        page = page.slice(page.lastIndexOf("/") + 1);
+        let page = window.location.href;
+        page = page.split("/")[3];
         this.setState({
             pageOn: page,
             link: localStorage.getItem('link')
@@ -71,12 +72,12 @@ class Sidebar extends Component {
 
                     <ul className="list-unstyled components">
                         <li className="active sidebarHead">
-                            <a href="#homeSubmenu" onClick={this.toggleMenu.bind(this,"stores")} aria-expanded="false">
-                                <span><i className="far fa-circle" aria-hidden="true" 
-                                style={{ color: "red" }}></i></span>STORES</a>
+                            <a href="#homeSubmenu" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded="false">
+                                <span><i className="far fa-circle" aria-hidden="true"
+                                    style={{ color: "red" }}></i></span>STORES</a>
                             <ul className={
-                                `collapse list-unstyled sidebarColl ${menuState.stores.isOpen?"show":''}`
-                             } >
+                                `collapse list-unstyled sidebarColl ${menuState.stores.isOpen ? "show" : ''}`
+                            } >
                                 <li>
                                     <a href="/productsView" id="abox" onClick={this.changeIcon}>
                                         <span>
@@ -105,9 +106,9 @@ class Sidebar extends Component {
                              onClick={this.toggleMenu.bind(this,"inventory")} aria-expanded='false' >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>INVENTORY</a>
                             <ul className={
-                                `collapse list-unstyled sidebarColl ${menuState.inventory.isOpen?"show":''}`
-                             }
-                              id="inventorySubmenu">
+                                `collapse list-unstyled sidebarColl ${menuState.inventory.isOpen ? "show" : ''}`
+                            }
+                                id="inventorySubmenu">
                                 <li>
                                     {(this.state.pageOn === 'productsView') ? <Link to="/productsView">
                                         <span>
@@ -144,8 +145,8 @@ class Sidebar extends Component {
                              onClick={this.toggleMenu.bind(this,"provision")} aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className={
-                                `collapse list-unstyled sidebarColl ${menuState.provision.isOpen?"show":''}`
-                             } id="provisionSubmenu">
+                                `collapse list-unstyled sidebarColl ${menuState.provision.isOpen ? "show" : ''}`
+                            } id="provisionSubmenu">
                                 <li>
                                     {(this.state.pageOn === 'pushProductsView') ? <Link to="/pushProductsView" >
                                         <span>
@@ -179,13 +180,13 @@ class Sidebar extends Component {
                         </li>
 
                         <li className="active sidebarHead">
-                            <a id="ftSubmenuLink" href="#ftSubmenu" 
-                            onClick={this.toggleMenu.bind(this,"filter_and_search")} aria-expanded="false" >
+                            <a id="ftSubmenuLink" href="#ftSubmenu"
+                                onClick={this.toggleMenu.bind(this, "filter_and_search")} aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>FILTER & SEARCH</a>
                             <ul className={
-                                `collapse list-unstyled sidebarColl ${menuState.filter_and_search.isOpen?"show":''}`
-                             }
-                              id="ftSubmenu">
+                                `collapse list-unstyled sidebarColl ${menuState.filter_and_search.isOpen ? "show" : ''}`
+                            }
+                                id="ftSubmenu">
                                 <li>
                                     <a href="#">
                                         <span>
@@ -208,11 +209,11 @@ class Sidebar extends Component {
                                     {(this.state.pageOn === 'blogSettings') ? <a href="/blogSettings">
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
-                                        </span><span style={{color:"red"}}>Blog Settings</span>
+                                        </span><span style={{ color: "red" }}>Blog Settings</span>
                                     </a> : <a href="/blogSettings">
-                                        <span>
-                                            <i className="far fa-circle" aria-hidden="true"></i>
-                                        </span>Blog Settings
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Blog Settings
                                     </a>}
                                 </li>
                             </ul>
@@ -221,11 +222,8 @@ class Sidebar extends Component {
                 </div>
 
             </div>
-
         );
-
     }
-
 }
 
 export default Sidebar;

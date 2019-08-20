@@ -12,6 +12,7 @@ import DataToStoreReducer from './dataToStoreReducer/dataToStoreReducer';
 import ProductItemReducer from './productItemReducer/productItemReducer';
 import CreateProductReducer from './createProductReducer/createProductReducer';
 import PushDataToStore from './pushDataToStore/pushDataToStore';
+import BlogReducer from './blogReducer/blogReducer';
 const rootReducer = combineReducers({
    ViewOrderReducer,
    AddProductReducer,
@@ -24,7 +25,9 @@ const rootReducer = combineReducers({
    EditCustomerOrderReducer,
    DataToStoreReducer,
    ProductItemReducer,
-   CreateProductReducer,
-   PushDataToStore
+   PushDataToStore,
+   BlogReducer,
+   CreateProductReducer
+   
 })
 export default rootReducer;

@@ -105,20 +105,43 @@ class CreatePage extends Component {
                                 <h5>Web Page Details</h5>
                             </div>
                             <div className="col-md-6 ml-5">
-                                <div className="form-group">
-                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="pagetitle" placeholder="Page title" />
+                                <div className="form-group row">
+                                    <div className="col-sm-10">
+                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="pagetitle" placeholder="Page title" />
+                                    </div>
+                                    <div className='col-sm-2 vt-center'>
+                                        <div className="tip">
+                                        (?)
+                                            <span className='tiptext'>help text</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="form-group">
-                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="Page Url" />
+                               
+                                <div className="form-group row">
+                                    <div className="col-sm-10">
+                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="Page Url" />
+                                    </div>
+                                    <div className='col-sm-2 vt-center'>
+                                        <div className="tip">
+                                        (?)
+                                            <span className='tiptext'>help text</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="form-group">
-                                    <textarea type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="description" placeholder="Content" />
+                                <div className="form-group row">
+                                    <div className="col-sm-10">
+                                        <textarea type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="description" placeholder="Content" />
+                                    </div>
                                 </div>
-                                <div className="form-group">
-                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="Page n zone" />
+                                <div className="form-group row">
+                                    <div className="col-sm-10">
+                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="Page n zone" />
+                                    </div>
                                 </div>
-                                <div className="form-group">
-                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="URL" />
+                                <div className="form-group row">
+                                    <div className="col-sm-10">
+                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="keywords" placeholder="URL" />
+                                    </div>
                                 </div>
                             </div>
 
@@ -145,14 +168,18 @@ class CreatePage extends Component {
                                 <input className="radioInput" type="checkbox" />
                                 <label className="radioLabel">Nav Menu</label>
                                 <span className="m-3">(show this in nav)</span>
-                                <span>(?)</span>
+                                <div className='tip'>(?)
+                                    <span className='tiptext'>help text</span>
+                                </div>
                             </div>
                         </div>
                     </div>    
-                    <div >
-                        <div className="col-md-12">
-                            <h6>Parent page</h6>
+                    <div className="row">
+                        <div className="col-md-3">
+                             
                         </div>
+                        <div className="col-md-6">
+                            <h6>Parent page</h6>
                         <div>
                             <input className="radioInput" type="checkbox" />
                             <label className="radioLabel">None</label>
@@ -176,6 +203,7 @@ class CreatePage extends Component {
                         <div>
                             <input className="radioInput" type="checkbox" />
                             <label className="radioLabel">Nav Menu</label>
+                        </div>
                         </div>
                     </div>
                 </Dashboard>
