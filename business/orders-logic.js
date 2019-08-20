@@ -11,8 +11,10 @@ const httpStatus = require('http-status');
 exports.getOrders = (req, res, next) => {
   Orders.findAll({
     include: [
-      { model: Customers },
-      { model: Carts }
+      { model: Customers, include: [{ model: Addresses }] },
+      { model: Carts, include: [{ model: CartProducts }] },
+      { model: Shipments },
+      { model: Payments }
     ]
   })
     .then(orders => {
@@ -27,8 +29,10 @@ exports.getOrderById = (req, res, next) => {
       orderId: req.params.id
     },
     include: [
-      { model: Customers },
-      { model: Carts }
+      { model: Customers, include: [{ model: Addresses }] },
+      { model: Carts, include: [{ model: CartProducts }] },
+      { model: Shipments },
+      { model: Payments }
     ]
   })
     .then(orders => {
@@ -69,19 +73,22 @@ exports.create = (req, res, next) => {
                           paymentId: paymentId
                         }
                         Orders.create(order)
-                        .then(order => {
-                          Orders.findOne({
-                            where:{
-                              orderId: order.orderId
-                            },
-                            include: [
-                              {model: Customers}
-                            ]
-                          })
                           .then(order => {
-                            return res.status(httpStatus.OK).json({ order });
+                            Orders.findOne({
+                              where: {
+                                orderId: order.orderId
+                              },
+                              include: [
+                                { model: Customers, include: [{ model: Addresses }] },
+                                { model: Carts, include: [{ model: CartProducts }] },
+                                { model: Shipments },
+                                { model: Payments }
+                              ]
+                            })
+                              .then(order => {
+                                return res.status(httpStatus.OK).json({ order });
+                              })
                           })
-                        })
                       })
                   })
               })
@@ -93,20 +100,20 @@ exports.create = (req, res, next) => {
 }
 
 exports.updateOrder = async (req, res, next) => {
-    try {
-        const orderId = req.params.orderId;
-        const updates = req.body;
-        Order.update(orderId, {
-            $set: updates
-        }, (err, order) => {
-            if (err) {
-                return res.json({ message: 'Updation error', err });
-            } else {
-                return res.status(httpStatus.OK).send({ message: "Order updated", order });
-            }
-        })
-    } catch (error) {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
-    }
+  try {
+    const orderId = req.params.orderId;
+    const updates = req.body;
+    Order.update(orderId, {
+      $set: updates
+    }, (err, order) => {
+      if (err) {
+        return res.json({ message: 'Updation error', err });
+      } else {
+        return res.status(httpStatus.OK).send({ message: "Order updated", order });
+      }
+    })
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  }
 }
 
