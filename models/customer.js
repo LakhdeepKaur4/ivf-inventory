@@ -21,6 +21,9 @@ const Customers = sequelize.define('customers',{
     phone: {
         type: Sequelize.STRING
     },
+    storeId: {
+        type: Sequelize.INTEGER
+    },
     createdAt: {
         type: Sequelize.DATE
     },
