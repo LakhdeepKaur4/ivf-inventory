@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Dashboard from '../../components/dashboard/dashboard';
-import { createProductDetails,postProduct } from '../../actions/createProductAction';
+import { createProductDetails,productData } from '../../actions/createProductAction';
 import {getBrands} from '../../actions/brandsAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -41,7 +41,8 @@ class CreateProduct extends Component {
         this.props.getBrands();
         this.props.createProductDetails();
       }
-
+    
+      // for add tag
     handleDelete = (i) => {
         const { hashtags } = this.state;
         this.setState({
@@ -49,29 +50,9 @@ class CreateProduct extends Component {
         });
     }
 
-    handleDeleteDetail = (i) => {
-        const { tagsDetail } = this.state;
-        this.setState({
-            tagsDetail: tagsDetail.filter((tag, index) => index !== i),
-        });
-    }
-
-    handleDeleteInfo = (i) => {
-        const { tagsInfo } = this.state;
-        this.setState({
-            tagsInfo: tagsInfo.filter((tag, index) => index !== i),
-        });
-    }
-
+  
     handleAddition = (tag) => {
         this.setState(state => ({ hashtags: [...state.hashtags, tag] }));
-    }
-
-    handleAdditionDetail = (tag) => {
-        this.setState(state => ({ tagsDetail: [...state.tagsDetail, tag] }));
-    }
-    handleAdditionInfo = (tag) => {
-        this.setState(state => ({ tagsInfo: [...state.tagsInfo, tag] }));
     }
 
     handleDrag = (tag, currPos, newPos) => {
@@ -85,6 +66,20 @@ class CreateProduct extends Component {
         this.setState({ hashtags: newTags });
     }
 
+    
+    //for detail name
+    handleDeleteDetail = (i) => {
+        const { tagsDetail } = this.state;
+        this.setState({
+            tagsDetail: tagsDetail.filter((tag, index) => index !== i),
+        });
+    }
+
+    handleAdditionDetail = (tag) => {
+        this.setState(state => ({ tagsDetail: [...state.tagsDetail, tag] }));
+    }
+
+
     handleDragDetail = (tag, currPos, newPos) => {
         const tags = [...this.state.tagsDetail];
         const newTags = tags.slice();
@@ -96,6 +91,24 @@ class CreateProduct extends Component {
         this.setState({ tagsDetail: newTags });
     }
 
+    
+    // for details info
+    handleDeleteInfo = (i) => {
+        const { tagsInfo } = this.state;
+        this.setState({
+            tagsInfo: tagsInfo.filter((tag, index) => index !== i),
+        });
+    }
+
+    handleAdditionInfo = (tag) => {
+        this.setState(state => ({ tagsInfo: [...state.tagsInfo, tag] }));
+    }
+
+    
+
+    
+
+   
     handleDragInfo = (tag, currPos, newPos) => {
         const tags = [...this.state.tagsInfo];
         const newTags = tags.slice();
@@ -112,11 +125,11 @@ class CreateProduct extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-
+    
+    //for Brands 
     onChangeBrand = (e) => {
         let selected= e.target.value
-        console.log(selected)
-        
+    
         this.setState({
             brandId: selected
         })
@@ -125,7 +138,7 @@ class CreateProduct extends Component {
     }
 
  
-
+    //for picture
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -156,9 +169,12 @@ class CreateProduct extends Component {
     };
 
     formSubmit = () => {
-        console.log(this.state,"form=========")
-        this.props.postProduct(this.state);
+        this.props.productData(this.state);
+        this.props.history.push("/productVariant");
+        
     }
+
+    //for get product
 
     getProductData = ({ getProduct }) => {
         if (getProduct) {
@@ -209,7 +225,7 @@ class CreateProduct extends Component {
         if (picture) {
             $imagePreview = (<img src={picture} style={{ width: "60px" }} />);
         } else {
-            $imagePreview = (<div className="previewText "><label className="ml-3 ">image</label></div>);
+            $imagePreview = (<div className="previewText "><label className="ml-3 ">MEDIA</label></div>);
         }
 
 
@@ -247,8 +263,8 @@ class CreateProduct extends Component {
                                 </div>
                                 <div className="col-sm">
                                     <label><h5>Details</h5></label>
-                                    <div className=" text-dark">
-                                        <form onSubmit={this.formSubmit}>
+                                    <div className="text-muted">
+                                        <form  onSubmit={this.formSubmit}>
                                             <div className="h5 small text-danger">Title</div>
                                             <div className="form-row">
                                                 <div className="form-group">
@@ -298,43 +314,31 @@ class CreateProduct extends Component {
                                 </div>
                                 <div className="col-sm">
                                     <label><h5>Media Galary</h5></label>
+                                    <div>
+                        <div className="card table  text-muted" style={{ width:"330px"}} >
+                            <table className="text-muted">
+                                <thead className="t-header">
+                                    <tr>
+                                        <th>ORDER</th>
+                                        <th>MEDIA</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody className="t-body">
+                                <tr>
+                                        <td><span className="orderNo">11</span></td>
+                                        <td>{$imagePreview}</td>
+                                        <td><i className="fa fa-close" aria-hidden="true"></i></td>
+                                    </tr>
 
-
-                                    <div className="card table table-responsive border-0 text-muted" style={{ boxSizing: "0" }}>
-                                        <table >
-                                            <thead style={{ display: 'block' }}>
-                                                <tr>
-                                                    <th>ORDER</th>
-                                                    <th>MEDIA</th>
-                                                    <th></th>
-
-                                                </tr>
-                                            </thead>
-
-                                            <tbody className="tbody-table" >
-
-                                                <tr>
-                                                    <td><span className="orderNo">11</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true"></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span className="orderNo">12</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true" ></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span className="orderNo">13</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true" ></i></td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-
-                                        <div className="card-footer text-center border border-0 " style={{ backgroundColor: "rgba(0,0,0,0)", marginTop: "-15px", padding: "0px" }}>
-                                            <div className="previewComponent mt-4">
-                                                <form onSubmit={(e) => this.handleSubmit(e)}>
+                                </tbody>
+                            </table>
+                            <div className="card-footer image-card">
+                            <label htmlFor="file" className="ml-3">
+                                <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
+                            </label>
+                            <div className="previewComponent">
+                            <form onSubmit={(e) => this.handleSubmit(e)}>
                                                     <input className="fileInput hidden"
                                                         type="file"
                                                         id="file"
@@ -343,13 +347,12 @@ class CreateProduct extends Component {
                                                         type="submit"
                                                         onClick={(e) => this.handleSubmit(e)}>Upload Image</button>
                                                 </form>
-                                                <label htmlFor="file">
-                                                    <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
-                                                </label>
-                                            </div>
+                                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
 
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>
@@ -365,21 +368,26 @@ class CreateProduct extends Component {
                                         handleAddition={this.handleAddition}
                                         handleDrag={this.handleDrag}
                                         placeholder={placeholder}
-                                        inputFieldPosition="inline"
-                                        className="text-muted"
+                                        className="text-muted d-flex flex-column"
+                                        
                                     />
+                                    <span onClick={this.handleAddition}  ><i className="fa fa-plus" aria-hidden="true"></i></span>
                                 </div>
                             </div>
                             <div className="col-4 text-muted">
                                 <h5>Metadata</h5>
-                                <div>
+                                <div className="form-row col-12">
+                                    <div className="form-group col-6">
                                     <ReactTags tags={this.state.tagsDetail}
                                         handleDelete={this.handleDeleteDetail}
                                         handleAddition={this.handleAdditionDetail}
                                         handleDrag={this.handleDragDetail}
                                         placeholder={placeholderDetail}
                                         className="text-muted"
+                                    
                                     />
+                                    </div>
+                                    <div className="form-group col-6">
                                     <ReactTags tags={this.state.tagsInfo}
                                         handleDelete={this.handleDeleteInfo}
                                         handleAddition={this.handleAdditionInfo}
@@ -387,6 +395,8 @@ class CreateProduct extends Component {
                                         placeholder={placeholderInfo}
                                         className="text-muted"
                                     />
+                                    
+                                    </div>
                                 </div>
 
                             </div>
@@ -438,7 +448,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createProductDetails,postProduct,getBrands }, dispatch)
+    return bindActionCreators({ createProductDetails,getBrands,productData }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct);

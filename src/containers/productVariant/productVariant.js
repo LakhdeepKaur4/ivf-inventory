@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
-import {createProductDetails, postProduct} from '../../actions/createProductAction';
+import {createProductDetails, productVariant} from '../../actions/createProductAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 
@@ -11,16 +11,15 @@ class ProductVariant extends Component {
         super(props);
 
         this.state = {
-            fileName: '',
-            picture: '',
-            variant1:'',
-            optionTitle:'',
-            originCountry:'',
-            width:'',
-            length:'',
-            height:'',
-            weight:''
-
+                fileName: '',
+                picture: '',
+                variant1:'',
+                optionTitle:'',
+                originCountry:'',
+                width:'',
+                length:'',
+                height:'',
+                weight:''
         }
     }
 
@@ -68,8 +67,8 @@ class ProductVariant extends Component {
     };
 
     formSubmit = () => {
-        console.log(this.state, "submit=================")
-        this.props.postProduct(this.state);
+        this.props.productVariant(this.state);
+        this.props.history.push("/productVariantOption");
     }
 
     
@@ -100,7 +99,7 @@ class ProductVariant extends Component {
         if (picture) {
             $imagePreview = (<img src={picture} style={{ width: "60px" }} />);
         } else {
-            $imagePreview = (<div className="previewText "><label className="ml-3 ">image</label></div>);
+            $imagePreview = (<div className="previewText "><label className="ml-3 ">MEDIA</label></div>);
         }
        
 
@@ -134,7 +133,7 @@ class ProductVariant extends Component {
                                 </div>
                                 <div className="col-sm">
                                     <label><h5>Details</h5></label>
-                                    <div className=" text-dark">
+                                    <div className=" text-muted">
                                         <form onSubmit={this.formSubmit}>
                                             <div className="h5 small text-danger">Title</div>
                                             <div className="form-row">
@@ -178,56 +177,43 @@ class ProductVariant extends Component {
                                 </div>
                                 <div className="col-sm">
                                     <label><h5>Media Galary</h5></label>
+                                    <div className="card table  text-muted" style={{ width:"330px"}} >
+                            <table className="text-muted">
+                                <thead className="t-header">
+                                    <tr>
+                                        <th>ORDER</th>
+                                        <th>MEDIA</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody className="t-body">
+                                <tr>
+                                        <td><span className="orderNo">11</span></td>
+                                        <td>{$imagePreview}</td>
+                                        <td><i className="fa fa-close" aria-hidden="true"></i></td>
+                                    </tr>
 
+                                </tbody>
+                            </table>
+                            <div className="card-footer image-card">
+                            <label htmlFor="file" className="ml-3">
+                                <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
+                            </label>
+                            <div className="previewComponent">
+                            <form onSubmit={(e) => this.handleSubmit(e)}>
+                                                    <input className="fileInput hidden"
+                                                        type="file"
+                                                        id="file"
+                                                        onChange={(e) => this.handleImageChange(e)} />
+                                                    <button className="submitButton hidden"
+                                                        type="submit"
+                                                        onClick={(e) => this.handleSubmit(e)}>Upload Image</button>
+                                                </form>
+                                                </div>
+                            </div>
+                        </div>
 
-                                    <div className="card table table-responsive border-0 text-muted" style={{ boxSizing: "0" }}>
-                                        <table >
-                                            <thead style={{ display: 'block' }}>
-                                                <tr>
-                                                    <th>ORDER</th>
-                                                    <th>MEDIA</th>
-                                                    <th></th>
-
-                                                </tr>
-                                            </thead>
-
-                                            <tbody className="tbody-table" >
-
-                                                <tr>
-                                                    <td><span className="orderNo">11</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true" ></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span className="orderNo">12</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true" ></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span className="orderNo">13</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true" ></i></td>
-                                                </tr>
-
-                                            </tbody>
-
-                                        </table>
-
-                                        <div className="card-footer text-center border border-0 " style={{ backgroundColor: "rgba(0,0,0,0)", marginTop: "-15px", padding: "0px" }}>
-                                            <div className="previewComponent">
-
-                                                <input className="fileInput hidden"
-                                                    type="file"
-                                                    id="file"
-                                                    onChange={(e) => this.handleImageChange(e)} ></input>
-
-                                                <label htmlFor="file">
-                                                    <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
-                                                </label>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                            
 
                                 </div>
                             </div>
@@ -269,14 +255,13 @@ class ProductVariant extends Component {
 }
 
 function mapStateToProps(state){
-    console.log(state)
   return{
      CreateProductReducer: state.CreateProductReducer      
   }
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({createProductDetails,postProduct}, dispatch)
+  return bindActionCreators({createProductDetails,productVariant}, dispatch)
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ProductVariant);
