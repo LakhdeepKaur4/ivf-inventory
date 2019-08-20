@@ -20,7 +20,7 @@
 .pushDataToStore div #firstpdts{
     margin-top: 15px;
 }
-.buttonActivePushDataToStore{
+/* .buttonActivePushDataToStore{
     background-color:black;
     border-radius:40%;
     width:140px;
@@ -30,6 +30,10 @@
    
     border-radius:40%;
     width:140px
+} */
+.prductWithStore{
+    display: flex;
+    justify-content: space-between;
 }
 .inActive3 .md-step-circle{
     border:1px solid red;
