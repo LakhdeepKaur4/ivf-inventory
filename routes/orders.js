@@ -10,4 +10,6 @@ router.route("/:id").get(controller.getOrderById);
 
 router.route("/").post(controller.create);
 
+router.route("/:orderId").put(controller.updateOrder);
+
 module.exports = router;
