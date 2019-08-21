@@ -1,0 +1,1 @@
+<!-- MONGO_URI=mongodb://rohit1:mongo2310@tip-inv-shard-00-00-t6mm4.mongodb.net:27017,tip-inv-shard-00-01-t6mm4.mongodb.net:27017,tip-inv-shard-00-02-t6mm4.mongodb.net:27017/inventory?ssl=true&replicaSet=TIP-INV-shard-0&authSource=admin&retryWrites=true&w=majority -->
