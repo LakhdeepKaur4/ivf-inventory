@@ -67,7 +67,11 @@ exports.getBrand = (req, res, next) => {
 exports.updateBrand = (req, res, next) => {
   try {
     const body = req.body;
-
+    if (body.status === 'Enabled') {
+      body.status = true;
+    } else {
+      body.status = false;
+    }
     if (body.hasOwnProperty('logo')) {
       let file = body.logo;
       let fileExt = file.slice(file.indexOf('/') + 1, file.indexOf(';'));
@@ -78,7 +82,7 @@ exports.updateBrand = (req, res, next) => {
         if (err) {
           return res.status(httpStatus.FAILED_DEPENDENCY).json(resp)
         } else {
-          Brands.update(req.params.id, {
+          Brands.findOneAndUpdate({_id:req.params.id}, {
             $set: body
           }, (err, brand) => {
             if (err) {
@@ -90,7 +94,7 @@ exports.updateBrand = (req, res, next) => {
         }
       });
     } else {
-      Brands.update(req.params.id, {
+      Brands.findOneAndUpdate({_id:req.params.id}, {
         $set: body
       }, (err, brand) => {
         if (err) {
