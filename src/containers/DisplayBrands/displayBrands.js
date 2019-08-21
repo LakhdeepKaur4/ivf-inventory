@@ -10,9 +10,9 @@ class Brands extends Component {
     super(props);
     this.state = {
       searchTxt: "",
-      activePage: 1,
-      limit: 5,
-      totalItemsCount: 10,
+      activePage:'',
+      limit: 10,
+      totalItemsCount:'',
       brandsList: [],
       filterName: "name",
       displayAddBrandsForm: false,
@@ -22,8 +22,9 @@ class Brands extends Component {
       editId:'',
     };
   }
+
   componentDidMount() {
-    this.props.getBrands();
+     this.props.getDefaultPageBrandsDetails(1);
   }
 
   componentDidUpdate(prevProps) {
@@ -31,19 +32,18 @@ class Brands extends Component {
       this.props.history.push(`/editBrand/${this.state.editId}`);
     }
   }
+
   // Handle Page change
   handlePageChange = pageNumber => {
-    this.props.getPageDetails(pageNumber);
+    this.props.getActivePageBrandsDetails(pageNumber);
   };
 
   // Handle Enable
-
   handleEnable = id => {
     this.props.enableBrand(id);
   };
 
   // Handle Disable
-
   handleDisable = id => {
     this.props.disableBrand(id);
   };
@@ -82,7 +82,7 @@ class Brands extends Component {
       let brands = this.props.BrandsReducer;
 
       brands.brandsList.map(item => {
-        ids.push(item._id);
+        return ids.push(item._id);
       });
       this.setState({ multiSelect: ids, isAllSelect: true });
     } else {
@@ -305,7 +305,7 @@ class Brands extends Component {
                 <Pagination
                   activePage={this.state.activePage}
                   itemsCountPerPage={this.state.limit}
-                  totalItemsCount={this.state.totalItemsCount}
+                  totalItemsCount={this.props.total}
                   onChange={this.handlePageChange}
                 />
               </div>
@@ -325,7 +325,8 @@ const mapStateToProps = state => {
     BrandsReducer: state.BrandsReducer,
     isBrandDisable: state.BrandsReducer.isBrandDisable,
     isBrandEnable: state.BrandsReducer.isBrandEnable,
-    brandDetail: state.BrandsReducer.brandDetail
+    brandDetail: state.BrandsReducer.brandDetail,
+    total:state.BrandsReducer.total,
   };
 };
 

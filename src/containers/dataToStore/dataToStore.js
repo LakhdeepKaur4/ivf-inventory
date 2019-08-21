@@ -95,7 +95,7 @@ class DataToStore extends Component{
     }
     selectAll = (action) => {
         if (action === true) {
-            this.setState({ storeIds: this.state.allIds });
+            this.setState({ storeIds: [...this.state.allIds] });
         } else {
             this.setState({ storeIds: [] });
         }  
