@@ -5,7 +5,6 @@ const CartProducts = require('../config/relations').cartProducts;
 const Addresses = require('../config/relations').addresses;
 const Payments = require('../config/relations').payments;
 const Shipments = require('../config/relations').shipments;
-const Order = require('../models/order');
 
 const httpStatus = require('http-status');
 
