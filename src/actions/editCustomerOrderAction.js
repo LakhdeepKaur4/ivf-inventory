@@ -21,8 +21,8 @@ export function addCustomer(name,surname,email,address,city,region,postalCode,ph
     }
 }
 
-export function getCustomer(){
-    const request = axios.get(`${URN}/newCustomer`)
+export function getCustomer(search){console.log(search)
+    const request = axios.get(`http://192.168.1.104:3002/api/customer?search=${search}`)
     .then((response =>response.data))
     return {
         type: GET_CUSTOMER,
