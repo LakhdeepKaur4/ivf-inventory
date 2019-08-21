@@ -2,6 +2,7 @@
     color:#555555;
 }
 
+
 .mainDiv .subTitle{
     margin-top: 35px;
     margin-left: 20px ;
@@ -85,6 +86,38 @@
     background-color: #FFFFFF;
 
 }
+
+.t-header{
+    top: 295px;
+    left: 1135px;
+    width: 370px;
+    height: 29px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+.t-body{
+    top: 324px;
+    left: 1135px;
+    width: 370px;
+    height: 74px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    overflow-y:scroll;
+    opacity:50%;
+    box-sizing: inherit;
+    padding: 6px;
+}
+
+.image-card{
+    top: 547px;
+    left: 1135px;
+    height: 50px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 0px 0px 6px 6px;
+    opacity: 1;
+}
+
+
 
 
 
@@ -175,7 +208,8 @@
       height: 31px;
       margin: 0;
       font-size: 18px;
-      width: 60%;
+      /* width: 60%; */
+      width: 125px;
       border: 1px solid rgb(70, 66, 66);
       padding: 0 4px;
       margin: 6px;
@@ -187,8 +221,8 @@
   div.ReactTags__selected span.ReactTags__tag {
       background: #999999;
       color: white;
-      padding: 7px;
-      margin: 0 5px;
+      padding: 5px;
+      margin: 4px 5px;
       cursor: move;
       border-radius: 4px;
   }
@@ -222,3 +256,10 @@
       background: #b7cfe0;
       cursor: pointer;
   }
+
+  div.ReactTags__selected {
+      display: flex;
+      flex-wrap: wrap;
+  }
+
+     

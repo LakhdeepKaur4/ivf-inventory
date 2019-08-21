@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
-import {createProductDetails, postProduct} from '../../actions/createProductAction';
+import {createProductDetails, productSubmit} from '../../actions/createProductAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 
@@ -28,7 +28,6 @@ class ProductVariantOption extends Component {
     }
 
     onChange=(e)=>{
-       
         this.setState({[e.target.name]: e.target.value});
      }
 
@@ -64,8 +63,20 @@ class ProductVariantOption extends Component {
     };
     
     formSubmit = () => {
-        console.log(this.state, "submit=================")
-        this.props.postProduct(this.state);
+        this.props.productSubmit(this.createFinalProdData());
+        
+    }
+
+    createFinalProdData(){
+       let { productData, productVariant:variants } = this.props.CreateProductReducer;
+       let data = {
+           ...productData,
+           variants:[{
+               ...variants,
+               options:this.state
+           }] 
+       }
+       return data;
     }
 
 
@@ -133,19 +144,25 @@ class ProductVariantOption extends Component {
                                             <div className="h5 small text-danger">Title</div>
                                             <div className="form-row">
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" placeholder="Option 1" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="option1" onChange={this.onChange} id="inputSportWear" placeholder="Option 1" />
                                                 </div>
                                             </div>
 
                                             <div className="form-row">
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" placeholder="Option Title" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="optionTitle" name="optionTitle" onChange={this.onChange} placeholder="Option Title" />
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row">
+                                                <div className="form-group">
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="color" name="color" onChange={this.onChange} placeholder="Color" />
                                                 </div>
                                             </div>
                                             <div className="form-row">
 
                                                 <div className="form-group  mb-3" style={{ width: '225px' }}>
-                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " name="originCountry"  onChange={this.onChange} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
                                                         <option>Origin country</option>
                                                         <option>U.K</option>
                                                         <option>RUSSIA</option>
@@ -154,18 +171,18 @@ class ProductVariantOption extends Component {
                                                 </div>
                                                 <div className="form-row col-12">
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Width" style={{ marginLeft: '-4px' }} />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="width" name="width" onChange={this.onChange} placeholder="Width" style={{ marginLeft: '-4px' }} />
                                                     </div>
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Length" />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="length" name="length" onChange={this.onChange} placeholder="Length" />
                                                     </div>
                                                 </div>
                                                 <div className="form-row col-12">
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Height" style={{ marginLeft: '-4px' }} />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="height" name="height" onChange={this.onChange} placeholder="Height" style={{ marginLeft: '-4px' }} />
                                                     </div>
                                                     <div className="form-group col-6">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" placeholder="Weight" />
+                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="weight" name="weight" onChange={this.onChange} placeholder="Weight" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -174,8 +191,42 @@ class ProductVariantOption extends Component {
                                 </div>
                                 <div className="col-sm">
                                     <label><h5>Media Galary</h5></label>
+                                    <div className="card table  text-muted" style={{ width:"330px"}} >
+                            <table className="text-muted">
+                                <thead className="t-header">
+                                    <tr>
+                                        <th>ORDER</th>
+                                        <th>MEDIA</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody className="t-body">
+                                <tr>
+                                        <td><span className="orderNo">11</span></td>
+                                        <td>{$imagePreview}</td>
+                                        <td><i className="fa fa-close" aria-hidden="true"></i></td>
+                                    </tr>
 
-
+                                </tbody>
+                            </table>
+                            <div className="card-footer image-card">
+                            <label htmlFor="file" className="ml-3">
+                                <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
+                            </label>
+                            <div className="previewComponent">
+                            <form onSubmit={(e) => this.handleSubmit(e)}>
+                                                    <input className="fileInput hidden"
+                                                        type="file"
+                                                        id="file"
+                                                        onChange={(e) => this.handleImageChange(e)} />
+                                                    <button className="submitButton hidden"
+                                                        type="submit"
+                                                        onClick={(e) => this.handleSubmit(e)}>Upload Image</button>
+                                                </form>
+                                                </div>
+                            </div>
+                        </div>
+{/* 
                                     <div className="card table table-responsive border-0 text-muted" style={{ boxSizing: "0" }}>
                                         <table >
                                             <thead style={{ display: 'block' }}>
@@ -222,7 +273,7 @@ class ProductVariantOption extends Component {
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                 </div>
                             </div>
@@ -265,14 +316,13 @@ class ProductVariantOption extends Component {
 }
 
 function mapStateToProps(state){
-    console.log(state)
   return{
      CreateProductReducer: state.CreateProductReducer      
   }
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({createProductDetails,postProduct}, dispatch)
+  return bindActionCreators({createProductDetails,productSubmit}, dispatch)
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ProductVariantOption);

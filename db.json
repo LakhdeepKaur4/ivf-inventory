@@ -311,5 +311,77 @@
       "author":"Andrew",
       "pubes":"Fashion"
     }
-  ]
+  ],
+  "category":[
+    {
+    "id":1,
+    "name":"Striped gangsta sheet pants,casual wear,red black,XL",
+    "products":"SN25",
+    "prodInSc":"32",
+    "visible":"Visible",
+    "customer":"Donald",
+    "actions":"..."
+    },
+    {
+    "id":2,
+    "name":"Striped gangsta sheet pants,casual wear,red black,XL",
+    "products":"SN25",
+    "prodInSc":"32",
+    "customer":"Donald",
+    "visible" :"Not visible",
+    "actions":"..."
+    
+    },
+    
+    {
+    "id":3,
+    "name":"Striped gangsta sheet pants,casual wear,red black,XL",
+    "products":"SN25",
+    "prodInSc":"32",
+    "customer":"Donald",
+    "visible" :"Visible",
+    "actions":"..."
+    
+    },
+    {
+    "id":4,
+    "name":"Striped gangsta sheet pants,casual wear,red black,XL",
+    "products":"SN25",
+    "prodInSc":"32",
+    "customer":"Donald",
+    "visible" :"Visible",
+    "actions":"..."
+    
+    },
+    {
+    "id":5,
+    "name":"Striped gangsta sheet pants,casual wear,red black,XL",
+    "products":"SN25",
+    "prodInSc":"32",
+    "customer":"Donald",
+    "visible" :"Visible",
+    "actions":"..."
+    
+    },
+    {
+    "id":6,
+    "name":"Striped gangsta sheet pants,casual wear,red black,XL",
+    "products":"SN25",
+    "prodInSc":"32",
+    "customer":"Donald",
+    "visible" :"Not visible",
+    "actions":"..."
+    
+    },
+    {
+    "id":7,
+    "name":"Striped gangsta sheet pants,casual wear,red black,XL",
+    "products":"SN25",
+    "prodInSc":"32",
+    "customer":"Donald",
+    "visible" :"Visible",
+    "actions":"..."
+    
+    }
+    ]
 }
