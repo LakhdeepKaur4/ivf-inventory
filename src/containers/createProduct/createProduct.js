@@ -371,7 +371,7 @@ class CreateProduct extends Component {
                                         className="text-muted d-flex flex-column"
                                         
                                     />
-                                    <span onClick={this.handleAddition}  ><i className="fa fa-plus" aria-hidden="true"></i></span>
+                                    {/* <span onClick={this.handleAddition}  ><i className="fa fa-plus" aria-hidden="true"></i></span> */}
                                 </div>
                             </div>
                             <div className="col-4 text-muted">
