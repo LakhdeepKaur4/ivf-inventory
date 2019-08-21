@@ -6,7 +6,9 @@ import {
     ENABLE_BRAND,
     BRAND_DETAIL,
     UPDATE_BRAND_DETAILS,
-    CHANGE_STATUS
+    CHANGE_STATUS,
+    GET_PAGE_DETAIL,
+    GET_ACTIVE_PAGE_DETAIL
   } from "../../actionCreators/index";
   
   const initialState = {
@@ -18,7 +20,8 @@ import {
     brandDetail: {},
     isBrandUpdate: false,
     isBrandDetail: false,
-    isStatusChanged: false
+    isStatusChanged: false,
+    total:'',
   };
   
   const BrandsReducer = (state = initialState, action) => {
@@ -72,6 +75,19 @@ import {
           ...state,
           isStatusChanged: action.payload
         };
+      }
+      case GET_PAGE_DETAIL:{
+        return{
+          ...state,
+          brandsList:action.payload.brands.docs,
+          total:action.payload.brands.total,
+        }
+      }
+      case GET_ACTIVE_PAGE_DETAIL:{
+        return{
+          ...state,
+          brandsList:action.payload
+        }
       }
       default:
         return state;
