@@ -113,7 +113,7 @@ class ProductVariantOption extends Component {
             <div>
                 <Dashboard>
                     <div className="mainDiv text-muted">
-                        <h3><b>CREATE PRODUCT / VARIANT 1</b></h3>
+                        <h3><b>CREATE PRODUCT</b></h3>
                         <div className="subTitle">
                             <h5><b>T-shirt Sportwear Nike / Variant 1 / Option 1</b></h5></div>
 
