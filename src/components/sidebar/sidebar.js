@@ -72,7 +72,7 @@ class Sidebar extends Component {
 
                     <ul className="list-unstyled components">
                         <li className="active sidebarHead">
-                            <a href="#homeSubmenu" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded="false">
+                            <a href="" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded="false">
                                 <span><i className="far fa-circle" aria-hidden="true"
                                     style={{ color: "red" }}></i></span>STORES</a>
                             <ul className={

@@ -25,6 +25,10 @@ class EditCustomerOrder extends Component {
             rememberMe:false
         }
     }
+    nextStepHandle = () => {
+        this.props.history.push("/editproducts");
+    }
+
 
     componentDidMount(){
      this.props.getCity();
@@ -34,7 +38,7 @@ class EditCustomerOrder extends Component {
     searchOnChange = (e) => {
         this.props.getCustomer(e.target.value);
         this.setState({ search: e.target.value })
-     }
+    }
 
     searchFilter = (search) => {
         return function (x) {
@@ -171,7 +175,9 @@ class EditCustomerOrder extends Component {
                             </div>
                         </div>
                         <div className='text-center mt-4'>
-                                <button type="button"  style={{backgroundColor:"#333333", marginLeft: '607px'}} className="btn btn-secondary btnCreate pl-5 pr-5  rounded-pill ">NEXT STEP</button>
+                                <button type="button"  style={{backgroundColor:"#333333",
+                                 marginLeft: '607px'}} className="btn btn-secondary btnCreate pl-5 pr-5  rounded-pill"
+                                  onClick={this.nextStepHandle}>NEXT STEP</button>
                                 </div>
                         </Dashboard>         
             </div>
