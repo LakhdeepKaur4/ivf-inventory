@@ -10,7 +10,7 @@ class Brands extends Component {
     super(props);
     this.state = {
       searchTxt: "",
-      activePage:'',
+      activePage:1,
       limit: 10,
       totalItemsCount:'',
       brandsList: [],
@@ -36,16 +36,17 @@ class Brands extends Component {
   // Handle Page change
   handlePageChange = pageNumber => {
     this.props.getActivePageBrandsDetails(pageNumber);
+    this.setState({activePage:pageNumber})
   };
 
   // Handle Enable
   handleEnable = id => {
-    this.props.enableBrand(id);
+    this.props.enableBrand(id,this.state.activePage);
   };
 
   // Handle Disable
   handleDisable = id => {
-    this.props.disableBrand(id);
+    this.props.disableBrand(id, this.state.activePage);
   };
 
   // Handle search input
@@ -70,10 +71,9 @@ class Brands extends Component {
   // Change status for multiple brands
 
   handleMultiple = value => {
-    this.props.changeStatus(value, this.state.multiSelect);
+    this.props.changeStatus(value, this.state.multiSelect,this.state.activePage);
     this.setState({ multiSelect: [], isAllSelect: false });
   };
-
   // Select all brands
 
   handleAllSelect = action => {
@@ -241,10 +241,10 @@ class Brands extends Component {
     );
     return (
       <Dashboard>
-        <div className="">
+        <div className="display_brands_list">
           <div className="container">
             <div className="img_content_wprapper">
-              <h1>Brands</h1>
+              <p className="heading">Brands</p>
             </div>
             <div className="search_filter_wrapper">
               <div className="search">
