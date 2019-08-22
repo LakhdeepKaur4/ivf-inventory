@@ -243,17 +243,19 @@ class CreateProduct extends Component {
 
                         <div className="container mt-4">
                             <div className="row">
-                                <div className="col-sm">
+                                <div className="col-sm-4">
                                     <label className="ml-3">Actions<span ><i className="fas fa-chevron-circle-down" aria-hidden="true" style={{ marginLeft: "14px" }}></i></span></label>
                                     <div className="card mainCard border border-0">
                                         <div className="variants">
                                             <h5>Variants<span onClick={this.displayVariantForm}><i className="fa fa-plus" aria-hidden="true" style={{ float: 'right' }}></i></span></h5>
                                             <div>Variant 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
                                                 <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
-                                                <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
-                                                <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color green</span></div>
-                                                <div>Option 2<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
-                                                <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- color red</span></div>
+                                                <div className="variants-option">
+                                                    <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
+                                                    <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color green</span></div>
+                                                    <div>Option 2<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
+                                                    <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- color red</span></div>
+                                                </div>
                                             </div>
                                             <div>Variant1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
                                                 <div className="h5 small"><span className="text-danger">Hidden</span> <span>- L SIZE</span></div>
@@ -261,84 +263,112 @@ class CreateProduct extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-sm">
+                                <div className="col-sm-4">
                                     <label><h5>Details</h5></label>
                                     <div className="text-muted">
                                         <form  onSubmit={this.formSubmit}>
                                             <div className="h5 small text-danger">Title</div>
-                                            <div className="form-row">
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" name="name" placeholder="T-shirt Sportwear Nike" onChange={this.onChange} />
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" name="name" placeholder="T-shirt Sportwear Nike" onChange={this.onChange} />
                                                 </div>
                                             </div>
 
-                                            <div className="form-group  mb-3" style={{ width: '225px' }}>
-                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " placeholder="brand" name="_id"  onChange={this.onChangeBrand} style={{ backgroundColor: '#F2F4F7' }} type="select">
-                                                    <option selected="true" disabled="disabled">Select Brands</option>
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12 row mx-auto">
+                                                    <div className="col-12 mx-0 p-0">
+                                                        <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" placeholder="brand" name="_id"  onChange={this.onChangeBrand} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                        <option selected="true" disabled="disabled">Select Brands</option>
                                                         {this.brandName(this.props.BrandsReducer)}
                                                     </select>
-                                                    <i className="fa fa-angle-down"></i>
-                                                </div>
-
-                                                {/* <Input type="select" defaultValue='no-value' name="countryName" onChange={this.onChangeCountry}>
-                                                <DefaultSelect/>
-                                                    {this.countryName(this.props.cityMasterReducer)}
-                                                </Input > */}
-                                            <div className="form-row">
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" name="subTitle" placeholder="Subtitle" onChange={this.onChange} />
+                                                    </div>
+                                                    <div className="col-1 float-right my-auto" style={{ marginLeft: "-40px" }}><i className="fa fa-angle-down"></i></div>
                                                 </div>
                                             </div>
-                                            <div className="form-row">
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputVendor" name="vendor" placeholder="Vendor" onChange={this.onChange} />
-                                                </div>
 
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputDescription" name="description" placeholder="Description" onChange={this.onChange} />
-                                                </div>
-                                                <div className="form-group  mb-3" style={{ width: '225px' }}>
-                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " placeholder="Origin country" name="originCountry" onChange={this.onChange} style={{ backgroundColor: '#F2F4F7' }} type="select">
-                                                        <option>Origin country</option>
-                                                        <option>U.K</option>
-                                                        <option>RUSSIA</option>
-                                                    </select>
-                                                    <i className="fa fa-angle-down"></i></div>
-
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" name="template" placeholder="Template" onChange={this.onChange} />
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" name="subTitle" placeholder="Subtitle" onChange={this.onChange} />
                                                 </div>
                                             </div>
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputVendor" name="vendor" placeholder="Vendor" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputDescription" name="description" placeholder="Description" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12 row mx-auto">
+                                                    <div className="col-12 mx-0 p-0">
+                                                        <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="originCountry" onChange={this.onChange} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                            <option>Origin country</option>
+                                                            <option>U.K</option>
+                                                            <option>RUSSIA</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-1 float-right my-auto" style={{ marginLeft: "-40px" }}><i className="fa fa-angle-down"></i></div>
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" name="template" placeholder="Template" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+                                           
+                                   
                                         </form>
                                     </div>
                                 </div>
-                                <div className="col-sm">
+                                <div className="col-sm-4">
                                     <label><h5>Media Galary</h5></label>
-                                    <div>
-                        <div className="card table  text-muted" style={{ width:"330px"}} >
-                            <table className="text-muted">
-                                <thead className="t-header">
-                                    <tr>
-                                        <th>ORDER</th>
-                                        <th>MEDIA</th>
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody className="t-body">
-                                <tr>
-                                        <td><span className="orderNo">11</span></td>
-                                        <td>{$imagePreview}</td>
-                                        <td><i className="fa fa-close" aria-hidden="true"></i></td>
-                                    </tr>
+                                    <div className="col-12 p-0">
+                                        <table class="table table-light text-muted">
+                                            <thead>
+                                                <tr className="row mx-auto">
+                                                    <th class="col-3 mx-auto">ORDER</th>
+                                                    <th class="col-9">MEDIA</th>
+                                                </tr>
+                                            </thead>
+                                            <div className="table-responsive" style={{ height: "100px" }}>
+                                                <table className="table table-light">
+                                                    <tbody>
+                                                    
+                                                        <tr className="row mx-auto">
+                                                            <td class="col-3"><span className="orderNo">11</span></td>
+                                                            <td class="col-9 row px-0">
+                                                                <div className="col-6">{$imagePreview}</div>
+                                                                <div className="col-3 mt-1"><i className="fa fa-close float-right close-icon" aria-hidden="true"></i></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr className="row mx-auto">
+                                                            <td class="col-3"><span className="orderNo">12</span></td>
+                                                            <td class="col-9 row px-0">
+                                                                <div className="col-6">{$imagePreview}</div>
+                                                                <div className="col-3 mt-1"><i className="fa fa-close float-right close-icon" aria-hidden="true"></i></div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
 
-                                </tbody>
-                            </table>
-                            <div className="card-footer image-card">
-                            <label htmlFor="file" className="ml-3">
-                                <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
-                            </label>
-                            <div className="previewComponent">
-                            <form onSubmit={(e) => this.handleSubmit(e)}>
+                                            </div>
+                                        </table>
+                                        </div>
+                                        <div className="card-footer image-card">
+                                            <label htmlFor="file" className="ml-3">
+                                                <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
+                                            </label>
+                                            <div className="previewComponent">
+                                                <form onSubmit={(e) => this.handleSubmit(e)}>
                                                     <input className="fileInput hidden"
                                                         type="file"
                                                         id="file"
@@ -347,13 +377,8 @@ class CreateProduct extends Component {
                                                         type="submit"
                                                         onClick={(e) => this.handleSubmit(e)}>Upload Image</button>
                                                 </form>
-                                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
-
-
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                         </div>

@@ -18,9 +18,10 @@ class EditCustomerOrder extends Component {
             surname:'',
             email:'',
             address:'',
-            city:[],
+            city:'',
             region:'',
             postalCode:'',
+            
             phone:'',
             rememberMe:false
         }
@@ -64,8 +65,9 @@ class EditCustomerOrder extends Component {
 
     add=(e)=>{
         e.preventDefault();
-        const {name,surname,email,address,city,region,postalCode,phone,rememberMe}=this.state;
-        this.props.addCustomer(name,surname,email,address,city,region,postalCode,phone,rememberMe);
+        const {name,surname,email,address,city,region,postalCode,phone}=this.state;
+        this.props.addCustomer(name,surname,email,address,city,region,postalCode,phone);
+        console.log(name,surname,email,address,city,region,postalCode,phone);
     }
 
     viewCustomer=({view})=>{
@@ -179,6 +181,7 @@ class EditCustomerOrder extends Component {
                                  marginLeft: '607px'}} className="btn btn-secondary btnCreate pl-5 pr-5  rounded-pill"
                                   onClick={this.nextStepHandle}>NEXT STEP</button>
                                 </div>
+                                <div style={{height:"52px"}}></div>
                         </Dashboard>         
             </div>
             

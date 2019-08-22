@@ -199,6 +199,17 @@ class Sidebar extends Component {
                                     </a>
                                 </li>
                                 <li>
+                                    {(this.state.pageOn === 'advancedSearch') ? <a href="/advancedSearch" >
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>Advanced Search</span>
+                                    </a> : <a href="/advancedSearch" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Advanced Search
+                                    </a>}
+                                </li>
+                                <li>
                                     {(this.state.pageOn === 'blogPost') ? <a href="/blogPost" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
