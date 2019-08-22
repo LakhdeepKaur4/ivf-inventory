@@ -72,7 +72,7 @@ class Sidebar extends Component {
 
                     <ul className="list-unstyled components">
                         <li className="active sidebarHead">
-                            <a href="#homeSubmenu" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded="false">
+                            <a href="" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded="false">
                                 <span><i className="far fa-circle" aria-hidden="true"
                                     style={{ color: "red" }}></i></span>STORES</a>
                             <ul className={
@@ -197,6 +197,17 @@ class Sidebar extends Component {
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>Filter Orders
                                     </a>
+                                </li>
+                                <li>
+                                    {(this.state.pageOn === 'advancedSearch') ? <a href="/advancedSearch" >
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>Advanced Search</span>
+                                    </a> : <a href="/advancedSearch" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Advanced Search
+                                    </a>}
                                 </li>
                                 <li>
                                     {(this.state.pageOn === 'blogPost') ? <a href="/blogPost" >

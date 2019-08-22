@@ -1,3 +1,41 @@
 .category_actions {
     display: inline-block !important;
 }
+
+.actionButton, .createText {
+    font-size:14px;
+}
+
+.categoryHeading {
+    top: 132px;
+    left: 335px;
+    margin-bottom: 20px;
+    text-align: left;
+    font: 24px/40px 'Muli';
+    letter-spacing: 0;
+    color: #000000;
+    text-transform: uppercase;
+    opacity: 1;
+    font-weight: bold;
+}
+
+.descriptionText p {
+    top: 196px;
+    left: 335px;
+    padding-right: 77px;
+    text-align: left;
+    font:13px/20px 'Muli';
+    letter-spacing: 0;
+    color: #4D4F5C;
+    opacity: 1;
+}
+
+.searchBox {
+    display: inline-block;
+}
+
+.searchBox input[type="text"] {
+    width: 100%;
+    outline: none;
+}
+

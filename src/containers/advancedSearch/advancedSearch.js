@@ -124,9 +124,14 @@ class AdvancedSearch extends Component{
                                          <div className="col-1 mt-auto mb-auto" style={{marginLeft:"-100px"}}><i className="far fa-calendar-alt"></i></div>
                                        
                                     </div>
-                                    </div>          
+                                    </div>   
+                                    
                             </div>
                     </div>
+                                    <div className='text-center mt-4'>
+                                        <button type="button"  className="btn pl-5 pr-5 rounded-pill btnNextAdvanced">NEXT STEP</button>
+                                    </div>
+                                    <div style={{height:"52px"}}></div>
                 </div>
                 </Dashboard>
                 

@@ -21,7 +21,8 @@ class DataToStore extends Component{
             productId:[],
             storeIds:[],
             allIds: [],
-            flag:false
+            flag:false,
+            error:false
         }
     }
 
@@ -57,6 +58,7 @@ class DataToStore extends Component{
 
    
     getStoreId=(id,action)=>{
+        this.setState({error:false})
         var IDS = [];
         IDS = this.state.storeIds;
         if (action === true) {
@@ -86,14 +88,19 @@ class DataToStore extends Component{
 
     }
     navigateNext=()=>{;
+        this.setState({error:true})
         this.flag = true;
-        this.props.history.push(`/pushDataToStore/${this.state.productId}/${this.state.storeIds}`)
+        console.log(this.state.storeIds.length)
+        if(this.state.storeIds.length){
+            this.props.history.push(`/pushDataToStore/${this.state.productId}/${this.state.storeIds}`)
+        } 
     }
     navigatePrevious=()=>{
         this.flag = true;
         this.props.history.push(`/pushProductsView/${this.state.productId}`)
     }
     selectAll = (action) => {
+            this.setState({error:false})
         if (action === true) {
             this.setState({ storeIds: [...this.state.allIds] });
         } else {
@@ -203,7 +210,8 @@ let navIcon=
               
               
                  <div>{viewOrderData}</div>
-                 <div>
+                 <div className="col-12" style={{color:'red',textAlign:'right'}}>{this.state.error?'Please Select One Store':''}</div>
+                 <div style={{marginTop:'15px'}}>
                  <button className="button-main button3"  onClick={this.navigateNext}>Next</button>
                  <button className="button-main button3"  style={{marginRight:'10px'}} onClick={this.navigatePrevious}>Previous</button>
               </div>
