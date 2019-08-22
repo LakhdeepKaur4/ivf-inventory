@@ -9,12 +9,13 @@ import {
   ENABLE_BRAND,
   BRAND_DETAIL,
   UPDATE_BRAND_DETAILS,
-  CHANGE_STATUS
+  CHANGE_STATUS,
+  GET_PAGE_DETAIL,
+  GET_ACTIVE_PAGE_DETAIL
 } from "../actionCreators/index";
 
-
+// Get all brands
 export function getBrands() {
-  
   return dispatch => {
     axios
       .get(BRANDURL)
@@ -27,6 +28,35 @@ export function getBrands() {
   };
 }
 
+// Get list of brands on default page
+export function getDefaultPageBrandsDetails(defaultPage) {
+  return dispatch => {
+    axios
+      .get(`${BRANDURL}/${defaultPage}`)
+      .then(response => {
+        dispatch({ type: GET_PAGE_DETAIL, payload: response.data });
+      })
+      .catch(err => {
+        toasterMessage("error", err);
+      });
+  };
+}
+
+// Get brands on active page
+export function getActivePageBrandsDetails(pageNumber) {
+  return dispatch => {
+    axios
+      .get(`${BRANDURL}/${pageNumber}`)
+      .then(response => {
+        dispatch({ type: GET_ACTIVE_PAGE_DETAIL, payload: response.data.brands.docs });
+      })
+      .catch(err => {
+        toasterMessage("error", err);
+      });
+  };
+}
+
+// Add brands
 export function addBrand(data) {
   return dispatch => {
     axios
@@ -50,6 +80,7 @@ export function addBrand(data) {
   };
 }
 
+// Enable brand status
 export function enableBrand(id) {
   return dispatch => {
     axios
@@ -70,6 +101,7 @@ export function enableBrand(id) {
   };
 }
 
+// Disable brands status
 export function disableBrand(id) {
   return dispatch => {
     axios
@@ -90,6 +122,7 @@ export function disableBrand(id) {
   };
 }
 
+// Get details of a brand
 export function getBrandDetails(id) {
   return dispatch => {
     axios
@@ -103,6 +136,7 @@ export function getBrandDetails(id) {
   };
 }
 
+// Update brand details
 export function updateBrandDetails(data, id) {
   return dispatch => {
     axios
@@ -123,6 +157,7 @@ export function updateBrandDetails(data, id) {
   };
 }
 
+// Change status of multiple brands
 export function changeStatus(value, ids) {
   let payload = {
     status: value,
