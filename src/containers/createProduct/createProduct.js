@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Dashboard from '../../components/dashboard/dashboard';
-import { createProductDetails,postProduct } from '../../actions/createProductAction';
+import { createProductDetails,productData } from '../../actions/createProductAction';
 import {getBrands} from '../../actions/brandsAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -41,7 +41,8 @@ class CreateProduct extends Component {
         this.props.getBrands();
         this.props.createProductDetails();
       }
-
+    
+      // for add tag
     handleDelete = (i) => {
         const { hashtags } = this.state;
         this.setState({
@@ -49,29 +50,9 @@ class CreateProduct extends Component {
         });
     }
 
-    handleDeleteDetail = (i) => {
-        const { tagsDetail } = this.state;
-        this.setState({
-            tagsDetail: tagsDetail.filter((tag, index) => index !== i),
-        });
-    }
-
-    handleDeleteInfo = (i) => {
-        const { tagsInfo } = this.state;
-        this.setState({
-            tagsInfo: tagsInfo.filter((tag, index) => index !== i),
-        });
-    }
-
+  
     handleAddition = (tag) => {
         this.setState(state => ({ hashtags: [...state.hashtags, tag] }));
-    }
-
-    handleAdditionDetail = (tag) => {
-        this.setState(state => ({ tagsDetail: [...state.tagsDetail, tag] }));
-    }
-    handleAdditionInfo = (tag) => {
-        this.setState(state => ({ tagsInfo: [...state.tagsInfo, tag] }));
     }
 
     handleDrag = (tag, currPos, newPos) => {
@@ -85,6 +66,20 @@ class CreateProduct extends Component {
         this.setState({ hashtags: newTags });
     }
 
+    
+    //for detail name
+    handleDeleteDetail = (i) => {
+        const { tagsDetail } = this.state;
+        this.setState({
+            tagsDetail: tagsDetail.filter((tag, index) => index !== i),
+        });
+    }
+
+    handleAdditionDetail = (tag) => {
+        this.setState(state => ({ tagsDetail: [...state.tagsDetail, tag] }));
+    }
+
+
     handleDragDetail = (tag, currPos, newPos) => {
         const tags = [...this.state.tagsDetail];
         const newTags = tags.slice();
@@ -96,6 +91,24 @@ class CreateProduct extends Component {
         this.setState({ tagsDetail: newTags });
     }
 
+    
+    // for details info
+    handleDeleteInfo = (i) => {
+        const { tagsInfo } = this.state;
+        this.setState({
+            tagsInfo: tagsInfo.filter((tag, index) => index !== i),
+        });
+    }
+
+    handleAdditionInfo = (tag) => {
+        this.setState(state => ({ tagsInfo: [...state.tagsInfo, tag] }));
+    }
+
+    
+
+    
+
+   
     handleDragInfo = (tag, currPos, newPos) => {
         const tags = [...this.state.tagsInfo];
         const newTags = tags.slice();
@@ -112,11 +125,11 @@ class CreateProduct extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-
+    
+    //for Brands 
     onChangeBrand = (e) => {
         let selected= e.target.value
-        console.log(selected)
-        
+    
         this.setState({
             brandId: selected
         })
@@ -125,7 +138,7 @@ class CreateProduct extends Component {
     }
 
  
-
+    //for picture
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -156,9 +169,12 @@ class CreateProduct extends Component {
     };
 
     formSubmit = () => {
-        console.log(this.state,"form=========")
-        this.props.postProduct(this.state);
+        this.props.productData(this.state);
+        this.props.history.push("/productVariant");
+        
     }
+
+    //for get product
 
     getProductData = ({ getProduct }) => {
         if (getProduct) {
@@ -209,7 +225,7 @@ class CreateProduct extends Component {
         if (picture) {
             $imagePreview = (<img src={picture} style={{ width: "60px" }} />);
         } else {
-            $imagePreview = (<div className="previewText "><label className="ml-3 ">image</label></div>);
+            $imagePreview = (<div className="previewText "><label className="ml-3 ">MEDIA</label></div>);
         }
 
 
@@ -227,17 +243,19 @@ class CreateProduct extends Component {
 
                         <div className="container mt-4">
                             <div className="row">
-                                <div className="col-sm">
+                                <div className="col-sm-4">
                                     <label className="ml-3">Actions<span ><i className="fas fa-chevron-circle-down" aria-hidden="true" style={{ marginLeft: "14px" }}></i></span></label>
                                     <div className="card mainCard border border-0">
                                         <div className="variants">
                                             <h5>Variants<span onClick={this.displayVariantForm}><i className="fa fa-plus" aria-hidden="true" style={{ float: 'right' }}></i></span></h5>
                                             <div>Variant 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
                                                 <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
-                                                <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
-                                                <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color green</span></div>
-                                                <div>Option 2<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
-                                                <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- color red</span></div>
+                                                <div className="variants-option">
+                                                    <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
+                                                    <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color green</span></div>
+                                                    <div>Option 2<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span></div>
+                                                    <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- color red</span></div>
+                                                </div>
                                             </div>
                                             <div>Variant1<span><i className="fa fa-edit float-right" aria-hidden="true" style={{ color: '#A3A6B4' }}></i></span>
                                                 <div className="h5 small"><span className="text-danger">Hidden</span> <span>- L SIZE</span></div>
@@ -245,95 +263,111 @@ class CreateProduct extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-sm">
+                                <div className="col-sm-4">
                                     <label><h5>Details</h5></label>
-                                    <div className=" text-dark">
-                                        <form onSubmit={this.formSubmit}>
+                                    <div className="text-muted">
+                                        <form  onSubmit={this.formSubmit}>
                                             <div className="h5 small text-danger">Title</div>
-                                            <div className="form-row">
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" name="name" placeholder="T-shirt Sportwear Nike" onChange={this.onChange} />
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputSportWear" name="name" placeholder="T-shirt Sportwear Nike" onChange={this.onChange} />
                                                 </div>
                                             </div>
 
-                                            <div className="form-group  mb-3" style={{ width: '225px' }}>
-                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " placeholder="brand" name="_id"  onChange={this.onChangeBrand} style={{ backgroundColor: '#F2F4F7' }} type="select">
-                                                    <option selected="true" disabled="disabled">Select Brands</option>
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12 row mx-auto">
+                                                    <div className="col-12 mx-0 p-0">
+                                                        <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" placeholder="brand" name="_id"  onChange={this.onChangeBrand} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                        <option selected="true" disabled="disabled">Select Brands</option>
                                                         {this.brandName(this.props.BrandsReducer)}
                                                     </select>
-                                                    <i className="fa fa-angle-down"></i>
-                                                </div>
-
-                                                {/* <Input type="select" defaultValue='no-value' name="countryName" onChange={this.onChangeCountry}>
-                                                <DefaultSelect/>
-                                                    {this.countryName(this.props.cityMasterReducer)}
-                                                </Input > */}
-                                            <div className="form-row">
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" name="subTitle" placeholder="Subtitle" onChange={this.onChange} />
+                                                    </div>
+                                                    <div className="col-1 float-right my-auto" style={{ marginLeft: "-40px" }}><i className="fa fa-angle-down"></i></div>
                                                 </div>
                                             </div>
-                                            <div className="form-row">
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputVendor" name="vendor" placeholder="Vendor" onChange={this.onChange} />
-                                                </div>
 
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputDescription" name="description" placeholder="Description" onChange={this.onChange} />
-                                                </div>
-                                                <div className="form-group  mb-3" style={{ width: '225px' }}>
-                                                    <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " placeholder="Origin country" name="originCountry" onChange={this.onChange} style={{ backgroundColor: '#F2F4F7' }} type="select">
-                                                        <option>Origin country</option>
-                                                        <option>U.K</option>
-                                                        <option>RUSSIA</option>
-                                                    </select>
-                                                    <i className="fa fa-angle-down"></i></div>
-
-                                                <div className="form-group">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" name="template" placeholder="Template" onChange={this.onChange} />
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" name="subTitle" placeholder="Subtitle" onChange={this.onChange} />
                                                 </div>
                                             </div>
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputVendor" name="vendor" placeholder="Vendor" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputDescription" name="description" placeholder="Description" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12 row mx-auto">
+                                                    <div className="col-12 mx-0 p-0">
+                                                        <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="originCountry" onChange={this.onChange} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                            <option>Origin country</option>
+                                                            <option>U.K</option>
+                                                            <option>RUSSIA</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-1 float-right my-auto" style={{ marginLeft: "-40px" }}><i className="fa fa-angle-down"></i></div>
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12">
+                                                <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" name="template" placeholder="Template" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+                                           
+                                   
                                         </form>
                                     </div>
                                 </div>
-                                <div className="col-sm">
+                                <div className="col-sm-4">
                                     <label><h5>Media Galary</h5></label>
-
-
-                                    <div className="card table table-responsive border-0 text-muted" style={{ boxSizing: "0" }}>
-                                        <table >
-                                            <thead style={{ display: 'block' }}>
-                                                <tr>
-                                                    <th>ORDER</th>
-                                                    <th>MEDIA</th>
-                                                    <th></th>
-
+                                    <div className="col-12 p-0">
+                                        <table class="table table-light text-muted">
+                                            <thead>
+                                                <tr className="row mx-auto">
+                                                    <th class="col-3 mx-auto">ORDER</th>
+                                                    <th class="col-9">MEDIA</th>
                                                 </tr>
                                             </thead>
+                                            <div className="table-responsive" style={{ height: "100px" }}>
+                                                <table className="table table-light">
+                                                    <tbody>
+                                                    
+                                                        <tr className="row mx-auto">
+                                                            <td class="col-3"><span className="orderNo">11</span></td>
+                                                            <td class="col-9 row px-0">
+                                                                <div className="col-6">{$imagePreview}</div>
+                                                                <div className="col-3 mt-1"><i className="fa fa-close float-right close-icon" aria-hidden="true"></i></div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr className="row mx-auto">
+                                                            <td class="col-3"><span className="orderNo">12</span></td>
+                                                            <td class="col-9 row px-0">
+                                                                <div className="col-6">{$imagePreview}</div>
+                                                                <div className="col-3 mt-1"><i className="fa fa-close float-right close-icon" aria-hidden="true"></i></div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
 
-                                            <tbody className="tbody-table" >
-
-                                                <tr>
-                                                    <td><span className="orderNo">11</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true"></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span className="orderNo">12</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true" ></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span className="orderNo">13</span></td>
-                                                    <td>{$imagePreview}</td>
-                                                    <td><i className="fa fa-close main-close" aria-hidden="true" ></i></td>
-                                                </tr>
-
-                                            </tbody>
+                                            </div>
                                         </table>
-
-                                        <div className="card-footer text-center border border-0 " style={{ backgroundColor: "rgba(0,0,0,0)", marginTop: "-15px", padding: "0px" }}>
-                                            <div className="previewComponent mt-4">
+                                        </div>
+                                        <div className="card-footer image-card">
+                                            <label htmlFor="file" className="ml-3">
+                                                <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
+                                            </label>
+                                            <div className="previewComponent">
                                                 <form onSubmit={(e) => this.handleSubmit(e)}>
                                                     <input className="fileInput hidden"
                                                         type="file"
@@ -343,14 +377,8 @@ class CreateProduct extends Component {
                                                         type="submit"
                                                         onClick={(e) => this.handleSubmit(e)}>Upload Image</button>
                                                 </form>
-                                                <label htmlFor="file">
-                                                    <div><i className="fa fa-picture-o" aria-hidden="true"></i><span className="ml-1">drag image or click to upload</span></div>
-                                                </label>
                                             </div>
-
                                         </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -365,21 +393,26 @@ class CreateProduct extends Component {
                                         handleAddition={this.handleAddition}
                                         handleDrag={this.handleDrag}
                                         placeholder={placeholder}
-                                        inputFieldPosition="inline"
-                                        className="text-muted"
+                                        className="text-muted d-flex flex-column"
+                                        
                                     />
+                                    {/* <span onClick={this.handleAddition}  ><i className="fa fa-plus" aria-hidden="true"></i></span> */}
                                 </div>
                             </div>
                             <div className="col-4 text-muted">
                                 <h5>Metadata</h5>
-                                <div>
+                                <div className="form-row col-12">
+                                    <div className="form-group col-6">
                                     <ReactTags tags={this.state.tagsDetail}
                                         handleDelete={this.handleDeleteDetail}
                                         handleAddition={this.handleAdditionDetail}
                                         handleDrag={this.handleDragDetail}
                                         placeholder={placeholderDetail}
                                         className="text-muted"
+                                    
                                     />
+                                    </div>
+                                    <div className="form-group col-6">
                                     <ReactTags tags={this.state.tagsInfo}
                                         handleDelete={this.handleDeleteInfo}
                                         handleAddition={this.handleAdditionInfo}
@@ -387,6 +420,8 @@ class CreateProduct extends Component {
                                         placeholder={placeholderInfo}
                                         className="text-muted"
                                     />
+                                    
+                                    </div>
                                 </div>
 
                             </div>
@@ -438,7 +473,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createProductDetails,postProduct,getBrands }, dispatch)
+    return bindActionCreators({ createProductDetails,getBrands,productData }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct);

@@ -25,6 +25,7 @@ class ProductsView extends Component {
     }
 
     componentDidMount() {
+        console.log('did mount wrking');
         if (localStorage.getItem('product') !== null) {
             let products = localStorage.getItem('product').split(',');
             this.setState({ ids: products });
@@ -36,16 +37,16 @@ class ProductsView extends Component {
                     Ids.push(item.id);
                 })
                 this.setState({ allIds: Ids });
-            });
+            }).then(()=>console.log('wirked again',this.state.allIds));
     }
 
     componentWillUnmount() {
-        
         if (!this.state.flag) {
             localStorage.clear();
         }
-       
     }
+    
+
 
   // This function will be used in pagination in later stage.
 
@@ -94,12 +95,13 @@ class ProductsView extends Component {
     }
 
     pickIds = (Id, action) => {
-        var IDS = [];
-        IDS = this.state.ids;
+        var IDS = this.state.ids;
         if (action === true) {
             IDS.push(Id);
         } else {
+            console.log('removed')
             IDS.splice(IDS.indexOf(Id), 1);
+            console.log(IDS);
         }
         this.setState({ ids: IDS });
     }
@@ -137,19 +139,23 @@ class ProductsView extends Component {
     }
     selectAll = (action) => {
         if (action === true) {
-            this.setState({ ids: this.state.allIds });
+            this.setState({ ids: [...this.state.allIds] });
+           
         } else {
             this.setState({ ids: [] });
         }
     }
 
     render() {
+        console.log('worked again',this.state.ids);
         let tableData =
             <div className="table-responsive card text-dark">
                 <table className="table">
                     <thead>
                         <tr>
+                            {console.log(this.state.ids,this.state.allIds)}
                             <th scope="col"><input type="checkbox" checked={(this.state.ids.length === this.state.allIds.length) ? true : false} onClick={
+                                
                                 (e) => {
                                     this.selectAll(e.currentTarget.checked);
                                 }

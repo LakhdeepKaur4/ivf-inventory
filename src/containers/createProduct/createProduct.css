@@ -2,6 +2,7 @@
     color:#555555;
 }
 
+
 .mainDiv .subTitle{
     margin-top: 35px;
     margin-left: 20px ;
@@ -13,12 +14,18 @@
     height: 245px;
 }
 
+.variants-option{
+    padding-left: 35%;
+}
+
+
 
 
 .card .variants{
     margin: 12px;
     
 }
+
 
 .card .mainHeader{
     width: 370px;
@@ -85,6 +92,18 @@
     background-color: #FFFFFF;
 
 }
+
+
+.image-card{
+    top: 547px;
+    left: 1135px;
+    height: 50px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 0px 0px 6px 6px;
+    opacity: 1;
+}
+
+
 
 
 
@@ -155,10 +174,10 @@
 }
 
 
-/* Example Styles for React Tags*/
-#app {
+/*Styles for React Tags*/
+/* #app {
     padding: 40px;
-  }
+  } */
   
   div.ReactTags__tags {
       position: relative;
@@ -175,7 +194,8 @@
       height: 31px;
       margin: 0;
       font-size: 18px;
-      width: 60%;
+      /* width: 60%; */
+      width: 125px;
       border: 1px solid rgb(70, 66, 66);
       padding: 0 4px;
       margin: 6px;
@@ -187,8 +207,8 @@
   div.ReactTags__selected span.ReactTags__tag {
       background: #999999;
       color: white;
-      padding: 7px;
-      margin: 0 5px;
+      padding: 5px;
+      margin: 4px 5px;
       cursor: move;
       border-radius: 4px;
   }
@@ -221,4 +241,13 @@
   div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
       background: #b7cfe0;
       cursor: pointer;
+  }
+
+  div.ReactTags__selected {
+      display: flex;
+      flex-wrap: wrap;
+  }
+
+  .close-icon{
+    margin-right: -65px;
   }

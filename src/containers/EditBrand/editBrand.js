@@ -15,7 +15,7 @@ class EditBrands extends Component {
     status:'',
     fileName: [],
     picture: "",
-    isReadOnly: true
+    isReadOnly: true,
   };
 
   componentDidUpdate(prevProps) {
