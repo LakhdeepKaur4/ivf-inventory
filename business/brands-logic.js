@@ -1,9 +1,10 @@
-const Brands = require('../models/brands');
-const Item = require('../models/item');
-const httpStatus = require('http-status');
+const Brands = require('../models/brands'); // Brands model imported
+const Item = require('../models/item'); // Items/Products model imported
+const httpStatus = require('http-status'); // Module to provide HTTP response codes
 
-const fileStore = require('../helpers/fileSave');
+const fileStore = require('../helpers/fileSave'); // helper function to save image file
 
+// Create/Add a brand
 exports.createBrand = (req, res, next) => {
   try {
     const body = req.body;
@@ -26,7 +27,7 @@ exports.createBrand = (req, res, next) => {
           if (err) {
             return res.json({ message: 'Creation error', err });
           } else {
-            return res.status(httpStatus.OK).json({ message: "Successful creation", brand });
+            return res.status(httpStatus.CREATED).json({ message: "Successful creation", brand });
           }
         });
       }
@@ -36,6 +37,7 @@ exports.createBrand = (req, res, next) => {
   }
 }
 
+// Getting all brands
 exports.getBrands = (req, res, next) => {
   try {
     Brands.find({})
@@ -50,6 +52,7 @@ exports.getBrands = (req, res, next) => {
   }
 }
 
+// Getting a brand using the brandId
 exports.getBrand = (req, res, next) => {
   try {
     Brands.findById({ _id: req.params.id })
@@ -64,6 +67,7 @@ exports.getBrand = (req, res, next) => {
   }
 }
 
+// Update/Edit a brand details using brandId
 exports.updateBrand = (req, res, next) => {
   try {
     const body = req.body;
@@ -109,6 +113,7 @@ exports.updateBrand = (req, res, next) => {
   }
 }
 
+// Hard delete a brand from database
 exports.deleteBrand = (req, res, next) => {
   try {
     Brands.findByIdAndRemove(req.params.id)
@@ -123,6 +128,7 @@ exports.deleteBrand = (req, res, next) => {
   }
 }
 
+// Change the status of a brand - enabled
 exports.enableBrand = (req, res, next) => {
   try {
     Brands.findOneAndUpdate({ _id: req.params.id }, {
@@ -141,6 +147,7 @@ exports.enableBrand = (req, res, next) => {
   }
 }
 
+// Change the status of a brand - disabled
 exports.disableBrand = (req, res, next) => {
   try {
     Brands.findOneAndUpdate({ _id: req.params.id }, {
@@ -159,6 +166,7 @@ exports.disableBrand = (req, res, next) => {
   }
 }
 
+// Change the status of multiple brands - Enabled/Disabled
 exports.multiEnableOrDisable = (req, res, next) => {
   try {
     const body = req.body;
@@ -201,6 +209,7 @@ exports.multiEnableOrDisable = (req, res, next) => {
   }
 }
 
+// Getting all brands but segregated by pages
 exports.getBrandsByPage = (req, res, next) => {
   try {
     Brands.paginate({}, { page: req.params.id, limit: 10 })

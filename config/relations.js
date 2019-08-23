@@ -1,5 +1,6 @@
 const relations = {};
 
+// mysql models are imported
 relations.orders = require('../models/order');
 relations.payments = require('../models/payment');
 relations.customers = require('../models/customer');
@@ -8,6 +9,7 @@ relations.shipments = require('../models/shipment');
 relations.carts = require('../models/cart');
 relations.cartProducts = require('../models/cartProduct');
 
+// relations between models is set
 relations.orders.belongsTo(relations.customers, { foreignKey: 'customerId' });
 relations.customers.hasMany(relations.orders, { foreignKey: 'customerId' });
 relations.orders.belongsTo(relations.payments, { foreignKey: 'paymentId' });
