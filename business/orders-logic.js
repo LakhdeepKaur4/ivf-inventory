@@ -100,20 +100,47 @@ exports.create = (req, res, next) => {
 }
 
 exports.updateOrder = async (req, res, next) => {
-    try {
-        const orderId = req.params.orderId;
-        const updates = req.body
-        const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(relation => {
-            return relation.update(updates)
-        })
-        if (updatedOrder) {
-            return res.status(httpStatus.OK).json({
-                message: "Order Updated Page",
-                updatedOrder: updatedOrder
-            });
-        }
-    } catch (error) {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  try {
+    const orderId = req.params.orderId;
+    const body = req.body;
+    const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(order => {
+      // if (body.product) {
+      //   body.product.cartId = order.cartId;
+      //   new CartProducts(body.product).save();
+      // }
+      return order.update(body);
+    })
+    if (updatedOrder) {
+      return res.status(httpStatus.OK).json({
+        message: "Order Updated Page",
+        updatedOrder: updatedOrder
+      });
     }
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  }
 }
+
+exports.getCartProductsOfCustomer = async (req, res, next) => {
+  try {
+    const orderId = req.params.orderId;
+    Orders.findOne({ where: { orderId: orderId } })
+      .then(order => {
+        cartId = order.cartId;
+        CartProducts.findAll({ where: { cartId: cartId } })
+          .then(items => {
+            return res.status(httpStatus.OK).json({ items });
+          }).catch(err => {
+            return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+          })
+      })
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  }
+}
+
+
+
+
+
 

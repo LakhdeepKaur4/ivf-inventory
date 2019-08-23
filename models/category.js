@@ -1,10 +1,13 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
+var mongoose = require('mongoose');
+var textSearch = require('mongoose-text-search');
+var Schema = mongoose.Schema;
+
 
 var categorySchema = new Schema({
   name: {
     type: String,
     index: true,
+    // text:true,
     maxlength: 128,
     required: true,
     trim: true
@@ -39,11 +42,19 @@ var categorySchema = new Schema({
     ref: "Category",
     default: null
   },
+  status: {
+    type: Boolean,
+    default: true
+  },
   isActive: {
     type: Boolean,
     default: true
   }
 })
+
+categorySchema.plugin(textSearch);
+// categorySchema.index({name: 'text'});
+// categorySchema.index({'$**': 'text'});
 
 module.exports = mongoose.model('Category', categorySchema)
 

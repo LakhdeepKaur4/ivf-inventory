@@ -269,7 +269,7 @@ exports.getProductByBrand = async (req, res, next) => {
 exports.getProductByCategory = async (req, res, next) => {
   try {
     const categoryId = req.params.id;
-    let category = await Item.find({ 'category': [ObjectId(categoryId)] }, { new: true }).select({ "name": 1, "shopId": 1, "description": 1, "variants": 1, "productType": 1, "originCountry": 1 }).populate('category', 'name');
+    let category = await Item.find({ 'category': { $in: [ObjectId(categoryId)] } }, { new: true }).select({ "name": 1, "shopId": 1, "description": 1, "variants": 1, "productType": 1, "originCountry": 1 }).populate('category', 'name');
     if (category) {
       return res.status(httpStatus.OK).send({ message: "Item by category page", item: category });
     }

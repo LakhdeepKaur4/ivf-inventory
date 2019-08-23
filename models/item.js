@@ -25,6 +25,9 @@ var itemSchema = new Schema({
     type: String,
     index: true,
   },
+  sku: {
+    type: String,
+  },
   description: {
     type: String,
     // required: true,

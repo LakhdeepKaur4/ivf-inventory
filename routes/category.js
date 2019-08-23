@@ -8,9 +8,11 @@ router.route("/").post(controller.createCategory);
 
 router.route("/").get(controller.getCategory);
 
+router.route("/search").get(controller.searchCategory);
+
 router.route("/initial").get(controller.getInitialCategory);
 
-router.route("/initial/test").get(controller.testCategory);
+// router.route("/initial/test").get(controller.testCategory);
 
 router.route("/:id").get(controller.getParticularCategory);
 
