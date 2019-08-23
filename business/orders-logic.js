@@ -1,13 +1,15 @@
-const Orders = require('../config/relations').orders;
-const Customers = require('../config/relations').customers;
-const Carts = require('../config/relations').carts;
-const CartProducts = require('../config/relations').cartProducts;
-const Addresses = require('../config/relations').addresses;
-const Payments = require('../config/relations').payments;
-const Shipments = require('../config/relations').shipments;
+const Orders = require('../config/relations').orders; // Orders model imported
+const Customers = require('../config/relations').customers; // Customers model imported
+const Carts = require('../config/relations').carts; // Carts model imported
+const CartProducts = require('../config/relations').cartProducts; // CartProducts model imported
+const Addresses = require('../config/relations').addresses; // Addresses model imported
+const Payments = require('../config/relations').payments; // Payments model imported
+const Shipments = require('../config/relations').shipments; // Shipments model imported
 
-const httpStatus = require('http-status');
+const httpStatus = require('http-status'); // Module to provide HTTP response codes
+const Op = require('sequelize').Op; // Sequelize operators imported
 
+// Getting all orders
 exports.getOrders = (req, res, next) => {
   Orders.findAll({
     include: [
@@ -23,6 +25,7 @@ exports.getOrders = (req, res, next) => {
     })
 }
 
+// Getting a single order based on orderId
 exports.getOrderById = (req, res, next) => {
   Orders.findOne({
     where: {
@@ -41,6 +44,7 @@ exports.getOrderById = (req, res, next) => {
     })
 }
 
+// Creating an order with all supporting entities (Customers,Addresses,Shipments,Payments,Carts,CartProducts)
 exports.create = (req, res, next) => {
   try {
     const body = req.body;
@@ -144,3 +148,40 @@ exports.getCartProductsOfCustomer = async (req, res, next) => {
 
 
 
+// Searching orders on advanced filters
+exports.advancedSearchOrders = (req, res, next) => {
+  try {
+    console.log(req);
+    const body = req.query;
+    Orders.findAll({
+      where: {
+        [Op.and]: [
+          { orderId: { [Op.gte]: body.orderIdLowerLimit } },
+          { orderId: { [Op.lte]: body.orderIdUpperLimit } }
+        ]
+      },
+      include: [
+        {
+          model: Payments, where: {
+            [Op.and]: [
+              { amount: { [Op.gte]: body.orderTotalLowerLimit } },
+              { amount: { [Op.lte]: body.orderTotalUpperLimit } },
+              { paymentMethod: body.paymentMethod }
+            ]
+          }
+        }
+      ]
+    })
+      .then(orders => {
+        res.status(httpStatus.OK).json({ orders });
+      })
+      .catch(err => {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+          message: 'Please try again...',
+          error: err
+        })
+      })
+  } catch (err) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Please try again...', error: err })
+  }
+}

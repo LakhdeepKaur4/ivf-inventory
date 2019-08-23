@@ -1,3 +1,5 @@
+// Environment variables to setup mysql/sequelize connection
+
 module.exports = {
     database: 'tip_orders',
     username: 'rohit1',
