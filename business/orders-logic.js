@@ -7,6 +7,7 @@ const Payments = require('../config/relations').payments; // Payments model impo
 const Shipments = require('../config/relations').shipments; // Shipments model imported
 
 const httpStatus = require('http-status'); // Module to provide HTTP response codes
+const Op = require('sequelize').Op; // Sequelize operators imported
 
 // Getting all orders
 exports.getOrders = (req, res, next) => {
@@ -103,20 +104,57 @@ exports.create = (req, res, next) => {
 }
 
 exports.updateOrder = async (req, res, next) => {
-    try {
-        const orderId = req.params.orderId;
-        const updates = req.body
-        const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(relation => {
-            return relation.update(updates)
-        })
-        if (updatedOrder) {
-            return res.status(httpStatus.OK).json({
-                message: "Order Updated Page",
-                updatedOrder: updatedOrder
-            });
-        }
-    } catch (error) {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  try {
+    const orderId = req.params.orderId;
+    const updates = req.body
+    const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(relation => {
+      return relation.update(updates)
+    })
+    if (updatedOrder) {
+      return res.status(httpStatus.OK).json({
+        message: "Order Updated Page",
+        updatedOrder: updatedOrder
+      });
     }
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  }
 }
 
+// Searching orders on advanced filters
+exports.advancedSearchOrders = (req, res, next) => {
+  try {
+    console.log(req);
+    const body = req.query;
+    Orders.findAll({
+      where: {
+        [Op.and]: [
+          { orderId: { [Op.gte]: body.orderIdLowerLimit } },
+          { orderId: { [Op.lte]: body.orderIdUpperLimit } }
+        ]
+      },
+      include: [
+        {
+          model: Payments, where: {
+            [Op.and]: [
+              { amount: { [Op.gte]: body.orderTotalLowerLimit } },
+              { amount: { [Op.lte]: body.orderTotalUpperLimit } },
+              { paymentMethod: body.paymentMethod }
+            ]
+          }
+        }
+      ]
+    })
+      .then(orders => {
+        res.status(httpStatus.OK).json({ orders });
+      })
+      .catch(err => {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+          message: 'Please try again...',
+          error: err
+        })
+      })
+  } catch (err) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Please try again...', error: err })
+  }
+}
