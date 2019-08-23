@@ -1,8 +1,8 @@
-const Category = require('../models/category')
+const Category = require('../models/category');
+const Item = require('../models/item')
 const httpStatus = require('http-status');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-
 const helper = require('../helpers/user');
 
 exports.createCategory = async (req, res, next) => {
@@ -38,10 +38,33 @@ exports.createCategory = async (req, res, next) => {
 
 exports.getCategory = async (req, res, next) => {
   try {
-    const category = await Category.find({});
-    console.log(category)
-    if (category) {
-      return res.send({ category });
+    const categories = await Category.find({}).then(categories => {
+      const categoryIdToObjMap = {};
+      categories.forEach(category => {
+        categoryIdToObjMap[category._id] = { ...category._doc, items: [] };
+      });
+      return categoryIdToObjMap;
+    }).then((categoryIdToObjMap) => {
+      return Item.find({}).then(items => {
+        items.forEach(item => {
+          if (item.category) {
+            item.category.forEach(categoryId => {
+              if (categoryIdToObjMap[categoryId]) {
+                categoryIdToObjMap[categoryId].items.push(item.sku, item.optStock);
+              }
+            });
+          }
+        });
+        return Object.values(categoryIdToObjMap)
+        // .map(category => {
+        //   return {
+        //     ...category, count: category.items.length
+        //   }
+        // });
+      });
+    });
+    if (categories) {
+      return res.send({ categories });
     }
   } catch (error) {
     console.log(error);
@@ -99,11 +122,11 @@ exports.getParticularCategory = async (req, res, next) => {
           subCategories: {
             $setDifference: ['$subCategories', [null]]
           }
-        }
-      })
-    if (category) {
-      return res.status(httpStatus.OK).json({ category });
-    }
+        },
+      }).cursor().exec()
+      .toArray(function (err, data) {
+        res.status(httpStatus.OK).json(data);
+      });;
   } catch (error) {
     console.log(error);
     return res.send(error);
@@ -176,5 +199,88 @@ exports.deleteCategory = async (req, res, next) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error });
   }
 }
+
+/* 
+    Searching existing category
+*/
+exports.searchCategory = async (req, res) => {
+  try {
+    const searchField = req.query.search;
+    const category = await Category.find({
+      "name": { "$regex": '^' + searchField, "$options": 'i' }
+    }).then(categories => {
+      const categoryIdToObjMap = {};
+      categories.forEach(category => {
+        categoryIdToObjMap[category._id] = { ...category._doc, items: [] };
+      });
+      return categoryIdToObjMap;
+    }).then((categoryIdToObjMap) => {
+      return Item.find({}).then(items => {
+        items.forEach(item => {
+          if (item.category) {
+            item.category.forEach(categoryId => {
+              if (categoryIdToObjMap[categoryId]) {
+                categoryIdToObjMap[categoryId].items.push(item.sku, item.optStock);
+              }
+            });
+          }
+        });
+        return Object.values(categoryIdToObjMap)
+        // .map(category => {
+        //   return {
+        //     ...category, count: category.items.length
+        //   }
+        // });
+      });
+    });
+    if (category) {
+      return res.send({ category });
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
+  }
+}
+
+// exports.multiEnableOrDisable = (req, res, next) => {
+//   try {
+//     const body = req.body;
+//     const response = [];
+//     if (body.status === "visible") {
+//       body.status = true;
+//     } else {
+//       body.status = false;
+//     }
+//     const promise = body.ids.map(item => {
+//       Category.findOneAndUpdate({ _id: item }, {
+//         $set: {
+//           status: body.status
+//         }
+//       })
+//         .then((err, category) => {
+//           if (err) {
+//             response.push(err);
+//           } else {
+//             response.push(category);
+//           }
+//         })
+//     })
+
+//     Promise.all(promise)
+//       .then(result => {
+//         if (body.status === true) {
+//           res.status(httpStatus.OK).json({
+//             message: "Categories enabled successfully"
+//           })
+//         } else {
+//           res.status(httpStatus.OK).json({
+//             message: "Categories disabled successfully"
+//           })
+//         }
+//       })
+//   } catch (error) {
+//     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+//   }
+// }
 
 

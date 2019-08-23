@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.route("/").get(controller.searchCustomer);
 
-// router.route("/").post(controller.createCustomer);
+router.route("/").post(controller.createCustomer);
 
 module.exports= router;
