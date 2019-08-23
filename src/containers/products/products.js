@@ -25,7 +25,7 @@ class Products extends Component {
     }
 
     productsItem=({productItem}) =>{
-        
+
         if(productItem) {
            return productItem.map((item)=> {
                return (
