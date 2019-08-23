@@ -1,3 +1,4 @@
+/* main container start */
 .editOrderMainDiv {
 	top: 0px;
 	left: 0px;
@@ -5,6 +6,7 @@
 	opacity: 1;
 }
 
+/* billing form and order changed by */
 .billingDiv, .orderChanged {
 	background: #FFFFFF 0% 0% no-repeat padding-box;
 	box-shadow: 0px 1px 2px grey;
@@ -21,6 +23,8 @@
     background-color: transparent !important;
 } 
 
+
+/* step bar start */
 .md-stepper-horizontal {
 	display:table;
 	width:100%;
@@ -143,7 +147,9 @@
 	right:50%;
 	margin-right:20px;
 }
+/* step bar end */
 
+/* paypal section */
 .paypaInc{
 	text-align: left;
 	font: bolder 13px/16px Muli;
@@ -153,6 +159,8 @@
 	opacity: 1;
 }
 
+
+/* google description text */
 .googleDesc{
 	text-align: left;
 	font: bold 14px/40px Source Sans Pro;
@@ -161,6 +169,7 @@
 	opacity: 1;
 }
 
+/* heading */
 .finalizeHeading {
 	top: 132px;
 	left: 335px;
@@ -172,6 +181,8 @@
 	opacity: 1;
 }
 
+
+/* coupon apply button */
 .applyButton {
 	top: 880px;
 	left: 1056px;
@@ -195,6 +206,7 @@
 	margin: 20px;
 }
 
+/* previous page button */
 .prevBtn {
 	left: 335px;
 	width: 170px;
@@ -212,6 +224,7 @@
 	background: none;
 }
 
+/* next page button */
 .nxtBtn {
 	left: 531px;
 	width: 170px;
@@ -230,6 +243,7 @@
 	opacity: 1;
 	box-shadow: none;
 }
+/* text in previous state and next button */
 .commonTextStyle {
 	text-align: left;
 	font: bolder 13px/16px Muli;
@@ -239,6 +253,7 @@
 	opacity: 1;
 }
 
+/* title text */
 .titleText {
 	text-align: center;
 	font: bolder 12px/20px Muli;

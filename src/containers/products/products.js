@@ -141,7 +141,7 @@ class Products extends Component {
                 </div>
 
                 <div className="row float-right" style={{ marginRight:"50px" }}>
-                    <button type="button" class="btn btn-light stepbutton prevBtn" onCLick={this.prevStatusHandle}>PREVIOUS STEP</button>
+                    <button type="button" class="btn btn-light stepbutton prevBtn" onClick={this.prevStatusHandle}>PREVIOUS STEP</button>
                     <button type="button" class="btn btn-dark stepbutton nxtBtn" onClick={this.nextStepHandle}>NEXT STEP</button>
                 </div>
 

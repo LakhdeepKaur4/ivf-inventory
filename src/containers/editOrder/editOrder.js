@@ -23,11 +23,13 @@ class EditOrder extends Component {
     componentDidMount() {
         this.props.getEditOrder();
     }
-
+    
+    /* Previous step button handling */
     prevStepHandle = () => {
         this.props.history.push('/editproducts');
     }
 
+    /* fetch lsit of data from db */
     viewEditOrder = ({ editOrder }) => {
         if (editOrder) {
             return editOrder.map(item => {
@@ -45,6 +47,7 @@ class EditOrder extends Component {
 
     render() {
         let viewOrderData = <div className="table-responsive">
+            {/* table view of data */}
             <table className="table">
                 <thead>
                     <tr>
@@ -68,6 +71,7 @@ class EditOrder extends Component {
                     <div className="finalizeHeading">FINALIZE</div>
                 </div>
 
+                {/* Step bar */}
                 <div className="md-stepper-horizontal orange">
                     <div className="md-step active done">
                         <div className="md-step-circle"><span>1</span></div>
@@ -89,7 +93,7 @@ class EditOrder extends Component {
                     </div>
                 </div>
 
-
+                {/* Billing form */}
                 <div className="row m-auto">
                     <div className="col-7">
                         <div className="billingDiv p-4 mt-1">
@@ -140,6 +144,8 @@ class EditOrder extends Component {
                                 </div>
                             </form>
                         </div>
+
+                        {/* Details Form */}
                         <div className="billingDiv p-4 mt-4 mb-1">
                             <form>
                                 <div className="form-row">
@@ -187,6 +193,7 @@ class EditOrder extends Component {
                         </div>
                     </div>
 
+                    {/* Order added info */}
                     <div className="col-5 mt-1">
                         <div className="row">
                             <div className="col-sm-12">
@@ -200,6 +207,8 @@ class EditOrder extends Component {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Billing data */}
                         <div className="row pt-4">
                             <div className="col-sm-12">
                                 <div className="card billingDiv">
@@ -248,17 +257,21 @@ class EditOrder extends Component {
                     </div>
                 </div>
 
+                {/* Previous and submit button */}
                 <div className="buttonGroup">
                     <button className="prevBtn" onClick={this.prevStepHandle}>Previous Step</button>
                     <button className="nxtBtn">Finalize</button>
                 </div>
 
+                {/* Pagination component */}
                 <Pagination activePage={this.state.activePage}
                              itemsCountPerPage={this.state.limit}
                              totalItemsCount={this.state.totalItemsCount}
                              onChange={this.handlePageChange}
                              itemClass='page-item'
                              linkClasss='page-link'/>
+
+                {/* List view of Data */}
                 <div className="bg-light text-dark col-7 m-3">
                     <div className="row">
                         {viewOrderData}
