@@ -130,8 +130,8 @@
 .md-stepper-horizontal .md-step.active .md-step-optional {
 	color:rgba(0,0,0,.54);
 }
-.md-stepper-horizontal .md-step .md-step-bar-left,
-.md-stepper-horizontal .md-step .md-step-bar-right {
+.editOrderMainDiv .md-stepper-horizontal .md-step .md-step-bar-left,
+.editOrderMainDiv .md-stepper-horizontal .md-step .md-step-bar-right {
 	position: absolute;
     top: 36px;
     height: 2px;

@@ -20,7 +20,8 @@ class Categories extends Component {
             totalItemsCount: '',
             checked: false,
             host:'',
-            results:''
+            results:'',
+            categoryData:[]
         }
         this.debouncedOnChange = _.debounce(this.debouncedOnChange.bind(this), 200);
     }
@@ -30,8 +31,8 @@ class Categories extends Component {
     }
 
     componentWillReceiveProps(nextprops) {
-        if(!this.props.catogoriesReducer  || nextprops.catogoriesReducer.categoryData != this.props.catogoriesReducer.categoryData ) {
-            this.setState({categoryData:nextprops.catogoriesReducer.categoryData})
+        if(!this.props.categories || nextprops.categores != this.props.categories) {
+            this.setState({categories:nextprops.categories});
         }
     }
 
@@ -40,10 +41,13 @@ class Categories extends Component {
     }
 
     search(value) {
-        const request = axios.get(`${this.state.host}/search?search=${value}`)
-        .then(response=> request.data )
+        const request = axios.get(`${this.state.host}/api/category/search?search=${value}`)
+        
+        .then(response=> {
+            return response.data.category
+         })
         .then(data=>{
-            this.setState({categoryData:data})
+            this.setState({categories:data})
         }); 
     }
 
@@ -53,21 +57,34 @@ class Categories extends Component {
     }
 
     viewCategoryData = () => {
-        if (this.state.categoryData) {
-            return this.state.categoryData.categories.map((item) => <option>{item.name}</option>)
+        if (this.state.categories) {
+            return this.state.categories.map((item) => <option>{item.name}</option>)
         }
     }
 
     categoryResult = () => {
-        let categoryData = this.state.categoryData;
-        if (categoryData) {
-            return categoryData.categories.map(category => {
+        let categories = this.state.categories;
+        if (categories) {
+            return categories.map(category => {
                 return (
                     <tr key={category.id}>
-                        <td><input type="checkbox" checked={this.state.checked}></input></td>
+                        <td><input type="checkbox" checked={category.checked}
+                        onClick = {()=>{
+                            this.setState((prevState)=>{
+                                return{
+                                    categories:prevState.categories.map(_category=>{
+                                        if(_category._id == category._id){
+                                            return {..._category,checked:!_category.checked}
+                                        }
+                                        return _category;
+                                    })
+                                }
+                            });
+                        }}
+                        ></input></td>
                         <td>{category.name}</td>
-                        <td>{category.items[0] || 'no data'}</td>
-                        <td>{category.items[1]}</td>
+                        <td>{category.items ? category.items[0]:''}</td>
+                        <td>{category.items ? category.items[1]:''}</td>
                         {(category.status === true) ? <td style={{ color: "#1ABC9C" }}>Visible</td> : <td style={{ color: "#F46565" }}>Not Visible</td>}
                         <td>
                             <div className="category_actions" style={{ marginLeft: '3%' }}>
@@ -88,12 +105,6 @@ class Categories extends Component {
                                             View Products
                                         </a>
                                         <a className="dropdown-item">
-                                            Not visible
-                                        </a>
-                                        <a className="dropdown-item">
-                                            New seed
-                                        </a>
-                                        <a className="dropdown-item">
                                             Edit
                                         </a>
                                     </div>
@@ -106,7 +117,17 @@ class Categories extends Component {
         }
     }
     selectAll = () => {
-        this.setState({ checked: !this.state.checked })
+        this.setState(currentState=>{
+            return {
+                checked: !currentState.checked,
+                categories:currentState.categories.map(category=>{
+                    return {
+                        ...category,
+                        checked:!currentState.checked
+                    }
+                })
+            }
+        });
     }
 
     clickToCreate = () => {
@@ -164,7 +185,7 @@ class Categories extends Component {
                                                     this.handleMultiple("disabled");
                                                 }}
                                             >
-                                                Not visible
+                                                Not Visible
                                                     </a>
                                         </div>
                                     </div>
@@ -238,8 +259,13 @@ class Categories extends Component {
 }
 
 function mapStateToProps(state) {
+    let categories = [];
+    if(state.catogoriesReducer && state.catogoriesReducer.categoryData
+        && state.catogoriesReducer.categoryData.categories){
+        categories = state.catogoriesReducer.categoryData.categories
+    }
     return {
-        catogoriesReducer: state.catogoriesReducer
+        categories
     }
 }
 
