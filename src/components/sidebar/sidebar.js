@@ -199,48 +199,48 @@ class Sidebar extends Component {
                                     </a>
                                 </li>
                                 <li>
-                                    {(this.state.pageOn === 'advancedSearch') ? <a href="/advancedSearch" >
+                                    {(this.state.pageOn === 'advancedSearch') ? <Link to="/advancedSearch" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Advanced Search</span>
-                                    </a> : <a href="/advancedSearch" >
+                                    </Link> : <Link to="/advancedSearch" >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Advanced Search
-                                    </a>}
+                                    </Link>}
                                 </li>
                                 <li>
-                                    {(this.state.pageOn === 'blogPost') ? <a href="/blogPost" >
+                                    {(this.state.pageOn === 'blogPost') ? <Link to="/blogPost" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Blog Post</span>
-                                    </a> : <a href="/blogPost" >
+                                    </Link> : <Link to="/blogPost" >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Blog post
-                                    </a>}
+                                    </Link>}
                                 </li>
                                 <li>
-                                    {(this.state.pageOn === 'blogSettings') ? <a href="/blogSettings">
+                                    {(this.state.pageOn === 'blogSettings') ? <Link to="/blogSettings">
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Blog Settings</span>
-                                    </a> : <a href="/blogSettings">
+                                    </Link> : <Link to="/blogSettings">
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Blog Settings
-                                    </a>}
+                                    </Link>}
                                 </li>
                                 <li>
-                                    {(this.state.pageOn === 'blog') ? <a href="/blog">
+                                    {(this.state.pageOn === 'blog') ? <Link to="/blog">
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{color:"red"}}>Blog</span>
-                                    </a> : <a href="/blog">
+                                    </Link> : <Link to="/blog">
                                         <span>
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>Blog 
-                                    </a>}
+                                    </Link>}
                                 </li>
                                 <li>
                                     {(this.state.pageOn === 'editanorder') ? <Link to="/editanorder">

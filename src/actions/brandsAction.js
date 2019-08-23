@@ -63,7 +63,7 @@ export function addBrand(data) {
       .post(BRANDURL, data)
       .then(response => {
         if (
-          response.status === 200 &&
+          response.status === 201 &&
           response.data.message === "Successful creation"
         ) {
           toasterMessage("success", response.data.message);
@@ -81,7 +81,7 @@ export function addBrand(data) {
 }
 
 // Enable brand status
-export function enableBrand(id) {
+export function enableBrand(id,currentPage) {
   return dispatch => {
     axios
       .put(`${BRANDURL}/enable/${id}`)
@@ -92,7 +92,11 @@ export function enableBrand(id) {
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ENABLE_BRAND, payload: true });
-          dispatch(getBrands());
+         if (currentPage===1) {
+           dispatch(getDefaultPageBrandsDetails(currentPage))
+         } else {
+           dispatch(getActivePageBrandsDetails(currentPage))
+         }
         }
       })
       .catch(err => {
@@ -102,7 +106,7 @@ export function enableBrand(id) {
 }
 
 // Disable brands status
-export function disableBrand(id) {
+export function disableBrand(id,currentPage) {
   return dispatch => {
     axios
       .put(`${BRANDURL}/disable/${id}`)
@@ -113,7 +117,11 @@ export function disableBrand(id) {
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: DISABLE_BRAND, payload: true });
-          dispatch(getBrands());
+          if (currentPage===1) {
+            dispatch(getDefaultPageBrandsDetails(currentPage))
+          } else {
+            dispatch(getActivePageBrandsDetails(currentPage))
+          }
         }
       })
       .catch(err => {
@@ -158,7 +166,7 @@ export function updateBrandDetails(data, id) {
 }
 
 // Change status of multiple brands
-export function changeStatus(value, ids) {
+export function changeStatus(value, ids,currentPage) {
   let payload = {
     status: value,
     ids: ids
@@ -174,7 +182,11 @@ export function changeStatus(value, ids) {
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: CHANGE_STATUS, payload: true });
-          dispatch(getBrands());
+          if (currentPage===1) {
+            dispatch(getDefaultPageBrandsDetails(currentPage))
+          } else {
+            dispatch(getActivePageBrandsDetails(currentPage))
+          }
         }
       })
       .catch(err => {
