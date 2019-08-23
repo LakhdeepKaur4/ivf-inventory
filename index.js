@@ -43,8 +43,8 @@ app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
 //     extended: true
 // }));
-app.use(bodyParser.json({ limit: '50mb' ,extended:true,type:"application/json"}));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true,type:'application/x-www-form-urlencoding'}));
+app.use(bodyParser.json({ limit: '100mb' ,extended:true,type:"application/json"}));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true,type:'application/x-www-form-urlencoding'}));
 
 app.use('/public',express.static(path.resolve(__dirname, 'public')));
 app.get('/', function(req, res){
