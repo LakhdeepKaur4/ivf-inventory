@@ -184,7 +184,7 @@ class Sidebar extends Component {
                         </li>
 
                         <li className="active sidebarHead">
-                            <a id="ftSubmenuLink" href="#ftSubmenu"
+                            <a id="ftSubmenuLink" 
                                 onClick={this.toggleMenu.bind(this, "filter_and_search")} aria-expanded="false" >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>FILTER & SEARCH</a>
                             <ul className={
@@ -192,7 +192,7 @@ class Sidebar extends Component {
                             }
                                 id="ftSubmenu">
                                 <li>
-                                    <a href="#">
+                                    <a>
                                         <span>
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>Filter Orders
