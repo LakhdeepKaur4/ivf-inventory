@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize'); // Module sequelize used as ORM for mysql
 
-const env = require('./env');
+const env = require('./env'); // Environment variables imported
 
 const sequelize = new Sequelize(env.database, env.username, env.password, {
   host: env.host,
