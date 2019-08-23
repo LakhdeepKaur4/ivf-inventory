@@ -175,7 +175,7 @@ class EditCustomerOrder extends Component {
                         <div className='text-center mt-4'>
                                 <button type="button"  className="btn pl-5 pr-5 rounded-pill editNextButton">NEXT STEP</button>
                                 </div>
-                                <div style={{height:"52px"}}></div>
+                                <div style={{height:"52px"}}></div>         
                         </Dashboard>         
             </div>
             
