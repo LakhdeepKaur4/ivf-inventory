@@ -6,9 +6,9 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
 exports.createItems = async (req, res, next) => {
-  try { 
+  try {
     let body = req.body;
-    console.log("body",req.body);
+    // console.log("body", req.body);
     const item = await new Item(body).save();
     const itemId = item._id;
     let itemsUrl = "../public/images/items/";
@@ -18,8 +18,8 @@ exports.createItems = async (req, res, next) => {
       index = body.fileName.lastIndexOf('.');
       body.fileExt = body.fileName.slice(index + 1);
       body.fileName = body.fileName.slice(0, index);
-      body.picture = body.picture.split(',')[1];
-      await helper.saveToDisc(itemsUrl, itemId, body.fileName, body.fileExt, body.picture, (err, res) => {
+      body.productPicture = body.picture.split(',')[1];
+      await helper.saveToDisc(itemsUrl, itemId, body.fileName, body.fileExt, body.productPicture, (err, res) => {
         if (err) {
           console.log(err);
         } else {
@@ -27,56 +27,73 @@ exports.createItems = async (req, res, next) => {
           let newPath = res.slice(index + 2, res.length);
           Item.update({ _id: itemId }, { $set: { productPicture: newPath } }, (err, resp) => {
             if (err) console.error(err);
-            else console.log(resp);
+            else return;
           });
         }
       })
     }
-    body.variants.map(async (variant, index) => {
+    body.variants.map(async (variant, variantIndex) => {
       const savedVariants = await new ItemVariant(variant).save();
       let setObject = {};
-      setObject["variants." + index + ".ancestors"] = itemId;
+      setObject["variants." + variantIndex + ".ancestors"] = itemId;
       await ItemVariant.update({ _id: savedVariants._id }, { $addToSet: { ancestors: itemId } });
       await Item.update({ _id: itemId }, { $push: setObject });
-      delete setObject["variants." + index + ".ancestors"];
-      if (variant.options.picture !== null && variant.options.picture != undefined) {
+      delete setObject["variants." + variantIndex + ".ancestors"];
+      if (variant.picture !== null && variant.picture != undefined) {
         await helper.saveToDisc(variantsUrl, savedVariants._id, body.fileName, body.fileExt, body.picture, (err, res) => {
           if (err) {
             console.log(err);
           } else {
             let index = res.indexOf('../');
             let newPath = res.slice(index + 2, res.length);
-            setObject["variants." + index + ".variantPicture"] = newPath;
+            setObject["variants." + variantIndex + ".variantPicture"] = newPath;
             ItemVariant.update({ _id: savedVariants._id }, { $set: { variantPicture: newPath } }, (err, resp) => {
               if (err) console.error(err);
-              else console.log(resp);
+              else return;
             });
           }
         })
       }
-      setObject["variants." + index + ".options.0.ancestors"] = savedVariants._id;
+      setObject["variants." + variantIndex + ".options.0.ancestors"] = savedVariants._id;
+      delete setObject["variants." + variantIndex + ".options.0.ancestors"];
       await ItemVariant.update({ _id: savedVariants._id }, { $push: { "options.0.ancestors": savedVariants._id } });
       await Item.update({ _id: itemId }, { $set: setObject }, { new: true });
-      if (variant.options.picture !== null && variant.options.picture != undefined) {
-        await helper.saveToDisc(variantsUrl, savedVariants._id, variant.options.fileName, variant.options.fileExt, variant.options.picture, (err, res) => {
-          if (err) {
-            console.log(err);
-          } else {
-            let index = res.indexOf('../');
-            let newPath = res.slice(index + 2, res.length);
-            setObject["variants." + index + ".options.0.variantPicture"] = newPath;
-            ItemVariant.update({ _id: savedVariants._id }, { $set: { "options.0.variantPicture": newPath } }, (err, resp) => {
-              if (err) console.error(err);
-              else console.log(resp);
-            });
-          }
-        })
-      }
+      variant.options.map(async (option, optionIndex) => {
+        if (option.picture !== null && option.picture !== undefined) {
+          await helper.saveToDisc(variantsUrl, savedVariants._id, option.fileName, option.fileExt, option.picture, (err, res) => {
+            if (err) {
+              console.log(err);
+            } else {
+              let index = res.indexOf('../');
+              let newPath = res.slice(index + 2, res.length);
+              setObject["variants." + variantIndex + ".options." + optionIndex + ".picture"] = "";
+              Item.update({ _id: itemId }, { $set: setObject }, (err, resp) => {
+                if (err) console.error(err);
+                else return;
+              });
+              setObject["variants." + variantIndex + ".options." + optionIndex + ".variantPicture"] = newPath;
+              Item.update({ _id: itemId }, { $set: setObject }, (err, resp) => {
+                if (err) console.log(error);
+                else return;
+              });
+              setObject["options." + optionIndex + ".picture"] = "";
+              ItemVariant.update({ _id: savedVariants._id }, { $set: setObject }, (err, resp) => {
+                if (err) console.error(err);
+                else return;
+              });
+              setObject["options." + optionIndex + ".variantPicture"] = newPath;
+              ItemVariant.update({ _id: savedVariants._id }, { $set: setObject }, (err, resp) => {
+                if (err) console.error(err);
+                else return;
+              });
+            }
+          });
+        }
+      })
     })
-    console.log("********************")
     return res.status(httpStatus.OK).json({ message: "Successfully product created" });
   } catch (error) {
-    console.log("error",error);
+    console.log("error", error);
     return res.send(error);
   }
 };
@@ -84,7 +101,7 @@ exports.createItems = async (req, res, next) => {
 exports.getItems = async (req, res, next) => {
   try {
     const item = await Item.find({});
-    console.log(item)
+    console.log(item);
     if (item) {
       return res.send({ item });
     }
@@ -102,7 +119,7 @@ exports.updateItems = async (req, res, next) => {
     let variantsUrl = "../public/images/variants/";
     if (body.picture !== null && body.picture != undefined) {
       index = body.fileName.lastIndexOf('.');
-      body.fileExt = body.fileName.slice(index + 1);  
+      body.fileExt = body.fileName.slice(index + 1);
       body.fileName = body.fileName.slice(0, index);
       body.picture = body.picture.split(',')[1];
       await helper.saveToDisc(itemsUrl, req.params.itemId, body.fileName, body.fileExt, body.picture, (err, res) => {

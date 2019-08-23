@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema
+var Schema = mongoose.Schema;
 require('./itemPrice');
 const PriceRange = mongoose.model("PriceRange").schema;
 require('./itemVariant');
@@ -14,7 +14,7 @@ var itemSchema = new Schema({
     type: String,
     index: true,
     maxlength: 128,
-    required: true,
+    // required: true,
     trim: true
   },
   ancestors: {
@@ -27,7 +27,7 @@ var itemSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
+    // required: true,
   },
   pageTitle: {
     type: String,
@@ -157,7 +157,7 @@ var itemSchema = new Schema({
   brandId: {
     type: Schema.Types.ObjectId,
     ref: "Brand",
-    required: true
+    // required: true
   },
   isActive: {
     type: Boolean,
