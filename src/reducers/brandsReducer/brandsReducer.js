@@ -25,7 +25,6 @@ import {
   };
   
   const BrandsReducer = (state = initialState, action) => {
-    
     switch (action.type) {
       case BRANDS_LIST: {
         return {

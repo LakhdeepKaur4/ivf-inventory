@@ -1,15 +1,8 @@
 import axios from 'axios';
 
-import{URN, GET_CITY,ADD_CUSTOMER,GET_CUSTOMER} from '../actionCreators/index';
+import{URN,ADD_CUSTOMER,GET_CUSTOMER} from '../actionCreators/index';
 
-export function getCity(){
-    const request = axios.get(`${URN}/city`)
-    .then((response =>response.data))
-    return {
-        type: GET_CITY,
-        payload:request
-    }
-}
+
 
 export function addCustomer(name,surname,email,address,city,region,postalCode,phone){console.log(name,surname,email,address,city,region,postalCode,phone)
     

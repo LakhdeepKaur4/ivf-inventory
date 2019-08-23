@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './editCustomerOrder.css';
-import {getCity,addCustomer, getCustomer} from '../../actions/editCustomerOrderAction';
+import {addCustomer, getCustomer} from '../../actions/editCustomerOrderAction';
 import {connect} from 'react-redux';
 import  {bindActionCreators} from 'redux';
 import Dashboard from '../../components/dashboard/dashboard';
@@ -20,22 +20,21 @@ class EditCustomerOrder extends Component {
             address:'',
             city:'',
             region:'',
-            postalCode:'',
-            
+            postalCode:'',          
             phone:'',
             rememberMe:false
         }
     }
-
-    componentDidMount(){
-     this.props.getCity();
-    //  this.props.getCustomer();
+    nextStepHandle = () => {
+        this.props.history.push("/editproducts");
     }
+
+
 
     searchOnChange = (e) => {
         this.props.getCustomer(e.target.value);
         this.setState({ search: e.target.value })
-     }
+    }
 
     searchFilter = (search) => {
         return function (x) {
@@ -44,13 +43,6 @@ class EditCustomerOrder extends Component {
         }
     }
 
-    getCity=({city})=>{
-        if(city){
-            return city.map((item)=><option style={{color:"#4D4F5C"}} key={item.id}>{item}</option>
-            )
-        }
-
-    }
 
     onChangeData=(e)=>{
         this.setState({
@@ -87,15 +79,15 @@ class EditCustomerOrder extends Component {
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
-                    <div className="md-step ">
+                    <div className="md-step">
                         <div className="md-step-circle border border-secondary bg-transparent" style={{color:"#4D4F5C"}}><span>2</span></div>
-                        <div className="md-step-title">Products</div>
+                        <div className="md-step-title" style={{color:"#4D4F5C"}}>Products</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
                     <div className="md-step ">
                         <div className="md-step-circle border border-secondary bg-transparent"  style={{color:"#4D4F5C"}}><span>3</span></div>
-                        <div className="md-step-title">Finalize</div>
+                        <div className="md-step-title" style={{color:"#4D4F5C"}}>Finalize</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
@@ -141,12 +133,7 @@ class EditCustomerOrder extends Component {
                                 </div>                           
                                 <div className="row">
                                 <div className="md-form active-purple-2 mb-3 col-sm">
-                                <select className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="city" style={{backgroundColor:'transparent'}} type="select" onChange={this.onChangeData}>
-                                <option selected="true" disabled="disabled">Select city</option>
-                               
-                                {this.getCity(this.props.EditCustomerOrderReducer)}
-                                </select>
-                                <i className="fa fa-angle-down"></i>
+                                <input  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} name="city" placeholder="city" onChange={this.onChangeData} />
                                 </div>
                                 <div className="md-form active-purple-2 mb-3 col-sm">
                                 <input  className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{backgroundColor:'transparent'}} name="region" placeholder="region" onChange={this.onChangeData} />
@@ -168,12 +155,14 @@ class EditCustomerOrder extends Component {
                                 <button type="submit" onClick={this.add} className="btn btn-secondary btnCreate pl-5 pr-5 rounded-pill ">CREATE</button>
                                 </div>
                                     <hr />
-                                    <span>Team of use.Privacy policy</span>
+                                <span>Team of use.Privacy policy</span>
                                 </div>
                             </div>
                         </div>
                         <div className='text-center mt-4'>
-                                <button type="button"  className="btn pl-5 pr-5 rounded-pill editNextButton">NEXT STEP</button>
+                                <button type="button"  style={{backgroundColor:"#333333",
+                                 marginLeft: '607px'}} className="btn btn-secondary btnCreate pl-5 pr-5  rounded-pill"
+                                  onClick={this.nextStepHandle}>NEXT STEP</button>
                                 </div>
                                 <div style={{height:"52px"}}></div>         
                         </Dashboard>         
@@ -191,7 +180,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        getCity,addCustomer,getCustomer
+        addCustomer,getCustomer
     }, dispatch)
 }
 

@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {URN, VIEW_CATEGORY} from '../actionCreators/index'
+import {URL, VIEW_CATEGORY} from '../actionCreators/index'
 
 export function viewCategory(){
- const request= axios.get(`${URN}/category`)
+ const request= axios.get(`${URL}/category`)
  .then((response=>response.data))
     return {
         type:VIEW_CATEGORY,

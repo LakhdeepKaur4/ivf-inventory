@@ -17,7 +17,8 @@ class ProductsView extends Component {
             sortVal: false,
             ids: [],
             allIds: [],
-            flag: false
+            flag: false,
+            error:false
         }
     }
     btnClick = () => {
@@ -95,6 +96,7 @@ class ProductsView extends Component {
     }
 
     pickIds = (Id, action) => {
+        this.setState({error:false})
         var IDS = this.state.ids;
         if (action === true) {
             IDS.push(Id);
@@ -134,10 +136,15 @@ class ProductsView extends Component {
         }
     }
     navigate = () => {
+        this.setState({error:true})
         this.setState({ flag: true })
-        this.props.history.push(`/dataToStore/${this.state.ids}`)
+        if(this.state.ids.length){
+            this.props.history.push(`/dataToStore/${this.state.ids}`)
+        }
+        
     }
     selectAll = (action) => {
+        this.setState({error:false})
         if (action === true) {
             this.setState({ ids: [...this.state.allIds] });
            
@@ -305,7 +312,9 @@ class ProductsView extends Component {
                         {tableData}
                     </div>
                     <div>
-                        <button className="button-main button3" onClick={this.navigate}>Next</button>
+                    <div className="col-12"style={{color:'red',textAlign:'right'}}>{this.state.error?'Please Select at Least one Id':''}
+                    </div>
+                        <button className="button-main button3" style={{marginTop:'15px'}} onClick={this.navigate}>Next</button>  
                     </div>
 
 
