@@ -103,6 +103,9 @@ exports.create = (req, res, next) => {
   }
 }
 
+/* 
+    Updating existing Order
+*/
 exports.updateOrder = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
@@ -125,7 +128,10 @@ exports.updateOrder = async (req, res, next) => {
   }
 }
 
-exports.getCartProductsOfCustomer = async (req, res, next) => {
+/* 
+   Getting Products of existing order
+*/
+exports.getCartProductsOfExistingOrder = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
     Orders.findOne({ where: { orderId: orderId } })
