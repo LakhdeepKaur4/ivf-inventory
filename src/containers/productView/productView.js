@@ -19,15 +19,16 @@ class ProductsView extends Component {
             filterName: 'name',
             sortVal: false,
             ids: [],
-            visible: []
-            // checked:false
-
+            visible: [],
+            allProductIds: [],
+            productId: []
         }
     }
 
     btnClick = (id) => {
         let ids = this.state.visible;
         if (ids.includes(id) === true) {
+            console.log()
             ids.splice(ids.indexOf(id), 1);
         } else {
             ids.push(id);
@@ -36,9 +37,26 @@ class ProductsView extends Component {
             visible: ids
         })
     }
+    pickIds = (id, action) => {
+        console.log(id, action);
+        let IDS = this.state.productId
+        if (action == true) {
+            IDS.push(id);
+        } else {
+            IDS.splice(IDS.indexOf(id), 1);
+        }
+        this.setState({ productId: IDS })
+    }
 
     componentDidMount() {
-        this.props.getProductsView();
+        this.props.getProductsView()
+            .then((res) => {
+                let Ids = [];
+                res.payload.map((item) => {
+                    Ids.push(item.id)
+                })
+                this.setState({ allProductIds: Ids })
+            }).then(() => console.log(this.state.allProductIds));
     }
 
 
@@ -83,17 +101,17 @@ class ProductsView extends Component {
 
         this.props.onSizePerPageList(Number(option.target.value))
     }
-
-    //   pickIds=(Ids)=>{
-    //       console.log("selected ids",Ids);
-    //       var IDS = [];
-    //       IDS = this.state.ids;
-    //       IDS.push(Ids);
-    //       this.setState({ids:IDS})
-    //     //  this.setState({checked:!this.state.checked})
-
-    //   }
-    handleDisable= id =>{
+    pickIds = (id, action) => {
+        console.log(id, action);
+        let IDS = this.state.productId
+        if (action == true) {
+            IDS.push(id);
+        } else {
+            IDS.splice(IDS.indexOf(id), 1);
+        }
+        this.setState({ productId: IDS })
+    }
+    handleDisable = id => {
         console.log(id);
     }
 
@@ -106,59 +124,60 @@ class ProductsView extends Component {
             }).filter(this.searchFilter(this.state.search)).map((item) => {
                 return (
                     <tr>
-                        <td scope="row"><input type="checkbox" onClick={(e) => this.pickIds(item.id)} /></td>
+                        <td scope="row"><input type="checkbox" checked={this.state.productId.includes(item.id)}
+                            onClick={(e) => this.pickIds(item.id, e.currentTarget.checked)} /></td>
                         <td><img src={item.image} className="img-fluid" alt="Sheep" /></td>
                         <td>{item.sku}</td>
                         <td>{item.stock}</td>
                         <td>{item.name}</td>
                         <td>{item.price} $</td>
                         <td>
-                            <div><button class="button button1 active" onClick={()=>this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
+                            <div><button class="button button1 active" onClick={() => this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
                             <div><button class="button button2" onClick={this.btnClick}>Bookmark</button></div>
                         </td>
                         <td>
-                <div className="dropdown">
-                  <button
-                    className="btn"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    ...
+                            <div className="dropdown">
+                                <button
+                                    className="btn"
+                                    type="button"
+                                    id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                >
+                                    ...
                   </button>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    <a
-                      className="dropdown-item"
-                      onClick={() => this.handleEditBrand(item.id)}
-                    >
-                      Edit
+                                <div
+                                    className="dropdown-menu"
+                                    aria-labelledby="dropdownMenuButton"
+                                >
+                                    <a
+                                        className="dropdown-item"
+                                        onClick={() => this.handleEditBrand(item.id)}
+                                    >
+                                        Edit
                     </a>
-                    {item.status === false ? (
-                      <a
-                        className="dropdown-item"
-                        onClick={() => this.handleEnable(item.id)}
-                      >
-                        Publish
+                                    {item.status === false ? (
+                                        <a
+                                            className="dropdown-item"
+                                            onClick={() => this.handleEnable(item.id)}
+                                        >
+                                            Publish
                       </a>
-                    ) : (
-                      <a
-                        className="dropdown-item"
-                        onClick={() => this.handleDisable(item.id)}
-                      >
-                       Hide
+                                    ) : (
+                                            <a
+                                                className="dropdown-item"
+                                                onClick={() => this.handleDisable(item.id)}
+                                            >
+                                                Hide
                       </a>
-                    )}
-                    {/* <a 
+                                        )}
+                                    {/* <a 
                     className="dropdown-item"
                     onClick={()=>{this.viewProducts(item._id)}}>View Products</a> */}
-                  </div>
-                </div>
-              </td>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 )
 
@@ -171,17 +190,26 @@ class ProductsView extends Component {
         console.log(this.state.ids);
         // this.props.history.push(`/dataToStore/${this.state.ids}`)
     }
-    // selectAll=()=>{
-    //     this.setState({checked:!this.state.checked})
-    // }
+    selectAll = (action) => {
+        if (action === true) {
+            this.setState({ productId: [...this.state.allProductIds] })
+        }
+        else {
+            this.setState({ productId: [] })
+        }
 
+    }
+    navigate = () => {
+        this.props.history.push('/createProduct');
+    }
     render() {
+        console.log('render', this.state.productId);
         let tableData =
             <div className="table-responsive card text-dark">
                 <table className="table">
                     <thead>
                         <tr>
-                            <th scope="col"><input type="checkbox" onClick={this.selectAll} /></th>
+                            <th scope="col"><input type="checkbox" checked={(this.state.productId.length === this.state.allProductIds.length) ? true : false} onClick={(e) => this.selectAll(e.currentTarget.checked)} /></th>
                             <th scope="col">IMAGES</th>
                             <th scope="col">SKU</th>
                             <th scope="col">STOCK</th>
@@ -277,7 +305,7 @@ class ProductsView extends Component {
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link"><i class="fas fa-plus" aria-hidden="true" style={{ marginLeft: '5px' }}></i><span style={{ marginLeft: '5px' }}>New</span></span>
+                            <span className="nav-link"><i class="fas fa-plus" aria-hidden="true" style={{ marginLeft: '5px' }}></i><span style={{ marginLeft: '5px' }} onClick={this.navigate}>New</span></span>
                         </li>
                     </ul>
                 </div>
@@ -307,7 +335,7 @@ class ProductsView extends Component {
                         {tableData}
                     </div>
                     <div>
-                        <button className="button-main button3" onClick={this.navigate}>Next</button>
+                        {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
                     </div>
 
 

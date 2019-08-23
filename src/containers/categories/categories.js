@@ -23,17 +23,22 @@ class Categories extends Component {
         this.props.viewCategory();
     }
 
+    searchOnChange = (e) => {
+        this.setState({ search: e.target.value })
+    }
+
     categoryResult = ({ categoryData }) => {
         if (categoryData) {
-            return categoryData.map(item => {
+            console.log("=-====================",categoryData)
+            return categoryData.categories.map(item => {
+                return item.items.map(data => {
                 return (
                     <tr key={item.id}>
                         <td><input type="checkbox" checked={this.state.checked}></input></td>
                         <td>{item.name}</td>
-                        <td>{item.products}</td>
-                        <td>{item.prodInSc}</td>
-                        <td>{item.customer}</td>
-                        {(item.visible === "Visible") ? <td style={{ color: "#1ABC9C" }}>{item.visible}</td> : <td style={{ color: "#F46565" }}>{item.visible}</td>}
+                        <td>{data}</td>
+                        <td>{item.count}</td>
+                        {(item.status === true) ? <td style={{ color: "#1ABC9C" }}>Visible</td> : <td style={{ color: "#F46565" }}>Not Visible</td>}
                         <td>
                         <div className="category_actions" style={{marginLeft:'3%'}}>
                                 <div className="dropdown">
@@ -68,6 +73,7 @@ class Categories extends Component {
                     </tr>
                 )
             })
+        })
         }
     }
     selectAll=()=>{
@@ -83,14 +89,18 @@ class Categories extends Component {
             <div>
                 <Dashboard>
                     <div>
-                        <h1> Categories</h1>
-                        <p style={{ fontSize: '16px' }}>Categories are intended to group together pages on similar subjects. They are implemented by a MediaWiki feature that adds any page with a text like [[Category:XYZ]] in its wikimarkup to the automated listing that is the category with name XYZ. Categories help readers to find, and navigate around, a subject area, to see pages sorted by title, and to thus find article relationships.</p>
+                        <div className="categoryHeading"> CATEGORIES</div>
+                        <div className="descriptionText">
+                            <p>
+                                Categories are intended to group together pages on similar subjects. They are implemented by a MediaWiki feature that adds any page with a text like [[Category:XYZ]] in its wikimarkup to the automated listing that is the category with name XYZ. Categories help readers to find, and navigate around, a subject area, to see pages sorted by title, and to thus find article relationships.
+                            </p>
+                        </div>
 
                         <div>
                              <div className="category_actions" >
                                             <div className="dropdown">
                                                 <button
-                                                    className="btn"
+                                                    className="btn actionButton"
                                                     type="button"
                                                     id="dropdownActionMenu"
                                                     data-toggle="dropdown"
@@ -111,7 +121,7 @@ class Categories extends Component {
                                                         }}
                                                     >
                                                         Visible
-                                        </a>
+                                                    </a>
                                                     <a
                                                         className="dropdown-item"
                                                         onClick={() => {
@@ -119,7 +129,7 @@ class Categories extends Component {
                                                         }}
                                                     >
                                                         Not visible
-                                        </a>
+                                                    </a>
                                                 </div>
                                             </div>
 
@@ -127,9 +137,17 @@ class Categories extends Component {
                                 
                             <i className="fa fa-plus" style={{ marginLeft: '3%', marginTop: '1%', color:'#777777' }}>
                             </i>
-                            <label style={{ marginLeft: '1%', fontSize: '18px' }} onClick={this.clickToCreate}>
+                            <button className="btn createText" onClick={this.clickToCreate}>
                                Create
-                            </label>
+                            </button>
+
+                            <li className="nav-item searchBox">
+                            <span className="nav-link" style={{ paddingTop: '1px' }}><span className="form-group has-search">
+                                <span className="fa fa-search form-control-feedback"></span>
+                                <input type="text" className="form-control searchBox " placeholder="Search" value={this.state.search}
+                                    onChange={this.searchOnChange} />
+                            </span></span>
+                            </li>
 
                             <div style={{ float: 'right', marginRight: '2%', color: 'black' }}>
                                 <Pagination activePage={this.state.activePage}
@@ -196,6 +214,7 @@ class Categories extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log(state)
     return {
         catogoriesReducer: state.catogoriesReducer
     }

@@ -12,6 +12,7 @@ class BlogPost extends Component {
     }
 
     componentDidMount() {
+        console.log(React.version)
         $('#file-upload').change(function () {
             var i = $(this).prev('label').clone();
             var file = $('#file-upload')[0].files[0].name;
@@ -49,17 +50,18 @@ class BlogPost extends Component {
                                 </div>
                                 <div>
                                     <div className="row">
-                                        <div className="md-form active-purple-2 mb-3 col-4 pl-4">
+                                        <div className="md-form active-purple-2 mb-3 col-6 pl-4">
                                             <label style={{ color: "#555555" }}>Post Thumbnail</label>
                                         </div>
-                                        <div className="md-form active-purple-2 mb-3 col-7">
+                                        <div className="md-form active-purple-2 mb-3 col-6">
                                             <label for="file-upload" className="custom-file-upload">CHOOSE</label>
                                             <label className="ml-2" style={{color:"#888888"}}></label>
                                             <input id="file-upload" type="file" />
                                         </div>
-                                     
-
-                                    </div>
+                                     </div>
+                                     <div>
+                                            <button className="btn btn-secondary btnCreate pl-5 pr-5 rounded-pill " type="submit">Post</button>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -74,6 +76,7 @@ class BlogPost extends Component {
                                 <div className="md-form active-purple-2 mb-3 row">
                                     <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0 col-12" type="text" style={{ backgroundColor: 'transparent' }} placeholder="Post Meta D" />
                                 </div>
+                             
                             </div>
                         </div>
                     </div>

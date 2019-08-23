@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { addBrand } from "../../actions/brandsAction";
 import FileBase64 from "react-file-base64";
 import Dashboard from "../../components/dashboard/dashboard";
+import $ from 'jquery';
 
 class AddBrands extends Component {
   state = {
@@ -14,9 +15,18 @@ class AddBrands extends Component {
     errorBrandName: "",
     errorDescription: "",
     fileName: [],
-    picture: ""
+    logo: "",
+    errorLogo:"",
   };
 
+  componentDidMount(){
+    $("input[type=file]").attr("id","file-upload");
+    $('#file-upload').change(function () {
+      var i = $(this).prev('label').clone();
+      var file = $('#file-upload')[0].files[0].name;
+            $(this).prev('label').text(file);
+    })
+  }
   componentDidUpdate(prevProps) {
     if (prevProps.isNewBrandAdd !== this.props.isNewBrandAdd) {
       this.props.history.push("/brands");
@@ -34,20 +44,20 @@ class AddBrands extends Component {
   // Adding brand
   addBrand = event => {
     event.preventDefault();
-    const { brandName, description, selected, picture } = this.state;
+    const { brandName, description, selected, logo } = this.state;
     if (this.validateForm()) {
       let payload = {
         name: brandName,
         description: description,
         status: selected,
-        logo: picture
+        logo: logo
       };
       this.props.addBrand(payload);
       this.setState({
         brandName: "",
         description: "",
         selected: "",
-        picture: ""
+        logo: ""
       });
     }
   };
@@ -61,22 +71,23 @@ class AddBrands extends Component {
 
   getFiles = files => {
     this.setState(
-      { fileName: files[0].name, picture: files[0].base64 },
+      { fileName: files[0].name, logo: files[0].base64 },
       () => {}
     );
   };
   //Validations
 
   validateForm = () => {
-    let { brandName, description } = this.state;
+    let { brandName, description,fileName } = this.state;
     let errorBrandName = "";
     let errorDescription = "";
+    let errorLogo="";
     let formIsValid = true;
 
     //brandname
     if (!brandName) {
       formIsValid = false;
-      errorBrandName = "* Please enter  brand name.";
+      errorBrandName = "* Please enter brand name.";
     }
     if (!brandName.match(/^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/)) {
       formIsValid = false;
@@ -85,16 +96,23 @@ class AddBrands extends Component {
     //description
     if (!description) {
       formIsValid = false;
-      errorDescription = "* Please enter last name.";
+      errorDescription = "* Please enter brand description.";
     }
     if (!description.match(/^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/)) {
       formIsValid = false;
       // errorDescription = "* Please enter alphabets only";
     }
 
+    // Logo
+    if(!fileName.length){
+      formIsValid=false;
+      errorLogo="* Please upload a logo"
+
+    }
     this.setState({
       errorBrandName,
-      errorDescription
+      errorDescription,
+      errorLogo
     });
     return formIsValid;
   };
@@ -105,10 +123,17 @@ class AddBrands extends Component {
         <div className="add_brand ">
           <div className="container">
             <div className="bg-light text-dark p-4 mt-1">
-              <p className="heading">ADD BRANDS</p>
+              <p className="heading">add brand</p>
               <form>
                 <div>
-                  <FileBase64 multiple={true} onDone={this.getFiles} />
+                  <span className="upload_logo">Upload your logo</span>
+                  <span style={{marginLeft:'20px'}}>
+                  <label for="file-upload" className="custom-file-upload">CHOOSE</label>
+                    <FileBase64 id="file-upload" multiple={true} onDone={this.getFiles} />
+                    </span>
+                    <span style={{ paddingLeft:'20%' }} className="error_text">
+                    {this.state.errorLogo}
+                  </span>
                 </div>
                 <div className="form-row">
                   <div className="form-group col-md-6">
@@ -121,7 +146,7 @@ class AddBrands extends Component {
                       onChange={this.handleInputChange}
                     />
                   </div>
-                  <div style={{ color: "red" }}>
+                  <div className="error_text">
                     {this.state.errorBrandName}
                   </div>
                 </div>
@@ -137,13 +162,13 @@ class AddBrands extends Component {
                       onChange={this.handleInputChange}
                     />
                   </div>
-                  <div style={{ color: "red" }}>
+                  <div className="error_text">
                     {this.state.errorDescription}
                   </div>
                 </div>
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="status" style={{ fontWeight: "bold" }}>
+                    <label htmlFor="status" className="status">
                       Status
                     </label>
 
@@ -153,6 +178,7 @@ class AddBrands extends Component {
                           type="radio"
                           name="status"
                           value="Enabled"
+                          checked={true}
                           onChange={this.handleInputChange}
                         />
                         Enabled
@@ -172,7 +198,7 @@ class AddBrands extends Component {
                   </div>
                 </div>
               </form>
-              <div>
+              <div >
                 <span>
                   <button
                     className="brand_button"
@@ -182,7 +208,7 @@ class AddBrands extends Component {
                     SAVE BRAND
                   </button>
                 </span>
-                <span>
+                <span style={{marginLeft:'100px'}}>
                   <button
                     className="brand_button"
                     type="submit"

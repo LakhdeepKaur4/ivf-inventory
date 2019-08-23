@@ -28,6 +28,12 @@
      background-color: #F2F4F7;
  }
 
+ .btnNextAdvanced{
+   background-color:#333333 !important ;
+   color: #FFFFFF !important;
+   float: left;
+   margin-left: 12px;
+ }
 
 
 

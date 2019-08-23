@@ -7,17 +7,27 @@ import {
 } from "../../actions/brandsAction";
 import FileBase64 from "react-file-base64";
 import Dashboard from "../../components/dashboard/dashboard";
+import $ from 'jquery';
 
 class EditBrands extends Component {
   state = {
     brandName: this.props.brandDetail.name,
     description: this.props.brandDetail.description,
-    status:'',
+    status:this.props.brandDetail.status,
+    logoUrl:`http://192.168.1.113:3000/${this.props.brandDetail.logo_url}`,
     fileName: [],
     picture: "",
-    isReadOnly: true,
   };
 
+
+  componentDidMount(){
+    $("input[type=file]").attr("id","file-upload");
+    $('#file-upload').change(function () {
+      var i = $(this).prev('label').clone();
+      var file = $('#file-upload')[0].files[0].name;
+            $(this).prev('label').text(file);
+    })
+  }
   componentDidUpdate(prevProps) {
     if (prevProps.isBrandUpdate !== this.props.isBrandUpdate) {
       this.props.history.push("/brands");
@@ -33,13 +43,8 @@ class EditBrands extends Component {
     };
   };
 
-  // Enabling form to edit brand details
 
-  editBrandDetails = () => {
-    this.setState({ isReadOnly: false });
-  };
-
-  // Save Brand Details
+  // Update Brand Details
 
   saveBrandDetails = event => {
     event.preventDefault();
@@ -65,7 +70,7 @@ class EditBrands extends Component {
     });
   };
 
-  // Handle Cancle
+  // Handle Cancle button
 
   handleCancel = () => {
     this.props.history.push("/brands");
@@ -90,19 +95,19 @@ class EditBrands extends Component {
               <div className="bg-light text-dark p-4 mt-1">
                 <p className="heading">EDIT BRANDS</p>
                 <form>
-                  {this.state.isReadOnly ? (
-                    <div>
+                  <div>
+                    <div className="brand_logo">
                       <img
-                        src={`http://192.168.1.113:3000/${this.props.brandDetail.logo_url}`}
+                        src={this.state.logoUrl}
                         alt="brand_logo"
+                        style={{ width: "30px", height: "30px" }}
                       />
                     </div>
-                  ) : (
-                    <div>
-                      <FileBase64 multiple={true} onDone={this.getFiles} />
+                    <div className="upload_logo">
+                    <label for="file-upload" className="custom-file-upload">CHOOSE</label>
+                    <FileBase64 id="file-upload" multiple={true} onDone={this.getFiles} />
                     </div>
-                  )}
-
+                    </div>
                   <div className="form-row">
                     <div className="form-group col-md-6">
                       <input
@@ -111,7 +116,6 @@ class EditBrands extends Component {
                         name="brandName"
                         value={brandName}
                         onChange={this.handleInputChange}
-                        readOnly={this.state.isReadOnly}
                       />
                     </div>
                   </div>
@@ -124,7 +128,6 @@ class EditBrands extends Component {
                         name="description"
                         value={description}
                         onChange={this.handleInputChange}
-                        readOnly={this.state.isReadOnly}
                       />
                     </div>
                   </div>
@@ -140,8 +143,8 @@ class EditBrands extends Component {
                             type="radio"
                             name="status"
                             value="Enabled"
+                            defaultChecked={this.state.status===true?true:false}
                             onChange={this.handleInputChange}
-                            readOnly
                           />
                           Enabled
                         </label>
@@ -153,7 +156,7 @@ class EditBrands extends Component {
                             name="status"
                             value="Disabled"
                             onChange={this.handleInputChange}
-                            readOnly
+                            defaultChecked={!this.state.status===true?true:false}
                           />
                           Disabled
                         </label>
@@ -161,29 +164,21 @@ class EditBrands extends Component {
                     </div>
                   </div>
                 </form>
-                {this.state.isReadOnly ? (
-                  <button
-                    className="brand_button"
-                    onClick={this.editBrandDetails}
-                  >
-                    EDIT BRAND
-                  </button>
-                ) : (
                   <React.Fragment>
                     <button
                       className="brand_button"
                       onClick={this.saveBrandDetails}
                     >
-                      SAVE BRAND
+                      UPDATE BRAND
                     </button>
                     <button
                       className="brand_button"
                       onClick={this.handleCancel}
+                      style={{marginLeft:'100px'}}
                     >
                       CANCEL
                     </button>
                   </React.Fragment>
-                )}
               </div>
             </div>
           ) : (
