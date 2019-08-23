@@ -1,6 +1,7 @@
-const MappedModel = require('../models/stores-category-mapping');
-const httpStatus = require('http-status');
+const MappedModel = require('../models/stores-category-mapping'); // Stores/Categories mapping model imported
+const httpStatus = require('http-status'); // Module to provide HTTP response codes
 
+// Create mapping between stores and categories
 exports.createMapping = (req, res, next) => {
     try {
         const body = req.body;
