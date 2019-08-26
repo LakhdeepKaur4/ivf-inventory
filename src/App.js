@@ -56,10 +56,10 @@ class App extends Component {
             <Route path="/shipping" component={Shipping} />
             <Route path="/pushProductsView" component={PushProductsView} />
             <Route path="/addBrand" component={AddBrands} />
-            <Route path="/editCustomerOrder" component={EditCustomerOrder} />
-            <Route path="/editanorder" component={EditOrder} />
+            <Route path="/editanorder" component={EditCustomerOrder} />
+            <Route path="/finalizeorder" component={EditOrder} />
             <Route path="/addbrands" component={AddBrands} />
-            <Route path="/products" component={Products} />
+            <Route path="/editproducts" component={Products} />
             <Route path="/categories" component={Categories} />
             <Route path="/editBrand/:id" component={EditBrand} />
             <Route path="/blogPost" component={BlogPost} />

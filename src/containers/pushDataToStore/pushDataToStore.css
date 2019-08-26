@@ -35,7 +35,29 @@
     display: flex;
     justify-content: space-between;
 }
+.prductWithStore span{
+     width:60%;
+} 
+
 .inActive3 .md-step-circle{
     border:1px solid red;
     background:transparent !important;
+}
+.button3PushDataToStore{
+    background-color: #333333; 
+    color: white; 
+    border: 2px solid  #333333;
+    float:right;
+    margin-top:auto;
+}
+.tablePushDataToStore{
+    height:400px;
+}
+.middlePushDataToStore{
+    position:relative;
+}
+.middlePushDataToStore div span{
+    position:absolute;
+    top:50%;
+    left:50%;
 }

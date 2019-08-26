@@ -25,7 +25,7 @@ class Products extends Component {
     }
 
     productsItem=({productItem}) =>{
-        
+
         if(productItem) {
            return productItem.map((item)=> {
                return (
@@ -47,6 +47,16 @@ class Products extends Component {
             return productItem.map((item)=><option key={item.id}>{item.name}</option>)
         }
     }
+
+    prevStatusHandle = () => {
+        this.props.history.push('/editanorder');
+    }
+
+    nextStepHandle = () => {
+        this.props.history.push('/finalizeorder');
+    }
+
+
     render() {
         let productsItem = <div className="table-responsive">
             <table className="table">
@@ -131,8 +141,8 @@ class Products extends Component {
                 </div>
 
                 <div className="row float-right" style={{ marginRight:"50px" }}>
-                    <button type="button" class="btn btn-light stepbutton prevBtn">PREVIOUS STEP</button>
-                    <button type="button" class="btn btn-dark stepbutton nxtBtn">NEXT STEP</button>
+                    <button type="button" class="btn btn-light stepbutton prevBtn" onClick={this.prevStatusHandle}>PREVIOUS STEP</button>
+                    <button type="button" class="btn btn-dark stepbutton nxtBtn" onClick={this.nextStepHandle}>NEXT STEP</button>
                 </div>
 
                 <div class="clearfix"></div>

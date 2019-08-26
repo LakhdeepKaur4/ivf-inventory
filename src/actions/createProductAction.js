@@ -1,19 +1,11 @@
 import axios from 'axios';
 
-import{URN, URL, BRANDURL, CREATE_PRODUCT,POST_CREATE_PRODUCT,BRAND_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT} from '../actionCreators/index';
+import{CREATE_PRODUCT,POST_CREATE_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT} from '../actionCreators/index';
 
-// export function createProductDetails(){
-//     const request = axios.get(`${URN}/createProduct`)
-//     .then((response =>response.data))
 
-//     return {
-//         type: CREATE_PRODUCT,
-//         payload:request
-//     }
-// }
 
-export function createProductDetails(){
-    const request = axios.get(`${URL}/item`)
+export function createProductDetails(URL){
+    const request = axios.get(`${URL}/api/item`)
     .then(response =>response.data)
 
     return {
@@ -23,18 +15,6 @@ export function createProductDetails(){
 }
 
 
-
-
- export function getBrands(){
-    
-    const request = axios.get(`${BRANDURL}`)
-    .then(response =>response.data)
-
-    return {
-        type: BRAND_PRODUCT,
-        payload:request
-    }
-}
 
 
 export const productOption=(data)=>{
@@ -51,8 +31,8 @@ export const productVariant=(data)=>{
         payload:data
     }
 }
-export const productData=(data)=>{
-    const request = axios.post(`${URL}/item`, data )
+export const productData=(URL,data)=>{
+    const request = axios.post(`${URL}/api/item`, data )
      .then(response => response.data)
     
      return{

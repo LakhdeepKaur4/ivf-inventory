@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createProductDetails, productVariant, productOption } from '../../actions/createProductAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class ProductVariant extends Component {
     constructor(props) {
@@ -19,15 +20,13 @@ class ProductVariant extends Component {
             width: '',
             length: '',
             height: '',
-            weight: ''
+            weight: '',
+            host:''
            
 
         }
     }
 
-    componentDidMount = () => {
-        this.props.createProductDetails();
-    }
 
     
     //for variants
@@ -117,6 +116,11 @@ class ProductVariant extends Component {
         }
     }
 
+    setHost = async (host) => {
+        await this.setState({ host: host });
+        this.props.createProductDetails(this.state.host);
+    }
+
     render() {
         let { picture } = this.state;
         let $imagePreview = null;
@@ -129,7 +133,10 @@ class ProductVariant extends Component {
 
 
         return (
-            <div>
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host)
+            }}>
+                <div>
                 <Dashboard>
                     <div className="mainDiv text-muted">
                         <h3><b>CREATE PRODUCT</b></h3>
@@ -279,6 +286,7 @@ class ProductVariant extends Component {
                     </div>
                 </Dashboard>
             </div>
+           </HostResolver>
         );
     }
 }
