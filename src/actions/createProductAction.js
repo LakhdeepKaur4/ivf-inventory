@@ -1,18 +1,26 @@
 import axios from 'axios';
 
-import{URN, URL, BRANDURL, CREATE_PRODUCT,POST_CREATE_PRODOCT,BRAND_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT} from '../actionCreators/index';
+import{URN, URL, BRANDURL, CREATE_PRODUCT,POST_CREATE_PRODUCT,BRAND_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT} from '../actionCreators/index';
+
+// export function createProductDetails(){
+//     const request = axios.get(`${URN}/createProduct`)
+//     .then((response =>response.data))
+
+//     return {
+//         type: CREATE_PRODUCT,
+//         payload:request
+//     }
+// }
 
 export function createProductDetails(){
-    const request = axios.get(`${URN}/createProduct`)
-    .then((response =>response.data))
+    const request = axios.get(`${URL}/item`)
+    .then(response =>response.data)
 
     return {
         type: CREATE_PRODUCT,
         payload:request
     }
 }
-
-
 
 
 
@@ -29,9 +37,10 @@ export function createProductDetails(){
 }
 
 
-export const productData=(data)=>{
+export const productOption=(data)=>{
+ 
     return {
-        type: PRODUCT_DATA,
+        type: POST_CREATE_PRODUCT,
         payload:data
     }
 }
@@ -42,13 +51,13 @@ export const productVariant=(data)=>{
         payload:data
     }
 }
-export const productSubmit=(data)=>{
+export const productData=(data)=>{
     const request = axios.post(`${URL}/item`, data )
      .then(response => response.data)
     
      return{
  
-         type:POST_CREATE_PRODOCT,
+         type:PRODUCT_DATA,
          payload: request 
      }
 }
