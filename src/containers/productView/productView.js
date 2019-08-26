@@ -21,7 +21,8 @@ class ProductsView extends Component {
             ids: [],
             visible: [],
             allProductIds: [],
-            productId: []
+            productId: [],
+            productID:props.match.params.id
         }
     }
 
@@ -57,6 +58,8 @@ class ProductsView extends Component {
                 })
                 this.setState({ allProductIds: Ids })
             }).then(() => console.log(this.state.allProductIds));
+
+        console.log("===========", this.state.productID)
     }
 
 

@@ -27,7 +27,7 @@ class Categories extends Component {
     }
 
     componentDidMount() {
-        this.props.viewCategory();
+        this.props.viewCategory(this.state.host);
     }
 
     componentWillReceiveProps(nextprops) {
@@ -60,6 +60,14 @@ class Categories extends Component {
         if (this.state.categories) {
             return this.state.categories.map((item) => <option>{item.name}</option>)
         }
+    }
+
+    editCategory = (id) => {
+        this.props.history.push(`/editcategory/${id}`);
+    }
+
+    getProductData = (id) => {
+        this.props.history.push(`/productsView/${id}`)
     }
 
     categoryResult = () => {
@@ -101,10 +109,10 @@ class Categories extends Component {
                                         </button>
 
                                     <div className="dropdown-menu" aria-labelledby="dropdownActionMenu">
-                                        <a className="dropdown-item">
+                                        <a className="dropdown-item" onClick={() => this.getProductData(category._id)}>
                                             View Products
                                         </a>
-                                        <a className="dropdown-item">
+                                        <a className="dropdown-item" onClick={() => this.editCategory(category._id)}>
                                             Edit
                                         </a>
                                     </div>
@@ -143,6 +151,7 @@ class Categories extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
+                {console.log(this.state.host)}
                 <div>
                     <Dashboard>
                         <div>

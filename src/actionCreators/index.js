@@ -1,9 +1,9 @@
 const config = require('../../config/env');
 export const URN = config.inventory.service;
-// export const URL= config.inventory.api;
+export const URLi= config.mockup.service;
 // export const URL='http://192.168.1.104:3001/api';
 export const BRANDURL=config.inventory.brandsAPI;
-// export const URL='https://ivf-inventory.herokuapp.com/api'
+// export const URL='https://ivf-inventory.herokuapp.com/api';
 export const URL='http://192.168.1.117:3003/api';
 // export const BRANDURL='http://192.168.1.113:3000/api/brands';
 export const VIEW_ORDER='VIEW_ORDER';
