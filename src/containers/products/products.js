@@ -27,15 +27,13 @@ class Products extends Component {
 
     productsItem=({productItem}) =>{
         if(productItem) {
-           return productItem.map((item)=> {
+           return productItem.items.map((item)=> {console.log(item);
                return (
-                <tr key={item.id}>
-                    <td><img src={item.products} className="img-fluid" alt="Sheep" /></td>
-                    <td>{item.name}</td>
-                    <td>{item.shipped}</td>
+                <tr key={item.cartProductId}>
+                    <td>{item.productTitle}</td>
                     <td>{item.quantity}</td>
-                    <td>{item.itemPrice} </td>
-                    <td>{item.total} </td>
+                    
+                   
                 </tr>
                 )
            })
@@ -43,9 +41,9 @@ class Products extends Component {
     }
 
     viewProducts=({productItem})=>{
-        if(productItem){
-            return productItem.map((item)=><option key={item.id}>{item.name}</option>)
-        }
+        // if(productItem){
+        //     return productItem.map((item)=><option key={item.id}>{item.name}</option>)
+        // }
     }
 
     prevStatusHandle = () => {
