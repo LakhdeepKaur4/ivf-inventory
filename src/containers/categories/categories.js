@@ -26,10 +26,6 @@ class Categories extends Component {
         this.debouncedOnChange = _.debounce(this.debouncedOnChange.bind(this), 200);
     }
 
-    componentDidMount() {
-        this.props.viewCategory();
-    }
-
     componentWillReceiveProps(nextprops) {
         if(!this.props.categories || nextprops.categores != this.props.categories) {
             this.setState({categories:nextprops.categories});
@@ -60,6 +56,14 @@ class Categories extends Component {
         if (this.state.categories) {
             return this.state.categories.map((item) => <option>{item.name}</option>)
         }
+    }
+
+    editCategory = (id) => {
+        this.props.history.push(`/editcategory/${id}`);
+    }
+
+    getProductData = (id) => {
+        this.props.history.push(`/productsView/${id}`)
     }
 
     categoryResult = () => {
@@ -101,10 +105,10 @@ class Categories extends Component {
                                         </button>
 
                                     <div className="dropdown-menu" aria-labelledby="dropdownActionMenu">
-                                        <a className="dropdown-item">
+                                        <a className="dropdown-item" onClick={() => this.getProductData(category._id)}>
                                             View Products
                                         </a>
-                                        <a className="dropdown-item">
+                                        <a className="dropdown-item" onClick={() => this.editCategory(category._id)}>
                                             Edit
                                         </a>
                                     </div>
@@ -136,6 +140,7 @@ class Categories extends Component {
 
     setHost = host => {
         this.setState({host});
+        this.props.viewCategory(host);
     }
 
     render() {

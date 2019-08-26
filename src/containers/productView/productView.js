@@ -6,6 +6,8 @@ import Pagination from 'react-js-pagination';
 // import './productView.css';
 
 import Dashboard from '../../components/dashboard/dashboard';
+import axios from 'axios';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class ProductsView extends Component {
     constructor(props) {
@@ -21,7 +23,9 @@ class ProductsView extends Component {
             ids: [],
             visible: [],
             allProductIds: [],
-            productId: []
+            productId: [],
+            productID:props.match.params.id,
+            host:''
         }
     }
 
@@ -48,8 +52,26 @@ class ProductsView extends Component {
         this.setState({ productId: IDS })
     }
 
-    componentDidMount() {
-        this.props.getProductsView()
+    // componentDidMount() {
+    //     this.props.getProductsView()
+    //         .then((res) => {
+    //             let Ids = [];
+    //             res.payload.map((item) => {
+    //                 Ids.push(item.id)
+    //             })
+    //             this.setState({ allProductIds: Ids })
+    //         }).then(() => console.log(this.state.allProductIds));
+    //     if(this.state.productID){
+    //         const request = axios.get(`${this.state.host}/api/item/category/:${this.state.productID}`)
+    //         .then(response => {
+    //             console.log("================",response)
+    //         })
+    //     }
+    // }
+
+    setHost = host => {
+        this.setState({host});         
+        this.props.getProductsView(host, this.state.productID)
             .then((res) => {
                 let Ids = [];
                 res.payload.map((item) => {
@@ -57,6 +79,7 @@ class ProductsView extends Component {
                 })
                 this.setState({ allProductIds: Ids })
             }).then(() => console.log(this.state.allProductIds));
+        
     }
 
 
@@ -71,10 +94,10 @@ class ProductsView extends Component {
 
     searchFilter = (search) => {
         return function (x) {
-            return x.sku.toLowerCase().includes(search.toLowerCase()) ||
+            return x.sku?x.sku.toLowerCase().includes(search.toLowerCase()) ||
                 x.stock.toString().includes(search.toString()) ||
                 x.name.toLowerCase().includes(search.toLowerCase()) ||
-                !search;
+                !search:true;
         }
     }
 
@@ -203,7 +226,7 @@ class ProductsView extends Component {
         this.props.history.push('/createProduct');
     }
     render() {
-        console.log('render', this.state.productId);
+       
         let tableData =
             <div className="table-responsive card text-dark">
                 <table className="table">
@@ -312,6 +335,9 @@ class ProductsView extends Component {
             </nav>
 
         return (
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
 
@@ -342,7 +368,7 @@ class ProductsView extends Component {
                 </Dashboard>
             </div>
 
-
+            </HostResolver>
         )
     }
 }
