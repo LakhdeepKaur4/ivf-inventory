@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import{URN, PRODUCTS_VIEW} from '../actionCreators/index';
+import{URLi, PRODUCTS_VIEW} from '../actionCreators/index';
 
 export function getProductsView(){
-    const request = axios.get(`${URN}/products`)
+    const request = axios.get(`${URLi}/products`)
     .then((response =>response.data))
 
     return {

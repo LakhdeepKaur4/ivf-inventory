@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-
 import './products.css';
 import Dashboard from '../../components/dashboard/dashboard';
 import { getProductsItem } from '../../actions/productItemAction';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import FileStructure from '../../components/fileStructure/fileStructure';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class Products extends Component {
 
@@ -18,6 +18,10 @@ class Products extends Component {
 
     componentDidMount(){
         this.props.getProductsItem();
+    }
+
+    setHost = host => {
+        this.setState({host});
     }
 
     searchOnChange = (e) => {
@@ -76,6 +80,9 @@ class Products extends Component {
             </table>
         </div>
         return (
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
                 <div className="mt-4 ml-4">
@@ -155,6 +162,7 @@ class Products extends Component {
 
                 </Dashboard>
             </div>
+            </HostResolver>
         )
     }
 

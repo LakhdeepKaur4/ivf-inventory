@@ -10,10 +10,13 @@ import FileStructure from '../../components/fileStructure/fileStructure';
 import FileBase64 from 'react-file-base64';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
+import axios from 'axios';
 
 class ClassCategory extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             name: '',
             url: '',
@@ -29,11 +32,15 @@ class ClassCategory extends Component {
             subParent: '',
             show: false,
             showSub: false,
-            errors:{}
+            errors:{},
+            host:'',
+            _id:props.match.params.id
         }
+
     }
-    componentDidMount() {
-       
+    
+    componentDidMount() { 
+        console.log(this.state._id)
         this.props.GetInitialCategory();
         this.setState({ show: false, showSub: false });
         $('#file-upload').change(function () {
@@ -41,8 +48,17 @@ class ClassCategory extends Component {
             var file = $('#file-upload')[0].files[0].name;
             $(this).prev('label').text(file);
         });
-    
+        
+        if(this.state._id) {
+            const request = axios.get(`${this.state.host}/api/category/${this.state._id}`)
+            .then( response => console.log(response.data))
+        }
     }
+
+    setHost = host => {
+        this.setState({host});
+    }
+
     change = (e) => {
         if (!this.state.errors[e.target.value]) {
             let errors = Object.assign({}, this.state.errors);
@@ -54,9 +70,8 @@ class ClassCategory extends Component {
             this.setState({ [e.target.name]: e.target.value.trim('') });
              this.setState({ show: false, showSub: false });
         }
-
-        console.log(this.state)
     }
+
     editorChange = (editorChange) => {
         this.state.errors.description='';
         let desc = draftToHtml(convertToRaw(this.state.editorChange.getCurrentContent()));
@@ -151,6 +166,9 @@ class ClassCategory extends Component {
     }
     render() {
         return (
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
                 <div className="m-auto">
@@ -228,6 +246,7 @@ class ClassCategory extends Component {
                 </div>
                 </Dashboard>
             </div>
+            </HostResolver>
         )
     }
 }
