@@ -6,6 +6,7 @@ import { addBrand } from "../../actions/brandsAction";
 import FileBase64 from "react-file-base64";
 import Dashboard from "../../components/dashboard/dashboard";
 import $ from 'jquery';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class AddBrands extends Component {
   state = {
@@ -17,12 +18,13 @@ class AddBrands extends Component {
     fileName: [],
     logo: "",
     errorLogo:"",
+    host:''
   };
 
   componentDidMount(){
     $("input[type=file]").attr("id","file-upload");
     $('#file-upload').change(function () {
-      var i = $(this).prev('label').clone();
+      // var i = $(this).prev('label').clone();
       var file = $('#file-upload')[0].files[0].name;
             $(this).prev('label').text(file);
     })
@@ -52,7 +54,7 @@ class AddBrands extends Component {
         status: selected,
         logo: logo
       };
-      this.props.addBrand(payload);
+      this.props.addBrand(payload,this.state.host);
       this.setState({
         brandName: "",
         description: "",
@@ -75,6 +77,10 @@ class AddBrands extends Component {
       () => {}
     );
   };
+
+  setHost = host => {
+    this.setState({host});
+  }
   //Validations
 
   validateForm = () => {
@@ -119,7 +125,10 @@ class AddBrands extends Component {
 
   render() {
     return (
-      <Dashboard>
+      <HostResolver hostToGet="inventory" hostResolved={host => {
+        this.setHost(host);
+      }}>
+        <Dashboard>
         <div className="add_brand ">
           <div className="container">
             <div className="bg-light text-dark p-4 mt-1">
@@ -222,6 +231,7 @@ class AddBrands extends Component {
           </div>
         </div>
       </Dashboard>
+      </HostResolver>
     );
   }
 }

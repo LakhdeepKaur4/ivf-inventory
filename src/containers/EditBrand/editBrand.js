@@ -8,6 +8,7 @@ import {
 import FileBase64 from "react-file-base64";
 import Dashboard from "../../components/dashboard/dashboard";
 import $ from 'jquery';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class EditBrands extends Component {
   state = {
@@ -17,6 +18,7 @@ class EditBrands extends Component {
     logoUrl:`http://192.168.1.113:3000/${this.props.brandDetail.logo_url}`,
     fileName: [],
     picture: "",
+    host:""
   };
 
 
@@ -44,6 +46,11 @@ class EditBrands extends Component {
   };
 
 
+   // Get host url
+
+   setHost = host => {
+    this.setState({host});
+  }
   // Update Brand Details
 
   saveBrandDetails = event => {
@@ -61,7 +68,7 @@ class EditBrands extends Component {
     if (!picture) {
       delete payload.logo;
     }
-    this.props.updateBrandDetails(payload, this.props.match.params.id);
+    this.props.updateBrandDetails(payload,this.props.match.params.id,this.state.host);
     this.setState({
       brandName: "",
       description: "",
@@ -88,6 +95,9 @@ class EditBrands extends Component {
   render() {
     const { brandName, description} = this.state;
     return (
+      <HostResolver hostToGet="inventory" hostResolved={host => {
+        this.setHost(host);
+      }}>
       <Dashboard>
         <div className="edit_brand ">
           {this.props.brandDetail ? (
@@ -186,6 +196,7 @@ class EditBrands extends Component {
           )}
         </div>
       </Dashboard>
+      </HostResolver>
     );
   }
 }

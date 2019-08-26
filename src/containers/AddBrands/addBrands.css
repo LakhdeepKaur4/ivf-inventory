@@ -1,5 +1,10 @@
 .add_brand{
-    font-family: Muli;
+    top: 0px;
+left: 0px;
+/* width: 1600px; */
+height: 881px;
+background: #F2F4F7 0% 0% no-repeat padding-box;
+opacity: 1;
 }
 .add_brand .brand_button{
     background-color: #333333;
@@ -39,4 +44,15 @@ opacity: 1;
   }
   .add_brand .error_text{
       color:red;
+  }
+  .add_brand .upload_logo{
+    top: 206px;
+    left: 341px;
+    width: 95px;
+    height: 15px;
+    text-align: left;
+    font: Regular 12px/25px Muli;
+    letter-spacing: 0;
+    color: #43425D;
+    opacity: 1;
   }

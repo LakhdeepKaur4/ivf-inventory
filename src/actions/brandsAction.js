@@ -29,11 +29,13 @@ export function getBrands() {
 }
 
 // Get list of brands on default page
-export function getDefaultPageBrandsDetails(defaultPage) {
+export function getDefaultPageBrandsDetails(defaultPage,url) {
+  console.log('url in action...', url)
   return dispatch => {
     axios
-      .get(`${BRANDURL}/${defaultPage}`)
+      .get(`${url}/api/brands/${defaultPage}`)
       .then(response => {
+        console.log('response....', response)
         dispatch({ type: GET_PAGE_DETAIL, payload: response.data });
       })
       .catch(err => {
@@ -43,10 +45,10 @@ export function getDefaultPageBrandsDetails(defaultPage) {
 }
 
 // Get brands on active page
-export function getActivePageBrandsDetails(pageNumber) {
+export function getActivePageBrandsDetails(pageNumber,url) {
   return dispatch => {
     axios
-      .get(`${BRANDURL}/${pageNumber}`)
+      .get(`${url}/api/brands/${pageNumber}`)
       .then(response => {
         dispatch({ type: GET_ACTIVE_PAGE_DETAIL, payload: response.data.brands.docs });
       })
@@ -57,10 +59,10 @@ export function getActivePageBrandsDetails(pageNumber) {
 }
 
 // Add brands
-export function addBrand(data) {
+export function addBrand(data,url) {
   return dispatch => {
     axios
-      .post(BRANDURL, data)
+      .post(`${url}/api/brands`, data)
       .then(response => {
         if (
           response.status === 201 &&
@@ -81,10 +83,10 @@ export function addBrand(data) {
 }
 
 // Enable brand status
-export function enableBrand(id,currentPage) {
+export function enableBrand(id,currentPage,url) {
   return dispatch => {
     axios
-      .put(`${BRANDURL}/enable/${id}`)
+      .put(`${url}/api/brands/enable/${id}`)
       .then(response => {
         if (
           response.status === 200 &&
@@ -106,10 +108,10 @@ export function enableBrand(id,currentPage) {
 }
 
 // Disable brands status
-export function disableBrand(id,currentPage) {
+export function disableBrand(id,currentPage,url) {
   return dispatch => {
     axios
-      .put(`${BRANDURL}/disable/${id}`)
+      .put(`${url}/api/brands/disable/${id}`)
       .then(response => {
         if (
           response.status === 200 &&
@@ -131,10 +133,10 @@ export function disableBrand(id,currentPage) {
 }
 
 // Get details of a brand
-export function getBrandDetails(id) {
+export function getBrandDetails(id,url) {
   return dispatch => {
     axios
-      .get(`${BRANDURL}/brand/${id}`)
+      .get(`${url}/api/brands/brand/${id}`)
       .then(response => {
         dispatch({ type: BRAND_DETAIL, payload: response.data.brand });
       })
@@ -145,10 +147,10 @@ export function getBrandDetails(id) {
 }
 
 // Update brand details
-export function updateBrandDetails(data, id) {
+export function updateBrandDetails(data,id,url) {
   return dispatch => {
     axios
-      .put(`${BRANDURL}/${id}`, data)
+      .put(`${url}/api/brands/${id}`, data)
       .then(response => {
         if (
           response.status === 200 &&
@@ -166,14 +168,14 @@ export function updateBrandDetails(data, id) {
 }
 
 // Change status of multiple brands
-export function changeStatus(value, ids,currentPage) {
+export function changeStatus(value, ids,currentPage,url) {
   let payload = {
     status: value,
     ids: ids
   };
   return dispatch => {
     axios
-      .put(`${BRANDURL}/multiselect`, payload)
+      .put(`${url}/api/brands/multiselect`, payload)
       .then(response => {
         if (
           (response.status === 200 &&
