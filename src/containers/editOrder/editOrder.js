@@ -12,6 +12,7 @@ class EditOrder extends Component {
     constructor(props){
         super(props);
         this.state={
+            orderId:1,
             search: '',
             filterName:"customer",
             activePage: '1',
