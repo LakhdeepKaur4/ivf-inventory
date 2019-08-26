@@ -26,10 +26,6 @@ class Categories extends Component {
         this.debouncedOnChange = _.debounce(this.debouncedOnChange.bind(this), 200);
     }
 
-    componentDidMount() {
-        this.props.viewCategory(this.state.host);
-    }
-
     componentWillReceiveProps(nextprops) {
         if(!this.props.categories || nextprops.categores != this.props.categories) {
             this.setState({categories:nextprops.categories});
@@ -144,6 +140,7 @@ class Categories extends Component {
 
     setHost = host => {
         this.setState({host});
+        this.props.viewCategory(host);
     }
 
     render() {
@@ -151,7 +148,6 @@ class Categories extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
-                {console.log(this.state.host)}
                 <div>
                     <Dashboard>
                         <div>

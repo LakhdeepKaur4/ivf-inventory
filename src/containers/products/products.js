@@ -16,12 +16,9 @@ class Products extends Component {
         }
     }
 
-    componentDidMount(){
-        this.props.getProductsItem();
-    }
-
     setHost = host => {
-        this.setState({host});
+        this.setState({host}); 
+        this.props.getProductsItem(host);
     }
 
     searchOnChange = (e) => {
@@ -29,7 +26,6 @@ class Products extends Component {
     }
 
     productsItem=({productItem}) =>{
-
         if(productItem) {
            return productItem.map((item)=> {
                return (
