@@ -121,7 +121,7 @@ class Blog extends Component{
   
         
         return(  
-             <HostResolver hostToGet="inventory" hostResolved={host => {
+             <HostResolver hostToGet="mockup" hostResolved={host => {
             this.setHost(host)
         }}>
         <div>

@@ -87,7 +87,7 @@ class Sidebar extends Component {
                                     </Link> : <Link to="/storesView" >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
-                                            </span>View Brands
+                                            </span>View Stores
                                     </Link>}
                                 </li>
                                 <li>
