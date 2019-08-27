@@ -39,9 +39,25 @@ class ClassCategory extends Component {
 
     }
     
-    componentDidMount() { 
-        console.log(this.state._id)
-        this.props.GetInitialCategory();
+    // componentDidMount() { 
+    //     console.log(this.state._id)
+    //     this.props.GetInitialCategory();
+    //     this.setState({ show: false, showSub: false });
+    //     $('#file-upload').change(function () {
+    //         var i = $(this).prev('label').clone();
+    //         var file = $('#file-upload')[0].files[0].name;
+    //         $(this).prev('label').text(file);
+    //     });
+        
+    //     if(this.state._id) {
+    //         const request = axios.get(`${this.state.host}/api/category/${this.state._id}`)
+    //         .then( response => console.log(response.data))
+    //     }
+    // }
+
+    setHost = host => {
+        this.setState({host});
+        this.props.GetInitialCategory(host);
         this.setState({ show: false, showSub: false });
         $('#file-upload').change(function () {
             var i = $(this).prev('label').clone();
@@ -50,13 +66,9 @@ class ClassCategory extends Component {
         });
         
         if(this.state._id) {
-            const request = axios.get(`${this.state.host}/api/category/${this.state._id}`)
+            const request = axios.get(`${host}/api/category/${this.state._id}`)
             .then( response => console.log(response.data))
         }
-    }
-
-    setHost = host => {
-        this.setState({host});
     }
 
     change = (e) => {
@@ -103,7 +115,7 @@ class ClassCategory extends Component {
     push = (id) => {
         console.log('catgryid', id)
         this.setState({ parent: id });
-        this.props.GetParticularCategory(id);
+        this.props.GetParticularCategory(this.state.host,id);
         this.setState({ show: true });
 
     }
@@ -126,7 +138,7 @@ class ClassCategory extends Component {
                 return true;
             }
             else {
-                getParticularCategory.category.map((item) =>  item.subCategories.map((item) => {
+                getParticularCategory.map((item) =>  item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
 
                         // <div style={{marginLeft:'20px'}} onClick={()=>this.getsubCategory(item._id)} className="fa fa-folder">{item.name}</div>
@@ -143,15 +155,16 @@ class ClassCategory extends Component {
     }
     getCategory = (id) => {
         this.setState({ parent: id, show: false, showSub: true });
-        this.props.GetSubCategory(id);
+        this.props.GetSubCategory(this.state.host,id);
     }
     getSubCategory = ({ getSubCategory }) => {
+        console.log('getSubCategory',getSubCategory)
         if (getSubCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
             }
             else {
-                getSubCategory.category.map((item) => item.subCategories.map((item) => {
+                getSubCategory.map((item) => item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
                         // <div style={{marginLeft:'30px'}}><input type="radio"/>{item.name}</div>
                         $(`#${this.state.parent}`).append(`<div key=${item._id}><i class="fa fa-folder ml-4"/>${item.name}</div>`);
