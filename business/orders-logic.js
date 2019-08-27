@@ -191,3 +191,28 @@ exports.advancedSearchOrders = (req, res, next) => {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Please try again...', error: err })
   }
 }
+
+/* 
+    Searching existing products in cart
+*/
+exports.searchCartProducts = async (req, res) => {
+  try {
+    const searchField = req.query.search;
+    const cartProducts = await CartProducts.findAll({
+      where: {
+        [Sequelize.Op.or]: {
+          productTitle: {
+            [Sequelize.Op.like]: '%' + searchField + '%'
+          }
+        }
+      }
+    });
+    if (customer.length > 0) {
+      res.status(httpStatus.OK).send({ message: "C Data", cartProducts })
+    } else {
+      res.status(httpStatus.OK).send({ message: "No data found" })
+    }
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
+  }
+}
