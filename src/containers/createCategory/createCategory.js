@@ -109,7 +109,8 @@ class ClassCategory extends Component {
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
             console.log('hii');
-            this.props.onSubmit(this.state.host,{ ...this.state });
+            this.props.onSubmit(this.state.host,{ ...this.state })
+            .then(()=>this.props.GetInitialCategory(this.state.host));
         }
     }
     push = (id) => {
