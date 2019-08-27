@@ -108,7 +108,6 @@ exports.createItems = async (req, res, next) => {
 exports.getItems = async (req, res, next) => {
   try {
     const item = await Item.find({});
-    console.log(item);
     if (item) {
       return res.send({ item });
     }
