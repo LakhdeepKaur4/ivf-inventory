@@ -35,7 +35,21 @@ class ProductsView extends Component {
         }
     }
     
-
+    setHost = host => {
+        this.setState({host});
+        if (localStorage.getItem('product') !== null) {
+            let products = localStorage.getItem('product').split(',');
+            this.setState({ ids: products });
+        }
+        this.props.getMockProductsView(host)
+            .then(res => {
+                let Ids = [];
+                res.payload.map(item => {
+                    Ids.push(item.id);
+                })
+                this.setState({ allIds: Ids });
+            }).then(()=>console.log('wirked again',this.state.allIds));
+    }
 
   // This function will be used in pagination in later stage.
 
@@ -96,13 +110,14 @@ class ProductsView extends Component {
         this.setState({ ids: IDS });
     }
 
-    productsResult = ({ productList }) => {
-        if (productList) {
+    productsResult = ({ productListMock }) => {
+        console.log(productListMock,'edjnfcjbefcbhf')
+        if (productListMock) {
             let Ids = [];
-            productList.map(item => {
+            productListMock.map(item => {
                 Ids.push(item.id);
             })
-            return productList.sort((item1, item2) => {
+            return productListMock.sort((item1, item2) => {
                 var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
                 return this.state.sortVal ? cmprVal : -cmprVal;
             }).filter(this.searchFilter(this.state.search)).map((item) => {
@@ -141,21 +156,7 @@ class ProductsView extends Component {
         }
     }
 
-    setHost = host => {
-        this.setState({host});
-        if (localStorage.getItem('product') !== null) {
-            let products = localStorage.getItem('product').split(',');
-            this.setState({ ids: products });
-        }
-        this.props.getMockProductsView(host)
-            .then(res => {
-                let Ids = [];
-                res.payload.map(item => {
-                    Ids.push(item.id);
-                })
-                this.setState({ allIds: Ids });
-            }).then(()=>console.log('wirked again',this.state.allIds));
-    }
+    
 
     render() {
         console.log('worked again',this.state.ids);
