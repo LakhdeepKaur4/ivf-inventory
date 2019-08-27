@@ -71,13 +71,13 @@ class ProductsView extends Component {
         var defaultPage=this.state.activePage;
         this.setState({host});         
         this.props.getProductsView(host, this.state.productID,defaultPage)
-            .then((res) => {
+            .then((res) => {console.log(res)
                 let Ids = [];
                 res.payload.items.docs.map((item) => {
                     Ids.push(item._id)
                 })
-                this.setState({ allProductIds: Ids })
-            }).then(() => console.log(this.state.allProductIds));
+                this.setState({ allProductIds: Ids, limit:res.payload.items.limit, totalItemsCount:res.payload.items.total })
+            }).then(() => console.log(this.state));
         
     }
 
