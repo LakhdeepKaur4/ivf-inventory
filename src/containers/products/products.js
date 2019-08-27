@@ -26,7 +26,7 @@ class Products extends Component {
     }
 
     productsItem=({productItem}) =>{
-        if(productItem) {
+        if(productItem && productItem.items) {
            return productItem.items.map((item)=> {
                console.log("------------------",item)
                return (
@@ -85,13 +85,13 @@ class Products extends Component {
                 </div>
 
                 <div className="md-stepper-horizontal orange">
-                    <div className="md-step active done">
+                    <div className="md-step active done products">
                         <div className="md-step-circle"><span>1</span></div>
                         <div className="md-step-title">Customer info</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
-                    <div className="md-step">
+                    <div className="md-step prdStep">
                         <div className="md-step-circle"><span>2</span></div>
                         <div className="md-step-title">Products</div>
                         <div className="md-step-bar-left"></div>

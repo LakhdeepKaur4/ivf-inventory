@@ -71,14 +71,20 @@ class ProductsView extends Component {
         var defaultPage=this.state.activePage;
         this.setState({host});         
         this.props.getProductsView(host, this.state.productID,defaultPage)
-            .then((res) => {console.log(res)
+            .then((res) => {
+                debugger;
                 let Ids = [];
                 res.payload.items.docs.map((item) => {
                     Ids.push(item._id)
                 })
                 this.setState({ allProductIds: Ids, limit:res.payload.items.limit, totalItemsCount:res.payload.items.total })
             }).then(() => console.log(this.state));
-        
+            if(this.state.productID){
+            const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
+            .then(response => {
+                console.log("================",response)
+            })
+        }
     }
 
 
@@ -139,7 +145,7 @@ class ProductsView extends Component {
 
     productsResult = ({ productList }) => {
         console.log(productList)
-        if (productList) {
+        if (productList && productList.items && productList.items.docs) {
             console.log('productlist', productList);
             return productList.items.docs.sort((item1, item2) => {
                 var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
