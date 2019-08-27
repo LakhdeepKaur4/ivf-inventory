@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createProductDetails, productVariant, productOption } from '../../actions/createProductAction';
+import { createProductDetails, productVariant, updateVariant,productOption } from '../../actions/createProductAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 import HostResolver from '../../components/resolveHost/resolveHost';
@@ -29,16 +29,15 @@ class ProductVariantOption extends Component {
     
     //for variants
     renderVariants({ productVariant }) {
-        console.log(productVariant,"variants==============")
         let variantsHtml = null;
         if (productVariant) {
             variantsHtml= productVariant.map((item=>{
                      return(
-                    <div>{item.title}<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayVariantForm} style={{ color: '#A3A6B4' }}></i></span>
+                    <div>{item.title}<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditVariant.bind(this,item.title)} style={{ color: '#A3A6B4' }}></i></span>
                     <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
                     <div className="variants-option">
                         <div>
-                            <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayOptionForm} style={{ color: '#A3A6B4' }}></i></span></div>
+                            <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditOptionForm} style={{ color: '#A3A6B4' }}></i></span></div>
                             <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color</span></div>
                         </div>
                     </div>
@@ -77,17 +76,44 @@ class ProductVariantOption extends Component {
         reader.readAsDataURL(file)
     }
 
+    displayEditVariant = (title) => {
+        this.props.history.push(`/createProduct/editVariant/${title}`);
+    };
 
     displayVariantForm = () => {
-        this.props.history.push("/productVariant");
+        this.props.history.push("/createProduct/createVariant");
     };
 
     displayOptionForm = () => {
-        this.props.history.push("/productVariantOption");
+        this.props.history.push("/createProduct/variant/:title/createOption");
     };
 
+    // displayEditOptionForm = () => {
+    //     this.props.history.push(`/createProduct/variant/:title/editOption/title`);
+    // };
+
+
     formSubmit = () => {
-        this.props.productOption(this.state);
+        let optionId = this.props.match.params.id;
+        let title = this.props.match.params.title;
+
+        let index = this.props.CreateProductReducer.productVariant.findIndex(variant=>variant.title == title);  
+        let variants = [...this.props.CreateProductReducer.productVariant];
+        let variant = variants[index];
+        if(optionId){
+            // variant.options[]
+            // options[index] = this.state;
+            
+        }
+        else{
+            if(variant.options){
+                variant.options.push(this.state);
+            }
+            else{
+                variant.options = [this.state];
+            }
+        }
+        this.props.updateVariant(variants);
         this.props.history.push("/createProduct");
 
     }
@@ -103,7 +129,7 @@ class ProductVariantOption extends Component {
                     <td>{postOption.price}</td>
                     <td>{postOption.inventoryStock}</td>
                     {(postOption.visible === "Visible") ? <td style={{ color: 'green' }}> {postOption.visible} </td> : <td style={{ color: 'red' }}> {postOption.visible}</td>}
-                    <td><i className="fa fa-edit" aria-hidden="true" onClick={this.displayOptionForm}></i></td>
+                    <td><i className="fa fa-edit" aria-hidden="true" onClick={this.displayEditOptionForm}></i></td>
                 </tr>
             )
             return jsxData;
@@ -147,23 +173,23 @@ class ProductVariantOption extends Component {
                                     <div className=" text-dark">
                                         <form onSubmit={this.formSubmit}>
                                             <div className="h5 small text-danger">Title</div>
-                                            <div className="form-row col-12">
-                                                <div className="form-group col-12">
+                                            <div className="form-row col-12 ">
+                                                <div className="form-group col-12 createProduct">
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="title" onChange={this.onChange} id="title" placeholder="Option 1" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
-                                                <div className="form-group col-12">
+                                                <div className="form-group col-12 createProduct">
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="optionTitle" name="optionTitle" onChange={this.onChange} placeholder="Option Title" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
-                                                <div className="form-group col-12">
+                                                <div className="form-group col-12 createProduct">
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inventoryStock" name="inventoryStock" onChange={this.onChange} placeholder="Inventory Stock" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
-                                                <div className="form-group col-12">
+                                                <div className="form-group col-12 createProduct">
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="price" name="price" onChange={this.onChange} placeholder="Price" />
                                                 </div>
                                             </div>
@@ -179,7 +205,7 @@ class ProductVariantOption extends Component {
                                                     <div className="col-1 float-right my-auto" style={{ marginLeft: "-40px" }}><i className="fa fa-angle-down"></i></div>
                                                 </div>
                                             </div>
-                                            <div className="form-row col-12">
+                                            <div className="form-row col-12 createProduct">
                                                 <div className="form-group col-6">
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="width" name="width" onChange={this.onChange} placeholder="Width" />
                                                 </div>
@@ -187,7 +213,7 @@ class ProductVariantOption extends Component {
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="length" name="length" onChange={this.onChange} placeholder="Length" />
                                                 </div>
                                             </div>
-                                            <div className="form-row col-12">
+                                            <div className="form-row col-12 createProduct">
                                                 <div className="form-group col-6">
                                                     <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="height" name="height" onChange={this.onChange} placeholder="Height" />
                                                 </div>
@@ -291,7 +317,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createProductDetails, productVariant, productOption }, dispatch)
+    return bindActionCreators({ createProductDetails, productVariant, productOption,updateVariant }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductVariantOption);

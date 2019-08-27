@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createProductDetails, productVariant, productOption } from '../../actions/createProductAction';
+import { createProductDetails, productVariant, productOption,updateVariant } from '../../actions/createProductAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 import HostResolver from '../../components/resolveHost/resolveHost';
@@ -22,27 +22,21 @@ class ProductVariant extends Component {
             height: '',
             weight: '',
             host:''
-           
-
         }
     }
-
 
     
     //for variants
     renderVariants({ productVariant }) {
-        console.log(productVariant,"variants==============")
         let variantsHtml = null;
         if (productVariant) {
-            console.log(productVariant)
             variantsHtml= productVariant.map((item=>{
-                    
                      return(
-                    <div>{item.title}<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayVariantForm} style={{ color: '#A3A6B4' }}></i></span>
+                    <div>{item.title}<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditVariant.bind(this,item.title)} style={{ color: '#A3A6B4' }}></i></span>
                     <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
                     <div className="variants-option">
                         <div>
-                            <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayOptionForm} style={{ color: '#A3A6B4' }}></i></span></div>
+                            <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditOptionForm} style={{ color: '#A3A6B4' }}></i></span></div>
                             <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color</span></div>
                         </div>
                     </div>
@@ -81,21 +75,43 @@ class ProductVariant extends Component {
         reader.readAsDataURL(file)
     }
 
+    
+
+    displayEditVariant = (title) => {
+        this.props.history.push(`/createProduct/editVariant/${title}`);
+    };
+
     displayVariantForm = () => {
-        this.props.history.push("/productVariant");
+        this.props.history.push("/createProduct/createVariant");
     };
 
     displayOptionForm = () => {
-
-        this.props.history.push("/productVariantOption");
+        let variantTitle = this.props.match.params.id;
+        this.props.history.push(`/createProduct/variant/${variantTitle}/createOption`);
     };
+
+    // displayEditOptionForm = () => {
+    //     this.props.history.push(`/createProduct/variant/:title/editOption/title`);
+    // };
 
     previousForm = () => {
         this.props.history.push("/createProduct");
     };
 
     formSubmit = () => {
-        this.props.productVariant(this.state);
+       
+        let variantTitle = this.props.match.params.id;
+        
+        if(variantTitle){
+
+            let index = this.props.CreateProductReducer.productVariant.findIndex(variant=>variant.title == variantTitle);  
+            let variants = [...this.props.CreateProductReducer.productVariant];
+            variants[index] = this.state;
+            this.props.updateVariant(variants);
+        }
+        else{
+            this.props.productVariant(this.state);
+        }
         this.props.history.push("/createProduct");
     }
 
@@ -109,7 +125,7 @@ class ProductVariant extends Component {
                     <td>{postOption.price}</td>
                     <td>{postOption.inventoryStock}</td>
                     {(postOption.visible === "Visible") ? <td style={{ color: 'green' }}> {postOption.visible} </td> : <td style={{ color: 'red' }}> {postOption.visible}</td>}
-                    <td><i className="fa fa-edit" aria-hidden="true" onClick={this.displayOptionForm}></i></td>
+                    <td><i className="fa fa-edit" aria-hidden="true" onClick={this.displayEditOptionForm}></i></td>
                 </tr>
             )
             return jsxData;
@@ -119,6 +135,29 @@ class ProductVariant extends Component {
     setHost = async (host) => {
         await this.setState({ host: host });
         this.props.createProductDetails(this.state.host);
+    }
+
+    componentWillReceiveProps(){
+  
+        let variantTitle = this.props.match.params.id;
+       
+        if(variantTitle){
+            let variant = this.props.CreateProductReducer.productVariant.find(variant=>variant.title == variantTitle);
+           
+            this.setState({
+            fileName: variant.fileName,
+            picture: variant.picture,
+            title: variant.title,
+            optionTitle: variant.optionTitle,
+            originCountry: variant.originCountry,
+            color: variant.color,
+            width: variant.width,
+            length: variant.length,
+            height: variant.height,
+            weight: variant.weight,
+            })
+        }
+
     }
 
     render() {
@@ -158,24 +197,24 @@ class ProductVariant extends Component {
                                         <form onSubmit={this.formSubmit}>
                                             <div className="h5 small text-danger">Title</div>
                                             <div className="form-row col-12">
-                                                <div className="form-group col-12">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="title" onChange={this.onChange} id="title" placeholder="Variant 1" />
+                                                <div className="form-group col-12 createProduct">
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="title" onChange={this.onChange} id="title" placeholder="Variant 1" value={this.state.title}/>
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
-                                                <div className="form-group col-12">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="optionTitle" name="optionTitle" onChange={this.onChange} placeholder="Option Title" />
+                                                <div className="form-group col-12 createProduct">
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="optionTitle" name="optionTitle" value={this.state.optionTitle} onChange={this.onChange} placeholder="Option Title" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
-                                                <div className="form-group col-12">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="color" name="color" onChange={this.onChange} placeholder="Color" />
+                                                <div className="form-group col-12 createProduct">
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="color" name="color" value={this.state.color} onChange={this.onChange} placeholder="Color" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
                                                 <div className="form-group col-12 row mx-auto">
                                                     <div className="col-12 mx-0 p-0">
-                                                        <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="originCountry" onChange={this.onChange} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                        <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="originCountry"  value={this.state.originCountry} onChange={this.onChange} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
                                                             <option>Origin country</option>
                                                             <option>U.K</option>
                                                             <option>RUSSIA</option>
@@ -184,20 +223,20 @@ class ProductVariant extends Component {
                                                     <div className="col-1 float-right my-auto" style={{ marginLeft: "-40px" }}><i className="fa fa-angle-down"></i></div>
                                                 </div>
                                             </div>
-                                            <div className="form-row col-12">
-                                                <div className="form-group col-6">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="width" name="width" onChange={this.onChange} placeholder="Width" />
+                                            <div className="form-row col-12 createProduct">
+                                                <div className="form-group col-6 ">
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="width" name="width" value={this.state.width} onChange={this.onChange} placeholder="Width" />
                                                 </div>
                                                 <div className="form-group col-6">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="length" name="length" onChange={this.onChange} placeholder="Length" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="length" name="length" value={this.state.length}  onChange={this.onChange} placeholder="Length" />
                                                 </div>
                                             </div>
-                                            <div className="form-row col-12">
+                                            <div className="form-row col-12 createProduct">
                                                 <div className="form-group col-6">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="height" name="height" onChange={this.onChange} placeholder="Height" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="height" name="height" value={this.state.height}  onChange={this.onChange} placeholder="Height" />
                                                 </div>
                                                 <div className="form-group col-6">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="weight" name="weight" onChange={this.onChange} placeholder="Weight" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="weight" name="weight" value={this.state.weight}  onChange={this.onChange} placeholder="Weight" />
                                                 </div>
                                             </div>
                                         </form>
@@ -271,7 +310,7 @@ class ProductVariant extends Component {
                                         <th>PRICE</th>
                                         <th>QTY</th>
                                         <th>VISIBLE</th>
-                                        <th><span onClick={this.displayOptionForm}><i className="fa fa-plus" aria-hidden="true"></i></span></th>
+                                        <th><span onClick={this.props.match.params.id ? this.displayOptionForm :''} ><i className="fa fa-plus" aria-hidden="true"></i></span></th>
                                     </tr>
                                 </thead>
                                 <tbody style={{ backgroundColor: "rgb(242,244,247)", opacity: "50%" }}>
@@ -281,7 +320,8 @@ class ProductVariant extends Component {
                         </div>
                         <div className="float-right m-5">
                             <button className="button-back mr-3" onClick={this.previousForm}><span className="text-btn-back">BACK</span></button>
-                            <button type="submit" className="button-variant" onClick={this.formSubmit}><span className="text-btn">CREATE VARIANT</span></button>
+                            <button type="submit" className="button-variant" onClick={this.formSubmit}>
+                                <span className="text-btn">{this.props.match.params.id?'SAVE':'CREATE'} VARIANT</span></button>
                         </div>
                     </div>
                 </Dashboard>
@@ -298,7 +338,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createProductDetails, productVariant, productOption }, dispatch)
+    return bindActionCreators({ createProductDetails, productVariant, productOption,updateVariant }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductVariant);
