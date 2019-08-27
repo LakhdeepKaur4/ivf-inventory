@@ -20,17 +20,7 @@
 .pushDataToStore div #firstpdts{
     margin-top: 15px;
 }
-/* .buttonActivePushDataToStore{
-    background-color:black;
-    border-radius:40%;
-    width:140px;
-    color: white;
-}
-.buttonOffPushDataToStore{
-   
-    border-radius:40%;
-    width:140px
-} */
+
 .prductWithStore{
     display: flex;
     justify-content: space-between;

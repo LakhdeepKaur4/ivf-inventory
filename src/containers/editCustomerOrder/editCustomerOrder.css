@@ -149,12 +149,12 @@ select {
 .editCustomer .md-stepper-horizontal .md-step.active .md-step-optional {
 	color:rgba(0,0,0,.54);
 }
-.editOrderMainDiv .editCustomer .md-stepper-horizontal .md-step .md-step-bar-left,
-.editOrderMainDiv .editCustomer .md-stepper-horizontal .md-step .md-step-bar-right {
+.editCustomer .md-stepper-horizontal .md-step .md-step-bar-left,
+.editCustomer .md-stepper-horizontal .md-step .md-step-bar-right {
 	position: absolute;
     top: 36px;
     height: 2px;
-    border-top: 1px solid #F74A4A;
+    border-top: 1px solid #4D4F5C;
 }
 .editCustomer .md-stepper-horizontal .md-step .md-step-bar-right {
 	right:0;

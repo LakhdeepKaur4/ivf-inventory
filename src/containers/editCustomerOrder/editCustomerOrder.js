@@ -6,10 +6,7 @@ import { bindActionCreators } from 'redux';
 import Dashboard from '../../components/dashboard/dashboard';
 import HostResolver from '../../components/resolveHost/resolveHost';
 
-
-
 class EditCustomerOrder extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
