@@ -1,5 +1,5 @@
 const Category = require('../models/category');
-const Item = require('../models/item')
+const Item = require('../models/item');
 const httpStatus = require('http-status');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;

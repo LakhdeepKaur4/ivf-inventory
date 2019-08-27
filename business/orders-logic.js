@@ -5,7 +5,6 @@ const CartProducts = require('../config/relations').cartProducts; // CartProduct
 const Addresses = require('../config/relations').addresses; // Addresses model imported
 const Payments = require('../config/relations').payments; // Payments model imported
 const Shipments = require('../config/relations').shipments; // Shipments model imported
-
 const httpStatus = require('http-status'); // Module to provide HTTP response codes
 const Op = require('sequelize').Op; // Sequelize operators imported
 
@@ -200,15 +199,15 @@ exports.searchCartProducts = async (req, res) => {
     const searchField = req.query.search;
     const cartProducts = await CartProducts.findAll({
       where: {
-        [Sequelize.Op.or]: {
+        [Op.or]: {
           productTitle: {
-            [Sequelize.Op.like]: '%' + searchField + '%'
+            [Op.like]: '%' + searchField + '%'
           }
         }
       }
     });
-    if (customer.length > 0) {
-      res.status(httpStatus.OK).send({ message: "C Data", cartProducts })
+    if (cartProducts.length > 0) {
+      res.status(httpStatus.OK).send({ message: "Cart Products Data", cartProducts })
     } else {
       res.status(httpStatus.OK).send({ message: "No data found" })
     }
