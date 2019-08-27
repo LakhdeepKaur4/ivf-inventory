@@ -17,7 +17,6 @@ class Products extends Component {
     }
 
     setHost = host => {
-        console.log("=================",host)
         this.setState({host}); 
         this.props.getProductsItem(host);
     }
@@ -28,7 +27,8 @@ class Products extends Component {
 
     productsItem=({productItem}) =>{
         if(productItem) {
-           return productItem.items.map((item)=> {console.log(item);
+           return productItem.items.map((item)=> {
+               console.log("------------------",item)
                return (
                 <tr key={item.cartProductId}>
                     <td>{item.productTitle}</td>

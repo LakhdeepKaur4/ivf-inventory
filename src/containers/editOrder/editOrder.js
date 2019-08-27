@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
+import '../../commonCss/stepbar.css';
 
 class EditOrder extends Component {
 
@@ -20,8 +22,8 @@ class EditOrder extends Component {
             totalItemsCount:''
         }
     }
-
-    componentDidMount() {
+    setHost = host => {
+        this.setState({host});
         this.props.getEditOrder();
     }
     
@@ -66,6 +68,9 @@ class EditOrder extends Component {
         </div>
 
         return (
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div className="editOrderMainDiv">
                 <Dashboard>
                 <div className="mt-4 ml-4">
@@ -280,6 +285,7 @@ class EditOrder extends Component {
                 </div>
                 </Dashboard>
             </div>
+            </HostResolver>
 
         )
     }
