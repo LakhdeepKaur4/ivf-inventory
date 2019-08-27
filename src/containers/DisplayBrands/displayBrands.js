@@ -21,7 +21,8 @@ class Brands extends Component {
       multiSelect: [],
       isAllSelect: false,
       editId:'',
-      host:''
+      host:'',
+      dropdownClick:false
     };
   }
 
@@ -77,9 +78,14 @@ class Brands extends Component {
   handleMultiple = value => {
     const {multiSelect,activePage,host}=this.state
     this.props.changeStatus(value, multiSelect,activePage,host);
-    this.setState({ multiSelect: [], isAllSelect: false });
+    this.setState({ multiSelect: [], isAllSelect: false,dropdownClick:false });
   };
 
+
+  // Handle Dropdown
+  handleDropdown=()=>{
+    this.setState({dropdownClick:true})
+  }
   // Select all brands
   handleAllSelect = action => {
     if (action === true) {
@@ -150,10 +156,10 @@ class Brands extends Component {
                 />
               </td>
               <td>
-                <img
-                  style={{ width: "30px", height: "30px" }}
+                <img className="brand_logo"
+                  // style={{ width: "30px", height: "30px" }}
                   alt={item.name}
-                  src={`http://192.168.1.113:3000/${item.logo_url}`}
+                  src={`${this.state.host}/${item.logo_url}`}
                 />
               </td>
               <td>{item.name}</td>
@@ -161,9 +167,9 @@ class Brands extends Component {
               <td style={{ textAlign: "justify" }}>{item.description}</td>
               <td>
                 {item.status === true ? (
-                  <p style={{ color: "#1ABC9C" }}>Enabled</p>
+                  <p className="status" style={{ color: "#1ABC9C" }}>Enabled</p>
                 ) : (
-                  <p style={{ color: "#F46565" }}>Disabled</p>
+                  <p className="status" style={{ color: "#F46565" }}>Disabled</p>
                 )}
               </td>
               <td>
@@ -223,7 +229,6 @@ class Brands extends Component {
   
 
   render() {
-    console.log('inside render',this.state.host)
     let displayBrandsList = (
       <div className="table-responsive">
         <table className="table" style={{ fontSize: "13px" }}>
@@ -233,7 +238,7 @@ class Brands extends Component {
                 <input
                   type="checkbox"
                   checked={this.state.isAllSelect}
-                  onClick={e => {
+                  onChange={e => {
                     this.handleAllSelect(e.currentTarget.checked);
                   }}
                 />
@@ -261,7 +266,7 @@ class Brands extends Component {
             <div className="img_content_wprapper">
               <p className="heading">Brands</p>
             </div>
-            <div className="search_filter_wrapper">
+            <div className="search_filter_wrapper d-flex">
               <div className="search">
                 <div className="form-group has-search">
                   <span
@@ -278,18 +283,21 @@ class Brands extends Component {
                 </div>
               </div>
               <div className="filter">Filter</div>
-              <div className="brands_actions">
-                <div className="dropdown">
+              <div className="brands_actions my-auto p-0">
+                <div className="dropdown my-auto p-0">
                   <button
-                    className="btn"
+                    className="btn my-auto p-0"
                     type="button"
                     id="dropdownMenuButton1"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
+                    onClick={this.handleDropdown}
                   >
                     Action
+                    {this.state.dropdownClick?<i className="fa fa-angle-up"></i>:<i className="fa fa-angle-down"></i>}
                   </button>
+                  
                   <div
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuButton1"
@@ -316,7 +324,7 @@ class Brands extends Component {
               <div className="add_brands" onClick={this.displayForm}>
                 + Add
               </div>
-              <div className="pagination">
+              <div className="brandsPagination form-group">
                 <Pagination
                   activePage={this.state.activePage}
                   itemsCountPerPage={this.state.limit}
