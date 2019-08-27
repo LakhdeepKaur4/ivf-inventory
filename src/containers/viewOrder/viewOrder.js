@@ -5,6 +5,7 @@ import {getViewOrder} from '../../actions/viewOrderAction';
 import './viewOrder.css'
 import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 
 
@@ -18,13 +19,12 @@ class ViewOrder extends Component{
             filterName:"customer",
             activePage: '1',
             limit:'5',
-            totalItemsCount:''
+            totalItemsCount:'',
+            host: ''
         }
     }
 
-    componentDidMount(){
-        this.props.getViewOrder();
-    }
+    
 
     searchOnChange = (e) => {
         this.setState({ search: e.target.value })
@@ -67,6 +67,12 @@ class ViewOrder extends Component{
             })
         }
 
+    }
+
+    setHost = async (host) => {
+        await this.setState({ host: host });
+        this.props.getViewOrder(this.state.host);
+        
     }
    
     render(){
@@ -169,22 +175,19 @@ let navIcon=
     </div>
     </nav>
         return(
-
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host)
+            }}>
         <div>
            <Dashboard>
                 {navLink}
-              
               <div>
                 {navIcon}
               </div>
-              
-              
                  <div>{viewOrderData}</div>
                  </Dashboard>
         </div>
-            
-            
-        
+          </HostResolver>
         )
     }
 }

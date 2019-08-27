@@ -5,7 +5,7 @@ import AdvancedSearch from './containers/advancedSearch/advancedSearch';
 import ViewOrder from './containers/viewOrder/viewOrder'
 import AddProduct from './containers/addProducts/addProducts';
 import EditOrder from './containers/editOrder/editOrder';
-import Shipping from './containers/shipping/shipping';
+// import Shipping from './containers/shipping/shipping';
 import PushProductsView from './containers/pushProductsView/pushProductsView';
 import Login from './containers/login/login';
 import Themes from './containers/Themes/themes';
@@ -61,7 +61,7 @@ class App extends Component {
             <Route path="/create" component={AddProduct} />
             <Route path="/brands" component={Brands} />
             <Route path="/advancedSearch" exact component={AdvancedSearch} />
-            <Route path="/shipping" component={Shipping} />
+            {/* <Route path="/shipping" component={Shipping} /> */}
             <Route path="/pushProductsView" component={PushProductsView} />
             <Route path="/addBrand" component={AddBrands} />
             <Route path="/editanorder" component={EditCustomerOrder} />
