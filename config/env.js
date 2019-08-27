@@ -6,9 +6,9 @@ module.exports = {
     password: 'mysql2310',
     host: 'db4free.net',
     pool: {
-        max_connections: 5,
+        max_connections: 10,
         min_connections: 0,
         connection_acquire_time: 30000,
-        connection_idle_time: 10000
+        connection_idle_time: 5000
     }
 }

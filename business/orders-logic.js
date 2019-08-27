@@ -124,7 +124,6 @@ exports.updateOrder = async (req, res, next) => {
 // Searching orders on advanced filters
 exports.advancedSearchOrders = (req, res, next) => {
   try {
-    console.log(req);
     const body = req.query;
     Orders.findAll({
       where: {
@@ -142,6 +141,18 @@ exports.advancedSearchOrders = (req, res, next) => {
               { paymentMethod: body.paymentMethod }
             ]
           }
+        },
+        {
+          model: Carts, include: [
+            {
+              model: CartProducts, where: {
+                [Op.or]: [
+                  { productTitle: body.search },
+                  { variantTitle: body.search }
+                ]
+              }
+            }
+          ]
         }
       ]
     })
