@@ -10,10 +10,13 @@ import FileStructure from '../../components/fileStructure/fileStructure';
 import FileBase64 from 'react-file-base64';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
+import axios from 'axios';
 
 class ClassCategory extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             name: '',
             url: '',
@@ -29,11 +32,31 @@ class ClassCategory extends Component {
             subParent: '',
             show: false,
             showSub: false,
-            errors:{}
+            errors:{},
+            host:'',
+            _id:props.match.params.id
         }
+
     }
-    componentDidMount() {
-       
+    
+    // componentDidMount() { 
+    //     console.log(this.state._id)
+    //     this.props.GetInitialCategory();
+    //     this.setState({ show: false, showSub: false });
+    //     $('#file-upload').change(function () {
+    //         var i = $(this).prev('label').clone();
+    //         var file = $('#file-upload')[0].files[0].name;
+    //         $(this).prev('label').text(file);
+    //     });
+        
+    //     if(this.state._id) {
+    //         const request = axios.get(`${this.state.host}/api/category/${this.state._id}`)
+    //         .then( response => console.log(response.data))
+    //     }
+    // }
+
+    setHost = host => {
+        this.setState({host});
         this.props.GetInitialCategory();
         this.setState({ show: false, showSub: false });
         $('#file-upload').change(function () {
@@ -41,8 +64,13 @@ class ClassCategory extends Component {
             var file = $('#file-upload')[0].files[0].name;
             $(this).prev('label').text(file);
         });
-    
+        
+        if(this.state._id) {
+            const request = axios.get(`${this.state.host}/api/category/${this.state._id}`)
+            .then( response => console.log(response.data))
+        }
     }
+
     change = (e) => {
         if (!this.state.errors[e.target.value]) {
             let errors = Object.assign({}, this.state.errors);
@@ -54,9 +82,8 @@ class ClassCategory extends Component {
             this.setState({ [e.target.name]: e.target.value.trim('') });
              this.setState({ show: false, showSub: false });
         }
-
-        console.log(this.state)
     }
+
     editorChange = (editorChange) => {
         this.state.errors.description='';
         let desc = draftToHtml(convertToRaw(this.state.editorChange.getCurrentContent()));
@@ -111,7 +138,7 @@ class ClassCategory extends Component {
                 return true;
             }
             else {
-                getParticularCategory.category.map((item) =>  item.subCategories.map((item) => {
+                getParticularCategory.map((item) =>  item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
 
                         // <div style={{marginLeft:'20px'}} onClick={()=>this.getsubCategory(item._id)} className="fa fa-folder">{item.name}</div>
@@ -131,12 +158,13 @@ class ClassCategory extends Component {
         this.props.GetSubCategory(id);
     }
     getSubCategory = ({ getSubCategory }) => {
+        console.log('getSubCategory',getSubCategory)
         if (getSubCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
             }
             else {
-                getSubCategory.category.map((item) => item.subCategories.map((item) => {
+                getSubCategory.map((item) => item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
                         // <div style={{marginLeft:'30px'}}><input type="radio"/>{item.name}</div>
                         $(`#${this.state.parent}`).append(`<div key=${item._id}><i class="fa fa-folder ml-4"/>${item.name}</div>`);
@@ -151,6 +179,9 @@ class ClassCategory extends Component {
     }
     render() {
         return (
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
                 <div className="m-auto">
@@ -228,6 +259,7 @@ class ClassCategory extends Component {
                 </div>
                 </Dashboard>
             </div>
+            </HostResolver>
         )
     }
 }

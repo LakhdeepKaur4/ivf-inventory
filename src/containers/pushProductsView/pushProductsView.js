@@ -5,6 +5,8 @@ import { getProductsView } from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
 import './pushProductView.css';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
+
 class ProductsView extends Component {
     constructor(props) {
         super(props);
@@ -18,28 +20,29 @@ class ProductsView extends Component {
             ids: [],
             allIds: [],
             flag: false,
-            error:false
+            error:false,
+            host:''
         }
     }
     btnClick = () => {
         this.setState({ checked: true })
     }
 
-    componentDidMount() {
-        console.log('did mount wrking');
-        if (localStorage.getItem('product') !== null) {
-            let products = localStorage.getItem('product').split(',');
-            this.setState({ ids: products });
-        }
-        this.props.getProductsView()
-            .then(res => {
-                let Ids = [];
-                res.payload.map(item => {
-                    Ids.push(item.id);
-                })
-                this.setState({ allIds: Ids });
-            }).then(()=>console.log('wirked again',this.state.allIds));
-    }
+    // componentDidMount() {
+    //     console.log('did mount wrking');
+    //     if (localStorage.getItem('product') !== null) {
+    //         let products = localStorage.getItem('product').split(',');
+    //         this.setState({ ids: products });
+    //     }
+    //     this.props.getProductsView()
+    //         .then(res => {
+    //             let Ids = [];
+    //             res.payload.map(item => {
+    //                 Ids.push(item.id);
+    //             })
+    //             this.setState({ allIds: Ids });
+    //         }).then(()=>console.log('wirked again',this.state.allIds));
+    // }
 
     componentWillUnmount() {
         if (!this.state.flag) {
@@ -151,6 +154,22 @@ class ProductsView extends Component {
         } else {
             this.setState({ ids: [] });
         }
+    }
+
+    setHost = host => {
+        this.setState({host});
+        if (localStorage.getItem('product') !== null) {
+            let products = localStorage.getItem('product').split(',');
+            this.setState({ ids: products });
+        }
+        this.props.getProductsView(host)
+            .then(res => {
+                let Ids = [];
+                res.payload.map(item => {
+                    Ids.push(item.id);
+                })
+                this.setState({ allIds: Ids });
+            }).then(()=>console.log('wirked again',this.state.allIds));
     }
 
     render() {
@@ -267,6 +286,9 @@ class ProductsView extends Component {
             </nav>
 
         return (
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
 
@@ -320,7 +342,7 @@ class ProductsView extends Component {
 
                 </Dashboard>
             </div>
-
+            </HostResolver>
 
         )
     }

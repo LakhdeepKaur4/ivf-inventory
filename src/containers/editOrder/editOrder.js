@@ -12,6 +12,7 @@ class EditOrder extends Component {
     constructor(props){
         super(props);
         this.state={
+            orderId:1,
             search: '',
             filterName:"customer",
             activePage: '1',
@@ -23,7 +24,13 @@ class EditOrder extends Component {
     componentDidMount() {
         this.props.getEditOrder();
     }
+    
+    /* Previous step button handling */
+    prevStepHandle = () => {
+        this.props.history.push('/editproducts');
+    }
 
+    /* fetch lsit of data from db */
     viewEditOrder = ({ editOrder }) => {
         if (editOrder) {
             return editOrder.map(item => {
@@ -41,6 +48,7 @@ class EditOrder extends Component {
 
     render() {
         let viewOrderData = <div className="table-responsive">
+            {/* table view of data */}
             <table className="table">
                 <thead>
                     <tr>
@@ -58,37 +66,38 @@ class EditOrder extends Component {
         </div>
 
         return (
-            <div>
+            <div className="editOrderMainDiv">
                 <Dashboard>
                 <div className="mt-4 ml-4">
-                    <h6>FINALIZE</h6>
+                    <div className="finalizeHeading">FINALIZE</div>
                 </div>
 
+                {/* Step bar */}
                 <div className="md-stepper-horizontal orange">
                     <div className="md-step active done">
                         <div className="md-step-circle"><span>1</span></div>
-                        <div className="md-step-title">Customer info</div>
+                        <div className="md-step-title titleText">Customer info</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
                     <div className="md-step active done">
                         <div className="md-step-circle"><span>2</span></div>
-                        <div className="md-step-title">Products</div>
+                        <div className="md-step-title titleText">Products</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
                     <div className="md-step">
                         <div className="md-step-circle"><span>3</span></div>
-                        <div className="md-step-title">Finalize</div>
+                        <div className="md-step-title titleText">Finalize</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
                 </div>
 
-
+                {/* Billing form */}
                 <div className="row m-auto">
                     <div className="col-7">
-                        <div className="bg-light text-dark p-4 mt-1">
+                        <div className="billingDiv p-4 mt-1">
                             <h5>Billing to</h5>
                             <form >
                                 <div className="form-row">
@@ -136,7 +145,9 @@ class EditOrder extends Component {
                                 </div>
                             </form>
                         </div>
-                        <div className="bg-light text-dark p-4 mt-4 mb-1">
+
+                        {/* Details Form */}
+                        <div className="billingDiv p-4 mt-4 mb-1">
                             <form>
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
@@ -183,41 +194,44 @@ class EditOrder extends Component {
                         </div>
                     </div>
 
+                    {/* Order added info */}
                     <div className="col-5 mt-1">
                         <div className="row">
                             <div className="col-sm-12">
-                                <div className="card">
+                                <div className="card orderChanged">
                                     <div className="card-body">
                                         <h5 className="card-title">Order changed by</h5>
                                         <img src="../" alt="Smiley face" height="42" width="42" />
-                                        <p >PAYPAL INC</p>
-                                        <p style={{ display: "inline-block" }}>Gmail invoice?</p> <input type="checkbox" />
+                                        <p className="paypaInc">PAYPAL INC</p>
+                                        <p className="googleDesc" style={{ display: "inline-block" }}>Gmail invoice?</p> <input type="checkbox" />
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        {/* Billing data */}
                         <div className="row pt-4">
                             <div className="col-sm-12">
-                                <div className="card">
+                                <div className="card billingDiv">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-md-7">
+                                            <div className="col-md-7 commonTextStyle">
                                                 <label>SUBTOTAL</label>
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-4 commonTextStyle">
                                                 <p>584.75</p>
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-md-7">
+                                            <div className="col-md-7 commonTextStyle">
                                                 <label>SHIPPING</label>
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-4 commonTextStyle">
                                                 <p>584.75</p>
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-md-7">
+                                            <div className="col-md-7 commonTextStyle">
                                                 <label>GRAND TOTAL</label>
                                             </div>
                                             <div className="col-md-4">
@@ -225,7 +239,7 @@ class EditOrder extends Component {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-md-7">
+                                            <div className="col-md-7 commonTextStyle">
                                                 <label>DISCOUNT</label>
                                             </div>
                                             <div className="col-md-4">
@@ -236,19 +250,29 @@ class EditOrder extends Component {
                                             <label>APPLY COUPON</label>
                                             <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
                                         </div>
-                                        <button className="btn btn-primary m-3">APPLY COUPON CODE</button>
+                                        <button className="m-3 applyButton">APPLY COUPON CODE</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* Previous and submit button */}
+                <div className="buttonGroup">
+                    <button className="prevBtn" onClick={this.prevStepHandle}>Previous Step</button>
+                    <button className="nxtBtn">Finalize</button>
+                </div>
+
+                {/* Pagination component */}
                 <Pagination activePage={this.state.activePage}
                              itemsCountPerPage={this.state.limit}
                              totalItemsCount={this.state.totalItemsCount}
                              onChange={this.handlePageChange}
                              itemClass='page-item'
                              linkClasss='page-link'/>
+
+                {/* List view of Data */}
                 <div className="bg-light text-dark col-7 m-3">
                     <div className="row">
                         {viewOrderData}

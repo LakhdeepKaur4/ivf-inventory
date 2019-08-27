@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-
 import './products.css';
 import Dashboard from '../../components/dashboard/dashboard';
 import { getProductsItem } from '../../actions/productItemAction';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import FileStructure from '../../components/fileStructure/fileStructure';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class Products extends Component {
 
@@ -16,8 +16,9 @@ class Products extends Component {
         }
     }
 
-    componentDidMount(){
-        this.props.getProductsItem();
+    setHost = host => {
+        this.setState({host}); 
+        this.props.getProductsItem(host);
     }
 
     searchOnChange = (e) => {
@@ -25,17 +26,14 @@ class Products extends Component {
     }
 
     productsItem=({productItem}) =>{
-        
         if(productItem) {
-           return productItem.map((item)=> {
+           return productItem.items.map((item)=> {console.log(item);
                return (
-                <tr key={item.id}>
-                    <td><img src={item.products} className="img-fluid" alt="Sheep" /></td>
-                    <td>{item.name}</td>
-                    <td>{item.shipped}</td>
+                <tr key={item.cartProductId}>
+                    <td>{item.productTitle}</td>
                     <td>{item.quantity}</td>
-                    <td>{item.itemPrice} </td>
-                    <td>{item.total} </td>
+                    
+                   
                 </tr>
                 )
            })
@@ -43,10 +41,20 @@ class Products extends Component {
     }
 
     viewProducts=({productItem})=>{
-        if(productItem){
-            return productItem.map((item)=><option key={item.id}>{item.name}</option>)
-        }
+        // if(productItem){
+        //     return productItem.map((item)=><option key={item.id}>{item.name}</option>)
+        // }
     }
+
+    prevStatusHandle = () => {
+        this.props.history.push('/editanorder');
+    }
+
+    nextStepHandle = () => {
+        this.props.history.push('/finalizeorder');
+    }
+
+
     render() {
         let productsItem = <div className="table-responsive">
             <table className="table">
@@ -66,6 +74,9 @@ class Products extends Component {
             </table>
         </div>
         return (
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
                 <div className="mt-4 ml-4">
@@ -131,8 +142,8 @@ class Products extends Component {
                 </div>
 
                 <div className="row float-right" style={{ marginRight:"50px" }}>
-                    <button type="button" class="btn btn-light stepbutton prevBtn">PREVIOUS STEP</button>
-                    <button type="button" class="btn btn-dark stepbutton nxtBtn">NEXT STEP</button>
+                    <button type="button" class="btn btn-light stepbutton prevBtn" onClick={this.prevStatusHandle}>PREVIOUS STEP</button>
+                    <button type="button" class="btn btn-dark stepbutton nxtBtn" onClick={this.nextStepHandle}>NEXT STEP</button>
                 </div>
 
                 <div class="clearfix"></div>
@@ -145,6 +156,7 @@ class Products extends Component {
 
                 </Dashboard>
             </div>
+            </HostResolver>
         )
     }
 

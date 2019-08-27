@@ -1,10 +1,10 @@
 const config = require('../../config/env');
 export const URN = config.inventory.service;
-// export const URL= config.inventory.api;
+export const URLi= config.mockup.service;
 // export const URL='http://192.168.1.104:3001/api';
 export const BRANDURL=config.inventory.brandsAPI;
-// export const URL='https://ivf-inventory.herokuapp.com/api'
-export const URL='http://192.168.1.104:3003/api';
+// export const URL='https://ivf-inventory.herokuapp.com/api';
+export const URL='http://192.168.0.117:3003/api';
 // export const BRANDURL='http://192.168.1.113:3000/api/brands';
 export const VIEW_ORDER='VIEW_ORDER';
 export const ADD_PRODUCT="ADD_PRODUCT";
@@ -28,7 +28,6 @@ export const DELETE_BRAND='DELETE_BRAND';
 export const ENABLE_BRAND='ENABLE_BRANDS';
 export const BRAND_DETAIL='BRAND_DETAIL';
 export const UPDATE_BRAND_DETAILS='UPDATE_BRAND_DETAILS'
-export const GET_CITY='GET_CITY';
 export const ADD_CUSTOMER='ADD_CUSTOMER';
 export const GET_CUSTOMER='GET_CUSTOMER';
 export const CREATE_PRODUCT='CREATE_PRODUCT';
@@ -39,9 +38,11 @@ export const BRAND_PRODUCT='BRAND_PRODUCT';
 export const GET_BLOG ='GET_BLOG';
 export const PRODUCT_DATA ='PRODUCT_DATA';
 export const PRODUCT_VARIANT ='PRODUCT_VARIANT';
-export const POST_CREATE_PRODOCT='POST_CREATE_PRODOCT';
+export const POST_CREATE_PRODUCT='POST_CREATE_PRODUCT';
 export const GET_PAGE_DETAIL='GET_PAGE_DETAIL'
 export const GET_ACTIVE_PAGE_DETAIL='GET_ACTIVE_PAGE_DETAIL'
+export const UPDATE_VARIANT='UPDATE_VARIANT'
+
 
 
 

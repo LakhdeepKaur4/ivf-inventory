@@ -4,13 +4,14 @@ import { connect } from "react-redux";
 import * as BrandAction from "../../actions/brandsAction";
 import Pagination from "react-js-pagination";
 import Dashboard from "../../components/dashboard/dashboard";
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class Brands extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchTxt: "",
-      activePage:'',
+      activePage:1,
       limit: 10,
       totalItemsCount:'',
       brandsList: [],
@@ -20,12 +21,13 @@ class Brands extends Component {
       multiSelect: [],
       isAllSelect: false,
       editId:'',
+      host:''
     };
   }
 
-  componentDidMount() {
-     this.props.getDefaultPageBrandsDetails(1);
-  }
+  // componentDidMount() {
+  //    this.props.getDefaultPageBrandsDetails(1,this.state.host);
+  // }
 
   componentDidUpdate(prevProps) {
     if (prevProps.brandDetail !== this.props.brandDetail) {
@@ -35,17 +37,20 @@ class Brands extends Component {
 
   // Handle Page change
   handlePageChange = pageNumber => {
-    this.props.getActivePageBrandsDetails(pageNumber);
+    this.props.getActivePageBrandsDetails(pageNumber,this.state.host);
+    this.setState({activePage:pageNumber})
   };
 
   // Handle Enable
   handleEnable = id => {
-    this.props.enableBrand(id);
+    const {activePage,host}=this.state
+    this.props.enableBrand(id,activePage,host);
   };
 
   // Handle Disable
   handleDisable = id => {
-    this.props.disableBrand(id);
+    const {activePage,host}=this.state
+    this.props.disableBrand(id,activePage,host);
   };
 
   // Handle search input
@@ -70,17 +75,16 @@ class Brands extends Component {
   // Change status for multiple brands
 
   handleMultiple = value => {
-    this.props.changeStatus(value, this.state.multiSelect);
+    const {multiSelect,activePage,host}=this.state
+    this.props.changeStatus(value, multiSelect,activePage,host);
     this.setState({ multiSelect: [], isAllSelect: false });
   };
 
   // Select all brands
-
   handleAllSelect = action => {
     if (action === true) {
       let ids = [];
       let brands = this.props.BrandsReducer;
-
       brands.brandsList.map(item => {
         return ids.push(item._id);
       });
@@ -95,6 +99,13 @@ class Brands extends Component {
   viewProducts = id => {
     this.props.history.push(`/productsView/${id}`);
   };
+
+  // Get host url
+  setHost = host => {
+    this.setState({host},()=>{
+      this.props.getDefaultPageBrandsDetails(1,this.state.host)
+    });
+  }
 
   // Get Ids for selected brands
 
@@ -115,7 +126,7 @@ class Brands extends Component {
 
   // Handle Edit brand
   handleEditBrand = id => {
-    this.props.getBrandDetails(id)
+    this.props.getBrandDetails(id,this.state.host)
     this.setState({editId:id});
   };
   // Display brands list
@@ -212,6 +223,7 @@ class Brands extends Component {
   
 
   render() {
+    console.log('inside render',this.state.host)
     let displayBrandsList = (
       <div className="table-responsive">
         <table className="table" style={{ fontSize: "13px" }}>
@@ -240,11 +252,14 @@ class Brands extends Component {
       </div>
     );
     return (
+      <HostResolver hostToGet="inventory" hostResolved={host => {
+        this.setHost(host);
+      }}>
       <Dashboard>
-        <div className="">
+        <div className="display_brands_list">
           <div className="container">
             <div className="img_content_wprapper">
-              <h1>Brands</h1>
+              <p className="heading">Brands</p>
             </div>
             <div className="search_filter_wrapper">
               <div className="search">
@@ -316,6 +331,7 @@ class Brands extends Component {
           </div>
         </div>
       </Dashboard>
+      </HostResolver>
     );
   }
 }

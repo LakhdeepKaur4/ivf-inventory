@@ -24,6 +24,10 @@ class HostResolver extends Component {
             url = config.angel.service;
             return url;
         }
+        else if (host === 'mockup') {
+            url = config.mockup.service;
+            return url;
+        }
     }
 
     render() {
