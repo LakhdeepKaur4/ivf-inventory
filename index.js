@@ -20,6 +20,9 @@ const path = require('path');
 Promise = require('bluebird'); 
 const { port, env } = require("./config/vars");
 const mongoose = require("./config/mongoose");
+setTimeout(function(){
+    require('./test');
+},5000);
 
 
 // function Inventory() {
