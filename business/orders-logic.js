@@ -103,12 +103,19 @@ exports.create = (req, res, next) => {
   }
 }
 
+/* 
+    Updating existing Order
+*/
 exports.updateOrder = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
-    const updates = req.body
-    const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(relation => {
-      return relation.update(updates)
+    const body = req.body;
+    const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(order => {
+      // if (body.product) {
+      //   body.product.cartId = order.cartId;
+      //   new CartProducts(body.product).save();
+      // }
+      return order.update(body);
     })
     if (updatedOrder) {
       return res.status(httpStatus.OK).json({
@@ -120,6 +127,32 @@ exports.updateOrder = async (req, res, next) => {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
   }
 }
+
+/* 
+   Getting Products of existing order
+*/
+exports.getCartProductsOfExistingOrder = async (req, res, next) => {
+  try {
+    const orderId = req.params.orderId;
+    Orders.findOne({
+      where: { orderId: orderId }, include: [
+        { model: Carts, include: [{ model: CartProducts }] },
+        { model: Shipments },
+        { model: Payments }
+      ]
+    }).then(order => {
+      // CartProducts.findAll({ where: { cartId: cartId } })
+      //   .then(items => {
+      return res.status(httpStatus.OK).json({ order });
+      //   })
+    }).catch(err => {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+    })
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  }
+}
+
 
 // Searching orders on advanced filters
 exports.advancedSearchOrders = (req, res, next) => {
@@ -167,5 +200,30 @@ exports.advancedSearchOrders = (req, res, next) => {
       })
   } catch (err) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Please try again...', error: err })
+  }
+}
+
+/* 
+    Searching existing products in cart
+*/
+exports.searchCartProducts = async (req, res) => {
+  try {
+    const searchField = req.query.search;
+    const cartProducts = await CartProducts.findAll({
+      where: {
+        [Sequelize.Op.or]: {
+          productTitle: {
+            [Sequelize.Op.like]: '%' + searchField + '%'
+          }
+        }
+      }
+    });
+    if (customer.length > 0) {
+      res.status(httpStatus.OK).send({ message: "C Data", cartProducts })
+    } else {
+      res.status(httpStatus.OK).send({ message: "No data found" })
+    }
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
   }
 }

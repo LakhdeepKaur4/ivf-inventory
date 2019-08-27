@@ -8,12 +8,16 @@ router.route("/").post(controller.createItems);
 
 router.route("/").get(controller.getItems);
 
+router.route("/search").get(controller.searchItems);
+
+router.route("/:pageNumber").get(controller.getItemsByPage);
+
 router.route("/:id").get(controller.getVariantsByProductId);
 
 router.route("/:itemId").put(controller.updateItems);
- 
+
 router.route("/:itemId/:variantId").delete(controller.deleteItems);
- 
+
 router.route("/brand/:id").get(controller.getProductByBrand);
 
 router.route("/category/:id").get(controller.getProductByCategory);

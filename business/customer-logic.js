@@ -1,4 +1,5 @@
 const Customer = require('../models/customer');
+const Addresses = require('../config/relations').addresses;
 const httpStatus = require('http-status');
 const Sequelize = require('sequelize');
 
@@ -20,9 +21,7 @@ exports.searchCustomer = async (req, res) => {
                     surname: {
                         [Sequelize.Op.like]: '%' + searchField + '%'
                     },
-                    storeId: {
-                        [Sequelize.Op.like]: '%' + searchField + '%'
-                    }
+                    storeId: searchField
                 }
             }
         });
@@ -36,3 +35,21 @@ exports.searchCustomer = async (req, res) => {
     }
 }
 
+/* 
+    Creating customer
+*/
+exports.createCustomer = async (req, res, next) => {
+    try {
+        let body = req.body;
+        console.log(body);
+        await new Customer(body).save()
+            .then(customer => {
+                body.address.customerId = customer.customerId;
+                Addresses.create(body.address);
+            });
+        return res.status(httpStatus.OK).json({ message: "Customer created successfully" });
+    } catch (error) {
+        console.log(error);
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error })
+    }
+};

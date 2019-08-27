@@ -8,6 +8,7 @@ require('./workflow');
 const Workflow = mongoose.model('WorkFlow').schema;
 require('./shippingParcel');
 const ShippingParcel = mongoose.model('ShippingParcel').schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 var itemSchema = new Schema({
   name: {
@@ -24,6 +25,9 @@ var itemSchema = new Schema({
   shopId: {
     type: String,
     index: true,
+  },
+  sku: {
+    type: String,
   },
   description: {
     type: String,
@@ -52,7 +56,7 @@ var itemSchema = new Schema({
     type: Object,
   },
   price: {
-    type: [PriceRange]
+    type: PriceRange
   },
   isLowQuantity: {
     type: Boolean,
@@ -176,6 +180,8 @@ var itemSchema = new Schema({
       ref: "Category"
     }]
 })
+
+itemSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Item', itemSchema)
 
