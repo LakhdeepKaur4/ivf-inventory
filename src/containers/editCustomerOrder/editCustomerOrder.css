@@ -101,7 +101,7 @@ select {
 	background-color:#00AE4D;
 }
 .editCustomer .md-stepper-horizontal.orange .md-step.active .md-step-circle {
-	background-color:#F74A4A;
+	background-color:#4D4F5C;
 }
 .editCustomer .md-stepper-horizontal .md-step.active .md-step-circle {
 	background-color: rgb(33,150,243);
@@ -133,11 +133,11 @@ select {
 .editCustomer .md-stepper-horizontal .md-step .md-step-title,
 .editCustomer .md-stepper-horizontal .md-step .md-step-optional {
 	text-align: center;
-	color:#F74A4A;
+	color:#4D4F5C;
 }
 .editCustomer .md-stepper-horizontal .md-step.active .md-step-title {
 	font-weight: 600;
-	color:#F74A4A;
+	color:#4D4F5C;
 }
 .editCustomer .md-stepper-horizontal .md-step.active.done .md-step-title,
 .editCustomer .md-stepper-horizontal .md-step.active.editable .md-step-title {
