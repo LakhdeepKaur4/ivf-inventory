@@ -6,6 +6,7 @@ import Pagination from 'react-js-pagination';
 import './pushProductView.css';
 import Dashboard from '../../components/dashboard/dashboard';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import '../../commonCss/stepbar.css'
 
 class ProductsView extends Component {
     constructor(props) {
