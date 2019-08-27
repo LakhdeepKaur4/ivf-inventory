@@ -1,11 +1,3 @@
-const config = require('../../config/env');
-export const URN = config.inventory.service;
-// export const URLi= config.mockup.service;
-// export const URL='http://192.168.1.104:3001/api';
-export const BRANDURL=config.inventory.brandsAPI;
-// export const URL='https://ivf-inventory.herokuapp.com/api';
-// export const URL='http://192.168.1.117:3003/api';
-// export const BRANDURL='http://192.168.1.113:3000/api/brands';
 export const VIEW_ORDER='VIEW_ORDER';
 export const ADD_PRODUCT="ADD_PRODUCT";
 export const THEME_ORDER="THEME_ORDER";
@@ -38,9 +30,11 @@ export const BRAND_PRODUCT='BRAND_PRODUCT';
 export const GET_BLOG ='GET_BLOG';
 export const PRODUCT_DATA ='PRODUCT_DATA';
 export const PRODUCT_VARIANT ='PRODUCT_VARIANT';
-export const POST_CREATE_PRODOCT='POST_CREATE_PRODOCT';
+export const POST_CREATE_PRODUCT='POST_CREATE_PRODUCT';
 export const GET_PAGE_DETAIL='GET_PAGE_DETAIL'
 export const GET_ACTIVE_PAGE_DETAIL='GET_ACTIVE_PAGE_DETAIL'
+export const UPDATE_VARIANT='UPDATE_VARIANT'
+
 
 
 
