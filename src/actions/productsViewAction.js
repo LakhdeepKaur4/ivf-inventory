@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import{ PRODUCTS_VIEW} from '../actionCreators/index';
 
-export function getProductsView(URL, categoryId=null){
-    let url = `${URL}/api/products`;
+export function getProductsView(URL, categoryId=null,defaultPage){
+    let url = `${URL}/api/item/${defaultPage}`;
     if(categoryId){
         url = `${URL}/api/item/category/${categoryId}`;
     }
@@ -11,6 +11,21 @@ export function getProductsView(URL, categoryId=null){
     const request = axios.get(url)
     .then((response =>{
      return categoryId?response.data.item:response.data
+        
+    }))
+
+    return {
+        type: PRODUCTS_VIEW,
+        payload:request
+    }
+}
+export function getMockProductsView(URL){
+    console.log(URL)
+    let url = `${URL}/products`
+
+    const request = axios.get(url)
+    .then((response =>{
+     return response.data
         
     }))
 

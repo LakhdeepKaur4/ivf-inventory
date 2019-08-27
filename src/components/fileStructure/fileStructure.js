@@ -3,15 +3,22 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { GetInitialCategory, GetParticularCategory, GetSubCategory, onSubmit } from '../../actions/createCategory';
 import $ from 'jquery';
+import HostResolver from '../../components/resolveHost/resolveHost';
 class FileStructure extends Component{
         constructor(props){
             super(props);
             this.state={
-                parent: null
+                parent: null,
+                host:''
             }
         }
-        componentDidMount() {
-            this.props.GetInitialCategory();
+        // componentDidMount() {
+        //     this.props.GetInitialCategory();
+        //     this.setState({ show: false, showSub: false });
+        // }
+        setHost=host=>{
+            this.setState({host});
+            this.props.GetInitialCategory(host);
             this.setState({ show: false, showSub: false });
         }
         push = (id) => {
@@ -81,11 +88,15 @@ class FileStructure extends Component{
         }    
     render(){
         return(
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
              {this.getInitialCategory(this.props.CreateCategory)}
                {this.state.show ? this.getParticularCategory(this.props.CreateCategory) : ''}
                {this.state.showSub ? this.getSubCategory(this.props.CreateCategory) : ''}
             </div>
+            </HostResolver>
         )
     }
 }

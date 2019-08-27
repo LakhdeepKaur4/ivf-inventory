@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getProductsView } from '../../actions/productsViewAction';
+import { getMockProductsView } from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
 import './pushProductView.css';
 import Dashboard from '../../components/dashboard/dashboard';
@@ -162,7 +162,7 @@ class ProductsView extends Component {
             let products = localStorage.getItem('product').split(',');
             this.setState({ ids: products });
         }
-        this.props.getProductsView(host)
+        this.props.getMockProductsView(host)
             .then(res => {
                 let Ids = [];
                 res.payload.map(item => {
@@ -286,7 +286,7 @@ class ProductsView extends Component {
             </nav>
 
         return (
-            <HostResolver hostToGet="inventory" hostResolved={host => {
+            <HostResolver hostToGet="mockup" hostResolved={host => {
                 this.setHost(host);
             }}>
             <div>
@@ -356,7 +356,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ getProductsView }, dispatch)
+    return bindActionCreators({ getMockProductsView }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsView);
