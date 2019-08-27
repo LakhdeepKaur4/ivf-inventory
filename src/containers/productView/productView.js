@@ -3,8 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getProductsView } from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
-// import './productView.css';
-
 import Dashboard from '../../components/dashboard/dashboard';
 import axios from 'axios';
 import HostResolver from '../../components/resolveHost/resolveHost';

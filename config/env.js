@@ -1,10 +1,6 @@
 module.exports = {
 	inventory:{
-        service: 'http://192.168.0.101:3003',//Place inventory server url here
-        // api: 'https://ivf-inventory.herokuapp.com/api',
-        api: 'http://192.168.1.104:3003/api',
-   
-       
+        service: 'http://192.168.0.101:3003' //Place inventory server url here
     },
     voxel:{
         service:'Enter URL here' //Place voxel server url here

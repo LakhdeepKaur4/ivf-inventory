@@ -57,7 +57,7 @@ class ClassCategory extends Component {
 
     setHost = host => {
         this.setState({host});
-        this.props.GetInitialCategory();
+        this.props.GetInitialCategory(host);
         this.setState({ show: false, showSub: false });
         $('#file-upload').change(function () {
             var i = $(this).prev('label').clone();
@@ -66,7 +66,7 @@ class ClassCategory extends Component {
         });
         
         if(this.state._id) {
-            const request = axios.get(`${this.state.host}/api/category/${this.state._id}`)
+            const request = axios.get(`${host}/api/category/${this.state._id}`)
             .then( response => console.log(response.data))
         }
     }
@@ -115,7 +115,7 @@ class ClassCategory extends Component {
     push = (id) => {
         console.log('catgryid', id)
         this.setState({ parent: id });
-        this.props.GetParticularCategory(id);
+        this.props.GetParticularCategory(this.state.host,id);
         this.setState({ show: true });
 
     }
@@ -155,7 +155,7 @@ class ClassCategory extends Component {
     }
     getCategory = (id) => {
         this.setState({ parent: id, show: false, showSub: true });
-        this.props.GetSubCategory(id);
+        this.props.GetSubCategory(this.state.host,id);
     }
     getSubCategory = ({ getSubCategory }) => {
         console.log('getSubCategory',getSubCategory)

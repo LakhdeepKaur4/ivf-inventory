@@ -404,5 +404,55 @@
     "actions":"..."
     
     }
+    ],
+    "stores":[
+      {
+        "img_src":"/images/brand1.png",
+        "name":"Cropp",
+        "domain":"www.cropp.com",
+        "type":"Trinity"
+      },
+      {
+        "img_src":"/images/brand1.png",
+        "name":"Reserved",
+        "domain":"www.reserved.com",
+        "type":"Trinity"
+      },
+      {
+        "img_src":"/images/brand1.png",
+        "name":"Brand House",
+        "domain":"www.brand-house.com",
+        "type":"BBQ"
+      },
+      {
+        "img_src":"/images/brand1.png",
+        "name":"Sinsay",
+        "domain":"www.sinsay.com",
+        "type":"Trinity"
+      },
+      {
+        "img_src":"/images/brand1.png",
+        "name":"Orsay",
+        "domain":"www.orsay.com",
+        "type":"Trinity"
+      },
+      {
+        "img_src":"/images/brand1.png",
+        "name":"Sport Vision",
+        "domain":"www.sport-vision.com",
+        "type":"Trinity"
+      },
+      {
+        "img_src":"/images/brand1.png",
+        "name":"Buzz",
+        "domain":"www.buzz.com",
+        "type":"BBQ"
+      },
+      {
+        "img_src":"/images/brand1.png",
+        "name":"NewYorker",
+        "domain":"www.newyorker.com",
+        "type":"Trinity"
+      }
     ]
 }

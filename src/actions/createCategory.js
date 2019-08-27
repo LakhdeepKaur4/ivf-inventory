@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import{URL,GET_INITIAL_CATEGORY,GET_PARTICULAR_CATEGORY,GET_SUB_CATEGORY,ON_SUBMIT} from '../actionCreators/index';
+import{GET_INITIAL_CATEGORY,GET_PARTICULAR_CATEGORY,GET_SUB_CATEGORY,ON_SUBMIT} from '../actionCreators/index';
 
-export function GetInitialCategory(){
+export function GetInitialCategory(URL){
     console.log('hiii action');
-    const request = axios.get(`${URL}/category/initial`)
+    const request = axios.get(`${URL}/api/category/initial`)
     .then((response => response.data))
 
     return {
@@ -13,9 +13,9 @@ export function GetInitialCategory(){
     }
 }
 
-export function GetParticularCategory(id){
+export function GetParticularCategory(URL,id){
     
-    const request = axios.get(`${URL}/category/${id}`)
+    const request = axios.get(`${URL}/api/category/${id}`)
     .then((response => response.data))
 
     return {
@@ -24,8 +24,8 @@ export function GetParticularCategory(id){
     }
 }
 
-export function GetSubCategory(id){
-    const request = axios.get(`${URL}/category/${id}`)
+export function GetSubCategory(URL,id){
+    const request = axios.get(`${URL}/api/category/${id}`)
     .then((response => response.data))
 
     return {
@@ -34,9 +34,9 @@ export function GetSubCategory(id){
     }
 
 }
-export function onSubmit(values){
+export function onSubmit(URL,values){
     
-    const request = axios.post(`${URL}/category/`,values)
+    const request = axios.post(`${URL}/api/category/`,values)
     .then((response => response.data))
 
     return {

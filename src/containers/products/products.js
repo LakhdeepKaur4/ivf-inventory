@@ -17,6 +17,7 @@ class Products extends Component {
     }
 
     setHost = host => {
+        console.log("=================",host)
         this.setState({host}); 
         this.props.getProductsItem(host);
     }
