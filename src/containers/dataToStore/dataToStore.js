@@ -6,6 +6,7 @@ import '../../commonCss/style.css';
 import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
 import './dataToStore.css';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class DataToStore extends Component{
     flag = false;
@@ -25,8 +26,8 @@ class DataToStore extends Component{
             error:false
         }
     }
-
-    componentDidMount(){
+    setHost = host => {
+        this.setState({host});
         window.onpopstate = ()=>{ 
             this.flag = true;
         }
@@ -35,7 +36,7 @@ class DataToStore extends Component{
             let stores = localStorage.getItem('store').split(',');
             this.setState({ storeIds: stores });
         }
-        this.props.getDataStore()
+        this.props.getDataStore(host)
         .then(res => {
             let Ids = [];
             res.payload.map(item => {
@@ -171,7 +172,9 @@ let navIcon=
     </div>
     </nav>
         return(
-
+        <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
         <div>
            <Dashboard>
                 {navLink}
@@ -217,6 +220,7 @@ let navIcon=
               </div>
                  </Dashboard>
         </div>
+        </HostResolver>
             
             
         

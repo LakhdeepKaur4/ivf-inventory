@@ -6,21 +6,22 @@ import {getCountry,getCurrency} from '../../actions/storeProfile';
 import './storeProfile.css';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class storeProfile extends React.Component{
 
         constructor(props){
             super(props);
             this.state={
-
+                host:''
             }
         }
 
-        componentDidMount(){
-            this.props.getCountry();
-            this.props.getCurrency();
+        // componentDidMount(){
+        //     this.props.getCountry();
+        //     this.props.getCurrency();
 
-        }
+        // }
 
     add=(e)=>{
         e.preventDefault();
@@ -53,9 +54,17 @@ class storeProfile extends React.Component{
         }
 
     }
+    setHost = host => {
+        this.setState({host});
+        this.props.getCountry(host);
+        this.props.getCurrency(host);
+    }
 
     render(){
         return(
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
                 <div className="headingsStoreProfile ">
@@ -123,6 +132,7 @@ class storeProfile extends React.Component{
                 </Dashboard>
              
             </div>
+            </HostResolver>
         )
     }
 }

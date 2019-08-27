@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
+import '../../commonCss/stepbar.css';
 
 class EditOrder extends Component {
 
@@ -17,12 +19,12 @@ class EditOrder extends Component {
             filterName:"customer",
             activePage: '1',
             limit:'5',
-            totalItemsCount:''
+            totalItemsCount:'',
         }
     }
-
-    componentDidMount() {
-        this.props.getEditOrder();
+    setHost = host => {
+        this.setState({host});
+        this.props.getEditOrder(host);
     }
     
     /* Previous step button handling */
@@ -66,6 +68,9 @@ class EditOrder extends Component {
         </div>
 
         return (
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div className="editOrderMainDiv">
                 <Dashboard>
                 <div className="mt-4 ml-4">
@@ -73,7 +78,7 @@ class EditOrder extends Component {
                 </div>
 
                 {/* Step bar */}
-                <div className="md-stepper-horizontal orange">
+                <div className="md-stepper-horizontal orange editorder">
                     <div className="md-step active done">
                         <div className="md-step-circle"><span>1</span></div>
                         <div className="md-step-title titleText">Customer info</div>
@@ -280,6 +285,7 @@ class EditOrder extends Component {
                 </div>
                 </Dashboard>
             </div>
+            </HostResolver>
 
         )
     }

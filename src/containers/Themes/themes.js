@@ -6,29 +6,24 @@ import './themes.css';
 import axios from 'axios';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class Themes extends React.Component{
-
     constructor(props){
         super(props);
-        
         this.state={
             dummyHeading:'',
             dummyData:'',
             dropDown:'',
             toggle:false
         }
-
-
     }
-
-
-    componentDidMount(){
-        axios.get('http://localhost:4001/themes').then(res=> res.data)
+    setHost = host => {
+        axios.get(`${host}/themes`).then(res=> res.data)
         .then(data=>
             this.setState({dummyHeading:data.heading,dummyData:data.dummyData}),
             );
-       this.props.themes();
+       this.props.themes(host);
     }
 
     print({themeOrder}){
@@ -48,6 +43,9 @@ class Themes extends React.Component{
 
     render(){
         return(
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
                 <div className="tagsThemes">
@@ -95,6 +93,7 @@ class Themes extends React.Component{
                 </div>
                 </Dashboard>
             </div>
+            </HostResolver>
         )
     }
 }

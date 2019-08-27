@@ -78,12 +78,17 @@ class Sidebar extends Component {
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.stores.isOpen ? "show" : ''}`
                             } >
+                              
                                 <li>
-                                    <a href="/productsView" id="abox" onClick={this.changeIcon}>
+                                {(this.state.pageOn === 'storesView') ? <Link to="/storesView" >
                                         <span>
-                                            <i className="far fa-circle" aria-hidden="true"></i>
-                                        </span>View Stores
-                                    </a>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>View Stores</span>
+                                    </Link> : <Link to="/storesView" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>View Brands
+                                    </Link>}
                                 </li>
                                 <li>
                                     <a href="#">

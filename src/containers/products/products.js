@@ -3,7 +3,7 @@ import './products.css';
 import Dashboard from '../../components/dashboard/dashboard';
 import { getProductsItem } from '../../actions/productItemAction';
 import { bindActionCreators } from 'redux';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import FileStructure from '../../components/fileStructure/fileStructure';
 import HostResolver from '../../components/resolveHost/resolveHost';
 
@@ -12,12 +12,14 @@ class Products extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            search:'',
+            search: '',
+            host: ''
         }
     }
 
     setHost = host => {
-        this.setState({host}); 
+        console.log("=================", host)
+        this.setState({ host });
         this.props.getProductsItem(host);
     }
 
@@ -26,8 +28,9 @@ class Products extends Component {
     }
 
     productsItem=({productItem}) =>{
-        if(productItem) {
-           return productItem.items.map((item)=> {console.log(item);
+        if(productItem && productItem.items) {
+           return productItem.items.map((item)=> {
+               console.log("------------------",item)
                return (
                 <tr key={item.cartProductId}>
                     <td>{item.productTitle}</td>
@@ -37,10 +40,12 @@ class Products extends Component {
                 </tr>
                 )
            })
+            
+
         }
     }
 
-    viewProducts=({productItem})=>{
+    viewProducts = ({ productItem }) => {
         // if(productItem){
         //     return productItem.map((item)=><option key={item.id}>{item.name}</option>)
         // }
@@ -60,7 +65,7 @@ class Products extends Component {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>PRODUCTS</th>
+
                         <th>NAME</th>
                         <th>SHIPPED</th>
                         <th>QTY.</th>
@@ -69,28 +74,31 @@ class Products extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.productsItem(this.props.ProductItemReducer)}
+                 
+                        {this.productsItem(this.props.ProductItemReducer)}
+                 
+                   
                 </tbody>
             </table>
         </div>
         return (
-            <HostResolver hostToGet="mockup" hostResolved={host => {
+            <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
-            <div>
-                <Dashboard>
-                <div className="mt-4 ml-4">
-                    <h4>Products</h4>
-                </div>
+                <div>
+                    <Dashboard>
+                        <div className="mt-4 ml-4">
+                            <h4>Products</h4>
+                        </div>
 
                 <div className="md-stepper-horizontal orange">
-                    <div className="md-step active done">
+                    <div className="md-step active done products">
                         <div className="md-step-circle"><span>1</span></div>
                         <div className="md-step-title">Customer info</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
-                    <div className="md-step">
+                    <div className="md-step prdStep">
                         <div className="md-step-circle"><span>2</span></div>
                         <div className="md-step-title">Products</div>
                         <div className="md-step-bar-left"></div>
@@ -104,58 +112,58 @@ class Products extends Component {
                         <div className="md-step-bar-right"></div>
                     </div>
                 </div>
+                      
+                        <div class="card-group m-5">
+                            <div class="card">
+                                <div class="card-body mainProductDiv">
+                                    <label>ADD Products</label>
+                                    <hr className="prLink" />
+                                    <div className="md-form active-purple-2 mb-3">
+                                        <div>
+                                            <span style={{ paddingTop: '1px' }}><span className="form-group has-search">
+                                                <span className="fa fa-search form-control-feedback"></span>
+                                                <input list="products" type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" placeholder="Search" />
+                                                <datalist id="products">
 
-                <div class="card-group m-5">
-                    <div class="card">
-                        <div class="card-body mainProductDiv">
-                            <label>ADD Products</label>
-                            <hr className="prLink"/>
-                            <div className="md-form active-purple-2 mb-3">
-                                <div>
-                                   <span style={{ paddingTop: '1px' }}><span className="form-group has-search">
-                                        <span className="fa fa-search form-control-feedback"></span>
-                                            <input list="products" type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" placeholder="Search" />
-                                            <datalist id="products">
-                                                
-                                                {this.viewProducts(this.props.ProductItemReducer)}
-                                            </datalist>
+                                                    {this.viewProducts(this.props.ProductItemReducer)}
+                                                </datalist>
                                             </span>
-                                        </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="subDivBottom">
+                                        <p>Team of use.Privacy policy</p>
+                                    </div>
                                 </div>
                             </div>
-                                <div class="subDivBottom">
-                                    <p>Team of use.Privacy policy</p>
-                                </div> 
+
+                            <div class="card">
+                                <div class="card-body mainProductDiv">
+                                    <h5>BROWSE Categories </h5>
+                                    <hr className="prLine" />
+                                    <FileStructure />
+                                    <div class="subDivBottom">
+                                        <p>Team of use.Privacy policy</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card">  
-                        <div class="card-body mainProductDiv">
-                            <h5>BROWSE Categories </h5>
-                            <hr className="prLine" />
-                            <FileStructure />
-                            <div class="subDivBottom">
-                                    <p>Team of use.Privacy policy</p>
-                            </div> 
+                        <div className="row float-right" style={{ marginRight: "50px" }}>
+                            <button type="button" class="btn btn-light stepbutton prevBtn" onClick={this.prevStatusHandle}>PREVIOUS STEP</button>
+                            <button type="button" class="btn btn-dark stepbutton nxtBtn" onClick={this.nextStepHandle}>NEXT STEP</button>
                         </div>
-                    </div>
+
+                        <div class="clearfix"></div>
+
+                        <div className="bg-light text-dark col m-3">
+                            <div className="row">
+                                {productsItem}
+                            </div>
+                        </div>
+
+                    </Dashboard>
                 </div>
-
-                <div className="row float-right" style={{ marginRight:"50px" }}>
-                    <button type="button" class="btn btn-light stepbutton prevBtn" onClick={this.prevStatusHandle}>PREVIOUS STEP</button>
-                    <button type="button" class="btn btn-dark stepbutton nxtBtn" onClick={this.nextStepHandle}>NEXT STEP</button>
-                </div>
-
-                <div class="clearfix"></div>
-
-                <div className="bg-light text-dark col m-3">
-                    <div className="row">
-                        {productsItem}
-                    </div>
-                </div> 
-
-                </Dashboard>
-            </div>
             </HostResolver>
         )
     }
@@ -169,7 +177,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators( {getProductsItem}, dispatch )
+    return bindActionCreators({ getProductsItem }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

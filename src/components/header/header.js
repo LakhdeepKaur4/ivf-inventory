@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import '../../commonCss/style.css'
 
-
 class Header extends Component{
 
     render(){
         return(
 
             <div className="card-header" id="headerList" style={{backgroundColor:'white', height:'70px'}}>
-            <label style={{marginTop:'10px'}}><i className="fa fa-home" aria-hidden="true"  ></i>Home<span>\</span><span>Filter & Search</span><span>\</span><span>Orders</span></label>
+            <label style={{marginTop:'10px'}}><i className="fa fa-home" aria-hidden="true" style={{paddingRight:'padding: 7px'}} ></i>Home<span>\</span><span>Filter & Search</span><span>\</span><span>Orders</span></label>
             <span style={{position: 'absolute', left: '51%'}}>
             {/* <span >Store Name</span>
             <span>,</span>

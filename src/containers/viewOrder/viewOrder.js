@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import {connect} from 'react-redux';
-import {getViewOrder} from '../../actions/viewOrderAction';
+import { connect } from 'react-redux';
+import { getViewOrder } from '../../actions/viewOrderAction';
 import './viewOrder.css'
 import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
@@ -10,13 +10,13 @@ import HostResolver from '../../components/resolveHost/resolveHost';
 
 
 
-class ViewOrder extends Component{
-    constructor(props){
+class ViewOrder extends Component {
+    constructor(props) {
         super(props);
 
-        this.state={
+        this.state = {
             search: '',
-            filterName:"customer",
+            filterName: "customer",
             activePage: '1',
             limit:'5',
             totalItemsCount:'',
@@ -31,39 +31,39 @@ class ViewOrder extends Component{
     }
 
     searchFilter = (search) => {
-        return function (x) { 
-            return x.orderId.toLowerCase().includes(search.toLowerCase())  ||
-            x.customer.toLowerCase().includes(search.toLowerCase())  ||
-            x.status.toLowerCase().includes(search.toLowerCase())  ||
-             !search;
+        return function (x) {
+            return x.orderId.toLowerCase().includes(search.toLowerCase()) ||
+                x.customer.toLowerCase().includes(search.toLowerCase()) ||
+                x.status.toLowerCase().includes(search.toLowerCase()) ||
+                !search;
         }
     }
 
-    handlePageChange=(pageNumber)=> { 
+    handlePageChange = (pageNumber) => {
     }
 
 
-    viewOrderFun=({viewOrder})=>{
-        if(viewOrder){
-            
+    viewOrderFun = ({ viewOrder }) => {
+        if (viewOrder) {
 
-            return viewOrder.sort((item1,item2)=>{
-                var cmprVal = (item1.customer && item2.customer ) ? (item1[this.state.filterName].localeCompare(item2[this.state.filterName])) : ''
+
+            return viewOrder.sort((item1, item2) => {
+                var cmprVal = (item1.customer && item2.customer) ? (item1[this.state.filterName].localeCompare(item2[this.state.filterName])) : ''
                 return this.state.sortVal ? cmprVal : -cmprVal;
-                }).filter(this.searchFilter(this.state.search)).map(item=>{
-                  return(
-                 <tr key={item.orderId}>
-                    <th scope="row"><i className="fa fa-plus-circle" aria-hidden="true"></i></th>
-                    <td>{item.date}</td>
-                    <td>{item.orderId}</td>
-                    <td>{ item.status==='Failed' ?<span><i className="fa fa-circle" style={{marginRight: '4px',color:'red'}}></i></span>  : item.status==='Successful' ? <span><i className="fa fa-circle" style={{marginRight: '4px',color:'green'}}></i></span> :<span><i className="fa fa-circle" style={{marginRight: '4px',color:'yellow'}}></i></span>}{item.status}</td>                 
-                    <td>{item.customer}</td>
-                    <td>{item.stTotal}</td>
-                    <td>{item.billing}</td>
-                    <td>{item.shipping}</td>
-                    <td>{item.order}</td>
-                </tr> 
-                  )
+            }).filter(this.searchFilter(this.state.search)).map(item => {
+                return (
+                    <tr key={item.orderId}>
+                        <th scope="row"><i className="fa fa-plus-circle" aria-hidden="true"></i></th>
+                        <td>{item.date}</td>
+                        <td>{item.orderId}</td>
+                        <td>{item.status === 'Failed' ? <span><i className="fa fa-circle" style={{ marginRight: '4px', color: 'red' }}></i></span> : item.status === 'Successful' ? <span><i className="fa fa-circle" style={{ marginRight: '4px', color: 'green' }}></i></span> : <span><i className="fa fa-circle" style={{ marginRight: '4px', color: 'yellow' }}></i></span>}{item.status}</td>
+                        <td>{item.customer}</td>
+                        <td>{item.stTotal}</td>
+                        <td>{item.billing}</td>
+                        <td>{item.shipping}</td>
+                        <td>{item.order}</td>
+                    </tr>
+                )
             })
         }
 
@@ -105,21 +105,21 @@ class ViewOrder extends Component{
             <span className="navbar-toggler-icon"></span>
             </button>
                 <h4 className="navbar-brand"><b>VIEW ORDERS</b></h4>
-                <div className="collapse navbar-collapse justify-content-end" id="nav-content">   
-                <ul className="navbar-nav">
-                <li className="nav-item">
-                <a className="nav-link" href="#">AllPayments</a>
-                </li>
-                <li className="nav-item">
-                <a className="nav-link" href="#">AllFulfillments</a>
-                </li>
-                <li className="nav-item">
-                <a className="nav-link" href="#">Incomplete</a>
-                </li>
-                <li className="nav-item">
-                <a className="nav-link" href="#">... More</a>
-                </li>
-                </ul>
+                <div className="collapse navbar-collapse justify-content-end" id="nav-content">
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">AllPayments</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">AllFulfillments</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Incomplete</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">... More</a>
+                        </li>
+                    </ul>
                 </div>
         </nav>
        
@@ -192,15 +192,15 @@ let navIcon=
     }
 }
 
-function mapStateToProps(state){
-    
-    return{
-        ViewOrderReducer : state.ViewOrderReducer
+function mapStateToProps(state) {
+
+    return {
+        ViewOrderReducer: state.ViewOrderReducer
     }
 }
 
-function mapDispatchToProps(dispatch){
-    return bindActionCreators({getViewOrder}, dispatch)
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ getViewOrder }, dispatch)
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ViewOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewOrder);
