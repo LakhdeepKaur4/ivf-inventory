@@ -4,8 +4,7 @@
   "description": "An open source Inventory and stock management tool",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
-    "json-server":"json-server db.json --port 4200",
+    "start": "nodemon | json-server db.json --port 4200",
     "unit": "mocha --compilers js:babel-core/register test/unit/index.js",
     "integration": "mocha --compilers js:babel-core/register test/integration/index.js",
     "test": "npm run unit && npm run integration"
