@@ -2,8 +2,9 @@ import axios from 'axios';
 
 import{URN, PRODUCTS_VIEW} from '../actionCreators/index';
 
-export function getProductsView(){
-    const request = axios.get(`${URN}/products`)
+export function getProductsView(defaultPage){
+    console.log('default page',defaultPage)
+    const request = axios.get(`${URN}/api/item/${defaultPage}`)
     .then((response =>response.data))
 
     return {
