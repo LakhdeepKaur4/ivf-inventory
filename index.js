@@ -62,9 +62,9 @@ mysqlDB.sync({force:false})
 .then(res => {
     console.log('Connection Succeded');
 })
-// .catch(err => {
-//     console.log('MySql connection error',err);
-// })
+.catch(err => {
+    // console.log('MySql connection error',err);
+})
 
 app.listen(port, () => console.info(`server started on port ${port} (${env})`));
 
