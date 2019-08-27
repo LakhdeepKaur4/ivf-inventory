@@ -1,3 +1,3 @@
 fetch("http://localhost:4200/users").then(data=>{
-console.loga("data json server ", data);
+console.log("data json server ", data);
 });
