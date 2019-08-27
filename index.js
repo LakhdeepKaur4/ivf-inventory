@@ -9,10 +9,7 @@
 // const Q = require('q')
 // const mongoose = require('mongoose')
 // mongoose.Promise = Q.Promise
-const jsonServer = require('json-server')
-const server = jsonServer.create()
-const router = jsonServer.router(path.join(__dirname, 'db.json'))
-const middlewares = jsonServer.defaults()
+
 
 var express = require('express');
 var app = express();
@@ -25,9 +22,6 @@ const path = require('path');
 Promise = require('bluebird'); 
 const { port, env } = require("./config/vars");
 const mongoose = require("./config/mongoose");
-setTimeout(function(){
-    require('./test');
-},5000);
 
 
 // function Inventory() {
@@ -46,7 +40,6 @@ setTimeout(function(){
 // }
 
 mongoose.connect();
-app.use(middlewares);
 app.use(cors());
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
