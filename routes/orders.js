@@ -14,4 +14,6 @@ router.route("/").post(controller.create);
 
 router.route("/:orderId").put(controller.updateOrder);
 
+router.route("/items/:orderId").get(controller.getCartProductsOfExistingOrder);
+
 module.exports = router;
