@@ -9,6 +9,11 @@
 // const Q = require('q')
 // const mongoose = require('mongoose')
 // mongoose.Promise = Q.Promise
+const jsonServer = require('json-server')
+const server = jsonServer.create()
+const router = jjsonServer.router(path.join(__dirname, 'db.json'))
+const middlewares = jsonServer.defaults()
+
 var express = require('express');
 var app = express();
 const cors = require('cors');
@@ -41,6 +46,7 @@ setTimeout(function(){
 // }
 
 mongoose.connect();
+app.use(middlewares);
 app.use(cors());
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
