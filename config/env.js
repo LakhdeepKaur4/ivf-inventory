@@ -9,6 +9,6 @@ module.exports = {
         service:'Enter URL here' //Place angel server url here
     },
     mockup:{
-        service: 'http://localhost:4000' //Place mockup server url here
+        service: 'http://3.15.163.143:4000' //Place mockup server url here
     }
 }
