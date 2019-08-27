@@ -5,6 +5,7 @@ import { getProducts, getStores } from '../../actions/pushDataToStore';
 import './pushDataToStore.css';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class PushDataToStore extends React.Component {
 
@@ -16,8 +17,8 @@ class PushDataToStore extends React.Component {
             storeId: []
         }
     }
-
-    componentDidMount() {
+    setHost = host => {
+        this.setState({host});
         window.onpopstate = () => {
             this.flag = true;
         }
@@ -28,8 +29,8 @@ class PushDataToStore extends React.Component {
         this.setState({ storeId: storeId.split(",") });
         localStorage.setItem('product', productId.split(","));
         localStorage.setItem('store', storeId.split(","));
-        this.props.getProducts();
-        this.props.getStores();
+        this.props.getProducts(host);
+        this.props.getStores(host);
 
     }
     componentWillUnmount() {
@@ -91,6 +92,9 @@ class PushDataToStore extends React.Component {
     }
     render() {
         return (
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
                     <div className="pushDataToStoreHeading"><h4>Push Data to Stores</h4></div>
@@ -160,6 +164,7 @@ class PushDataToStore extends React.Component {
                     </div>
                 </Dashboard>
             </div>
+            </HostResolver>
         )
     }
 }
