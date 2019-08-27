@@ -76,25 +76,25 @@ class EditCustomerOrder extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host)
             }}>
-                <div>
+                <div className="editCustomer">
                     <Dashboard>
                         <div className="mt-4 ml-4">
                             <h6>EDIT AN ORDER</h6>
                         </div>
                         <div className="md-stepper-horizontal" >
-                            <div className="md-step active ">
+                            <div className="md-step active">
                                 <div className="md-step-circle border border-danger bg-transparent text-danger"><span>1</span></div>
                                 <div className="md-step-title" style={{ color: "#F74A4A" }}>Customer info</div>
                                 <div className="md-step-bar-left"></div>
                                 <div className="md-step-bar-right"></div>
                             </div>
-                            <div className="md-step">
+                            <div className="md-step ">
                                 <div className="md-step-circle border border-secondary bg-transparent" style={{ color: "#4D4F5C" }}><span>2</span></div>
                                 <div className="md-step-title" style={{ color: "#4D4F5C" }}>Products</div>
                                 <div className="md-step-bar-left"></div>
                                 <div className="md-step-bar-right"></div>
                             </div>
-                            <div className="md-step ">
+                            <div className="md-step">
                                 <div className="md-step-circle border border-secondary bg-transparent" style={{ color: "#4D4F5C" }}><span>3</span></div>
                                 <div className="md-step-title" style={{ color: "#4D4F5C" }}>Finalize</div>
                                 <div className="md-step-bar-left"></div>
