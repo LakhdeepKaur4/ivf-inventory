@@ -134,24 +134,24 @@ exports.updateOrder = async (req, res, next) => {
 exports.getCartProductsOfExistingOrder = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
-    Orders.findOne({ where: { orderId: orderId } })
-      .then(order => {
-        cartId = order.cartId;
-        CartProducts.findAll({ where: { cartId: cartId } })
-          .then(items => {
-            return res.status(httpStatus.OK).json({ items });
-          }).catch(err => {
-            return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
-          })
-      })
+    Orders.findOne({
+      where: { orderId: orderId }, include: [
+        { model: Carts, include: [{ model: CartProducts }] },
+        { model: Shipments },
+        { model: Payments }
+      ]
+    }).then(order => {
+      // CartProducts.findAll({ where: { cartId: cartId } })
+      //   .then(items => {
+      return res.status(httpStatus.OK).json({ order });
+      //   })
+    }).catch(err => {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+    })
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
   }
 }
-
-
-
-
 
 
 // Searching orders on advanced filters
