@@ -15,25 +15,32 @@ class EditBrands extends Component {
     brandName: this.props.brandDetail.name,
     description: this.props.brandDetail.description,
     status:this.props.brandDetail.status,
-    logoUrl:`http://192.168.1.113:3000/${this.props.brandDetail.logo_url}`,
+    logoUrl:`${this.props.brandDetail.logo_url}`,
     fileName: [],
     picture: "",
     host:""
   };
 
-
   componentDidMount(){
     $("input[type=file]").attr("id","file-upload");
     $('#file-upload').change(function () {
-      var i = $(this).prev('label').clone();
       var file = $('#file-upload')[0].files[0].name;
             $(this).prev('label').text(file);
     })
+    this.refreshData();
   }
   componentDidUpdate(prevProps) {
     if (prevProps.isBrandUpdate !== this.props.isBrandUpdate) {
       this.props.history.push("/brands");
     }
+  }
+
+  refreshData=()=>{
+    let data=JSON.parse(localStorage.getItem('brandDetails'))
+    this.setState({brandName:data.name,
+    description:data.description,
+    status:data.status,
+    logoUrl:data.logo_url})
   }
 
   // Handle input change
@@ -44,7 +51,6 @@ class EditBrands extends Component {
       this.setState({ status: event.target.value });
     };
   };
-
 
    // Get host url
 
@@ -69,6 +75,7 @@ class EditBrands extends Component {
       delete payload.logo;
     }
     this.props.updateBrandDetails(payload,this.props.match.params.id,this.state.host);
+    localStorage.clear()
     this.setState({
       brandName: "",
       description: "",
@@ -80,6 +87,7 @@ class EditBrands extends Component {
   // Handle Cancle button
 
   handleCancel = () => {
+    localStorage.clear();
     this.props.history.push("/brands");
   };
 
@@ -94,6 +102,7 @@ class EditBrands extends Component {
 
   render() {
     const { brandName, description} = this.state;
+
     return (
       <HostResolver hostToGet="inventory" hostResolved={host => {
         this.setHost(host);
@@ -102,24 +111,24 @@ class EditBrands extends Component {
         <div className="edit_brand ">
           {this.props.brandDetail ? (
             <div className="container">
-              <div className="bg-light text-dark p-4 mt-1">
+              <div className="text-dark p-4 mt-1">
                 <p className="heading">EDIT BRANDS</p>
                 <form>
                   <div>
                     <div className="brand_logo">
                       <img
-                        src={this.state.logoUrl}
+                        src={`${this.state.host}/${this.state.logoUrl}`}
                         alt="brand_logo"
                         style={{ width: "30px", height: "30px" }}
                       />
                     </div>
                     <div className="upload_logo">
-                    <label for="file-upload" className="custom-file-upload">CHOOSE</label>
+                    <label htmlFor="file-upload" className="custom-file-upload">CHOOSE</label>
                     <FileBase64 id="file-upload" multiple={true} onDone={this.getFiles} />
                     </div>
                     </div>
-                  <div className="form-row">
-                    <div className="form-group col-md-6">
+                  <div className="form-row ">
+                    <div className="form-group col-md-6 mt-20">
                       <input
                         type="text"
                         className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
@@ -130,7 +139,7 @@ class EditBrands extends Component {
                     </div>
                   </div>
 
-                  <div className="form-row">
+                  <div className="form-row mt-20">
                     <div className="form-group col-md-6">
                       <input
                         type="text"
@@ -143,7 +152,7 @@ class EditBrands extends Component {
                   </div>
                   <div className="form-row">
                     <div className="form-group col-md-6">
-                      <label htmlFor="status" style={{ fontWeight: "bold" }}>
+                      <label htmlFor="status" className="status">
                         Status
                       </label>
 
@@ -182,11 +191,11 @@ class EditBrands extends Component {
                       UPDATE BRAND
                     </button>
                     <button
-                      className="brand_button"
+                      className="back_button"
                       onClick={this.handleCancel}
                       style={{marginLeft:'100px'}}
                     >
-                      CANCEL
+                      BACK
                     </button>
                   </React.Fragment>
               </div>

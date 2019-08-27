@@ -1,3 +1,12 @@
+.edit_brand .container{
+    top: 0px;
+left: 0px;
+/* width: 1600px; */
+height: 881px;
+background: #F2F4F7 0% 0% no-repeat padding-box;
+opacity: 1;
+}
+
 .edit_brand .btn-secondary{
     background-color:transparent !important;
     border-color:transparent;
@@ -20,7 +29,15 @@
 .edit_brand label{
     margin-left: 11px;
     color: #555555;
-    font-size: 18px; 
+    font-size: 18px;
+    top: 441px;
+    left: 366px;
+    /* height: 15px; */
+    text-align: left;
+    font: 12px/25px Muli;
+    letter-spacing: 0;
+    color: #43425d;
+    opacity: 1;
 }
 .edit_brand .heading{
     color: #555555;
@@ -34,14 +51,49 @@
     margin-left:25px;
 }
 .edit_brand .custom-file-upload {
-    padding: 1px 35px;
+    border: 1px solid #888888;
+    border-radius: 50px;
+    padding:1px 20px;
     cursor: pointer;
     color: #888888;
-    /* top: 206px; */
-    left: 505px;
-    width: 133px;
-    /* height: 16px; */
-    /* border: 1px solid #888888; */
-    border-radius: 20px;
+  }
+
+  .edit_brand .form-control{
+    background:#F2F4F7;
+}
+.edit_brand .form-group input {
+    top: 257px;
+    left: 341px;
+    height: 15px;
+    text-align: left;
+    font: 12px/25px Muli;
+    letter-spacing: 0;
+    color: #43425d;
+    opacity: 1;
+  }
+  .status{
+    top: 407px;
+    left: 335px;
+    width: 56px;
+    height: 23px;
+    text-align: left;
+    font: Bold 18px/40px Muli;
+    letter-spacing: 0;
+    color: #555555;
+    opacity: 1;
+  }
+  .back_button{
+    top: 513px;
+    left: 335px;
+    width: 130px;
+    height: 32px;
+    border: 1px solid #43425d;
+    border-radius: 115px;
+    background-color: #ffff;
+    text-align: center;
+    font: 12px/15px Muli;
+    letter-spacing: 0;
+    color: #4d4f5c;
+    text-transform: uppercase;
     opacity: 1;
   }
