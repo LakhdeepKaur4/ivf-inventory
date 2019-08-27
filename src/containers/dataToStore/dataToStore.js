@@ -91,7 +91,6 @@ class DataToStore extends Component{
     navigateNext=()=>{;
         this.setState({error:true})
         this.flag = true;
-        console.log(this.state.storeIds.length)
         if(this.state.storeIds.length){
             this.props.history.push(`/pushDataToStore/${this.state.productId}/${this.state.storeIds}`)
         } 

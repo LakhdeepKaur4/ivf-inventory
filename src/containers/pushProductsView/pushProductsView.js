@@ -48,13 +48,12 @@ class ProductsView extends Component {
                     Ids.push(item.id);
                 })
                 this.setState({ allIds: Ids });
-            }).then(()=>console.log('wirked again',this.state.allIds));
+            });
     }
 
   // This function will be used in pagination in later stage.
 
     handlePageChange = (pageNumber) => {
-        console.log(`active page is ${pageNumber}`);
         // this.props.getPageDetails(pageNumber);
     }
 
@@ -103,15 +102,12 @@ class ProductsView extends Component {
         if (action === true) {
             IDS.push(Id);
         } else {
-            console.log('removed')
             IDS.splice(IDS.indexOf(Id), 1);
-            console.log(IDS);
         }
         this.setState({ ids: IDS });
     }
 
     productsResult = ({ productListMock }) => {
-        console.log(productListMock,'edjnfcjbefcbhf')
         if (productListMock) {
             let Ids = [];
             productListMock.map(item => {
@@ -159,13 +155,11 @@ class ProductsView extends Component {
     
 
     render() {
-        console.log('worked again',this.state.ids);
         let tableData =
             <div className="table-responsive card text-dark">
                 <table className="table">
                     <thead>
                         <tr>
-                            {console.log(this.state.ids,this.state.allIds)}
                             <th scope="col"><input type="checkbox" checked={(this.state.ids.length === this.state.allIds.length) ? true : false} onClick={
                                 
                                 (e) => {

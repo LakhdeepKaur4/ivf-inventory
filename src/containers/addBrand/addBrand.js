@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./addBrands.css";
+import "./addBrand.css";
 // import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { addBrand } from "../../actions/brandsAction";
@@ -8,7 +8,7 @@ import Dashboard from "../../components/dashboard/dashboard";
 import $ from 'jquery';
 import HostResolver from '../../components/resolveHost/resolveHost';
 
-class AddBrands extends Component {
+class AddBrand extends Component {
   state = {
     brandName: "",
     description: "",
@@ -245,4 +245,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { addBrand }
-)(AddBrands);
+)(AddBrand);

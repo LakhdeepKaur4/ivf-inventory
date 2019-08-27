@@ -20,8 +20,7 @@ export function getProductsView(URL, categoryId=null,defaultPage){
     }
 }
 export function getMockProductsView(URL){
-    console.log(URL)
-    let url = `${URL}/products`
+        let url = `${URL}/products`
 
     const request = axios.get(url)
     .then((response =>{

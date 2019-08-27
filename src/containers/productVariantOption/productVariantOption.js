@@ -60,7 +60,6 @@ class ProductVariantOption extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('handle uploading-', this.state.file);
     }
 
     handleImageChange = (e) => {

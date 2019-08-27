@@ -60,8 +60,6 @@ class PushDataToStore extends React.Component {
         }
     }
     getStores = ({ getStores }) => {
-        console.log(getStores)
-        console.log(getStores)
         if (getStores) {
             return getStores.map((item) => {
                 if (this.state.storeId.includes(item.id))

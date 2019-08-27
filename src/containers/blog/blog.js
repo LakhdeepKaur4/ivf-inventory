@@ -22,13 +22,11 @@ class Blog extends Component{
 
     btnClick=()=>{
         this.setState({checked:true})
-        console.log(this.state.checked)
 
     }
     
 
-    handlePageChange=(pageNumber)=> {
-        console.log(`active page is ${pageNumber}`);    
+    handlePageChange=(pageNumber)=> {  
             }
 
     setHost = async host => {
@@ -36,7 +34,7 @@ class Blog extends Component{
         this.props.getBlog(this.state.host);
             }       
           
-    viewBlog=({blog})=>{console.log(blog)
+    viewBlog=({blog})=>{
           if(blog){
               return blog.map((item)=>{ 
                return(

@@ -149,7 +149,6 @@ class CreateProduct extends Component {
     //for picture
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('handle uploading-', this.state.fileName);
     }
 
     handleImageChange = (e) => {
