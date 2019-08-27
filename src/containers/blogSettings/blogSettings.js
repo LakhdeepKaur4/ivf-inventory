@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Dashboard from '../../components/dashboard/dashboard';
 import $ from 'jquery';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class BlogSettings extends Component {
     constructor() {
         super();
         this.state = {
             startDate: new Date(),
+            host: ''
         };
     }
 
@@ -24,8 +26,16 @@ class BlogSettings extends Component {
         });
     }
 
+    setHost = async host => {
+        await this.setState({ host });
+    }
+
+
     render() {
         return (
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host)
+            }}>
             <Dashboard>
                 <div className="container containerBlogPost">
                     <h3 className='p-4' style={{ color: "#555555" }}>BLOG SETTINGS</h3>
@@ -69,7 +79,7 @@ class BlogSettings extends Component {
                     </div>
                 </div>
             </Dashboard>
-
+            </HostResolver>
         )
     }
 

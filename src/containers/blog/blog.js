@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import {getBlog} from '../../actions/blogAction';
 import Pagination from 'react-js-pagination';
-// import './productView.css';
-
+import HostResolver from '../../components/resolveHost/resolveHost';
 import Dashboard from '../../components/dashboard/dashboard';
 
 class Blog extends Component{
@@ -16,6 +15,7 @@ class Blog extends Component{
             limit:'5',
             totalItemsCount:'',
             ids:[],
+            host:''
                     
         }
     }
@@ -26,19 +26,16 @@ class Blog extends Component{
 
     }
     
-    componentDidMount(){
-        this.props.getBlog();
-    }
-
 
     handlePageChange=(pageNumber)=> {
         console.log(`active page is ${pageNumber}`);    
             }
 
-    
-
-
-
+    setHost = async host => {
+        await this.setState({ host });
+        this.props.getBlog(this.state.host);
+            }       
+          
     viewBlog=({blog})=>{console.log(blog)
           if(blog){
               return blog.map((item)=>{ 
@@ -87,6 +84,7 @@ class Blog extends Component{
         }  
     }
     render(){
+        
         let tableData=
         <div className="table-responsive card text-dark">
                <table className="table">
@@ -122,7 +120,10 @@ class Blog extends Component{
      
   
         
-        return(
+        return(  
+             <HostResolver hostToGet="inventory" hostResolved={host => {
+            this.setHost(host)
+        }}>
         <div>
             <Dashboard>
             
@@ -150,7 +151,7 @@ class Blog extends Component{
       
         </Dashboard>
         </div>
-        
+        </HostResolver>
        
         )
     }

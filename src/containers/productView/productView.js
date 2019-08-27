@@ -30,7 +30,6 @@ class ProductsView extends Component {
     btnClick = (id) => {
         let ids = this.state.visible;
         if (ids.includes(id) === true) {
-            console.log()
             ids.splice(ids.indexOf(id), 1);
         } else {
             ids.push(id);
@@ -40,7 +39,6 @@ class ProductsView extends Component {
         })
     }
     pickIds = (id, action) => {
-        console.log(id, action);
         let IDS = this.state.productId
         if (action == true) {
             IDS.push(id);
@@ -49,42 +47,26 @@ class ProductsView extends Component {
         }
         this.setState({ productId: IDS })
     }
-
-    // componentDidMount() {
-    //     this.props.getProductsView()
-    //         .then((res) => {
-    //             let Ids = [];
-    //             res.payload.map((item) => {
-    //                 Ids.push(item.id)
-    //             })
-    //             this.setState({ allProductIds: Ids })
-    //         }).then(() => console.log(this.state.allProductIds));
-    //     if(this.state.productID){
-    //         const request = axios.get(`${this.state.host}/api/item/category/:${this.state.productID}`)
-    //         .then(response => {
-    //             console.log("================",response)
-    //         })
-    //     }
-    // }
-
     setHost = host => {
         var defaultPage=this.state.activePage;
         this.setState({host});         
         this.props.getProductsView(host, this.state.productID,defaultPage)
             .then((res) => {
-                debugger;
                 let Ids = [];
-                res.payload.items.docs.map((item) => {
-                    Ids.push(item._id)
-                })
-                this.setState({ allProductIds: Ids, limit:res.payload.items.limit, totalItemsCount:res.payload.items.total })
+                if(res.payload && res.payload.items && res.payload.items.docs){
+                    res.payload.items.docs.map((item) => {
+                        Ids.push(item._id)
+                    })
+                    this.setState({ allProductIds: Ids, limit:res.payload.items.limit, totalItemsCount:res.payload.items.total })
+                }
             }).then(() => console.log(this.state));
             if(this.state.productID){
             const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
             .then(response => {
-                console.log("================",response)
+               
             })
         }
+        
     }
 
 
@@ -130,7 +112,6 @@ class ProductsView extends Component {
         this.props.onSizePerPageList(Number(option.target.value))
     }
     pickIds = (id, action) => {
-        console.log(id, action);
         let IDS = this.state.productId
         if (action == true) {
             IDS.push(id);
@@ -139,15 +120,17 @@ class ProductsView extends Component {
         }
         this.setState({ productId: IDS })
     }
-    handleDisable = id => {
-        console.log(id);
-    }
 
     productsResult = ({ productList }) => {
-        console.log(productList)
-        if (productList && productList.items && productList.items.docs) {
-            console.log('productlist', productList);
-            return productList.items.docs.sort((item1, item2) => {
+        let data = [];
+        if(this.props.match.params.id){
+            data = productList;            
+        }
+        else if(productList && productList.items && productList.items.docs){
+            data = productList.items.docs
+        }
+        if (data && data.length) {
+            return data.sort((item1, item2) => {
                 var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
                 return this.state.sortVal ? cmprVal : -cmprVal;
             })
@@ -171,11 +154,11 @@ class ProductsView extends Component {
                                 {item.optStock}
                             </td>
                             <td>
-                                {item.price.range}
+                                {item.price?item.price.range:''}
                             </td>
                             <td>
-                                <div><button class="button button1 active" onClick={() => this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
-                                <div><button class="button button2" onClick={this.btnClick}>Bookmark</button></div>
+                                <div><button className="button button1 active" onClick={() => this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
+                                <div><button className="button button2" onClick={this.btnClick}>Bookmark</button></div>
                             </td>
                             <td>
                                 <div className="dropdown">
@@ -225,12 +208,6 @@ class ProductsView extends Component {
 
                 })
         }
-    }
-
-    navigate = () => {
-        console.log('hii');
-        console.log(this.state.ids);
-        // this.props.history.push(`/dataToStore/${this.state.ids}`)
     }
     selectAll = (action) => {
         if (action === true) {
@@ -313,18 +290,18 @@ class ProductsView extends Component {
                     <ul className="navbar-nav">
 
                         <li className="nav-item">
-                            <span className="nav-link" onClick={this.onSort}><i class="fas fa-sort-amount-down" aria-hidden="true"></i></span>
+                            <span className="nav-link" onClick={this.onSort}><i className="fas fa-sort-amount-down" aria-hidden="true"></i></span>
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link" onClick={this.onSortInv}><i class="fas fa-sort-amount-up" aria-hidden="true"></i></span>
+                            <span className="nav-link" onClick={this.onSortInv}><i className="fas fa-sort-amount-up" aria-hidden="true"></i></span>
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link"><i class="fas fa-th-large" aria-hidden="true"></i></span>
+                            <span className="nav-link"><i className="fas fa-th-large" aria-hidden="true"></i></span>
                         </li>
                         <li className="nav-item">
-                            <span className="nav-link">Limits 20<i class="fas fa-angle-down" aria-hidden="true" style={{ marginLeft: '5px' }} ></i></span>
+                            <span className="nav-link">Limits 20<i className="fas fa-angle-down" aria-hidden="true" style={{ marginLeft: '5px' }} ></i></span>
                         </li>
 
                         <li className="nav-item dropdown">
@@ -347,7 +324,7 @@ class ProductsView extends Component {
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link"><i class="fas fa-plus" aria-hidden="true" style={{ marginLeft: '5px' }}></i><span style={{ marginLeft: '5px' }} onClick={this.navigate}>New</span></span>
+                            <span className="nav-link"><i className="fas fa-plus" aria-hidden="true" style={{ marginLeft: '5px' }}></i><span style={{ marginLeft: '5px' }} onClick={this.navigate}>New</span></span>
                         </li>
                     </ul>
                 </div>
