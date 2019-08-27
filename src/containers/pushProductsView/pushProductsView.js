@@ -6,6 +6,7 @@ import Pagination from 'react-js-pagination';
 import './pushProductView.css';
 import Dashboard from '../../components/dashboard/dashboard';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import '../../commonCss/stepbar.css'
 
 class ProductsView extends Component {
     constructor(props) {
@@ -27,22 +28,6 @@ class ProductsView extends Component {
     btnClick = () => {
         this.setState({ checked: true })
     }
-
-    // componentDidMount() {
-    //     console.log('did mount wrking');
-    //     if (localStorage.getItem('product') !== null) {
-    //         let products = localStorage.getItem('product').split(',');
-    //         this.setState({ ids: products });
-    //     }
-    //     this.props.getProductsView()
-    //         .then(res => {
-    //             let Ids = [];
-    //             res.payload.map(item => {
-    //                 Ids.push(item.id);
-    //             })
-    //             this.setState({ allIds: Ids });
-    //         }).then(()=>console.log('wirked again',this.state.allIds));
-    // }
 
     componentWillUnmount() {
         if (!this.state.flag) {

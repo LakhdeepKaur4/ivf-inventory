@@ -191,9 +191,9 @@ class ClassCategory extends Component {
                         <div className="col-4">
                             <div>Info</div>
                             <div style={{ color: 'red', fontSize: '10px' }} className="mt-2">Name</div>
-                            <div><input type="text" placeholder="Enter Info" name="name" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="Enter Info" name="name" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.name}</span>
-                            <div><input type="text" placeholder="URL" name="url" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="URL" name="url" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.url}</span>
                         </div>
                         <div className="col-4">
@@ -204,7 +204,7 @@ class ClassCategory extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-6">Sort</div>
-                                <div className="col-6"><input type="text" placeholder="Enter Info" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                                <div className="col-6 createCategory"><input type="text" placeholder="Enter Info" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             </div>
                             <div className="row mt-2">
                                 <div className="col-6">Coteg Thumb</div>
@@ -226,14 +226,14 @@ class ClassCategory extends Component {
 
                             <div>Meta (SEO)</div>
                             <div style={{ color: 'red', fontSize: '10px' }}>Page Title</div>
-                            <div><input type="text" placeholder="Enter Info" name="pageTitle" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory" ><input type="text" placeholder="Enter Info" name="pageTitle" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.pageTitle}</span>
-                            <div><input type="text" placeholder="Meta??" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
-                            <div><input type="text" placeholder="Meta Desc" name="metaDescription" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="Meta??" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="Meta Desc" name="metaDescription" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.metaDescription}</span>
-                            <div><input type="text" placeholder="Search key" name="Search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="Search key" name="Search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.Search}</span>
-                            <div><button style={{marginTop:'5px'}}onClick={this.submit}>Submit</button></div>
+                            <div><button className="button-main button3" style={{marginTop:'5px'}}onClick={this.submit}>Submit</button></div>
                         </div>
                     </div>
                     <div className="row mt-5">
