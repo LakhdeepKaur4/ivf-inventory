@@ -1,16 +1,16 @@
 import axios from 'axios';
 
-import{URN,ADD_CUSTOMER,GET_CUSTOMER} from '../actionCreators/index';
+import{ADD_CUSTOMER,GET_CUSTOMER} from '../actionCreators/index';
 
 
 
-export function addCustomer(name,surname,email,address,city,region,postalCode,phone){console.log(name,surname,email,address,city,region,postalCode,phone)
+export function addCustomer(URL,name,surname,email,address,city,region,postalCode,phone){console.log(name,surname,email,address,city,region,postalCode,phone)
     
     const obj = {name,surname,email,address:{
         address1:address,
         city,region,postalCode
     },phone}
-    const request =axios.post(`http://192.168.1.104:3003/api/customer`,obj)
+    const request =axios.post(`${URL}/api/customer`,obj)
     .then((response =>response.data))
     return {
         type: ADD_CUSTOMER,
@@ -18,8 +18,8 @@ export function addCustomer(name,surname,email,address,city,region,postalCode,ph
     }
 }
 
-export function getCustomer(search){console.log(search)
-    const request = axios.get(`http://192.168.1.104:3003/api/customer?search=${search}`)
+export function getCustomer(URL,search){console.log(search)
+    const request = axios.get(`${URL}/api/customer?search=${search}`)
     .then((response =>response.data))
     return {
         type: GET_CUSTOMER,

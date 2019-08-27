@@ -3,12 +3,14 @@ import './advancedSearch.css';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
 
 class AdvancedSearch extends Component{
         constructor(){
             super();
             this.state={
                 startDate: new Date(),
+                host: ''
             };
         }
 
@@ -18,8 +20,16 @@ class AdvancedSearch extends Component{
             });
           }
           
+
+        setHost = async host => {
+            await this.setState({ host });
+        }
+
         render(){
             return(
+                <HostResolver hostToGet="inventory" hostResolved={host => {
+                    this.setHost(host)
+                }}>
                     <Dashboard>
                    <div className="container containerAdvancedSearch"> 
                    <h3 className='p-4' style={{color:"#555555"}}>ADVANCED SEARCH</h3> 
@@ -134,7 +144,7 @@ class AdvancedSearch extends Component{
                                     <div style={{height:"52px"}}></div>
                 </div>
                 </Dashboard>
-                
+                </HostResolver>
             )
         }
 

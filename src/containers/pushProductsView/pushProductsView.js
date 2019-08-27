@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getProductsView } from '../../actions/productsViewAction';
+import { getMockProductsView } from '../../actions/productsViewAction';
 import Pagination from 'react-js-pagination';
 import './pushProductView.css';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
+import '../../commonCss/stepbar.css'
+
 class ProductsView extends Component {
     constructor(props) {
         super(props);
@@ -18,27 +21,12 @@ class ProductsView extends Component {
             ids: [],
             allIds: [],
             flag: false,
-            error:false
+            error:false,
+            host:''
         }
     }
     btnClick = () => {
         this.setState({ checked: true })
-    }
-
-    componentDidMount() {
-        console.log('did mount wrking');
-        if (localStorage.getItem('product') !== null) {
-            let products = localStorage.getItem('product').split(',');
-            this.setState({ ids: products });
-        }
-        this.props.getProductsView()
-            .then(res => {
-                let Ids = [];
-                res.payload.map(item => {
-                    Ids.push(item.id);
-                })
-                this.setState({ allIds: Ids });
-            }).then(()=>console.log('wirked again',this.state.allIds));
     }
 
     componentWillUnmount() {
@@ -151,6 +139,22 @@ class ProductsView extends Component {
         } else {
             this.setState({ ids: [] });
         }
+    }
+
+    setHost = host => {
+        this.setState({host});
+        if (localStorage.getItem('product') !== null) {
+            let products = localStorage.getItem('product').split(',');
+            this.setState({ ids: products });
+        }
+        this.props.getMockProductsView(host)
+            .then(res => {
+                let Ids = [];
+                res.payload.map(item => {
+                    Ids.push(item.id);
+                })
+                this.setState({ allIds: Ids });
+            }).then(()=>console.log('wirked again',this.state.allIds));
     }
 
     render() {
@@ -267,6 +271,9 @@ class ProductsView extends Component {
             </nav>
 
         return (
+            <HostResolver hostToGet="mockup" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
 
@@ -320,7 +327,7 @@ class ProductsView extends Component {
 
                 </Dashboard>
             </div>
-
+            </HostResolver>
 
         )
     }
@@ -334,7 +341,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ getProductsView }, dispatch)
+    return bindActionCreators({ getMockProductsView }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsView);

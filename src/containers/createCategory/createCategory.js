@@ -10,10 +10,13 @@ import FileStructure from '../../components/fileStructure/fileStructure';
 import FileBase64 from 'react-file-base64';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
+import HostResolver from '../../components/resolveHost/resolveHost';
+import axios from 'axios';
 
 class ClassCategory extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             name: '',
             url: '',
@@ -29,20 +32,45 @@ class ClassCategory extends Component {
             subParent: '',
             show: false,
             showSub: false,
-            errors:{}
+            errors:{},
+            host:'',
+            _id:props.match.params.id
         }
+
     }
-    componentDidMount() {
-       
-        this.props.GetInitialCategory();
+    
+    // componentDidMount() { 
+    //     console.log(this.state._id)
+    //     this.props.GetInitialCategory();
+    //     this.setState({ show: false, showSub: false });
+    //     $('#file-upload').change(function () {
+    //         var i = $(this).prev('label').clone();
+    //         var file = $('#file-upload')[0].files[0].name;
+    //         $(this).prev('label').text(file);
+    //     });
+        
+    //     if(this.state._id) {
+    //         const request = axios.get(`${this.state.host}/api/category/${this.state._id}`)
+    //         .then( response => console.log(response.data))
+    //     }
+    // }
+
+    setHost = host => {
+        this.setState({host});
+        this.props.GetInitialCategory(host);
         this.setState({ show: false, showSub: false });
         $('#file-upload').change(function () {
             var i = $(this).prev('label').clone();
             var file = $('#file-upload')[0].files[0].name;
             $(this).prev('label').text(file);
         });
-    
+        
+        if(this.state._id) {
+            const request = axios.get(`${host}/api/category/${this.state._id}`)
+            .then( response => console.log(response.data))
+        }
     }
+
     change = (e) => {
         if (!this.state.errors[e.target.value]) {
             let errors = Object.assign({}, this.state.errors);
@@ -54,9 +82,8 @@ class ClassCategory extends Component {
             this.setState({ [e.target.name]: e.target.value.trim('') });
              this.setState({ show: false, showSub: false });
         }
-
-        console.log(this.state)
     }
+
     editorChange = (editorChange) => {
         this.state.errors.description='';
         let desc = draftToHtml(convertToRaw(this.state.editorChange.getCurrentContent()));
@@ -77,18 +104,19 @@ class ClassCategory extends Component {
         if(this.state.metaDescription=='') errors.metaDescription='Please enter Search Key';
         if(this.state.pageTitle=='') errors.pageTitle='Please enter Search Key';
         if(this.state.description=='') errors.description='Please enter desciption'; 
-        if(this.state.file=='') errors.file='Please attach a file';       
+        // if(this.state.file=='') errors.file='Please attach a file';       
         this.setState({errors});
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
             console.log('hii');
-            // this.props.onSubmit({ ...this.state });
+            this.props.onSubmit(this.state.host,{ ...this.state })
+            .then(()=>this.props.GetInitialCategory(this.state.host));
         }
     }
     push = (id) => {
         console.log('catgryid', id)
         this.setState({ parent: id });
-        this.props.GetParticularCategory(id);
+        this.props.GetParticularCategory(this.state.host,id);
         this.setState({ show: true });
 
     }
@@ -111,7 +139,7 @@ class ClassCategory extends Component {
                 return true;
             }
             else {
-                getParticularCategory.category.map((item) =>  item.subCategories.map((item) => {
+                getParticularCategory.map((item) =>  item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
 
                         // <div style={{marginLeft:'20px'}} onClick={()=>this.getsubCategory(item._id)} className="fa fa-folder">{item.name}</div>
@@ -128,15 +156,16 @@ class ClassCategory extends Component {
     }
     getCategory = (id) => {
         this.setState({ parent: id, show: false, showSub: true });
-        this.props.GetSubCategory(id);
+        this.props.GetSubCategory(this.state.host,id);
     }
     getSubCategory = ({ getSubCategory }) => {
+        console.log('getSubCategory',getSubCategory)
         if (getSubCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
             }
             else {
-                getSubCategory.category.map((item) => item.subCategories.map((item) => {
+                getSubCategory.map((item) => item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
                         // <div style={{marginLeft:'30px'}}><input type="radio"/>{item.name}</div>
                         $(`#${this.state.parent}`).append(`<div key=${item._id}><i class="fa fa-folder ml-4"/>${item.name}</div>`);
@@ -151,6 +180,9 @@ class ClassCategory extends Component {
     }
     render() {
         return (
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host);
+            }}>
             <div>
                 <Dashboard>
                 <div className="m-auto">
@@ -159,9 +191,9 @@ class ClassCategory extends Component {
                         <div className="col-4">
                             <div>Info</div>
                             <div style={{ color: 'red', fontSize: '10px' }} className="mt-2">Name</div>
-                            <div><input type="text" placeholder="Enter Info" name="name" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="Enter Info" name="name" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.name}</span>
-                            <div><input type="text" placeholder="URL" name="url" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="URL" name="url" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.url}</span>
                         </div>
                         <div className="col-4">
@@ -172,7 +204,7 @@ class ClassCategory extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-6">Sort</div>
-                                <div className="col-6"><input type="text" placeholder="Enter Info" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                                <div className="col-6 createCategory"><input type="text" placeholder="Enter Info" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             </div>
                             <div className="row mt-2">
                                 <div className="col-6">Coteg Thumb</div>
@@ -194,14 +226,14 @@ class ClassCategory extends Component {
 
                             <div>Meta (SEO)</div>
                             <div style={{ color: 'red', fontSize: '10px' }}>Page Title</div>
-                            <div><input type="text" placeholder="Enter Info" name="pageTitle" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory" ><input type="text" placeholder="Enter Info" name="pageTitle" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.pageTitle}</span>
-                            <div><input type="text" placeholder="Meta??" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
-                            <div><input type="text" placeholder="Meta Desc" name="metaDescription" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="Meta??" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="Meta Desc" name="metaDescription" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.metaDescription}</span>
-                            <div><input type="text" placeholder="Search key" name="Search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
+                            <div className="createCategory"><input type="text" placeholder="Search key" name="Search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" /></div>
                             <span style={{color: "red"}}>{this.state.errors.Search}</span>
-                            <div><button style={{marginTop:'5px'}}onClick={this.submit}>Submit</button></div>
+                            <div><button className="button-main button3" style={{marginTop:'5px'}}onClick={this.submit}>Submit</button></div>
                         </div>
                     </div>
                     <div className="row mt-5">
@@ -228,6 +260,7 @@ class ClassCategory extends Component {
                 </div>
                 </Dashboard>
             </div>
+            </HostResolver>
         )
     }
 }

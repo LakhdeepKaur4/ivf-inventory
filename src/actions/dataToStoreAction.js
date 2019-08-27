@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import{URN, DATA_TO_STORE} from '../actionCreators/index';
+import{ DATA_TO_STORE} from '../actionCreators/index';
 
-export function getDataStore(){
-    const request = axios.get(`${URN}/dataToStore`)
+export function getDataStore(URL){
+    const request = axios.get(`${URL}/dataToStore`)
     .then((response =>response.data))
 
     return {

@@ -15,10 +15,10 @@ import {
 } from "../actionCreators/index";
 
 // Get all brands
-export function getBrands() {
+export function getBrands(URL) {
   return dispatch => {
     axios
-      .get(BRANDURL)
+      .get(`${URL}/api/brands`)
       .then(response => {
         dispatch({ type: BRANDS_LIST, payload: response.data });
       })

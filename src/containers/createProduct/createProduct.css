@@ -11,8 +11,10 @@
 
 .mainCard{
     width: 300px;
-    height: 245px;
+    
 }
+
+
 
 .variants-option{
     padding-left: 35%;
@@ -90,7 +92,6 @@
     vertical-align: inherit;
     border-top: 0px;
     background-color: #FFFFFF;
-
 }
 
 
@@ -250,4 +251,5 @@
 
   .close-icon{
     margin-right: -65px;
+    
   }

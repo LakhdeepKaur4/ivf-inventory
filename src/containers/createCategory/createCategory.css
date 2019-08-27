@@ -10,6 +10,9 @@
 .selectCreateCategory{
     background-color: transparent !important;
 }
+.createCategory input{
+  background: transparent;
+}
 #file-upload {
   display: none;
 }

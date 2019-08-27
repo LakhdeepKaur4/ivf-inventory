@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import{URN, EDIT_ORDER} from '../actionCreators/index';
+import{ EDIT_ORDER } from '../actionCreators/index';
 
-export function getEditOrder(){
-    const request = axios.get(`${URN}/editOrder`)
+export function getEditOrder(URL){
+    const request = axios.get(`${URL}/api/editOrder`)
     .then((response =>response.data))
     return {
         type: EDIT_ORDER,
