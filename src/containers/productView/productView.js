@@ -49,24 +49,6 @@ class ProductsView extends Component {
         }
         this.setState({ productId: IDS })
     }
-
-    // componentDidMount() {
-    //     this.props.getProductsView()
-    //         .then((res) => {
-    //             let Ids = [];
-    //             res.payload.map((item) => {
-    //                 Ids.push(item.id)
-    //             })
-    //             this.setState({ allProductIds: Ids })
-    //         }).then(() => console.log(this.state.allProductIds));
-    //     if(this.state.productID){
-    //         const request = axios.get(`${this.state.host}/api/item/category/:${this.state.productID}`)
-    //         .then(response => {
-    //             console.log("================",response)
-    //         })
-    //     }
-    // }
-
     setHost = host => {
         var defaultPage=this.state.activePage;
         this.setState({host});         

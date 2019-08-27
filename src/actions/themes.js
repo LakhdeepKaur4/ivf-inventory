@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import{URN, THEME_ORDER} from '../actionCreators/index';
 
-export function themes(){
+export function themes(URL){
     
-    const request = axios.get(`${URN}/themes`)
+    const request = axios.get(`${URL}/themes`)
     .then((response =>response.data))
 
     return {

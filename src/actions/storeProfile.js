@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-import{URN, GET_COUNTRY,GET_CURRENCY} from '../actionCreators/index';
+import{GET_COUNTRY,GET_CURRENCY} from '../actionCreators/index';
 
-export function getCountry(){
-    const request = axios.get(`${URN}/country`)
+export function getCountry(URL){
+    console.log(URL)
+    const request = axios.get(`${URL}/country`)
     .then((response =>response.data))
 
     return {
@@ -12,9 +13,9 @@ export function getCountry(){
     }
 }
 
-export function getCurrency(){
-    
-    const request = axios.get(`${URN}/Currencies`)
+export function getCurrency(URL){
+    console.log(URL)
+    const request = axios.get(`${URL}/Currencies`)
     .then((response =>response.data))
 
     return {
