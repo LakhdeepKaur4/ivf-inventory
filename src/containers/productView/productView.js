@@ -68,8 +68,9 @@ class ProductsView extends Component {
     // }
 
     setHost = host => {
+        var defaultPage=this.state.activePage;
         this.setState({host});         
-        this.props.getProductsView(host, this.state.productID)
+        this.props.getProductsView(host, this.state.productID,defaultPage)
             .then((res) => {
                 let Ids = [];
                 res.payload.items.docs.map((item) => {

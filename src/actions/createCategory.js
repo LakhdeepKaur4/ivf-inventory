@@ -3,7 +3,6 @@ import axios from 'axios';
 import{GET_INITIAL_CATEGORY,GET_PARTICULAR_CATEGORY,GET_SUB_CATEGORY,ON_SUBMIT} from '../actionCreators/index';
 
 export function GetInitialCategory(URL){
-    console.log('hiii action');
     const request = axios.get(`${URL}/api/category/initial`)
     .then((response => response.data))
 
@@ -35,7 +34,7 @@ export function GetSubCategory(URL,id){
 
 }
 export function onSubmit(URL,values){
-    
+    console.log(URL,values)
     const request = axios.post(`${URL}/api/category/`,values)
     .then((response => response.data))
 

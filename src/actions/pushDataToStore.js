@@ -1,9 +1,9 @@
-import {URN,GET_FILTER_PRODUCTS,GET_STORES} from '../actionCreators/index';
+import {GET_FILTER_PRODUCTS,GET_STORES} from '../actionCreators/index';
 import axios from 'axios';
 
-export function getProducts(){
+export function getProducts(URL){
     console.log('hiii action');
-    const request = axios.get(`${URN}/products`)
+    const request = axios.get(`${URL}/products`)
     .then((response => response.data))
 
     return {
@@ -11,9 +11,9 @@ export function getProducts(){
         payload:request
     }
 }
-export function getStores(){
+export function getStores(URL){
     console.log('hiii action');
-    const request = axios.get(`${URN}/dataToStore`)
+    const request = axios.get(`${URL}/dataToStore`)
     .then((response => response.data))
 
     return {

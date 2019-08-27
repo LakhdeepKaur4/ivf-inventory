@@ -104,12 +104,12 @@ class ClassCategory extends Component {
         if(this.state.metaDescription=='') errors.metaDescription='Please enter Search Key';
         if(this.state.pageTitle=='') errors.pageTitle='Please enter Search Key';
         if(this.state.description=='') errors.description='Please enter desciption'; 
-        if(this.state.file=='') errors.file='Please attach a file';       
+        // if(this.state.file=='') errors.file='Please attach a file';       
         this.setState({errors});
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
             console.log('hii');
-            // this.props.onSubmit({ ...this.state });
+            this.props.onSubmit(this.state.host,{ ...this.state });
         }
     }
     push = (id) => {
