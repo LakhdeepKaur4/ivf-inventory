@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Brands from './containers/DisplayBrands/displayBrands';
+import Brands from './containers/displayBrands/displayBrands';
 import AdvancedSearch from './containers/advancedSearch/advancedSearch';
 import ViewOrder from './containers/viewOrder/viewOrder'
 import AddProduct from './containers/addProducts/addProducts';
@@ -13,12 +13,12 @@ import StoreProfile from './containers/storeProfile/storeProfile';
 import Sidebar from './components/sidebar/sidebar';
 import EditCustomerOrder from './containers/editCustomerOrder/editCustomerOrder';
 import Products from './containers/products/products';
-import AddBrands from './containers/AddBrands/addBrands'
+import AddBrand from './containers/addBrand/addBrand'
 import Categories from './containers/categories/categories';
 import Header from './components/header/header';
 import createCategory from './containers/createCategory/createCategory';
 import DataToStore from './containers/dataToStore/dataToStore';
-import EditBrand from './containers/EditBrand/editBrand'
+import EditBrand from './containers/editBrand/editBrand'
 import CreateProduct from './containers/createProduct/createProduct';
 import ProductVariant from './containers/productVariant/productVariant';
 import ProductVariantOption from './containers/productVariantOption/productVariantOption';
@@ -68,7 +68,7 @@ class App extends Component {
             <Route path="/addBrand" component={AddBrands} />
             <Route path="/editanorder" component={EditCustomerOrder} />
             <Route path="/finalizeorder" component={EditOrder} />
-            <Route path="/addbrands" component={AddBrands} />
+            <Route path="/addbrand" component={AddBrand} />
             <Route path="/editproducts" component={Products} />
             <Route path="/categories" component={Categories} />
             <Route path="/editBrand/:id" component={EditBrand} />
