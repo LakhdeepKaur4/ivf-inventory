@@ -11,7 +11,7 @@
 // mongoose.Promise = Q.Promise
 const jsonServer = require('json-server')
 const server = jsonServer.create()
-const router = jjsonServer.router(path.join(__dirname, 'db.json'))
+const router = jsonServer.router(path.join(__dirname, 'db.json'))
 const middlewares = jsonServer.defaults()
 
 var express = require('express');
