@@ -145,9 +145,9 @@ var itemVariantSchema = new Schema({
     type: Boolean,
     defaultValue: true
   },
-  variantPicture: {
+  variantPicture: [{
     type: String
-  },
+  }],
   size: {
     type: String
   },

@@ -167,9 +167,9 @@ exports.updateCategory = async (req, res, next) => {
           let newPath = res.slice(index + 2, res.length);
           Category.update({ _id: categoryId }, { $set: { categoryThumbnail: newPath } }, function (err, updated) {
             if (err) {
-              console.log(err)
+              console.log(err);
             } else {
-              console.log(updated)
+              console.log(updated);
             }
           })
         }
@@ -179,7 +179,6 @@ exports.updateCategory = async (req, res, next) => {
         return res.status(httpStatus.OK).send({ message: "Category updated" });
       }
     }
-
   } catch (error) {
     console.log(error)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error });
