@@ -13,12 +13,13 @@ class Products extends Component {
         super(props);
         this.state = {
             search:'',
+            host:''
         }
     }
 
     setHost = host => {
         this.setState({host}); 
-        this.props.getProductsItem(host);
+        this.props.getProductsItem(this.state.host);
     }
 
     searchOnChange = (e) => {
