@@ -4,6 +4,9 @@
     width:90px;
     height:30px;
 }
+.higlightStructure{
+  background: whitesmoke;
+}
 .cardCreateCategory{
     height:100%;
 }
