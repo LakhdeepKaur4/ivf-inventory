@@ -277,22 +277,22 @@ class ProductsView extends Component {
                         {navLink}
                     </div>
                     <div className="md-stepper-horizontal orange">
-                        <div className="md-step activeProductsView">
-                            <div className="md-step-circle"><span>1</span></div>
+                        <div className="md-step activeProductsView ">
+                            <div className="md-step-circle activePush"><span>1</span></div>
                             <div className="md-step-title">Select Products</div>
                             <div className="md-step-bar-left"></div>
                             <div className="md-step-bar-right"></div>
                         </div>
-                        <div className="md-step">
+                        <div className="md-step ">
                             <div className="md-step-circle"><span>2</span></div>
-                            <div className="md-step-title">Save to Store</div>
+                            <div className="md-step-title deactive">Save to Store</div>
                             <div className="md-step-bar-left"></div>
 
                             <div className="md-step-bar-right"></div>
                         </div>
                         <div className="md-step">
                             <div className="md-step-circle"><span>3</span></div>
-                            <div className="md-step-title">Proceed</div>
+                            <div className="md-step-title deactive">Proceed</div>
                             <div className="md-step-bar-left"></div>
                             <div className="md-step-bar-right"></div>
                         </div>

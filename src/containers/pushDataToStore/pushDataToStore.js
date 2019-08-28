@@ -96,21 +96,21 @@ class PushDataToStore extends React.Component {
             <div>
                 <Dashboard>
                     <div className="pushDataToStoreHeading"><h4>Push Data to Stores</h4></div>
-                    <div className="md-stepper-horizontal orange">
-                        <div className="md-step active done">
+                    <div className="md-stepper-horizontal orange editorder">
+                        <div className="md-step active done ">
                             <div className="md-step-circle"><span>1</span></div>
                             <div className="md-step-title text-danger">Select Products</div>
                             <div className="md-step-bar-left"></div>
                             <div className="md-step-bar-right"></div>
                         </div>
-                        <div className="md-step active done">
+                        <div className="md-step active done ">
                             <div className="md-step-circle"><span>2</span></div>
                             <div className="md-step-title text-danger">Save to Store</div>
                             <div className="md-step-bar-left"></div>
 
                             <div className="md-step-bar-right"></div>
                         </div>
-                        <div className="md-step inActive3">
+                        <div className="md-step inActive3 pushprd">
                             <div className="md-step-circle"><span className="text-danger">3</span></div>
                             <div className="md-step-title text-danger">Proceed</div>
                             <div className="md-step-bar-left"></div>
