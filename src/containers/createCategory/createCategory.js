@@ -34,7 +34,8 @@ class ClassCategory extends Component {
             showSub: false,
             errors:{},
             host:'',
-            _id:props.match.params.id
+            _id:props.match.params.id,
+            editData:[]
         }
 
     }
@@ -50,8 +51,15 @@ class ClassCategory extends Component {
         });
         
         if(this.state._id) {
-            const request = axios.get(`${host}/api/category/${this.state._id}`)
-            .then( response =>response.data)
+            const request = axios.get(`${host}/api/category/edit/${this.state._id}`)
+            .then( res => {
+                this.setState({
+                    editData:res.data
+                })
+                console.log(res.data)
+            })
+
+            
         }
     }
 
@@ -76,9 +84,11 @@ class ClassCategory extends Component {
         this.setState({ editorChange, description: desc });
         this.setState({ show: false, showSub: false });
     }
+
     getFiles = (files) => {
         this.setState({ fileName: files[0].name, picture: files[0].base64 });
     }
+
     submit = () => {
         let errors={};
         if(this.state.name=='') errors.name='Please enter name';
@@ -95,12 +105,13 @@ class ClassCategory extends Component {
             .then(()=>this.props.GetInitialCategory(this.state.host));
         }
     }
+
     push = (id) => {
         this.setState({ parent: id });
         this.props.GetParticularCategory(this.state.host,id);
         this.setState({ show: true });
-
     }
+
     getInitialCategory = ({ initialCategory }) => {
         if (initialCategory) {
             return initialCategory.category.map((item) => {
@@ -112,6 +123,7 @@ class ClassCategory extends Component {
             )
         }
     }
+
     getParticularCategory = ({ getParticularCategory }) => {
         if (getParticularCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
@@ -133,10 +145,12 @@ class ClassCategory extends Component {
         }
         return true;
     }
+
     getCategory = (id) => {
         this.setState({ parent: id, show: false, showSub: true });
         this.props.GetSubCategory(this.state.host,id);
     }
+
     getSubCategory = ({ getSubCategory }) => {
         if (getSubCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
@@ -153,9 +167,11 @@ class ClassCategory extends Component {
         }
         return;
     }
+
     fileAttach=()=>{
         this.st
     }
+    
     render() {
         return (
             <HostResolver hostToGet="inventory" hostResolved={host => {
