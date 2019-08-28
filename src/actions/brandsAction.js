@@ -2,7 +2,6 @@ import axios from "axios";
 import { toasterMessage } from "../utils.js";
 
 import {
-  BRANDURL,
   BRANDS_LIST,
   ADD_BRAND,
   DISABLE_BRAND,
@@ -68,7 +67,7 @@ export function addBrand(data,url) {
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ADD_BRAND, payload: true });
-          dispatch(getBrands());
+          dispatch(getDefaultPageBrandsDetails(1,url));
         }
         else if( response.status===200 && response.data.message==='Creation error'){
           toasterMessage("error",response.data.message)

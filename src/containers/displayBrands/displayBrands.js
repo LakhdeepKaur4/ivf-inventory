@@ -150,7 +150,7 @@ class Brands extends Component {
                   checked={
                     this.state.multiSelect.includes(item._id) ? true : false
                   }
-                  onClick={e => {
+                  onChange={e => {
                     this.getId(item._id, e.currentTarget.checked);
                   }}
                 />
