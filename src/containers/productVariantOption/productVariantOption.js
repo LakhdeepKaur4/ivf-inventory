@@ -15,35 +15,44 @@ class ProductVariantOption extends Component {
             picture: '',
             title: '',
             optionTitle: '',
-            inventoryStock: '',
+            inventoryQuantity: '',
+            color:'',
             price: '',
             originCountry: '',
             width: '',
             length: '',
             height: '',
             weight: '',
-            host:''
+            host:'',
+            pictures: []
         }
     }
 
     
-    //for variants
-    renderVariants({ productVariant }) {
+    
+      //for variants
+      renderVariants({ productVariant }) {
         let variantsHtml = null;
         if (productVariant) {
-            variantsHtml= productVariant.map((item=>{
-                     return(
-                    <div>{item.title}<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditVariant.bind(this,item.title)} style={{ color: '#A3A6B4' }}></i></span>
-                    <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
-                    <div className="variants-option">
-                        <div>
-                            <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditOptionForm} style={{ color: '#A3A6B4' }}></i></span></div>
-                            <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color</span></div>
-                        </div>
-                    </div>
-                </div>
-                     )
-            }))  
+            if(productVariant && productVariant.length){
+                variantsHtml= productVariant.map(item=>{        
+                    return(
+                   <div>{item.title}<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditVariant.bind(this,item.title)} style={{ color: '#A3A6B4' }}></i></span>
+                   <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
+                   <div className="variants-option">
+                         {item.options ? item.options.map(option1=>{
+                                return <div>
+                                 <div>{option1.title}<span><i className="fa fa-edit float-right" aria-hidden="true" 
+                                 onClick={this.displayEditOptionForm.bind(this,item.title,option1.title)} style={{ color: '#A3A6B4' }}></i></span></div>
+                                 <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color {option1.color}</span></div>
+                                 </div>
+                                 }) : ''
+                             }  
+                   </div>
+               </div>
+                    )
+           }) 
+            }
         }
         let wrapper = (<div className="variants">
             <h5>Variants<span onClick={this.displayVariantForm}><i className="fa fa-plus" aria-hidden="true" style={{ float: 'right' }}></i></span></h5>
@@ -60,21 +69,28 @@ class ProductVariantOption extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('handle uploading-', this.state.file);
+        
     }
 
-    handleImageChange = (e) => {
-        e.preventDefault();
-        let reader = new FileReader();
-        let file = e.target.files[0];
-        reader.onloadend = () => {
-            this.setState({
-                fileName: file.name,
-                picture: reader.result
-            });
-        }
-        reader.readAsDataURL(file)
-    }
+   
+  handleImageChange = e => {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = e => {
+      let obj = {};
+      (obj.fileName = file.name), (obj.picture = e.target.result);
+     
+      this.setState({
+        fileName: file.name,
+        picture: e.target.result,
+        pictures: [...this.state.pictures, obj]
+      });
+    
+    };
+    reader.readAsDataURL(file);
+  };
 
     displayEditVariant = (title) => {
         this.props.history.push(`/createProduct/editVariant/${title}`);
@@ -85,13 +101,44 @@ class ProductVariantOption extends Component {
     };
 
     displayOptionForm = () => {
-        this.props.history.push("/createProduct/variant/:title/createOption");
+        let variantTitle = this.props.match.params.id;
+        this.props.history.push(`/createProduct/variant/${variantTitle}/createOption`);
     };
 
-    // displayEditOptionForm = () => {
-    //     this.props.history.push(`/createProduct/variant/:title/editOption/title`);
-    // };
+    
+    displayEditOptionForm = (varTitle, optTitle) => {
+        this.props.history.push(`/createProduct/variant/${varTitle}/editOption/${optTitle}`);
+    };
+    
+    componentWillReceiveProps(){
+  
+        let optionId = this.props.match.params.id;
+        let variantTitle = this.props.match.params.title;
+       
+        if(optionId){
+            let variant = this.props.CreateProductReducer.productVariant.find(variant=>variant.title == variantTitle);
+            let optionInd = variant.options.findIndex(option=>option.title == optionId);
+            
+            let option = variant.options[optionInd];
+            
+            // this.props.updateVariant(variants);
+            this.setState({
+            fileName: option.fileName,
+            pictures: option.pictures,
+            title: option.title,
+            optionTitle: option.optionTitle,
+            inventoryQuantity:option.inventoryQuantity,
+            originCountry: option.originCountry,
+            color: option.color,
+            price:option.price,
+            width: option.width,
+            length: option.length,
+            height: option.height,
+            weight: option.weight,
+            })
+        }
 
+    }
 
     formSubmit = () => {
         let optionId = this.props.match.params.id;
@@ -103,7 +150,8 @@ class ProductVariantOption extends Component {
         if(optionId){
             // variant.options[]
             // options[index] = this.state;
-            
+            let optionInd = variant.options.findIndex(option=>option.title == optionId);
+            variant.options[optionInd] = this.state;
         }
         else{
             if(variant.options){
@@ -113,28 +161,37 @@ class ProductVariantOption extends Component {
                 variant.options = [this.state];
             }
         }
+        this.props.productOption(this.state)
         this.props.updateVariant(variants);
         this.props.history.push("/createProduct");
 
     }
 
 
-    getProductData = ({ postOption }) => {
-        if (postOption) {
-            let jsxData = (
-                <tr>
-                    <td><span className="orderNo">1</span></td>
-                    <td><img src={postOption.picture} className="img-fluid" alt="image" /></td>
-                    <td>{postOption.title}</td>
-                    <td>{postOption.price}</td>
-                    <td>{postOption.inventoryStock}</td>
-                    {(postOption.visible === "Visible") ? <td style={{ color: 'green' }}> {postOption.visible} </td> : <td style={{ color: 'red' }}> {postOption.visible}</td>}
-                    <td><i className="fa fa-edit" aria-hidden="true" onClick={this.displayEditOptionForm}></i></td>
-                </tr>
-            )
-            return jsxData;
+    getProductData({ productVariant }) {
+        if (productVariant) {
+            if(productVariant && productVariant.length){
+                return productVariant.map(item=>{    
+                    return item.options ? item.options.map(postOption=>{ 
+                    return  <tr>
+                                <td><span className="orderNo">1</span></td>
+                                <td><img src={postOption.picture} className="img-fluid" alt="image" /></td>
+                                <td>{postOption.title}</td>
+                                <td>{postOption.price}</td>
+                                <td>{postOption.inventoryQuantity}</td>
+                                {(postOption.visible === "Visible") ? <td style={{ color: 'green' }}> {postOption.visible} </td> : <td style={{ color: 'red' }}> {postOption.visible}</td>}
+                                <td><i className="fa fa-edit" aria-hidden="true" 
+                                 onClick={this.displayEditOptionForm.bind(
+                                    this,
+                                    item.title,
+                                    postOption.title
+                                  )}></i></td>
+                                </tr>
+                    }) : ''     
+               })
+              } 
+            }
         }
-    }
 
     setHost = async (host) => {
         await this.setState({ host: host });
@@ -175,28 +232,34 @@ class ProductVariantOption extends Component {
                                             <div className="h5 small text-danger">Title</div>
                                             <div className="form-row col-12 ">
                                                 <div className="form-group col-12 createProduct">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="title" onChange={this.onChange} id="title" placeholder="Option 1" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="title" value={this.state.title} onChange={this.onChange} id="title" placeholder="Option 1" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
                                                 <div className="form-group col-12 createProduct">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="optionTitle" name="optionTitle" onChange={this.onChange} placeholder="Option Title" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="optionTitle" name="optionTitle" value={this.state.optionTitle} onChange={this.onChange} placeholder="Option Title" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
                                                 <div className="form-group col-12 createProduct">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inventoryStock" name="inventoryStock" onChange={this.onChange} placeholder="Inventory Stock" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inventoryQuantity" name="inventoryQuantity" value={this.state.inventoryQuantity} onChange={this.onChange} placeholder="Inventory Stock" />
+                                                </div>
+                                            </div>
+
+                                            <div className="form-row col-12">
+                                                <div className="form-group col-12 createProduct">
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="color" name="color" value={this.state.color} onChange={this.onChange} placeholder="Color" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
                                                 <div className="form-group col-12 createProduct">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="price" name="price" onChange={this.onChange} placeholder="Price" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="price" name="price" value={this.state.price} onChange={this.onChange} placeholder="Price" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
                                                 <div className="form-group col-12 row mx-auto">
                                                     <div className="col-12 mx-0 p-0">
-                                                        <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="originCountry" onChange={this.onChange} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
+                                                        <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" name="originCountry" value={this.state.originCountry} onChange={this.onChange} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
                                                             <option>Origin country</option>
                                                             <option>U.K</option>
                                                             <option>RUSSIA</option>
@@ -207,18 +270,18 @@ class ProductVariantOption extends Component {
                                             </div>
                                             <div className="form-row col-12 createProduct">
                                                 <div className="form-group col-6">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="width" name="width" onChange={this.onChange} placeholder="Width" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="width" name="width" value={this.state.width}  onChange={this.onChange} placeholder="Width" />
                                                 </div>
                                                 <div className="form-group col-6">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="length" name="length" onChange={this.onChange} placeholder="Length" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="length" name="length" value={this.state.length}  onChange={this.onChange} placeholder="Length" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12 createProduct">
                                                 <div className="form-group col-6">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="height" name="height" onChange={this.onChange} placeholder="Height" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="height" name="height" value={this.state.height} onChange={this.onChange} placeholder="Height" />
                                                 </div>
                                                 <div className="form-group col-6">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="weight" name="weight" onChange={this.onChange} placeholder="Weight" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="weight" name="weight" value={this.state.weight} onChange={this.onChange} placeholder="Weight" />
                                                 </div>
                                             </div>
                                         </form>
@@ -239,13 +302,6 @@ class ProductVariantOption extends Component {
                                                     <tbody>
                                                         <tr className="row mx-auto">
                                                             <td class="col-3"><span className="orderNo">11</span></td>
-                                                            <td class="col-9 row px-0">
-                                                                <div className="col-6">{$imagePreview}</div>
-                                                                <div className="col-3 mt-1"><i className="fa fa-close float-right close-icon" aria-hidden="true"></i></div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr className="row mx-auto">
-                                                            <td class="col-3"><span className="orderNo">12</span></td>
                                                             <td class="col-9 row px-0">
                                                                 <div className="col-6">{$imagePreview}</div>
                                                                 <div className="col-3 mt-1"><i className="fa fa-close float-right close-icon" aria-hidden="true"></i></div>
@@ -300,7 +356,7 @@ class ProductVariantOption extends Component {
                         </div>
                         <div className="float-right m-5">
                             <button className="button-back mr-3" onClick={this.displayVariantForm}><span className="text-btn-back">BACK</span></button>
-                            <button type="submit" className="button-variant" onClick={this.formSubmit}><span className="text-btn">CREATE OPTION</span></button>
+                            <button type="submit" className="button-variant" onClick={this.formSubmit}><span className="text-btn">{this.props.match.params.id?'SAVE':'CREATE'} OPTION</span></button>
                         </div>
                     </div>
                 </Dashboard>
