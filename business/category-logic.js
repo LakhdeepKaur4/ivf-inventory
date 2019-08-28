@@ -133,6 +133,19 @@ exports.getParticularCategory = async (req, res, next) => {
   }
 }
 
+exports.getCategoryById = async (req, res, next) => {
+  try {
+    const category = await Category.findOne({ _id: req.params.id }).populate({
+      path: 'parent', populate: { path: 'parent' }
+    });
+    if (category) {
+      return res.send({ category });
+    }
+  } catch (error) {
+    return res.send(error);
+  }
+}
+
 exports.testCategory = async (req, res, next) => {
   try {
     const category = await Category.aggregate([{

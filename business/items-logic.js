@@ -8,7 +8,7 @@ const ObjectId = mongoose.Types.ObjectId;
 exports.createItems = async (req, res, next) => {
   try {
     let body = req.body;
-    // console.log("body", req.body);
+    console.log("body", req.body);
     const item = await new Item(body).save();
     const itemId = item._id;
     let itemsUrl = "../public/images/items/";
@@ -41,7 +41,7 @@ exports.createItems = async (req, res, next) => {
       await ItemVariant.update({ _id: savedVariants._id }, { $addToSet: { ancestors: itemId } });
       await Item.update({ _id: itemId }, { $push: setObject });
       delete setObject["variants." + variantIndex + ".ancestors"];
-      if (variant.picture !== null && variant.picture != undefined) {
+      if (variant.pictures !== null && variant.pictures != undefined) {
         variant.pictures.map(async (picture, picIndex) => {
           await helper.saveToDisc(variantsUrl, savedVariants._id, picture.fileName, picture.fileExt, picture.picture, (err, res) => {
             if (err) {
