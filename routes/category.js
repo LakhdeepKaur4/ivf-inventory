@@ -12,6 +12,8 @@ router.route("/search").get(controller.searchCategory);
 
 router.route("/initial").get(controller.getInitialCategory);
 
+router.route("/edit/:id").get(controller.getCategoryById);
+
 // router.route("/initial/test").get(controller.testCategory);
 
 router.route("/:id").get(controller.getParticularCategory);
