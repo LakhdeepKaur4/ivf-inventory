@@ -22,7 +22,6 @@ class FileStructure extends Component{
             this.setState({ show: false, showSub: false });
         }
         push = (host,id) => {
-            console.log('parent id',id)
             this.setState({ parent: id });
             this.props.GetParticularCategory(host,id);
             this.setState({ show: true });
@@ -39,13 +38,8 @@ class FileStructure extends Component{
                 )
             }
         }
-        // getCategory = (id,host) => {
-        //     console.log('edwed',id,host)
-        //     this.setState({ parent: id, show: false, showSub: true });
-        //     this.props.GetSubCategory(id,host);
-        // }
+        
         getParticularCategory = ({ getParticularCategory }) => {
-            console.log('parent',getParticularCategory);
             if (getParticularCategory) {
                 if ($(`#${this.state.parent}`).children().length !== 1) {
                     return true;

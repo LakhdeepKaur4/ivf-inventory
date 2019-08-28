@@ -59,7 +59,7 @@ class ProductsView extends Component {
                     })
                     this.setState({ allProductIds: Ids, limit:res.payload.items.limit, totalItemsCount:res.payload.items.total })
                 }
-            }).then(() => console.log(this.state));
+            })
             if(this.state.productID){
             const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
             .then(response => {
@@ -71,7 +71,6 @@ class ProductsView extends Component {
 
 
     handlePageChange = (pageNumber) => {
-        console.log(`active page is ${pageNumber}`);
         // this.props.getPageDetails(pageNumber);
     }
 

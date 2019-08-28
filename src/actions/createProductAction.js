@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import{CREATE_PRODUCT,POST_CREATE_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT} from '../actionCreators/index';
+import{CREATE_PRODUCT,POST_CREATE_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT, UPDATE_VARIANT} from '../actionCreators/index';
 
 
 
@@ -18,7 +18,6 @@ export function createProductDetails(URL){
 
 
 export const productOption=(data)=>{
- 
     return {
         type: POST_CREATE_PRODUCT,
         payload:data
@@ -39,5 +38,13 @@ export const productData=(URL,data)=>{
  
          type:PRODUCT_DATA,
          payload: request 
+     }
+}
+
+export const updateVariant=(variants)=>{
+     
+     return{
+         type:UPDATE_VARIANT,
+         payload: variants
      }
 }

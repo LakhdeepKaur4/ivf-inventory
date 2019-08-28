@@ -33,25 +33,21 @@ class CreateProduct extends Component {
 
 
 
-    componentDidMount() {
-        // this.props.getBrands();
-        // this.props.createProductDetails();
-    }
+    
 
     //for variants
     renderVariants({ productVariant }) {
-        console.log(productVariant, "variants==============");
+       
         let variantsHtml = null;
         if (productVariant) {
 
             variantsHtml = productVariant.map((item => {
-                console.log(item);
                 return (
-                    <div>{item.title}<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayVariantForm} style={{ color: '#A3A6B4' }}></i></span>
+                    <div>{item.title}<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditVariant.bind(this,item.title)} style={{ color: '#A3A6B4' }}></i></span>
                         <div className="h5 small"><span style={{ color: '#1ABC9C' }}>Visible</span> <span>- XL SIZE</span></div>
                         <div className="variants-option">
                             <div>
-                                <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayOptionForm} style={{ color: '#A3A6B4' }}></i></span></div>
+                                <div>Option 1<span><i className="fa fa-edit float-right" aria-hidden="true" onClick={this.displayEditOptionForm} style={{ color: '#A3A6B4' }}></i></span></div>
                                 <div className="h5 small"><span className="text-danger">Hidden</span> <span>- color</span></div>
                             </div>
                         </div>
@@ -153,7 +149,6 @@ class CreateProduct extends Component {
     //for picture
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('handle uploading-', this.state.fileName);
     }
 
     handleImageChange = (e) => {
@@ -168,21 +163,30 @@ class CreateProduct extends Component {
         }
         reader.readAsDataURL(file)
     }
+    
+   
+
+    displayEditVariant = (title) => {
+        this.props.history.push(`/createProduct/editVariant/${title}`);
+    };
 
     displayVariantForm = () => {
-        this.props.history.push("/productVariant");
+        this.props.history.push("/createProduct/createVariant");
     };
 
     displayOptionForm = () => {
-        this.props.history.push("/productVariantOption");
+        this.props.history.push("/createProduct/variant/:title/createOption");
     };
+
+    // displayEditOptionForm = () => {
+    //     this.props.history.push(`/createProduct/variant/:title/editOption/title`);
+    // };
 
     previousForm = () => {
         this.props.history.push("/productsView");
     };
 
     formSubmit = () => {
-        console.log(createProductDetails());
         this.props.productData(this.state.host,this.createFinalProdData());
         this.props.history.push("/productsView");
     }
@@ -192,8 +196,7 @@ class CreateProduct extends Component {
         let data = {
             ...productOption,
             variants: [{
-                ...variants,
-                options: this.state
+                ...variants
             }]
         }
         return data;
@@ -279,17 +282,19 @@ class CreateProduct extends Component {
                                             </div>
                                         </div>
                                     </div>
+
+
                                     <div className="col-sm-4">
                                         <label><h5>Details</h5></label>
                                         <div className="text-muted">
                                             <form onSubmit={this.formSubmit} >
                                                 <div className="h5 small text-danger">Title</div>
                                                 <div className="form-row col-12">
-                                                    <div className="form-group col-12">
+                                                    <div className="form-group col-12 createProduct">
                                                         <input type="text" className="form-control  border border-top-0 border-right-0 border-left-0 border-dark rounded-0 " id="inputSportWear" name="name" placeholder="T-shirt Sportwear Nike" onChange={this.onChange} />
                                                     </div>
                                                 </div>
-                                                <div className="form-row col-12">
+                                                <div className="form-row col-12" >
                                                     <div className="form-group col-12 row mx-auto">
                                                         <div className="col-12 mx-0 p-0">
                                                             <select className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" placeholder="brand" name="_id" onChange={this.onChangeBrand} placeholder="Origin country" style={{ backgroundColor: '#F2F4F7' }} type="select">
@@ -301,17 +306,19 @@ class CreateProduct extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="form-row col-12">
-                                                    <div className="form-group col-12">
+                                                    <div className="form-group col-12 createProduct">
                                                         <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputAddress" name="subTitle" placeholder="Subtitle" onChange={this.onChange} />
                                                     </div>
                                                 </div>
                                                 <div className="form-row col-12">
-                                                    <div className="form-group col-12">
-                                                        <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputVendor" name="vendor" placeholder="Vendor" onChange={this.onChange} />
+                                                    <div className="form-group col-12 createProduct">
+                                                        <input type="text" 
+                                                        
+                                                        className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputVendor" name="vendor" placeholder="Vendor" onChange={this.onChange} />
                                                     </div>
                                                 </div>
                                                 <div className="form-row col-12">
-                                                    <div className="form-group col-12">
+                                                    <div className="form-group col-12 createProduct">
                                                         <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputDescription" name="description" placeholder="Description" onChange={this.onChange} />
                                                     </div>
                                                 </div>
@@ -328,13 +335,14 @@ class CreateProduct extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="form-row col-12">
-                                                    <div className="form-group col-12">
+                                                    <div className="form-group col-12 createProduct">
                                                         <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="inputTemplate" name="template" placeholder="Template" onChange={this.onChange} />
                                                     </div>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
+
                                     <div className="col-sm-4">
                                         <label><h5>Media Galary</h5></label>
                                         <div className="col-12 p-0">
@@ -463,6 +471,7 @@ class CreateProduct extends Component {
 }
 
 function mapStateToProps(state) {
+   
     return {
         CreateProductReducer: state.CreateProductReducer,
         BrandsReducer: state.BrandsReducer
