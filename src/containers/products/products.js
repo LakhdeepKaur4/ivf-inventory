@@ -86,7 +86,7 @@ class Products extends Component {
                 <div>
                     <Dashboard>
                         <div className="mt-4 ml-4">
-                            <h4>Products</h4>
+                           <h4>Products</h4>
                         </div>
 
                 <div className="md-stepper-horizontal orange">

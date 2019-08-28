@@ -35,7 +35,7 @@ class ClassCategory extends Component {
             errors:{},
             host:'',
             _id:props.match.params.id,
-            id:''
+            editData:[]
         }
 
     }
@@ -51,8 +51,15 @@ class ClassCategory extends Component {
         });
         
         if(this.state._id) {
-            const request = axios.get(`${host}/api/category/${this.state._id}`)
-            .then( response =>response.data)
+            const request = axios.get(`${host}/api/category/edit/${this.state._id}`)
+            .then( res => {
+                this.setState({
+                    editData:res.data
+                })
+                console.log(res.data)
+            })
+
+            
         }
     }
 
@@ -77,9 +84,11 @@ class ClassCategory extends Component {
         this.setState({ editorChange, description: desc });
         this.setState({ show: false, showSub: false });
     }
+
     getFiles = (files) => {
         this.setState({ fileName: files[0].name, picture: files[0].base64 });
     }
+
     submit = () => {
         let errors={};
         if(this.state.name=='') errors.name='Please enter name';
@@ -121,6 +130,7 @@ class ClassCategory extends Component {
             )
         }
     }
+
     getParticularCategory = ({ getParticularCategory }) => {
         if (getParticularCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
@@ -147,6 +157,7 @@ class ClassCategory extends Component {
         this.props.GetSubCategory(this.state.host,id);
         this.highlighter(e.currentTarget);
     }
+
     getSubCategory = ({ getSubCategory }) => {
         if (getSubCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
@@ -163,9 +174,11 @@ class ClassCategory extends Component {
         }
         return;
     }
+
     fileAttach=()=>{
         this.st
     }
+    
     render() {
         return (
             <HostResolver hostToGet="inventory" hostResolved={host => {

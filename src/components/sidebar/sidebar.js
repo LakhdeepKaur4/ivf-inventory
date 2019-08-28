@@ -140,12 +140,14 @@ class Sidebar extends Component {
                                 {(this.state.pageOn === 'brands') ? <Link to="/brands" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
-                                        </span><span style={{ color: "red" }}>Push Products</span>
-                                    </Link> : <Link to="/brands" >
+                                        </span><span style={{ color: "red" }}>View Brands</span>
+                                    </Link> : 
+                                    <Link to="/brands" >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
-                                            </span>View Brands
-                                    </Link>}
+                                            </span><span>View Brands</span>
+                                    </Link>
+                                }
                                 </li>
                             </ul>
                         </li>
