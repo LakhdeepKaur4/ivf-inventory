@@ -28,8 +28,10 @@ class ProductsView extends Component {
     }
 
     btnClick = (id) => {
+        console.log(id,this.state.visible);
         let ids = this.state.visible;
         if (ids.includes(id) === true) {
+            console.log(1);
             ids.splice(ids.indexOf(id), 1);
         } else {
             ids.push(id);
@@ -183,7 +185,7 @@ class ProductsView extends Component {
                                 {item.price ? item.price.range : ''}
                             </td>
                             <td>
-                                <div><button className="button button1 active" onClick={() => this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
+                                <div><button className="button button1 active" onClick={() => this.btnClick(item._id)}>{(this.state.visible.includes(item._id)) ? 'Invisible' : 'Visible'}</button></div>
                                 <div><button className="button button2" onClick={this.btnClick}>Bookmark</button></div>
                             </td>
                             <td>
