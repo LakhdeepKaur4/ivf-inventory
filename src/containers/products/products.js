@@ -18,7 +18,6 @@ class Products extends Component {
     }
 
     setHost = host => {
-        console.log("=================", host)
         this.setState({ host });
         this.props.getProductsItem(host);
     }
@@ -30,7 +29,6 @@ class Products extends Component {
     productsItem=({productItem}) =>{
         if(productItem && productItem.items) {
            return productItem.items.map((item)=> {
-               console.log("------------------",item)
                return (
                 <tr key={item.cartProductId}>
                     <td>{item.productTitle}</td>
@@ -88,7 +86,7 @@ class Products extends Component {
                 <div>
                     <Dashboard>
                         <div className="mt-4 ml-4">
-                            <h4>Products</h4>
+                           <h4>Products</h4>
                         </div>
 
                 <div className="md-stepper-horizontal orange">

@@ -14,7 +14,6 @@ class BlogPost extends Component {
     }
 
     componentDidMount() {
-        console.log(React.version)
         $('#file-upload').change(function () {
             var i = $(this).prev('label').clone();
             var file = $('#file-upload')[0].files[0].name;
@@ -63,7 +62,7 @@ class BlogPost extends Component {
                                             <label style={{ color: "#555555" }}>Post Thumbnail</label>
                                         </div>
                                         <div className="md-form active-purple-2 mb-3 col-6">
-                                            <label for="file-upload" className="custom-file-upload">CHOOSE</label>
+                                            <label htmlFor="file-upload" className="custom-file-upload">CHOOSE</label>
                                             <label className="ml-2" style={{color:"#888888"}}></label>
                                             <input id="file-upload" type="file" />
                                         </div>

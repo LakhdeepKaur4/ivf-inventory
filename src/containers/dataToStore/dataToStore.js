@@ -7,6 +7,7 @@ import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
 import './dataToStore.css';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import '../../commonCss/stepbar.css'
 
 class DataToStore extends Component{
     flag = false;
@@ -91,7 +92,6 @@ class DataToStore extends Component{
     navigateNext=()=>{;
         this.setState({error:true})
         this.flag = true;
-        console.log(this.state.storeIds.length)
         if(this.state.storeIds.length){
             this.props.history.push(`/pushDataToStore/${this.state.productId}/${this.state.storeIds}`)
         } 
@@ -179,13 +179,13 @@ let navIcon=
            <Dashboard>
                 {navLink}
                 <div className="md-stepper-horizontal orange">
-                    <div className="md-step active done">
+                    <div className="md-step active done products">
                         <div className="md-step-circle"><span>1</span></div>
                         <div className="md-step-title text-danger">Select Products</div>
                         <div className="md-step-bar-left"></div>
                         <div className="md-step-bar-right"></div>
                     </div>
-                    <div className="md-step inactive1">
+                    <div className="md-step inactive1 prdStep">
                         <div className="md-step-circle"><span className="text-danger">2</span></div>
                         <div className="md-step-title">Save to Store</div>
                         <div className="md-step-bar-left"></div>

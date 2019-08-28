@@ -17,19 +17,21 @@ class ProductsView extends Component {
             limit: '',
             totalItemsCount: '',
             filterName: 'name',
-            sortVal: false,
+            sortVal: true,
             ids: [],
             visible: [],
             allProductIds: [],
             productId: [],
-            productID:props.match.params.id,
-            host:''
+            productID: props.match.params.id,
+            host: ''
         }
     }
 
     btnClick = (id) => {
+        console.log(id,this.state.visible);
         let ids = this.state.visible;
         if (ids.includes(id) === true) {
+            console.log(1);
             ids.splice(ids.indexOf(id), 1);
         } else {
             ids.push(id);
@@ -48,30 +50,29 @@ class ProductsView extends Component {
         this.setState({ productId: IDS })
     }
     setHost = host => {
-        var defaultPage=this.state.activePage;
-        this.setState({host});         
-        this.props.getProductsView(host, this.state.productID,defaultPage)
+        var defaultPage = this.state.activePage;
+        this.setState({ host });
+        this.props.getProductsView(host, this.state.productID, defaultPage)
             .then((res) => {
                 let Ids = [];
-                if(res.payload && res.payload.items && res.payload.items.docs){
+                if (res.payload && res.payload.items && res.payload.items.docs) {
                     res.payload.items.docs.map((item) => {
                         Ids.push(item._id)
                     })
-                    this.setState({ allProductIds: Ids, limit:res.payload.items.limit, totalItemsCount:res.payload.items.total })
+                    this.setState({ allProductIds: Ids, limit: res.payload.items.limit, totalItemsCount: res.payload.items.total })
                 }
-            }).then(() => console.log(this.state));
-            if(this.state.productID){
-            const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
-            .then(response => {
-               
             })
+        if (this.state.productID) {
+            const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
+                .then(response => {
+
+                })
         }
-        
+
     }
 
 
     handlePageChange = (pageNumber) => {
-        console.log(`active page is ${pageNumber}`);
         // this.props.getPageDetails(pageNumber);
     }
 
@@ -81,10 +82,10 @@ class ProductsView extends Component {
 
     searchFilter = (search) => {
         return function (x) {
-            return x.sku?x.sku.toLowerCase().includes(search.toLowerCase()) ||
+            return x.sku ? x.sku.toLowerCase().includes(search.toLowerCase()) ||
                 x.stock.toString().includes(search.toString()) ||
                 x.name.toLowerCase().includes(search.toLowerCase()) ||
-                !search:true;
+                !search : true;
         }
     }
 
@@ -121,22 +122,49 @@ class ProductsView extends Component {
         this.setState({ productId: IDS })
     }
 
-    productsResult = ({ productList }) => {
-        let data = [];
-        if(this.props.match.params.id){
-            data = productList;            
+    sorted = (arr, way) => {
+        if (way === 'inc') {
+            arr.sort((a, b) => {
+                var orderBool = a.name > b.name;
+                return orderBool ? 1 : -1;
+            })
+        } else {
+            arr.sort((a, b) => {
+                var orderBool = a.name < b.name;
+                return orderBool ? 1 : -1;
+            })
         }
-        else if(productList && productList.items && productList.items.docs){
+
+        return arr
+    }
+
+    productsResult = ({ productList }) => {
+        console.log(productList);
+        let data = [];
+        if (this.props.match.params.id) {
+            console.log(1)
+            data = productList;
+        }
+        else if (productList && productList.items && productList.items.docs) {
+
             data = productList.items.docs
+            console.log(data)
         }
         if (data && data.length) {
-            return data.sort((item1, item2) => {
-                var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
-                return this.state.sortVal ? cmprVal : -cmprVal;
-            })
-                .filter(this.searchFilter(this.state.search))
-                .
-                map((item) => {
+            console.log(typeof (data));
+            let arr = [];
+            for (let x of data) {
+                arr.push(x);
+            }
+            console.log(arr);
+            let arrReturned
+            if (this.state.sortVal === true) {
+                arrReturned = this.sorted(arr, 'inc');
+            } else {
+                arrReturned = this.sorted(arr, 'dec');
+            }
+            return arrReturned.filter(this.searchFilter(this.state.search))
+                .map((item) => {
                     return (
                         <tr>
                             <td scope="row">
@@ -154,10 +182,10 @@ class ProductsView extends Component {
                                 {item.optStock}
                             </td>
                             <td>
-                                {item.price?item.price.range:''}
+                                {item.price ? item.price.range : ''}
                             </td>
                             <td>
-                                <div><button className="button button1 active" onClick={() => this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
+                                <div><button className="button button1 active" onClick={() => this.btnClick(item._id)}>{(this.state.visible.includes(item._id)) ? 'Invisible' : 'Visible'}</button></div>
                                 <div><button className="button button2" onClick={this.btnClick}>Bookmark</button></div>
                             </td>
                             <td>
@@ -222,7 +250,7 @@ class ProductsView extends Component {
         this.props.history.push('/createProduct');
     }
     render() {
-       
+
         let tableData =
             <div className="table-responsive card text-dark">
                 <table className="table">
@@ -334,35 +362,35 @@ class ProductsView extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
-            <div>
-                <Dashboard>
+                <div>
+                    <Dashboard>
 
 
-                    <div>
-                        {navLink}
-                    </div>
-                    {navIcon}
+                        <div>
+                            {navLink}
+                        </div>
+                        {navIcon}
 
-                    <div style={{ float: 'right' }}>
-                        <Pagination activePage={this.state.activePage}
-                            itemsCountPerPage={this.state.limit}
-                            totalItemsCount={this.state.totalItemsCount}
-                            onChange={this.handlePageChange}
-                            itemClass='page-item'
-                            linkClasss='page-link'
-                        />
-                    </div>
+                        <div style={{ float: 'right' }}>
+                            <Pagination activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.limit}
+                                totalItemsCount={this.state.totalItemsCount}
+                                onChange={this.handlePageChange}
+                                itemClass='page-item'
+                                linkClasss='page-link'
+                            />
+                        </div>
 
-                    <div>
-                        {tableData}
-                    </div>
-                    <div>
-                        {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
-                    </div>
+                        <div>
+                            {tableData}
+                        </div>
+                        <div>
+                            {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
+                        </div>
 
 
-                </Dashboard>
-            </div>
+                    </Dashboard>
+                </div>
 
             </HostResolver>
         )

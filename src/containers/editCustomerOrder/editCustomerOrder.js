@@ -54,12 +54,10 @@ class EditCustomerOrder extends Component {
         e.preventDefault();
         const { name, surname, email, address, city, region, postalCode, phone } = this.state;
         this.props.addCustomer(this.state.host,name, surname, email, address, city, region, postalCode, phone);
-        console.log(name, surname, email, address, city, region, postalCode, phone);
     }
 
     viewCustomer = ({ view }) => {
         if (view) {
-            console.log(view)
             return view.customer ? view.customer.map((item) => <option key={item.customerId}>{item.name}</option>) : ''
         }
     }

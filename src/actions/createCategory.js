@@ -34,7 +34,6 @@ export function GetSubCategory(URL,id){
 
 }
 export function onSubmit(URL,values){
-    console.log(URL,values)
     const request = axios.post(`${URL}/api/category/`,values)
     .then((response => response.data))
 

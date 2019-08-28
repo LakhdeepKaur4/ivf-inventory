@@ -228,7 +228,7 @@ class CreateProduct extends Component {
 
   formSubmit = () => {
     this.props.productData(this.state.host, this.createFinalProdData());
-    // this.props.history.push("/productsView");
+    this.props.history.push("/productsView");
   };
 
   createFinalProdData() {

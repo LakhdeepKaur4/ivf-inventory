@@ -51,3 +51,11 @@
     top:50%;
     left:50%;
 }
+
+.md-stepper-horizontal.editorder .md-step .md-step-bar-left,
+.md-stepper-horizontal.editorder .md-step .md-step-bar-right {
+	position: absolute;
+    top: 36px;
+    height: 2px;
+    border-top: 1px solid #F74A4A;
+}
