@@ -115,18 +115,25 @@ class ClassCategory extends Component {
                 .then(() => this.props.GetInitialCategory(this.state.host));
         }
     }
-
-    push = (id) => {
+    push = (e,id) => {
+        console.log(e.currentTarget);
+        
         this.setState({ parent: id });
         this.props.GetParticularCategory(this.state.host, id);
         this.setState({ show: true });
+        this.highlighter(e.currentTarget);
+    }
+
+    highlighter = ele => {
+        $('.higlightStructure').removeClass('higlightStructure');
+        $(ele).addClass('higlightStructure');
     }
 
     getInitialCategory = ({ initialCategory }) => {
         if (initialCategory) {
             return initialCategory.category.map((item) => {
                 return (
-                    <div id={item._id}><div className="fa fa-folder" onClick={() => this.push(item._id)} key={item._id} value={item._id}>
+                    <div id={item._id}><div className="fa fa-folder" onClick={(e) => this.push(e,item._id)} key={item._id} value={item._id}>
                         {item.name}</div></div>
                 )
             }
@@ -148,17 +155,17 @@ class ClassCategory extends Component {
                     <i class="fa fa-folder ml-3"
                     name="getParticularCategory" />${item.name}
                     </div></div>`),
-                            $(`#${item._id} > div`).click(() => this.getCategory(item._id));
+                            $(`#${item._id} > div`).click((e) => this.getCategory(e,item._id));
                     }
                 }))
             }
         }
         return true;
     }
-
-    getCategory = (id) => {
+    getCategory = (e,id) => {
         this.setState({ parent: id, show: false, showSub: true });
         this.props.GetSubCategory(this.state.host, id);
+        this.highlighter(e.currentTarget);
     }
 
     getSubCategory = ({ getSubCategory }) => {
