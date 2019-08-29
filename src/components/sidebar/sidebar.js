@@ -91,11 +91,15 @@ class Sidebar extends Component {
                                     </Link>}
                                 </li>
                                 <li>
-                                    <a href="#">
+                                {(this.state.pageOn === 'storeSettings') ? <Link to="/storeSettings" >
                                         <span>
-                                            <i className="far fa-circle" aria-hidden="true"></i>
-                                        </span>Store Settings
-                                    </a>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>Store Settings</span>
+                                    </Link> : <Link to="/storeSettings" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Store Settings
+                                    </Link>}
                                 </li>
                                 <li>
                                     <a href="#">

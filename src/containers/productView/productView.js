@@ -74,6 +74,7 @@ class ProductsView extends Component {
 
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
+        this.props.getProductsView(this.state.host,null,pageNumber);
     }
 
     searchOnChange = (e) => {
@@ -82,7 +83,7 @@ class ProductsView extends Component {
 
     searchFilter =  (x)=> {
         let search = this.state.search;
-            console.log('search==================',x)
+            console.log('search==================',x,search)
             return x.sku ? x.sku.toLowerCase().includes(search.toLowerCase()) ||
                 x.optStock.toString().includes(search.toString()) ||
                 x.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -124,6 +125,7 @@ class ProductsView extends Component {
     }
 
     sorted = (arr, way) => {
+        console.log(arr)
         if (way === 'inc') {
             arr.sort((a, b) => {
                 var orderBool = a.name > b.name;

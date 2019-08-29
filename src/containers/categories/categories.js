@@ -8,6 +8,7 @@ import './categories.css';
 import _ from 'lodash';
 import HostResolver from '../../components/resolveHost/resolveHost';
 import axios from 'axios';
+import { toasterMessage } from "../../utils.js";
 
 class Categories extends Component {
     constructor(props) {
@@ -38,7 +39,6 @@ class Categories extends Component {
 
     search(value) {
         const request = axios.get(`${this.state.host}/api/category/search?search=${value}`)
-        
         .then(response=> {
             return response.data.category
          })
@@ -226,10 +226,12 @@ class Categories extends Component {
 
                             </div>
 
-                            <table className="table table-hover" style={{ backgroundColor: 'transparent', marginTop: '2%' }}>
+                            <table className="table table-hover categoryList" style={{ backgroundColor: '#FFFFFF', marginTop: '2%' }}>
                                 <thead>
                                     <tr>
-                                        <th scope="col"><input type="checkbox" onClick={this.selectAll} /></th>
+                                        <th scope="col">
+                                            <input type="checkbox" onClick={this.selectAll} />
+                                        </th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Products</th>
                                         <th scope="col">PROD IN SC</th>
