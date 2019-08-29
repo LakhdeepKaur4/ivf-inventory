@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createProductDetails, productVariant, updateVariant,productOption } from '../../actions/createProductAction';
+import { createProductDetails, productVariant, updateVariant } from '../../actions/createProductAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 import HostResolver from '../../components/resolveHost/resolveHost';
@@ -17,7 +17,8 @@ class ProductVariantOption extends Component {
             optionTitle: '',
             inventoryQuantity: '',
             color:'',
-            price: '',
+            price: {},
+            range:'',
             originCountry: '',
             width: '',
             length: '',
@@ -62,9 +63,13 @@ class ProductVariantOption extends Component {
 
     }
 
-    onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-    }
+    onChange = e => {
+        let obj={}
+        if(e.target.name==='range'){
+          obj.range=e.target.value
+        }
+        this.setState({ [e.target.name]: e.target.value ,price:obj});
+      };
 
 
     handleSubmit = (e) => {
@@ -130,6 +135,7 @@ class ProductVariantOption extends Component {
             inventoryQuantity:option.inventoryQuantity,
             originCountry: option.originCountry,
             color: option.color,
+            range:option.range,
             price:option.price,
             width: option.width,
             length: option.length,
@@ -148,8 +154,6 @@ class ProductVariantOption extends Component {
         let variants = [...this.props.CreateProductReducer.productVariant];
         let variant = variants[index];
         if(optionId){
-            // variant.options[]
-            // options[index] = this.state;
             let optionInd = variant.options.findIndex(option=>option.title == optionId);
             variant.options[optionInd] = this.state;
         }
@@ -161,7 +165,7 @@ class ProductVariantOption extends Component {
                 variant.options = [this.state];
             }
         }
-        this.props.productOption(this.state)
+    
         this.props.updateVariant(variants);
         this.props.history.push("/createProduct");
 
@@ -177,7 +181,7 @@ class ProductVariantOption extends Component {
                                 <td><span className="orderNo">1</span></td>
                                 <td><img src={postOption.picture} className="img-fluid" alt="image" /></td>
                                 <td>{postOption.title}</td>
-                                <td>{postOption.price}</td>
+                                <td>{postOption.price.range}</td>
                                 <td>{postOption.inventoryQuantity}</td>
                                 {(postOption.visible === "Visible") ? <td style={{ color: 'green' }}> {postOption.visible} </td> : <td style={{ color: 'red' }}> {postOption.visible}</td>}
                                 <td><i className="fa fa-edit" aria-hidden="true" 
@@ -253,7 +257,7 @@ class ProductVariantOption extends Component {
                                             </div>
                                             <div className="form-row col-12">
                                                 <div className="form-group col-12 createProduct">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="price" name="price" value={this.state.price} onChange={this.onChange} placeholder="Price" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="range" name="range" value={this.state.range} onChange={this.onChange} placeholder="Price" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
@@ -373,7 +377,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createProductDetails, productVariant, productOption,updateVariant }, dispatch)
+    return bindActionCreators({ createProductDetails, productVariant,updateVariant }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductVariantOption);
