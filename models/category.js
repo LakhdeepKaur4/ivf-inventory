@@ -1,13 +1,11 @@
 var mongoose = require('mongoose');
-var textSearch = require('mongoose-text-search');
 var Schema = mongoose.Schema;
-
+var mongoosePaginate = require('mongoose-paginate');
 
 var categorySchema = new Schema({
   name: {
     type: String,
     index: true,
-    // text:true,
     maxlength: 128,
     required: true,
     trim: true
@@ -52,9 +50,7 @@ var categorySchema = new Schema({
   }
 })
 
-categorySchema.plugin(textSearch);
-// categorySchema.index({name: 'text'});
-// categorySchema.index({'$**': 'text'});
+categorySchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Category', categorySchema)
 
