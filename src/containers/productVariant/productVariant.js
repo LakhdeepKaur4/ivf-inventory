@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createProductDetails, productVariant, productOption,updateVariant } from '../../actions/createProductAction';
+import { createProductDetails, productVariant,updateVariant } from '../../actions/createProductAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 import HostResolver from '../../components/resolveHost/resolveHost';
@@ -17,7 +17,8 @@ class ProductVariant extends Component {
             optionTitle: '',
             originCountry: '',
             color: '',
-            price:'',
+            price:{},
+            range:'',
             width: '',
             length: '',
             height: '',
@@ -61,9 +62,13 @@ class ProductVariant extends Component {
 
     }
 
-    onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-    }
+    onChange = e => {
+        let obj={}
+        if(e.target.name==='range'){
+          obj.range=e.target.value
+        }
+        this.setState({ [e.target.name]: e.target.value ,price:obj});
+      };
 
 
     handleSubmit = (e) => {
@@ -117,12 +122,13 @@ class ProductVariant extends Component {
     formSubmit = () => {
        
         let variantTitle = this.props.match.params.id;
+        const {brandId, name,price,title, subTitle, vendor, description, originCountry, template,  hashtags, metafields, tagsInfo, pictures}=this.state
         
         if(variantTitle){
 
             let index = this.props.CreateProductReducer.productVariant.findIndex(variant=>variant.title == variantTitle);  
             let variants = [...this.props.CreateProductReducer.productVariant];
-            variants[index] = this.state;
+            variants[index] = {...this.state,options:variants[index].options};
             this.props.updateVariant(variants);
         }
         else{
@@ -140,7 +146,7 @@ class ProductVariant extends Component {
                                 <td><span className="orderNo">1</span></td>
                                 <td><img src={postOption.picture} className="img-fluid" alt="image" /></td>
                                 <td>{postOption.title}</td>
-                                <td>{postOption.price}</td>
+                                <td>{postOption.price.range}</td>
                                 <td>{postOption.inventoryQuantity}</td>
                                 {(postOption.visible === "Visible") ? <td style={{ color: 'green' }}> {postOption.visible} </td> : <td style={{ color: 'red' }}> {postOption.visible}</td>}
                                 <td><i className="fa fa-edit" aria-hidden="true" 
@@ -176,6 +182,7 @@ class ProductVariant extends Component {
             originCountry: variant.originCountry,
             color: variant.color,
             price:variant.price,
+            range:variant.range,
             width: variant.width,
             length: variant.length,
             height: variant.height,
@@ -186,7 +193,6 @@ class ProductVariant extends Component {
     }
 
     render() {
-        
         let { picture } = this.state;
         let $imagePreview = null;
 
@@ -239,7 +245,7 @@ class ProductVariant extends Component {
                                             </div>
                                             <div className="form-row col-12">
                                                 <div className="form-group col-12 createProduct">
-                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="price" name="price" value={this.state.price} onChange={this.onChange} placeholder="Price" />
+                                                    <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="range" name="range" value={this.state.range} onChange={this.onChange} placeholder="Price" />
                                                 </div>
                                             </div>
                                             <div className="form-row col-12">
@@ -362,7 +368,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ createProductDetails, productVariant, productOption,updateVariant }, dispatch)
+    return bindActionCreators({ createProductDetails, productVariant,updateVariant }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductVariant);

@@ -15,11 +15,12 @@ import {
 
 // Get all brands
 export function getBrands(URL) {
+  
   return dispatch => {
     axios
       .get(`${URL}/api/brands`)
       .then(response => {
-        dispatch({ type: BRANDS_LIST, payload: response.data });
+          dispatch({ type: BRANDS_LIST, payload: response.data });
       })
       .catch(err => {
         toasterMessage("error", err);

@@ -4,7 +4,7 @@ import {
   createProductDetails,
   productData,
   productVariant,
-  productOption
+
 } from "../../actions/createProductAction";
 import { getBrands } from "../../actions/brandsAction";
 import { bindActionCreators } from "redux";
@@ -22,7 +22,9 @@ class CreateProduct extends Component {
       brandId: "",
       fileName: "",
       picture: "",
-      name: "",
+      name:'',
+      price:{},
+      range:'',
       title: "",
       subTitle: "",
       vendor: "",
@@ -174,7 +176,11 @@ class CreateProduct extends Component {
   };
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    let obj={}
+    if(e.target.name==='range'){
+      obj.range=e.target.value
+    }
+    this.setState({ [e.target.name]: e.target.value ,price:obj});
   };
 
   //for Brands
@@ -208,7 +214,8 @@ class CreateProduct extends Component {
     reader.readAsDataURL(file);
   };
 
-  displayEditVariant = title => {
+
+  displayEditVariant = (title) => {
     this.props.history.push(`/createProduct/editVariant/${title}`);
   };
 
@@ -233,22 +240,16 @@ class CreateProduct extends Component {
 
   createFinalProdData() {
     let {
-      
       productVariant: variants
     } = this.props.CreateProductReducer;
-
+    const {brandId, name,price,title, subTitle, vendor, description, originCountry, template,  hashtags, metafields, tagsInfo, pictures}=this.state
     let data = {
-      ...this.state,
+      brandId, pictures,name,price,title, subTitle, vendor, description, originCountry, template,  hashtags, metafields, tagsInfo,
       variants: [
           ...variants
       ]
     };
-   
-
     return data;
-
-    
-   
   }
 
   //for get product
@@ -257,7 +258,7 @@ class CreateProduct extends Component {
       if (productVariant && productVariant.length) {
         return productVariant.map(item => {
           return item.options
-            ? item.options.map(postOption => {
+            ? item.options.map(postOption => { console.log(postOption,"========")
                 return (
                   <tr>
                     <td>
@@ -271,7 +272,7 @@ class CreateProduct extends Component {
                       />
                     </td>
                     <td>{postOption.title}</td>
-                    <td>{postOption.price}</td>
+                    <td>{postOption.price.range}</td>
                     <td>{postOption.inventoryQuantity}</td>
                     {postOption.visible === "Visible" ? (
                       <td style={{ color: "green" }}> {postOption.visible} </td>
@@ -426,6 +427,18 @@ class CreateProduct extends Component {
                               id="inputAddress"
                               name="subTitle"
                               placeholder="Subtitle"
+                              onChange={this.onChange}
+                            />
+                          </div>
+                        </div>
+                        <div className="form-row col-12">
+                          <div className="form-group col-12 createProduct">
+                            <input
+                              type="text"
+                              className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
+                              id="range"
+                              name="range"
+                              placeholder="Price"
                               onChange={this.onChange}
                             />
                           </div>
@@ -675,8 +688,7 @@ function mapDispatchToProps(dispatch) {
       createProductDetails,
       getBrands,
       productData,
-      productVariant,
-      productOption
+      productVariant
     },
     dispatch
   );
