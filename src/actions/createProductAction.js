@@ -31,11 +31,11 @@ export const productVariant=(data)=>{
     }
 }
 export const productData=(URL,data)=>{
+    console.log(data,"=====================product data");
     const request = axios.post(`${URL}/api/item`, data )
      .then(response => response.data)
     
      return{
- 
          type:PRODUCT_DATA,
          payload: request 
      }

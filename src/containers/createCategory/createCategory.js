@@ -56,7 +56,6 @@ class ClassCategory extends Component {
         if (this.state._id) {
             const request = axios.get(`${host}/api/category/edit/${this.state._id}`)
                 .then(async res => {
-                    debugger;
                     let { description, ...category } = res.data.category;
                     let editorState = EditorState.createEmpty();                            
                     try{
@@ -123,6 +122,7 @@ class ClassCategory extends Component {
         if (!this.state.editorState.getCurrentContent().hasText()) errors.description = 'Please enter desciption';
         this.setState({ errors });
         const isValid = Object.keys(errors).length === 0;
+        
         if (isValid) {
             let { editorState , ...data } = this.state;
             let editorContentHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));          
@@ -168,6 +168,7 @@ class ClassCategory extends Component {
     }
 
     getParticularCategory = ({ getParticularCategory }) => {
+        console.log(getParticularCategory);
         if (getParticularCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
