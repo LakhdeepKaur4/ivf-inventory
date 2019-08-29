@@ -48,8 +48,8 @@ class App extends Component {
             <Route path="/createProduct/createVariant"   component={ProductVariant} />
             <Route path="/createProduct/editVariant/:id"  component={ProductVariant} />
             <Route path="/createProduct/variant/:title/createOption"   component={ProductVariantOption} />
+            <Route path="/createProduct/variant/:title/editOption/:id"  component={ProductVariantOption}/>
             <Route path="/createProduct" component={CreateProduct} />
-            <Route path="/createProduct/variant/:title/editOption/:id"  component={ProductVariantOption} />
             
             <Route path="/createpage" component={CreatePage} />
             <Route path="/filestructure" component={FileStructure} />
