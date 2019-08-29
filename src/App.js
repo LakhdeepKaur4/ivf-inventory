@@ -31,13 +31,19 @@ import Blog from './containers/blog/blog';
 import ProductView from './containers/productView/productView';
 import productView from './containers/productView/productView';
 import StoresView from './containers/storesView/storesView';
+import UnderConstruction from './components/maintenance/maintenance';
 
 class App extends Component {
+  constructor(){
+    super();    
+  }
   render() {
     return (
       <BrowserRouter>
         <div>
           <Switch>
+            <Route path="/storeSettings" component={ UnderConstruction } />
+
             <Route path="/storesView" component={StoresView} />
             <Route path="/productsView/:id" component={productView} />
             <Route path="/editcategory/:id" component={createCategory} />
@@ -48,8 +54,8 @@ class App extends Component {
             <Route path="/createProduct/createVariant"   component={ProductVariant} />
             <Route path="/createProduct/editVariant/:id"  component={ProductVariant} />
             <Route path="/createProduct/variant/:title/createOption"   component={ProductVariantOption} />
+            <Route path="/createProduct/variant/:title/editOption/:id"  component={ProductVariantOption}/>
             <Route path="/createProduct" component={CreateProduct} />
-            <Route path="/createProduct/variant/:title/editOption/:id"  component={ProductVariantOption} />
             
             <Route path="/createpage" component={CreatePage} />
             <Route path="/filestructure" component={FileStructure} />

@@ -72,9 +72,9 @@ class Sidebar extends Component {
 
                     <ul className="list-unstyled components">
                         <li className="active sidebarHead">
-                            <a href="" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded="false">
+                            <Link onClick={this.toggleMenu.bind(this, "stores")} aria-expanded={menuState.stores.isOpen}>
                                 <span><i className="far fa-circle" aria-hidden="true"
-                                    style={{ color: "red" }}></i></span>STORES</a>
+                                    style={{ color: "red" }}></i></span>STORES</Link>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.stores.isOpen ? "show" : ''}`
                             } >
@@ -91,11 +91,15 @@ class Sidebar extends Component {
                                     </Link>}
                                 </li>
                                 <li>
-                                    <a href="#">
+                                {(this.state.pageOn === 'storeSettings') ? <Link to="/storeSettings" >
                                         <span>
-                                            <i className="far fa-circle" aria-hidden="true"></i>
-                                        </span>Store Settings
-                                    </a>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>Store Settings</span>
+                                    </Link> : <Link to="/storeSettings" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Store Settings
+                                    </Link>}
                                 </li>
                                 <li>
                                     <a href="#">
@@ -108,7 +112,7 @@ class Sidebar extends Component {
                         </li>
                         <li className="active sidebarHead">
                             <a id="inventorySubmenuLink" href="javascript:void(0)" 
-                             onClick={this.toggleMenu.bind(this,"inventory")} aria-expanded='false' >
+                             onClick={this.toggleMenu.bind(this,"inventory")} aria-expanded={menuState.inventory.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>INVENTORY</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.inventory.isOpen ? "show" : ''}`
@@ -153,7 +157,7 @@ class Sidebar extends Component {
                         </li>
                         <li className="active sidebarHead">
                             <a id="provisionSubmenuLink" href="javascript:void(0)" 
-                             onClick={this.toggleMenu.bind(this,"provision")} aria-expanded="false" >
+                             onClick={this.toggleMenu.bind(this,"provision")} aria-expanded={menuState.provision.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.provision.isOpen ? "show" : ''}`
@@ -192,7 +196,7 @@ class Sidebar extends Component {
 
                         <li className="active sidebarHead">
                             <a id="ftSubmenuLink" 
-                                onClick={this.toggleMenu.bind(this, "filter_and_search")} aria-expanded="false" >
+                                onClick={this.toggleMenu.bind(this, "filter_and_search")} aria-expanded={menuState.filter_and_search.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>FILTER & SEARCH</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.filter_and_search.isOpen ? "show" : ''}`
