@@ -80,13 +80,14 @@ class ProductsView extends Component {
         this.setState({ search: e.target.value })
     }
 
-    searchFilter = (search) => {
-        return function (x) {
+    searchFilter =  (x)=> {
+        let search = this.state.search;
+            console.log('search==================',x)
             return x.sku ? x.sku.toLowerCase().includes(search.toLowerCase()) ||
-                x.stock.toString().includes(search.toString()) ||
+                x.optStock.toString().includes(search.toString()) ||
                 x.name.toLowerCase().includes(search.toLowerCase()) ||
+                x.price.range.toString().includes(search.toString())||
                 !search : true;
-        }
     }
 
     onSort = () => {
@@ -163,7 +164,7 @@ class ProductsView extends Component {
             } else {
                 arrReturned = this.sorted(arr, 'dec');
             }
-            return arrReturned.filter(this.searchFilter(this.state.search))
+            return arrReturned.filter(this.searchFilter)
                 .map((item) => {
                     return (
                         <tr>

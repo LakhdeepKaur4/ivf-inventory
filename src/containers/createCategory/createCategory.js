@@ -101,6 +101,7 @@ class ClassCategory extends Component {
         this.setState({errors});
         const isValid = Object.keys(errors).length === 0;
         if(isValid){
+            console.log(this.state);
             this.props.onSubmit(this.state.host,{ ...this.state })
             .then(()=>this.props.GetInitialCategory(this.state.host));
         }
