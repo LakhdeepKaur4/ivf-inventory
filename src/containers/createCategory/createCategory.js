@@ -110,6 +110,7 @@ class ClassCategory extends Component {
         // if(this.state.file=='') errors.file='Please attach a file';       
         this.setState({ errors });
         const isValid = Object.keys(errors).length === 0;
+        
         if (isValid) {
             this.props.onSubmit(this.state.host, { ...this.state })
                 .then(() => this.props.GetInitialCategory(this.state.host));
@@ -142,6 +143,7 @@ class ClassCategory extends Component {
     }
 
     getParticularCategory = ({ getParticularCategory }) => {
+        console.log(getParticularCategory);
         if (getParticularCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
