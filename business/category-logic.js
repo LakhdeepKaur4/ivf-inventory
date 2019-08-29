@@ -167,18 +167,20 @@ exports.testCategory = async (req, res, next) => {
 
 exports.updateCategory = async (req, res, next) => {
   try {
-    if (req.body.picture !== undefined && req.body.picture !== null && req.body.fileName !== undefined && req.body.fileName !== null) {
+    const body = req.body;
+    console.log("**", body)
+    if (req.body.picture !== undefined && req.body.picture !== null && req.body.fileName !== undefined && req.body.fileName !== null && req.body.fileName !== '' && req.body.picture !== '') {
       let index = body.fileName.lastIndexOf('.');
       body.fileExt = body.fileName.slice(index + 1);
       body.fileName = body.fileName.slice(0, index);
       body.picture = body.picture.split(',')[1];
-      await helper.saveToDisc(categoryId, body.fileName, body.fileExt, body.picture, (err, res) => {
+      await helper.saveToDisc(req.params.id, body.fileName, body.fileExt, body.picture, (err, res) => {
         if (err) {
           console.log(err);
         } else {
           let index = res.indexOf('../');
           let newPath = res.slice(index + 2, res.length);
-          Category.update({ _id: categoryId }, { $set: { categoryThumbnail: newPath } }, function (err, updated) {
+          Category.update({ _id: req.params.id }, { $set: { categoryThumbnail: newPath } }, function (err, updated) {
             if (err) {
               console.log(err);
             } else {
@@ -187,11 +189,19 @@ exports.updateCategory = async (req, res, next) => {
           })
         }
       })
-      let category = await Category.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
-      if (category) {
-        return res.status(httpStatus.OK).send({ message: "Category updated" });
-      }
     }
+    else {
+      Category.findOneAndUpdate({ _id: req.params.id }, {
+        $set: body
+      }, (err, category) => {
+        if (err) {
+          return res.json({ message: 'Updation error', err });
+        } else {
+          return res.status(httpStatus.OK).send({ message: "Category updated", category });
+        }
+      })
+    }
+
   } catch (error) {
     console.log(error)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error });
@@ -254,45 +264,60 @@ exports.searchCategory = async (req, res) => {
   }
 }
 
-// exports.multiEnableOrDisable = (req, res, next) => {
-//   try {
-//     const body = req.body;
-//     const response = [];
-//     if (body.status === "visible") {
-//       body.status = true;
-//     } else {
-//       body.status = false;
-//     }
-//     const promise = body.ids.map(item => {
-//       Category.findOneAndUpdate({ _id: item }, {
-//         $set: {
-//           status: body.status
-//         }
-//       })
-//         .then((err, category) => {
-//           if (err) {
-//             response.push(err);
-//           } else {
-//             response.push(category);
-//           }
-//         })
-//     })
+// Getting all items but segregated by pages
+exports.getCategoriesByPage = (req, res, next) => {
+  try {
+    Category.paginate({}, { page: req.params.pageNumber, limit: parseInt(req.params.limit) })
+      .then(items => {
+        return res.status(httpStatus.OK).json({ items });
+      })
+      .catch(err => {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+      })
+  } catch (err) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+  }
+}
 
-//     Promise.all(promise)
-//       .then(result => {
-//         if (body.status === true) {
-//           res.status(httpStatus.OK).json({
-//             message: "Categories enabled successfully"
-//           })
-//         } else {
-//           res.status(httpStatus.OK).json({
-//             message: "Categories disabled successfully"
-//           })
-//         }
-//       })
-//   } catch (error) {
-//     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
-//   }
-// }
+exports.multiEnableOrDisable = (req, res, next) => {
+  try {
+    const body = req.body;
+    const response = [];
+    if (body.status === "Enabled") {
+      body.status = true;
+    } else {
+      body.status = false;
+    }
+    const promise = body.ids.map(item => {
+      Category.findOneAndUpdate({ _id: item }, {
+        $set: {
+          status: body.status
+        }
+      })
+        .then((err, category) => {
+          if (err) {
+            response.push(err);
+          } else {
+            response.push(category);
+          }
+        })
+    })
+
+    Promise.all(promise)
+      .then(result => {
+        if (body.status === true) {
+          res.status(httpStatus.OK).json({
+            message: "Categories enabled successfully"
+          })
+        } else {
+          res.status(httpStatus.OK).json({
+            message: "Categories disabled successfully"
+          })
+        }
+      })
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+  }
+}
 
 
