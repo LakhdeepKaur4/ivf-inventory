@@ -54,7 +54,7 @@ class Categories extends Component {
 
     viewCategoryData = () => {
         if (this.state.categories) {
-            return this.state.categories.map((item) => <option>{item.name}</option>)
+            return this.state.categories.map((item) => <option key={item.id}>{item.name}</option>)
         }
     }
 

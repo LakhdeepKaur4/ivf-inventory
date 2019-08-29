@@ -2,7 +2,6 @@ import axios from "axios";
 import { toasterMessage } from "../utils.js";
 
 import {
-  BRANDURL,
   BRANDS_LIST,
   ADD_BRAND,
   DISABLE_BRAND,
@@ -16,11 +15,12 @@ import {
 
 // Get all brands
 export function getBrands(URL) {
+  
   return dispatch => {
     axios
       .get(`${URL}/api/brands`)
       .then(response => {
-        dispatch({ type: BRANDS_LIST, payload: response.data });
+          dispatch({ type: BRANDS_LIST, payload: response.data });
       })
       .catch(err => {
         toasterMessage("error", err);
@@ -30,12 +30,10 @@ export function getBrands(URL) {
 
 // Get list of brands on default page
 export function getDefaultPageBrandsDetails(defaultPage,url) {
-  console.log('url in action...', url)
   return dispatch => {
     axios
       .get(`${url}/api/brands/${defaultPage}`)
       .then(response => {
-        console.log('response....', response)
         dispatch({ type: GET_PAGE_DETAIL, payload: response.data });
       })
       .catch(err => {
@@ -70,7 +68,7 @@ export function addBrand(data,url) {
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ADD_BRAND, payload: true });
-          dispatch(getBrands());
+          dispatch(getDefaultPageBrandsDetails(1,url));
         }
         else if( response.status===200 && response.data.message==='Creation error'){
           toasterMessage("error",response.data.message)
@@ -95,9 +93,9 @@ export function enableBrand(id,currentPage,url) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ENABLE_BRAND, payload: true });
          if (currentPage===1) {
-           dispatch(getDefaultPageBrandsDetails(currentPage))
+           dispatch(getDefaultPageBrandsDetails(currentPage,url))
          } else {
-           dispatch(getActivePageBrandsDetails(currentPage))
+           dispatch(getActivePageBrandsDetails(currentPage,url))
          }
         }
       })
@@ -120,9 +118,9 @@ export function disableBrand(id,currentPage,url) {
           toasterMessage("success", response.data.message);
           dispatch({ type: DISABLE_BRAND, payload: true });
           if (currentPage===1) {
-            dispatch(getDefaultPageBrandsDetails(currentPage))
+            dispatch(getDefaultPageBrandsDetails(currentPage,url))
           } else {
-            dispatch(getActivePageBrandsDetails(currentPage))
+            dispatch(getActivePageBrandsDetails(currentPage,url))
           }
         }
       })
@@ -138,6 +136,7 @@ export function getBrandDetails(id,url) {
     axios
       .get(`${url}/api/brands/brand/${id}`)
       .then(response => {
+        localStorage.setItem('brandDetails', JSON.stringify(response.data.brand))
         dispatch({ type: BRAND_DETAIL, payload: response.data.brand });
       })
       .catch(err => {
@@ -169,6 +168,7 @@ export function updateBrandDetails(data,id,url) {
 
 // Change status of multiple brands
 export function changeStatus(value, ids,currentPage,url) {
+  
   let payload = {
     status: value,
     ids: ids
@@ -185,9 +185,9 @@ export function changeStatus(value, ids,currentPage,url) {
           toasterMessage("success", response.data.message);
           dispatch({ type: CHANGE_STATUS, payload: true });
           if (currentPage===1) {
-            dispatch(getDefaultPageBrandsDetails(currentPage))
+            dispatch(getDefaultPageBrandsDetails(currentPage,url))
           } else {
-            dispatch(getActivePageBrandsDetails(currentPage))
+            dispatch(getActivePageBrandsDetails(currentPage,url))
           }
         }
       })

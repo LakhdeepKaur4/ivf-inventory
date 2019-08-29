@@ -19,12 +19,12 @@ class EditOrder extends Component {
             filterName:"customer",
             activePage: '1',
             limit:'5',
-            totalItemsCount:''
+            totalItemsCount:'',
         }
     }
     setHost = host => {
         this.setState({host});
-        this.props.getEditOrder();
+        this.props.getEditOrder(host);
     }
     
     /* Previous step button handling */
@@ -78,7 +78,7 @@ class EditOrder extends Component {
                 </div>
 
                 {/* Step bar */}
-                <div className="md-stepper-horizontal orange">
+                <div className="md-stepper-horizontal orange editorder">
                     <div className="md-step active done">
                         <div className="md-step-circle"><span>1</span></div>
                         <div className="md-step-title titleText">Customer info</div>

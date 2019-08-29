@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./addBrands.css";
+import "./addBrand.css";
 // import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { addBrand } from "../../actions/brandsAction";
@@ -8,11 +8,11 @@ import Dashboard from "../../components/dashboard/dashboard";
 import $ from 'jquery';
 import HostResolver from '../../components/resolveHost/resolveHost';
 
-class AddBrands extends Component {
+class AddBrand extends Component {
   state = {
     brandName: "",
     description: "",
-    selected: "",
+    status: "enabled",
     errorBrandName: "",
     errorDescription: "",
     fileName: [],
@@ -39,26 +39,26 @@ class AddBrands extends Component {
   handleInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
     if (event.target.checked) {
-      this.setState({ selected: event.target.value });
+      this.setState({ status: event.target.value });
     }
   };
 
   // Adding brand
   addBrand = event => {
     event.preventDefault();
-    const { brandName, description, selected, logo } = this.state;
+    const { brandName, description, status, logo } = this.state;
     if (this.validateForm()) {
       let payload = {
         name: brandName,
         description: description,
-        status: selected,
+        status: status,
         logo: logo
       };
       this.props.addBrand(payload,this.state.host);
       this.setState({
         brandName: "",
         description: "",
-        selected: "",
+        status: "",
         logo: ""
       });
     }
@@ -95,7 +95,7 @@ class AddBrands extends Component {
       formIsValid = false;
       errorBrandName = "* Please enter brand name.";
     }
-    if (!brandName.match(/^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/)) {
+    if (!brandName.match(/^[A-Za-z]+$/)) {
       formIsValid = false;
       // errorBrandName = "* Please enter alphabets only";
     }
@@ -104,7 +104,7 @@ class AddBrands extends Component {
       formIsValid = false;
       errorDescription = "* Please enter brand description.";
     }
-    if (!description.match(/^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/)) {
+    if (!description.match(/^[A-Za-z]+$/)) {
       formIsValid = false;
       // errorDescription = "* Please enter alphabets only";
     }
@@ -131,13 +131,13 @@ class AddBrands extends Component {
         <Dashboard>
         <div className="add_brand ">
           <div className="container">
-            <div className="bg-light text-dark p-4 mt-1">
+            <div className=" text-dark p-4 mt-1">
               <p className="heading">add brand</p>
               <form>
                 <div>
                   <span className="upload_logo">Upload your logo</span>
                   <span style={{marginLeft:'20px'}}>
-                  <label for="file-upload" className="custom-file-upload">CHOOSE</label>
+                  <label htmlFor="file-upload" className="custom_file_upload">CHOOSE</label>
                     <FileBase64 id="file-upload" multiple={true} onDone={this.getFiles} />
                     </span>
                     <span style={{ paddingLeft:'20%' }} className="error_text">
@@ -187,7 +187,7 @@ class AddBrands extends Component {
                           type="radio"
                           name="status"
                           value="Enabled"
-                          checked={true}
+                          defaultChecked={true}
                           onChange={this.handleInputChange}
                         />
                         Enabled
@@ -209,7 +209,16 @@ class AddBrands extends Component {
               </form>
               <div >
                 <span>
-                  <button
+                <button
+                    className="cancel_button"
+                    type="submit"
+                    onClick={this.handleCancel}
+                  >
+                    BACK
+                  </button>
+                </span>
+                <span style={{marginLeft:'60px'}}>
+                <button
                     className="brand_button"
                     type="submit"
                     onClick={this.addBrand}
@@ -217,19 +226,11 @@ class AddBrands extends Component {
                     SAVE BRAND
                   </button>
                 </span>
-                <span style={{marginLeft:'100px'}}>
-                  <button
-                    className="brand_button"
-                    type="submit"
-                    onClick={this.handleCancel}
-                  >
-                    CANCEL
-                  </button>
-                </span>
               </div>
             </div>
           </div>
         </div>
+        
       </Dashboard>
       </HostResolver>
     );
@@ -244,4 +245,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { addBrand }
-)(AddBrands);
+)(AddBrand);

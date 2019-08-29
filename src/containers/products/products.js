@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './products.css';
 import Dashboard from '../../components/dashboard/dashboard';
-import { getProductsItem } from '../../actions/productItemAction';
+import { getProductsItem,getSearch } from '../../actions/productItemAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FileStructure from '../../components/fileStructure/fileStructure';
@@ -18,21 +18,29 @@ class Products extends Component {
     }
 
     setHost = host => {
-        console.log("=================", host)
         this.setState({ host });
         this.props.getProductsItem(host);
     }
 
     searchOnChange = (e) => {
+        this.props.getSearch(this.state.host,e.target.value);
+        console.log(this.props.getSearch(this.state.host,e.target.value));
         this.setState({ search: e.target.value })
     }
 
+    searchFilter = (search) => {
+        return function (x) {
+            return x.name.toLowerCase().includes(search.toLowerCase()) ||
+                !search;
+        }
+    }
+
+
     productsItem = ({ productItem }) => {
        
-        if (productItem) { console.log("======================", productItem)
+        if (productItem) { 
         
                 return productItem.order.cart.cartProducts ?  productItem.order.cart.cartProducts.map((item) => {
-                    console.log(item);
                     return (
                         <tr key={item.cartProductId}>
                             <td >{item.productTitle}</td>
@@ -45,14 +53,13 @@ class Products extends Component {
                     )
 
                 }):''
-            
-
+                
         }
     }
 
-    viewProducts = ({ productItem }) => {
-        // if(productItem){
-        //     return productItem.map((item)=><option key={item.id}>{item.name}</option>)
+    viewProducts = ({ search }) => {console.log(search);
+        // if(search){
+        //     return search.map((item)=><option key={item.cartProductId}>{item.name}</option>) 
         // }
     }
 
@@ -93,31 +100,31 @@ class Products extends Component {
                 <div>
                     <Dashboard>
                         <div className="mt-4 ml-4">
-                            <h4>Products</h4>
+                           <h4>Products</h4>
                         </div>
 
-                        <div className="md-stepper-horizontal orange">
-                            <div className="md-step active done">
-                                <div className="md-step-circle"><span>1</span></div>
-                                <div className="md-step-title">Customer info</div>
-                                <div className="md-step-bar-left"></div>
-                                <div className="md-step-bar-right"></div>
-                            </div>
-                            <div className="md-step">
-                                <div className="md-step-circle"><span>2</span></div>
-                                <div className="md-step-title">Products</div>
-                                <div className="md-step-bar-left"></div>
-
-                                <div className="md-step-bar-right"></div>
-                            </div>
-                            <div className="md-step">
-                                <div className="md-step-circle"><span>3</span></div>
-                                <div className="md-step-title">Finalize</div>
-                                <div className="md-step-bar-left"></div>
-                                <div className="md-step-bar-right"></div>
-                            </div>
-                        </div>
-
+                <div className="md-stepper-horizontal orange">
+                    <div className="md-step active done products">
+                        <div className="md-step-circle"><span>1</span></div>
+                        <div className="md-step-title">Customer info</div>
+                        <div className="md-step-bar-left"></div>
+                        <div className="md-step-bar-right"></div>
+                    </div>
+                    <div className="md-step prdStep">
+                        <div className="md-step-circle"><span>2</span></div>
+                        <div className="md-step-title">Products</div>
+                        <div className="md-step-bar-left"></div>
+                      
+                        <div className="md-step-bar-right"></div>
+                    </div>
+                    <div className="md-step">
+                        <div className="md-step-circle"><span>3</span></div>
+                        <div className="md-step-title">Finalize</div>
+                        <div className="md-step-bar-left"></div>
+                        <div className="md-step-bar-right"></div>
+                    </div>
+                </div>
+                      
                         <div class="card-group m-5">
                             <div class="card">
                                 <div class="card-body mainProductDiv">
@@ -127,11 +134,11 @@ class Products extends Component {
                                         <div>
                                             <span style={{ paddingTop: '1px' }}><span className="form-group has-search">
                                                 <span className="fa fa-search form-control-feedback"></span>
-                                                <input list="products" type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" placeholder="Search" />
+                                                <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" list="products" name="search" onChange={this.searchOnChange} style={{ backgroundColor: 'transparent' }} />
                                                 <datalist id="products">
-
-                                                    {this.viewProducts(this.props.ProductItemReducer)}
-                                                </datalist>
+                                                <option />
+                                                {this.viewProducts(this.props.ProductItemReducer)}
+                                            </datalist>
                                             </span>
                                             </span>
                                         </div>
@@ -183,7 +190,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ getProductsItem }, dispatch)
+    return bindActionCreators({ getProductsItem,getSearch }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

@@ -72,9 +72,9 @@ class Sidebar extends Component {
 
                     <ul className="list-unstyled components">
                         <li className="active sidebarHead">
-                            <a href="" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded="false">
+                            <Link onClick={this.toggleMenu.bind(this, "stores")} aria-expanded={menuState.stores.isOpen}>
                                 <span><i className="far fa-circle" aria-hidden="true"
-                                    style={{ color: "red" }}></i></span>STORES</a>
+                                    style={{ color: "red" }}></i></span>STORES</Link>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.stores.isOpen ? "show" : ''}`
                             } >
@@ -87,7 +87,7 @@ class Sidebar extends Component {
                                     </Link> : <Link to="/storesView" >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
-                                            </span>View Brands
+                                            </span>View Stores
                                     </Link>}
                                 </li>
                                 <li>
@@ -108,7 +108,7 @@ class Sidebar extends Component {
                         </li>
                         <li className="active sidebarHead">
                             <a id="inventorySubmenuLink" href="javascript:void(0)" 
-                             onClick={this.toggleMenu.bind(this,"inventory")} aria-expanded='false' >
+                             onClick={this.toggleMenu.bind(this,"inventory")} aria-expanded={menuState.inventory.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>INVENTORY</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.inventory.isOpen ? "show" : ''}`
@@ -140,18 +140,20 @@ class Sidebar extends Component {
                                 {(this.state.pageOn === 'brands') ? <Link to="/brands" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
-                                        </span><span style={{ color: "red" }}>Push Products</span>
-                                    </Link> : <Link to="/brands" >
+                                        </span><span style={{ color: "red" }}>View Brands</span>
+                                    </Link> : 
+                                    <Link to="/brands" >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
-                                            </span>View Brands
-                                    </Link>}
+                                            </span><span>View Brands</span>
+                                    </Link>
+                                }
                                 </li>
                             </ul>
                         </li>
                         <li className="active sidebarHead">
                             <a id="provisionSubmenuLink" href="javascript:void(0)" 
-                             onClick={this.toggleMenu.bind(this,"provision")} aria-expanded="false" >
+                             onClick={this.toggleMenu.bind(this,"provision")} aria-expanded={menuState.provision.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.provision.isOpen ? "show" : ''}`
@@ -190,7 +192,7 @@ class Sidebar extends Component {
 
                         <li className="active sidebarHead">
                             <a id="ftSubmenuLink" 
-                                onClick={this.toggleMenu.bind(this, "filter_and_search")} aria-expanded="false" >
+                                onClick={this.toggleMenu.bind(this, "filter_and_search")} aria-expanded={menuState.filter_and_search.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>FILTER & SEARCH</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.filter_and_search.isOpen ? "show" : ''}`

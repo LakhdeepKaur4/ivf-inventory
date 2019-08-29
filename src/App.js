@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Brands from './containers/DisplayBrands/displayBrands';
+import Brands from './containers/displayBrands/displayBrands';
 import AdvancedSearch from './containers/advancedSearch/advancedSearch';
 import ViewOrder from './containers/viewOrder/viewOrder'
-import AddProduct from './containers/addProducts/addProducts';
+// import AddProduct from './containers/addProducts/addProducts';
 import EditOrder from './containers/editOrder/editOrder';
-import Shipping from './containers/shipping/shipping';
+// import Shipping from './containers/shipping/shipping';
 import PushProductsView from './containers/pushProductsView/pushProductsView';
 import Login from './containers/login/login';
-import Themes from './containers/Themes/themes';
+import Themes from './containers/themes/themes';
 import StoreProfile from './containers/storeProfile/storeProfile';
 import Sidebar from './components/sidebar/sidebar';
 import EditCustomerOrder from './containers/editCustomerOrder/editCustomerOrder';
 import Products from './containers/products/products';
-import AddBrands from './containers/AddBrands/addBrands'
+import AddBrand from './containers/addBrand/addBrand'
 import Categories from './containers/categories/categories';
 import Header from './components/header/header';
 import createCategory from './containers/createCategory/createCategory';
 import DataToStore from './containers/dataToStore/dataToStore';
-import EditBrand from './containers/EditBrand/editBrand'
+import EditBrand from './containers/editBrand/editBrand'
 import CreateProduct from './containers/createProduct/createProduct';
 import ProductVariant from './containers/productVariant/productVariant';
 import ProductVariantOption from './containers/productVariantOption/productVariantOption';
@@ -30,7 +30,7 @@ import BlogSettings from './containers/blogSettings/blogSettings';
 import Blog from './containers/blog/blog';
 import ProductView from './containers/productView/productView';
 import productView from './containers/productView/productView';
-import StoresView from './containers/StoresView/StoresView';
+import StoresView from './containers/storesView/storesView';
 
 class App extends Component {
   render() {
@@ -43,9 +43,14 @@ class App extends Component {
             <Route path="/editcategory/:id" component={createCategory} />
             <Route path="/productsView" component={ProductView} />
             <Route path="/pushDataToStore" component={PushDataToStore} />
-            <Route path="/productVariantOption" component={ProductVariantOption} />
-            <Route path="/productVariant" component={ProductVariant} />
+
+            
+            <Route path="/createProduct/createVariant"   component={ProductVariant} />
+            <Route path="/createProduct/editVariant/:id"  component={ProductVariant} />
+            <Route path="/createProduct/variant/:title/createOption"   component={ProductVariantOption} />
+            <Route path="/createProduct/variant/:title/editOption/:id"  component={ProductVariantOption}/>
             <Route path="/createProduct" component={CreateProduct} />
+            
             <Route path="/createpage" component={CreatePage} />
             <Route path="/filestructure" component={FileStructure} />
             <Route path="/dataToStore" component={DataToStore} />
@@ -55,15 +60,15 @@ class App extends Component {
             <Route path="/storeprofile" component={StoreProfile} />
             <Route path="/themes" component={Themes} />
             <Route path="/vieworders" component={ViewOrder} />
-            <Route path="/create" component={AddProduct} />
+            {/* <Route path="/create" component={AddProduct} /> */}
             <Route path="/brands" component={Brands} />
             <Route path="/advancedSearch" exact component={AdvancedSearch} />
-            <Route path="/shipping" component={Shipping} />
+            {/* <Route path="/shipping" component={Shipping} /> */}
             <Route path="/pushProductsView" component={PushProductsView} />
-            <Route path="/addBrand" component={AddBrands} />
+            <Route path="/addBrand" component={AddBrand} />
             <Route path="/editanorder" component={EditCustomerOrder} />
             <Route path="/finalizeorder" component={EditOrder} />
-            <Route path="/addbrands" component={AddBrands} />
+            <Route path="/addbrand" component={AddBrand} />
             <Route path="/editproducts" component={Products} />
             <Route path="/categories" component={Categories} />
             <Route path="/editBrand/:id" component={EditBrand} />

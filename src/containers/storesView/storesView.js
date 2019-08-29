@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Pagination from 'react-js-pagination';
-import './StoresView.css';
-import  { getStores } from './../../actions/storesAction';
+import './storesView.css';
+import  { getStores } from '../../actions/storesAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import HostResolver from '../../components/resolveHost/resolveHost';
 

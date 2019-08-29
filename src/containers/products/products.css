@@ -39,5 +39,13 @@ ul li{
 
 .nxtBtn {
     padding: 5px 30px 5px 30px !important;
- 
+}
+
+.md-stepper-horizontal .md-step.products .md-step-bar-left,
+.md-stepper-horizontal .md-step.products .md-step-bar-right,
+.md-stepper-horizontal .md-step.prdStep .md-step-bar-left{
+	position: absolute;
+    top: 36px;
+    height: 1px;
+    border-top: 1px solid #F74A4A;
 }

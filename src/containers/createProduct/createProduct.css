@@ -179,7 +179,10 @@
 /* #app {
     padding: 40px;
   } */
-  
+  input.ReactTags__tagInputField{
+      background: transparent;
+  }
+
   div.ReactTags__tags {
       position: relative;
   }
@@ -189,6 +192,7 @@
       width: 200px;
       border-radius: 2px;
       display: inline-block;
+
   }
   div.ReactTags__tagInput input.ReactTags__tagInputField,
   div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
@@ -252,4 +256,7 @@
   .close-icon{
     margin-right: -65px;
     
+  }
+  .createProduct input{
+      background: transparent;
   }

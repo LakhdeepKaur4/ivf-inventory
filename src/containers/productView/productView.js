@@ -17,20 +17,21 @@ class ProductsView extends Component {
             limit: '',
             totalItemsCount: '',
             filterName: 'name',
-            sortVal: false,
+            sortVal: true,
             ids: [],
             visible: [],
             allProductIds: [],
             productId: [],
-            productID:props.match.params.id,
-            host:''
+            productID: props.match.params.id,
+            host: ''
         }
     }
 
     btnClick = (id) => {
+        console.log(id,this.state.visible);
         let ids = this.state.visible;
         if (ids.includes(id) === true) {
-            console.log()
+            console.log(1);
             ids.splice(ids.indexOf(id), 1);
         } else {
             ids.push(id);
@@ -40,7 +41,6 @@ class ProductsView extends Component {
         })
     }
     pickIds = (id, action) => {
-        console.log(id, action);
         let IDS = this.state.productId
         if (action == true) {
             IDS.push(id);
@@ -50,22 +50,29 @@ class ProductsView extends Component {
         this.setState({ productId: IDS })
     }
     setHost = host => {
-        var defaultPage=this.state.activePage;
-        this.setState({host});         
-        this.props.getProductsView(host, this.state.productID,defaultPage)
-            .then((res) => {console.log(res)
+        var defaultPage = this.state.activePage;
+        this.setState({ host });
+        this.props.getProductsView(host, this.state.productID, defaultPage)
+            .then((res) => {
                 let Ids = [];
-                res.payload.items.docs.map((item) => {
-                    Ids.push(item._id)
+                if (res.payload && res.payload.items && res.payload.items.docs) {
+                    res.payload.items.docs.map((item) => {
+                        Ids.push(item._id)
+                    })
+                    this.setState({ allProductIds: Ids, limit: res.payload.items.limit, totalItemsCount: res.payload.items.total })
+                }
+            })
+        if (this.state.productID) {
+            const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
+                .then(response => {
+
                 })
-                this.setState({ allProductIds: Ids, limit:res.payload.items.limit, totalItemsCount:res.payload.items.total })
-            }).then(() => console.log(this.state));
-        
+        }
+
     }
 
 
     handlePageChange = (pageNumber) => {
-        console.log(`active page is ${pageNumber}`);
         // this.props.getPageDetails(pageNumber);
     }
 
@@ -73,13 +80,14 @@ class ProductsView extends Component {
         this.setState({ search: e.target.value })
     }
 
-    searchFilter = (search) => {
-        return function (x) {
-            return x.sku?x.sku.toLowerCase().includes(search.toLowerCase()) ||
-                x.stock.toString().includes(search.toString()) ||
+    searchFilter =  (x)=> {
+        let search = this.state.search;
+            console.log('search==================',x)
+            return x.sku ? x.sku.toLowerCase().includes(search.toLowerCase()) ||
+                x.optStock.toString().includes(search.toString()) ||
                 x.name.toLowerCase().includes(search.toLowerCase()) ||
-                !search:true;
-        }
+                x.price.range.toString().includes(search.toString())||
+                !search : true;
     }
 
     onSort = () => {
@@ -106,7 +114,6 @@ class ProductsView extends Component {
         this.props.onSizePerPageList(Number(option.target.value))
     }
     pickIds = (id, action) => {
-        console.log(id, action);
         let IDS = this.state.productId
         if (action == true) {
             IDS.push(id);
@@ -115,21 +122,50 @@ class ProductsView extends Component {
         }
         this.setState({ productId: IDS })
     }
-    handleDisable = id => {
-        console.log(id);
+
+    sorted = (arr, way) => {
+        if (way === 'inc') {
+            arr.sort((a, b) => {
+                var orderBool = a.name > b.name;
+                return orderBool ? 1 : -1;
+            })
+        } else {
+            arr.sort((a, b) => {
+                var orderBool = a.name < b.name;
+                return orderBool ? 1 : -1;
+            })
+        }
+
+        return arr
     }
 
     productsResult = ({ productList }) => {
-        console.log(productList)
-        if (productList) {
-            console.log('productlist', productList);
-            return productList.items.docs.sort((item1, item2) => {
-                var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
-                return this.state.sortVal ? cmprVal : -cmprVal;
-            })
-                .filter(this.searchFilter(this.state.search))
-                .
-                map((item) => {
+        console.log(productList);
+        let data = [];
+        if (this.props.match.params.id) {
+            console.log(1)
+            data = productList;
+        }
+        else if (productList && productList.items && productList.items.docs) {
+
+            data = productList.items.docs
+            console.log(data)
+        }
+        if (data && data.length) {
+            console.log(typeof (data));
+            let arr = [];
+            for (let x of data) {
+                arr.push(x);
+            }
+            console.log(arr);
+            let arrReturned
+            if (this.state.sortVal === true) {
+                arrReturned = this.sorted(arr, 'inc');
+            } else {
+                arrReturned = this.sorted(arr, 'dec');
+            }
+            return arrReturned.filter(this.searchFilter)
+                .map((item) => {
                     return (
                         <tr>
                             <td scope="row">
@@ -147,11 +183,11 @@ class ProductsView extends Component {
                                 {item.optStock}
                             </td>
                             <td>
-                                {item.price.range}
+                                {item.price ? item.price.range : ''}
                             </td>
                             <td>
-                                <div><button class="button button1 active" onClick={() => this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
-                                <div><button class="button button2" onClick={this.btnClick}>Bookmark</button></div>
+                                <div><button className="button button1 active" onClick={() => this.btnClick(item._id)}>{(this.state.visible.includes(item._id)) ? 'Invisible' : 'Visible'}</button></div>
+                                <div><button className="button button2" onClick={this.btnClick}>Bookmark</button></div>
                             </td>
                             <td>
                                 <div className="dropdown">
@@ -202,12 +238,6 @@ class ProductsView extends Component {
                 })
         }
     }
-
-    navigate = () => {
-        console.log('hii');
-        console.log(this.state.ids);
-        // this.props.history.push(`/dataToStore/${this.state.ids}`)
-    }
     selectAll = (action) => {
         if (action === true) {
             this.setState({ productId: [...this.state.allProductIds] })
@@ -221,7 +251,7 @@ class ProductsView extends Component {
         this.props.history.push('/createProduct');
     }
     render() {
-       
+
         let tableData =
             <div className="table-responsive card text-dark">
                 <table className="table">
@@ -289,18 +319,18 @@ class ProductsView extends Component {
                     <ul className="navbar-nav">
 
                         <li className="nav-item">
-                            <span className="nav-link" onClick={this.onSort}><i class="fas fa-sort-amount-down" aria-hidden="true"></i></span>
+                            <span className="nav-link" onClick={this.onSort}><i className="fas fa-sort-amount-down" aria-hidden="true"></i></span>
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link" onClick={this.onSortInv}><i class="fas fa-sort-amount-up" aria-hidden="true"></i></span>
+                            <span className="nav-link" onClick={this.onSortInv}><i className="fas fa-sort-amount-up" aria-hidden="true"></i></span>
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link"><i class="fas fa-th-large" aria-hidden="true"></i></span>
+                            <span className="nav-link"><i className="fas fa-th-large" aria-hidden="true"></i></span>
                         </li>
                         <li className="nav-item">
-                            <span className="nav-link">Limits 20<i class="fas fa-angle-down" aria-hidden="true" style={{ marginLeft: '5px' }} ></i></span>
+                            <span className="nav-link">Limits 20<i className="fas fa-angle-down" aria-hidden="true" style={{ marginLeft: '5px' }} ></i></span>
                         </li>
 
                         <li className="nav-item dropdown">
@@ -323,7 +353,7 @@ class ProductsView extends Component {
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link"><i class="fas fa-plus" aria-hidden="true" style={{ marginLeft: '5px' }}></i><span style={{ marginLeft: '5px' }} onClick={this.navigate}>New</span></span>
+                            <span className="nav-link"><i className="fas fa-plus" aria-hidden="true" style={{ marginLeft: '5px' }}></i><span style={{ marginLeft: '5px' }} onClick={this.navigate}>New</span></span>
                         </li>
                     </ul>
                 </div>
@@ -333,35 +363,35 @@ class ProductsView extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
-            <div>
-                <Dashboard>
+                <div>
+                    <Dashboard>
 
 
-                    <div>
-                        {navLink}
-                    </div>
-                    {navIcon}
+                        <div>
+                            {navLink}
+                        </div>
+                        {navIcon}
 
-                    <div style={{ float: 'right' }}>
-                        <Pagination activePage={this.state.activePage}
-                            itemsCountPerPage={this.state.limit}
-                            totalItemsCount={this.state.totalItemsCount}
-                            onChange={this.handlePageChange}
-                            itemClass='page-item'
-                            linkClasss='page-link'
-                        />
-                    </div>
+                        <div style={{ float: 'right' }}>
+                            <Pagination activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.limit}
+                                totalItemsCount={this.state.totalItemsCount}
+                                onChange={this.handlePageChange}
+                                itemClass='page-item'
+                                linkClasss='page-link'
+                            />
+                        </div>
 
-                    <div>
-                        {tableData}
-                    </div>
-                    <div>
-                        {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
-                    </div>
+                        <div>
+                            {tableData}
+                        </div>
+                        <div>
+                            {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
+                        </div>
 
 
-                </Dashboard>
-            </div>
+                    </Dashboard>
+                </div>
 
             </HostResolver>
         )

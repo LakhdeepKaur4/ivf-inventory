@@ -14,12 +14,24 @@
   }
   .inactive2 .md-step-circle {
 
-    border:1px solid #4D4F5C;
+    border:1px solid black;
     background: transparent !important;
   }
   .text-inactive2 {
-        color: #4D4F5C;
+        color: black !important
   }
   .activeDataToStore2 .md-step-circle span ,.md-stepper-horizontal .activeDataToStore2 .md-step-title{
     color:#F74A4A;
+  }
+  .md-step.inactive2 .md-step-title{
+    color:black;
+  }
+
+  .md-stepper-horizontal .md-step.products .md-step-bar-left,
+  .md-stepper-horizontal .md-step.products .md-step-bar-right,
+  .md-stepper-horizontal .md-step.prdStep .md-step-bar-left{
+    position: absolute;
+      top: 36px;
+      height: 1px;
+      border-top: 1px solid #F74A4A;
   }

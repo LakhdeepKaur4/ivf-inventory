@@ -35,12 +35,25 @@ class ProductsView extends Component {
         }
     }
     
-
+    setHost = host => {
+        this.setState({host});
+        if (localStorage.getItem('product') !== null) {
+            let products = localStorage.getItem('product').split(',');
+            this.setState({ ids: products });
+        }
+        this.props.getMockProductsView(host)
+            .then(res => {
+                let Ids = [];
+                res.payload.map(item => {
+                    Ids.push(item.id);
+                })
+                this.setState({ allIds: Ids });
+            });
+    }
 
   // This function will be used in pagination in later stage.
 
     handlePageChange = (pageNumber) => {
-        console.log(`active page is ${pageNumber}`);
         // this.props.getPageDetails(pageNumber);
     }
 
@@ -89,20 +102,18 @@ class ProductsView extends Component {
         if (action === true) {
             IDS.push(Id);
         } else {
-            console.log('removed')
             IDS.splice(IDS.indexOf(Id), 1);
-            console.log(IDS);
         }
         this.setState({ ids: IDS });
     }
 
-    productsResult = ({ productList }) => {
-        if (productList) {
+    productsResult = ({ productListMock }) => {
+        if (productListMock) {
             let Ids = [];
-            productList.map(item => {
+            productListMock.map(item => {
                 Ids.push(item.id);
             })
-            return productList.sort((item1, item2) => {
+            return productListMock.sort((item1, item2) => {
                 var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
                 return this.state.sortVal ? cmprVal : -cmprVal;
             }).filter(this.searchFilter(this.state.search)).map((item) => {
@@ -141,30 +152,14 @@ class ProductsView extends Component {
         }
     }
 
-    setHost = host => {
-        this.setState({host});
-        if (localStorage.getItem('product') !== null) {
-            let products = localStorage.getItem('product').split(',');
-            this.setState({ ids: products });
-        }
-        this.props.getMockProductsView(host)
-            .then(res => {
-                let Ids = [];
-                res.payload.map(item => {
-                    Ids.push(item.id);
-                })
-                this.setState({ allIds: Ids });
-            }).then(()=>console.log('wirked again',this.state.allIds));
-    }
+    
 
     render() {
-        console.log('worked again',this.state.ids);
         let tableData =
             <div className="table-responsive card text-dark">
                 <table className="table">
                     <thead>
                         <tr>
-                            {console.log(this.state.ids,this.state.allIds)}
                             <th scope="col"><input type="checkbox" checked={(this.state.ids.length === this.state.allIds.length) ? true : false} onClick={
                                 
                                 (e) => {
@@ -282,22 +277,22 @@ class ProductsView extends Component {
                         {navLink}
                     </div>
                     <div className="md-stepper-horizontal orange">
-                        <div className="md-step activeProductsView">
-                            <div className="md-step-circle"><span>1</span></div>
+                        <div className="md-step activeProductsView ">
+                            <div className="md-step-circle activePush"><span>1</span></div>
                             <div className="md-step-title">Select Products</div>
                             <div className="md-step-bar-left"></div>
                             <div className="md-step-bar-right"></div>
                         </div>
-                        <div className="md-step">
+                        <div className="md-step ">
                             <div className="md-step-circle"><span>2</span></div>
-                            <div className="md-step-title">Save to Store</div>
+                            <div className="md-step-title deactive">Save to Store</div>
                             <div className="md-step-bar-left"></div>
 
                             <div className="md-step-bar-right"></div>
                         </div>
                         <div className="md-step">
                             <div className="md-step-circle"><span>3</span></div>
-                            <div className="md-step-title">Proceed</div>
+                            <div className="md-step-title deactive">Proceed</div>
                             <div className="md-step-bar-left"></div>
                             <div className="md-step-bar-right"></div>
                         </div>

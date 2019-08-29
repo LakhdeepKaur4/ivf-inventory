@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import{ PRODUCTS_VIEW} from '../actionCreators/index';
+import{ PRODUCTS_VIEW,MOCK_PRODUCTS_VIEW} from '../actionCreators/index';
 
 export function getProductsView(URL, categoryId=null,defaultPage){
     let url = `${URL}/api/item/${defaultPage}`;
@@ -20,8 +20,7 @@ export function getProductsView(URL, categoryId=null,defaultPage){
     }
 }
 export function getMockProductsView(URL){
-    console.log(URL)
-    let url = `${URL}/products`
+        let url = `${URL}/products`
 
     const request = axios.get(url)
     .then((response =>{
@@ -30,7 +29,7 @@ export function getMockProductsView(URL){
     }))
 
     return {
-        type: PRODUCTS_VIEW,
+        type: MOCK_PRODUCTS_VIEW,
         payload:request
     }
 }
