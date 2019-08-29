@@ -28,10 +28,10 @@ class Products extends Component {
     }
 
     productsItem = ({ productItem }) => {
-        console.log("======================", productItem)
-        if (productItem) {
+       
+        if (productItem) { console.log("======================", productItem)
         
-                return productItem.order.cart.cartProducts.map((item) => {
+                return productItem.order.cart.cartProducts ?  productItem.order.cart.cartProducts.map((item) => {
                     console.log(item);
                     return (
                         <tr key={item.cartProductId}>
@@ -44,7 +44,7 @@ class Products extends Component {
 
                     )
 
-                })
+                }):''
             
 
         }
@@ -176,6 +176,7 @@ class Products extends Component {
 }
 
 function mapStateToProps(state) {
+  
     return {
         ProductItemReducer: state.ProductItemReducer
     }
