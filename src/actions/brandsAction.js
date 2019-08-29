@@ -36,6 +36,10 @@ export function getDefaultPageBrandsDetails(defaultPage,url) {
         dispatch({ type: GET_PAGE_DETAIL, payload: response.data });
       })
       .catch(err => {
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR FETCHING RECORDS');
+      }
+      else
         toasterMessage("error", err);
       });
   };
@@ -69,12 +73,16 @@ export function addBrand(data,url) {
           dispatch({ type: ADD_BRAND, payload: true });
           dispatch(getDefaultPageBrandsDetails(1,url));
         }
-        else if( response.status===200 && response.data.message==='Creation error'){
-          toasterMessage("error",response.data.message)
-        }
+        
       })
       .catch(err => {
-        toasterMessage("error",err);
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR FETCHING RECORDS');
+      }
+      else if(err.response.status===400){
+        toasterMessage("error",err.response.data.message);
+      }
+       
       });
   };
 }
@@ -86,7 +94,7 @@ export function enableBrand(id,currentPage,url) {
       .put(`${url}/api/brands/enable/${id}`)
       .then(response => {
         if (
-          response.status === 200 &&
+          response.status === 201 &&
           response.data.message === "Brand enabled"
         ) {
           toasterMessage("success", response.data.message);
@@ -111,7 +119,7 @@ export function disableBrand(id,currentPage,url) {
       .put(`${url}/api/brands/disable/${id}`)
       .then(response => {
         if (
-          response.status === 200 &&
+          response.status === 201 &&
           response.data.message === "Brand disabled"
         ) {
           toasterMessage("success", response.data.message);
@@ -177,7 +185,7 @@ export function changeStatus(value, ids,currentPage,url) {
       .put(`${url}/api/brands/multiselect`, payload)
       .then(response => {
         if (
-          (response.status === 200 &&
+          (response.status === 201 &&
             response.data.message === "Brands disabled successfully") ||
           response.data.message === "Brands enabled successfully"
         ) {
