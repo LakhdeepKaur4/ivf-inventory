@@ -36,18 +36,19 @@ class ProductsView extends Component {
     }
     
     setHost = host => {
+        var defaultPage= this.state.activePage;
         this.setState({host});
         if (localStorage.getItem('product') !== null) {
             let products = localStorage.getItem('product').split(',');
             this.setState({ ids: products });
         }
-        this.props.getMockProductsView(host)
+        this.props.getMockProductsView(host,defaultPage)
             .then(res => {
                 let Ids = [];
-                res.payload.map(item => {
-                    Ids.push(item.id);
+                res.payload.items.docs.map(item => {
+                    Ids.push(item._id);
                 })
-                this.setState({ allIds: Ids });
+                this.setState({ allIds: Ids,limit: res.payload.items.limit, totalItemsCount: res.payload.items.total });
             });
     }
 
@@ -55,19 +56,24 @@ class ProductsView extends Component {
 
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
+        console.log(pageNumber);
+        this.props.getMockProductsView(this.state.host,pageNumber);
     }
 
     searchOnChange = (e) => {
         this.setState({ search: e.target.value })
+        
     }
 
-    searchFilter = (search) => {
-        return function (x) {
+    searchFilter = (x) => {
+        let search=this.state.search
+        console.log('search=====================',x,search)
             return x.sku.toLowerCase().includes(search.toLowerCase()) ||
-                x.stock.toString().includes(search.toString()) ||
+                x.optStock.toString().includes(search.toString()) ||
                 x.name.toLowerCase().includes(search.toLowerCase()) ||
+                x.price.range.toString().includes(search.toString())||
                 !search;
-        }
+        
     }
 
     onSort = () => {
@@ -106,28 +112,53 @@ class ProductsView extends Component {
         }
         this.setState({ ids: IDS });
     }
+    sortArr=(arr,way)=>{
+        console.log(arr);
+        if(way=='inc'){
+                arr.sort((a,b)=>{
+                    var orderBool= a.name > b.name
+                    return orderBool ?1 : -1;
+                })
+        }else{
+            arr.sort((a, b) => {
+                var orderBool = a.name < b.name;
+                return orderBool ? 1 : -1;
+            })
+        }
+    }
 
     productsResult = ({ productListMock }) => {
+        console.log(productListMock)
         if (productListMock) {
-            let Ids = [];
-            productListMock.map(item => {
-                Ids.push(item.id);
-            })
-            return productListMock.sort((item1, item2) => {
-                var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
-                return this.state.sortVal ? cmprVal : -cmprVal;
-            }).filter(this.searchFilter(this.state.search)).map((item) => {
+            // let Ids = [];
+            // productListMock.item.map(item => {
+            //     Ids.push(item._id);
+            // })
+            console.log(productListMock)
+            let arr = productListMock.items.docs
+            console.log(arr);
+            if(this.state.sortVal===true){
+                this.sortArr(arr,'inc')
+            }else{
+                this.sortArr(arr,'dec')
+            }
+            return productListMock.items.docs.filter(this.searchFilter).map((item) => {
+                console.log(item);
                 return (
                     <tr>
-                        <td scope="row"><input type="checkbox" checked={(this.state.ids.includes(item.id)) ? true : false} onClick={(e) => {
+                        <td scope="row"><input type="checkbox" checked={(this.state.ids.includes(item._id)) ? true : false} onClick={(e) => {
                             let action = e.currentTarget.checked;
-                            this.pickIds(item.id, action);
+                            this.pickIds(item._id, action);
                         }} /></td>
-                        <td><img src={item.image} className="img-fluid" alt="Sheep" /></td>
+                        <td>
+                            {/* <img src={item.image} className="img-fluid" alt="Sheep" /> */}
+                            </td>
                         <td>{item.sku}</td>
-                        <td>{item.stock}</td>
+                        <td>
+                        {item.optStock}
+                        </td>
                         <td>{item.name}</td>
-                        <td>{item.price}</td>
+                        <td>{item.price.range}</td>
                     </tr>
                 )
 
@@ -266,7 +297,7 @@ class ProductsView extends Component {
             </nav>
 
         return (
-            <HostResolver hostToGet="mockup" hostResolved={host => {
+            <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
             <div>
