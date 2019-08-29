@@ -97,3 +97,15 @@ opacity: 1;
     text-transform: uppercase;
     opacity: 1;
   }
+
+  .edit_brand .margin1 {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .edit_brand .addLabel {
+    font: 12px/25px Muli;
+    letter-spacing: 0;
+    color: #43425d;
+    opacity: 1;
+  }

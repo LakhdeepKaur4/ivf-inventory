@@ -6,6 +6,7 @@ import './pushDataToStore.css';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import axios from 'axios';
 
 class PushDataToStore extends React.Component {
 
@@ -14,11 +15,14 @@ class PushDataToStore extends React.Component {
 
         this.state = {
             productId: [],
-            storeId: []
+            storeId: [],
+            host:[]
         }
     }
-    setHost = host => {
-        this.setState({host});
+    setHost = async host => {
+        let arr = this.state.host;
+        arr.push(host);
+        await this.setState({host:arr});
         window.onpopstate = () => {
             this.flag = true;
         }
@@ -29,8 +33,8 @@ class PushDataToStore extends React.Component {
         this.setState({ storeId: storeId.split(",") });
         localStorage.setItem('product', productId.split(","));
         localStorage.setItem('store', storeId.split(","));
-        this.props.getProducts(host);
-        this.props.getStores(host);
+        // this.props.getProducts(this.state.host[1]);
+        // this.props.getStores(this.state.host[2 ]);
 
     }
     componentWillUnmount() {
@@ -86,11 +90,16 @@ class PushDataToStore extends React.Component {
 
     }
     navigateAhead = () => {
-        this.props.history.push('/')
+        // this.props.history.push('/')
+        // console.log(this.state.productId,this.state.storeId)
+        axios.post(`${this.state.host}/api/map/stores/products`,{products:this.state.productId,stores:this.state.storeId})
     }
     render() {
         return (
-            <HostResolver hostToGet="mockup" hostResolved={host => {
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host);
+            }}>
+                <HostResolver hostToGet="mockup" hostResolved={host => {
                 this.setHost(host);
             }}>
             <div>
@@ -162,6 +171,7 @@ class PushDataToStore extends React.Component {
                     </div>
                 </Dashboard>
             </div>
+            </HostResolver>
             </HostResolver>
         )
     }

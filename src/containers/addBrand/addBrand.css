@@ -19,14 +19,7 @@
   text-transform: uppercase;
   opacity: 1;
 }
-.add_brand label {
-  margin-left: 11px;
-  color: #555555;
-  font-size: 18px;
-  top: 441px;
-  left: 366px;
-  /* height: 15px; */
-  text-align: left;
+.add_brand .addLabel {
   font: 12px/25px Muli;
   letter-spacing: 0;
   color: #43425d;
@@ -104,4 +97,9 @@
   color: #4d4f5c;
   text-transform: uppercase;
   opacity: 1;
+}
+
+.margin1 {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 }
