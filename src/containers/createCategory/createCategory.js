@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './createCategory.css';
-import { EditorState, convertFromRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
 import { bindActionCreators } from 'redux';
 import { GetInitialCategory, GetParticularCategory, GetSubCategory, onSubmit } from '../../actions/createCategory';
 import FileStructure from '../../components/fileStructure/fileStructure';
@@ -12,15 +9,19 @@ import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
 import HostResolver from '../../components/resolveHost/resolveHost';
 import axios from 'axios';
+import { toasterMessage } from "../../utils.js";
+
+import { ContentState, EditorState, convertToRaw, convertFromRaw, convertFromHTML } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
 
 class ClassCategory extends Component {
     constructor(props) {
         super(props);
-
+        
         this.state = {
             name: '',
             url: '',
-            editorChange: EditorState.createEmpty(),
             content: { "entityMap": {}, "blocks": [{ "key": "637gr", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }] },
             contentState: '',
             description: '',
@@ -28,7 +29,7 @@ class ClassCategory extends Component {
             picture: '',
             pageTitle: '',
             metaDescription: '',
-            Search: '',
+            search: '',
             file: '',
             parent: null,
             subParent: '',
@@ -37,7 +38,7 @@ class ClassCategory extends Component {
             errors: {},
             host: '',
             _id: props.match.params.id,
-            category: {}
+            editorState:EditorState.createEmpty(),
         }
 
     }
@@ -55,18 +56,32 @@ class ClassCategory extends Component {
         if (this.state._id) {
             const request = axios.get(`${host}/api/category/edit/${this.state._id}`)
                 .then(async res => {
+                    debugger;
+                    let { description, ...category } = res.data.category;
+                    let editorState = EditorState.createEmpty();                            
+                    try{
+                        if(res.data.category.description){
+                            const blocksFromHTML = convertFromHTML(res.data.category.description);
+                            const state = ContentState.createFromBlockArray(
+                                    blocksFromHTML.contentBlocks,
+                                    blocksFromHTML.entityMap);  
+                            editorState = EditorState.createWithContent(state);                           
+                        }                                                
+                    }
+                    catch(r){
+                        editorState = EditorState.createEmpty();
+                    }
+                    
+
                     this.setState({
-                        category: res.data.category
-                    })
-                    this.state.content.blocks[0].text = res.data.category.description;
-                    console.log(this.state.content)
-                    this.setState({ contentState: convertFromRaw(this.state.content) })
-                })
+                        ...category,
+                        editorState
+                    });
+             })
         }
     }
 
     change = (e) => {
-        
         if (!this.state.errors[e.target.value]) {
             let errors = Object.assign({}, this.state.errors);
             delete errors[e.target.name];
@@ -80,7 +95,7 @@ class ClassCategory extends Component {
 
     editorChange = (editorChange) => {
         this.state.errors.description = '';
-        let desc = draftToHtml(convertFromRaw(this.state.editorChange.getCurrentContent()));
+        let desc = draftToHtml(convertToRaw(this.state.editorChange.getCurrentContent()));
         desc = desc.toString();
         desc = desc.slice(desc.indexOf(">") + 1);
         desc = desc.slice(0, desc.indexOf("<"));
@@ -89,7 +104,6 @@ class ClassCategory extends Component {
     }
 
     onContentStateChange = contentState => {
-        console.log(this.state.contentState)
         this.setState({
             contentState,
         });
@@ -103,21 +117,33 @@ class ClassCategory extends Component {
         let errors = {};
         if (this.state.name == '') errors.name = 'Please enter name';
         if (this.state.url == '') errors.url = 'Please enter URL';
-        if (this.state.Search == '') errors.Search = 'Please enter Search Key';
+        if (this.state.search == '') errors.search = 'Please enter Search Key';
         if (this.state.metaDescription == '') errors.metaDescription = 'Please enter Search Key';
         if (this.state.pageTitle == '') errors.pageTitle = 'Please enter Search Key';
-        if (this.state.description == '') errors.description = 'Please enter desciption';
-        // if(this.state.file=='') errors.file='Please attach a file';       
+        if (!this.state.editorState.getCurrentContent().hasText()) errors.description = 'Please enter desciption';
         this.setState({ errors });
         const isValid = Object.keys(errors).length === 0;
         if (isValid) {
-            this.props.onSubmit(this.state.host, { ...this.state })
+            let { editorState , ...data } = this.state;
+            let editorContentHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));          
+            data.description = editorContentHtml;
+
+            if(!this.state._id){
+                this.props.onSubmit(this.state.host, { ...data })
                 .then(() => this.props.GetInitialCategory(this.state.host));
+            }            
+            else{
+                const request = axios.put(`${this.state.host}/api/category/${this.state._id}`,
+                { ...data })
+                    .then((response => {
+                        toasterMessage("success", 'SUCCSESS');
+                    }));           
+            }
         }
     }
+
+
     push = (e,id) => {
-        console.log(e.currentTarget);
-        
         this.setState({ parent: id });
         this.props.GetParticularCategory(this.state.host, id);
         this.setState({ show: true });
@@ -176,7 +202,6 @@ class ClassCategory extends Component {
             else {
                 getSubCategory.map((item) => item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
-                        // <div style={{marginLeft:'30px'}}><input type="radio"/>{item.name}</div>
                         $(`#${this.state.parent}`).append(`<div key=${item._id}><i class="fa fa-folder ml-4"/>${item.name}</div>`);
                     }
                 }))
@@ -185,9 +210,17 @@ class ClassCategory extends Component {
         return;
     }
 
+    onEditorStateChange = (editorState) => {
+        let errorObject = this.state.errors;    
+        if (editorState.getCurrentContent().hasText()) {
+            errorObject.description='';
+        }
+        this.setState({editorState, errors:errorObject});
+      };
+    
+
     render() {
-        let editableData = this.state.category;
-        console.log("===================", editableData)
+        let editableData = this.state;
         return (
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
@@ -266,9 +299,9 @@ class ClassCategory extends Component {
                                     </div>
                                     <span style={{ color: "red" }}>{this.state.errors.metaDescription}</span>
                                     <div className="createCategory">
-                                        <input type="text" placeholder="Search key" name="Search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
+                                        <input type="text" placeholder="Search key" value={editableData.search} name="search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
                                     </div>
-                                    <span style={{ color: "red" }}>{this.state.errors.Search}</span>
+                                    <span style={{ color: "red" }}>{this.state.errors.search}</span>
                                     <div>
                                         <button className="button-main button3" style={{ marginTop: '5px' }} onClick={this.submit}>
                                             Submit
@@ -283,17 +316,14 @@ class ClassCategory extends Component {
                             </div>
                             <div className="row mt-3">
                                 <div className="col-8">
-                                    {console.log(editableData.description)}
                                     <Editor
-                                        // value={editableData.description}
-                                        // editorState={this.state.editorChange}
-                                        // initialContentState={this.state.contentState}
+                                       editorState={this.state.editorState}
                                         wrapperClassName="demo-wrapper"
                                         editorClassName="demo-editor"
-                                        // onEditorStateChange={this.editorChange}
-                                        onContentStateChange={this.onContentStateChange}
+                                        onEditorStateChange={this.onEditorStateChange}
                                         className="card bg-light"
-                                    />
+                                    >                            
+                                    </Editor>                                    
                                 </div>
                                 <div className="col-4 card cardCreateCategory">
                                     {this.getInitialCategory(this.props.CreateCategory)}
