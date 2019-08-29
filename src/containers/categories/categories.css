@@ -59,3 +59,9 @@
     color: #4d4f5c;
     opacity: 1;
   }
+
+  .parent-flex-center{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }

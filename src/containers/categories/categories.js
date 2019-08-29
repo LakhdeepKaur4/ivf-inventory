@@ -16,21 +16,25 @@ class Categories extends Component {
         this.state = {
             search: '',
             filterName: "customer",
-            activePage: '1',
-            limit: '5',
-            totalItemsCount: '',
+            activePage: 1,
+            limit: 5,
+            totalItemsCount: 0,
             checked: false,
-            host:'',
-            results:'',
-            categoryData:[]
+            host: '',
+            results: '',
+            categoryData: []
         }
         this.debouncedOnChange = _.debounce(this.debouncedOnChange.bind(this), 200);
     }
 
     componentWillReceiveProps(nextprops) {
-        if(!this.props.categories || nextprops.categores != this.props.categories) {
-            this.setState({categories:nextprops.categories});
+        if (!this.props.categories || nextprops.categores != this.props.categories) {
+            this.setState({ categories: nextprops.categories });
         }
+
+        this.setState({
+            totalItemsCount:nextprops.totalData
+        });       
     }
 
     debouncedOnChange(value) {
@@ -39,12 +43,12 @@ class Categories extends Component {
 
     search(value) {
         const request = axios.get(`${this.state.host}/api/category/search?search=${value}`)
-        .then(response=> {
-            return response.data.category
-         })
-        .then(data=>{
-            this.setState({categories:data})
-        }); 
+            .then(response => {
+                return response.data.category
+            })
+            .then(data => {
+                this.setState({ categories: data })
+            });
     }
 
     searchOnChange = (e) => {
@@ -73,22 +77,22 @@ class Categories extends Component {
                 return (
                     <tr key={category.id}>
                         <td><input type="checkbox" checked={category.checked}
-                        onClick = {()=>{
-                            this.setState((prevState)=>{
-                                return{
-                                    categories:prevState.categories.map(_category=>{
-                                        if(_category._id == category._id){
-                                            return {..._category,checked:!_category.checked}
-                                        }
-                                        return _category;
-                                    })
-                                }
-                            });
-                        }}
+                            onClick={() => {
+                                this.setState((prevState) => {
+                                    return {
+                                        categories: prevState.categories.map(_category => {
+                                            if (_category._id == category._id) {
+                                                return { ..._category, checked: !_category.checked }
+                                            }
+                                            return _category;
+                                        })
+                                    }
+                                });
+                            }}
                         ></input></td>
                         <td>{category.name}</td>
-                        <td>{category.items ? category.items[0]:''}</td>
-                        <td>{category.items ? category.items[1]:''}</td>
+                        <td>{category.items ? category.items[0] : ''}</td>
+                        <td>{category.items ? category.items[1] : ''}</td>
                         {(category.status === true) ? <td style={{ color: "#1ABC9C" }}>Visible</td> : <td style={{ color: "#F46565" }}>Not Visible</td>}
                         <td>
                             <div className="category_actions" style={{ marginLeft: '3%' }}>
@@ -105,12 +109,20 @@ class Categories extends Component {
                                         </button>
 
                                     <div className="dropdown-menu" aria-labelledby="dropdownActionMenu">
-                                        <a className="dropdown-item" onClick={() => this.getProductData(category._id)}>
-                                            View Products
-                                        </a>
                                         <a className="dropdown-item" onClick={() => this.editCategory(category._id)}>
                                             Edit
                                         </a>
+                                        <a className="dropdown-item" onClick={() => this.getProductData(category._id)}>
+                                            View Products
+                                        </a>
+                                        <a className="dropdown-item" >
+                                            Enable
+                                        </a>
+                                        <a className="dropdown-item" >
+                                            Disable
+                                        </a>
+
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -121,13 +133,13 @@ class Categories extends Component {
         }
     }
     selectAll = () => {
-        this.setState(currentState=>{
+        this.setState(currentState => {
             return {
                 checked: !currentState.checked,
-                categories:currentState.categories.map(category=>{
+                categories: currentState.categories.map(category => {
                     return {
                         ...category,
-                        checked:!currentState.checked
+                        checked: !currentState.checked
                     }
                 })
             }
@@ -139,8 +151,25 @@ class Categories extends Component {
     }
 
     setHost = host => {
-        this.setState({host});
-        this.props.viewCategory(host);
+        this.setState({ host });
+        this.props.viewCategory(host, this.state.activePage, this.state.limit);
+    }
+
+    handlePageChange = (pageNo)=>{
+        this.setState({activePage:pageNo});
+        this.props.viewCategory(this.state.host, pageNo, this.state.limit);
+    }
+
+    renderPagination() {
+        return <Pagination activePage={this.state.activePage}
+            firstPageText={<i class="fa fa-angle-left"></i>}
+            lastPageText={<i class="fa fa-angle-right"></i>}
+            itemsCountPerPage={this.state.limit} 
+            totalItemsCount={this.state.totalItemsCount}
+            onChange={this.handlePageChange}
+            itemClass='page-item'
+            linkClasss='page-link'
+        />
     }
 
     render() {
@@ -158,8 +187,8 @@ class Categories extends Component {
                             </p>
                             </div>
 
-                            <div>
-                                <div className="category_actions" >
+                            <div className="sw-action-bar">
+                                <div className="category_actions parent-flex-center" >
                                     <div className="dropdown">
                                         <button
                                             className="btn actionButton"
@@ -183,7 +212,15 @@ class Categories extends Component {
                                                 }}
                                             >
                                                 Visible
-                                                    </a>
+                                            </a>
+                                            <a
+                                                className="dropdown-item"
+                                                onClick={() => {
+                                                    this.handleMultiple("enabled");
+                                                }}
+                                            >
+                                                In Visible
+                                            </a>
                                             <a
                                                 className="dropdown-item"
                                                 onClick={() => {
@@ -197,11 +234,14 @@ class Categories extends Component {
 
                                 </div>
 
-                                <i className="fa fa-plus" style={{ marginLeft: '3%', marginTop: '1%', color: '#777777' }}>
-                                </i>
-                                <button className="btn createText" onClick={this.clickToCreate}>
-                                    Create
-                            </button>
+                                <div className="parent-flex-center" 
+                                style={{ marginLeft:"16px"}}>
+                                    <i className="fa fa-plus" style={{ fontSize:"14px",marginLeft: '3%', marginTop: '1%', color: '#777777' }}>
+                                    </i>
+                                    <button className="btn createText" onClick={this.clickToCreate}>
+                                        Create
+                                    </button>
+                                </div>
 
                                 <li className="nav-item searchBox">
                                     <span className="nav-link" style={{ paddingTop: '1px' }}><span className="form-group has-search">
@@ -215,15 +255,12 @@ class Categories extends Component {
                                 </datalist>
 
 
-                                <div style={{ float: 'right', marginRight: '2%', color: 'black' }}>
-                                    <Pagination activePage={this.state.activePage}
-                                        itemsCountPerPage={this.state.limit}
-                                        totalItemsCount={this.state.totalItemsCount}
-                                        onChange={this.handlePageChange}
-                                        itemclass='page-item'
-                                        linkclass='page-link' />
+                                <div 
+                                style={{alignSelf: "flex-end",
+                                    height: "20px"}}
+                                className="sw-action-bar__item sw-action-bar__item--right">
+                                    {this.renderPagination()}
                                 </div>
-
                             </div>
 
                             <table className="table table-hover categoryList" style={{ backgroundColor: '#FFFFFF', marginTop: '2%' }}>
@@ -233,9 +270,9 @@ class Categories extends Component {
                                             <input type="checkbox" onClick={this.selectAll} />
                                         </th>
                                         <th scope="col">Name</th>
+                                        <th scope="col">Parent</th>
                                         <th scope="col">Products</th>
-                                        <th scope="col">PROD IN SC</th>
-                                        <th scope="col">Visible</th>
+                                        <th scope="col">Visibility</th>
                                         <th scope="col">Actions</th>
                                         <th scope="col">
                                             <div className="category_actions" >
@@ -267,12 +304,16 @@ class Categories extends Component {
 
 function mapStateToProps(state) {
     let categories = [];
-    if(state.catogoriesReducer && state.catogoriesReducer.categoryData
-        && state.catogoriesReducer.categoryData.categories){
-        categories = state.catogoriesReducer.categoryData.categories
+    let totalData = 0;
+    if (state.catogoriesReducer && state.catogoriesReducer.categoryData
+        && state.catogoriesReducer.categoryData.items 
+        && state.catogoriesReducer.categoryData.items.docs) {           
+        categories = state.catogoriesReducer.categoryData.items.docs;
+        totalData = state.catogoriesReducer.categoryData.items.total;
     }
     return {
-        categories
+        categories,
+        totalData
     }
 }
 
