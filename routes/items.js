@@ -10,7 +10,9 @@ router.route("/").get(controller.getItems);
 
 router.route("/search").get(controller.searchItems);
 
-router.route("/:pageNumber").get(controller.getItemsByPage);
+// router.route("/multiselect").get(controller.getItemsByIds);
+
+router.route("/:pageNumber/:limit").get(controller.getItemsByPage);
 
 router.route("/:id").get(controller.getVariantsByProductId);
 

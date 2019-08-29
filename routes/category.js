@@ -22,4 +22,8 @@ router.route("/:id").put(controller.updateCategory);
 
 router.route("/delete/:id").put(controller.deleteCategory);
 
+router.route("/multiSelect/changeStatus").put(controller.multiEnableOrDisable);
+
+router.route("/:pageNumber/:limit").get(controller.getCategoriesByPage);
+
 module.exports= router;

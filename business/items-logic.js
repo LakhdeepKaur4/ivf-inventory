@@ -117,6 +117,18 @@ exports.getItems = async (req, res, next) => {
   }
 }
 
+exports.getItemsByIds = async (req, res, next) => {
+  try {
+    const item = await Item.find({});
+    if (item) {
+      return res.send({ item });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.send(error);
+  }
+}
+
 exports.updateItems = async (req, res, next) => {
   try {
     let index;
@@ -287,7 +299,7 @@ exports.getProductByCategory = async (req, res, next) => {
 // Getting all items but segregated by pages
 exports.getItemsByPage = (req, res, next) => {
   try {
-    Item.paginate({}, { page: req.params.pageNumber, limit: 10 })
+    Item.paginate({}, { page: req.params.pageNumber, limit: parseInt(req.params.limit) })
       .then(items => {
         return res.status(httpStatus.OK).json({ items });
       })
@@ -316,6 +328,28 @@ exports.searchItems = async (req, res) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
   }
 }
+
+
+// exports.getItemsByIds = async (req, res, next) => {
+//   try {
+//     const Ids = req.query.ids;
+//     console.log(Ids);
+//     let item = await Item.find({ '_id': { $in: ObjectId(Ids) } }, { new: true }).exec((err, resp) => {
+//       if (err) console.log(err);
+//       else console.log("))))", resp)
+//     });
+//     if (item) {
+//       return res.status(httpStatus.OK).send({ message: "Item Page", item });
+//     }
+//   } catch (error) {
+//     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error.message });
+//   }
+// }
+
+
+
+
+
 
 
 
