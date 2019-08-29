@@ -14,7 +14,7 @@ class ProductsView extends Component {
         this.state = {
             search: '',
             activePage: '1',
-            limit: '5',
+            limit: '2',
             totalItemsCount: '',
             filterName: 'name',
             sortVal: false,
@@ -37,12 +37,13 @@ class ProductsView extends Component {
     
     setHost = host => {
         var defaultPage= this.state.activePage;
+        var limit=this.state.limit
         this.setState({host});
         if (localStorage.getItem('product') !== null) {
             let products = localStorage.getItem('product').split(',');
             this.setState({ ids: products });
         }
-        this.props.getMockProductsView(host,defaultPage)
+        this.props.getMockProductsView(host,defaultPage,limit)
             .then(res => {
                 let Ids = [];
                 res.payload.items.docs.map(item => {
@@ -57,7 +58,7 @@ class ProductsView extends Component {
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
         console.log(pageNumber);
-        this.props.getMockProductsView(this.state.host,pageNumber);
+        this.props.getMockProductsView(this.state.host,pageNumber,this.state.limit);
     }
 
     searchOnChange = (e) => {

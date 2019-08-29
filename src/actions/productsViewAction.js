@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import{ PRODUCTS_VIEW,MOCK_PRODUCTS_VIEW} from '../actionCreators/index';
 
-export function getProductsView(URL, categoryId=null,defaultPage){
+export function getProductsView(URL, categoryId=null,defaultPage,limit){
     console.log(categoryId);
-    let url = `${URL}/api/item/${defaultPage}`;
+    let url = `${URL}/api/item/${defaultPage}/${limit}`;
     if(categoryId){
         url = `${URL}/api/item/category/${categoryId}`;
     }
@@ -20,8 +20,8 @@ export function getProductsView(URL, categoryId=null,defaultPage){
         payload:request
     }
 }
-export function getMockProductsView(URL,defaultPage){
-        let url = `${URL}/api/item/${defaultPage}`
+export function getMockProductsView(URL,defaultPage,limit){
+        let url = `${URL}/api/item/${defaultPage}/${limit}`
 
     const request = axios.get(url)
     .then((response =>{
