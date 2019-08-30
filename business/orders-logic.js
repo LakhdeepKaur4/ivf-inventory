@@ -207,18 +207,18 @@ exports.advancedSearchOrders = (req, res, next) => {
     })
       .then(orders => {
         let ordersSend = [];
+        let eventDateL = body.eventDateLowerLimit.split('-');
+        let eventDateU = body.eventDateUpperLimit.split('-');
+        eventDateL = new Date(eventDateL[2],eventDateL[1],eventDateL[0]);
+        eventDateU = new Date(eventDateU[2], eventDateU[1], eventDateU[0]);
         ordersSend = orders.filter(item => {
-          if (item.createdAt.split('T')[0] >= body.eventDateLowerLimit && item.createdAt.split('T')[0] >= body.eventDateUpperLimit) {
-            return item;
-          }
+          console.log((item.createdAt.getTime() >= eventDateL.getTime()) && (item.createdAt.getTime() <= eventDateU.getTime()));
+          return ((item.createdAt.getTime() >= eventDateL.getTime()) && (item.createdAt.getTime() <= eventDateU.getTime()));
         })
-        res.status(httpStatus.OK).json({ orders: ordersSend });
+        return resJson(res, httpStatus.OK, { orders: ordersSend });
       })
       .catch(err => {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-          message: 'Please try again...',
-          error: err
-        })
+        return resJson(res, httpStatus.NOT_FOUND, { message: 'Please try again...', error: err });
       })
   } catch (err) {
     return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: 'Please try again...', error: err });
