@@ -91,10 +91,13 @@ class Categories extends Component {
                             }}
                         ></input></td>
                         <td>{category.name}</td>
-                        <td>{category.items ? category.items[0] : ''}</td>
-                        <td>{category.items ? category.items[1] : ''}</td>
+                        <td>{category.parent? category.parent.name:''}</td>
+                        {/* <td></td> */}
+                        <td>{category.items?category.items.length:0}</td>
+                        {/* <td>{category.items ? category.items[0] : ''}</td> */}
                         {(category.status === true) ? <td style={{ color: "#1ABC9C" }}>Visible</td> : <td style={{ color: "#F46565" }}>Not Visible</td>}
                         <td>
+                       
                             <div className="category_actions" style={{ marginLeft: '3%' }}>
                                 <div className="dropdown">
                                     <button
@@ -211,7 +214,7 @@ class Categories extends Component {
                                                     this.handleMultiple("enabled");
                                                 }}
                                             >
-                                                Visible
+                                                Enable
                                             </a>
                                             <a
                                                 className="dropdown-item"
@@ -219,16 +222,8 @@ class Categories extends Component {
                                                     this.handleMultiple("enabled");
                                                 }}
                                             >
-                                                In Visible
+                                                Disable
                                             </a>
-                                            <a
-                                                className="dropdown-item"
-                                                onClick={() => {
-                                                    this.handleMultiple("disabled");
-                                                }}
-                                            >
-                                                Not Visible
-                                                    </a>
                                         </div>
                                     </div>
 
@@ -239,7 +234,7 @@ class Categories extends Component {
                                     <i className="fa fa-plus" style={{ fontSize:"14px",marginLeft: '3%', marginTop: '1%', color: '#777777' }}>
                                     </i>
                                     <button className="btn createText" onClick={this.clickToCreate}>
-                                        Create
+                                        New
                                     </button>
                                 </div>
 
@@ -257,8 +252,8 @@ class Categories extends Component {
 
                                 <div 
                                 style={{alignSelf: "flex-end",
-                                    height: "20px"}}
-                                className="sw-action-bar__item sw-action-bar__item--right">
+                                    height: "30px"}}
+                                className="sw-action-bar__item sw-action-bar__item--right parent-flex-center">
                                     {this.renderPagination()}
                                 </div>
                             </div>
@@ -306,10 +301,10 @@ function mapStateToProps(state) {
     let categories = [];
     let totalData = 0;
     if (state.catogoriesReducer && state.catogoriesReducer.categoryData
-        && state.catogoriesReducer.categoryData.items 
-        && state.catogoriesReducer.categoryData.items.docs) {           
-        categories = state.catogoriesReducer.categoryData.items.docs;
-        totalData = state.catogoriesReducer.categoryData.items.total;
+        && state.catogoriesReducer.categoryData.categories 
+        ) {           
+        categories = state.catogoriesReducer.categoryData.categories;
+        totalData = state.catogoriesReducer.categoryData.total;
     }
     return {
         categories,

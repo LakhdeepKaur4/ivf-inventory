@@ -28,10 +28,8 @@ class ProductsView extends Component {
     }
 
     btnClick = (id) => {
-        console.log(id,this.state.visible);
         let ids = this.state.visible;
         if (ids.includes(id) === true) {
-            console.log(1);
             ids.splice(ids.indexOf(id), 1);
         } else {
             ids.push(id);
@@ -84,7 +82,6 @@ class ProductsView extends Component {
 
     searchFilter =  (x)=> {
         let search = this.state.search;
-            console.log('search==================',x,search)
             return x.sku ? x.sku.toLowerCase().includes(search.toLowerCase()) ||
                 x.optStock.toString().includes(search.toString()) ||
                 x.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -96,7 +93,6 @@ class ProductsView extends Component {
         this.setState(() => {
             return {
                 sortVal: true,
-
             }
         });
 
@@ -126,7 +122,6 @@ class ProductsView extends Component {
     }
 
     sorted = (arr, way) => {
-        console.log(arr)
         if (way === 'inc') {
             arr.sort((a, b) => {
                 var orderBool = a.name > b.name;
@@ -143,24 +138,18 @@ class ProductsView extends Component {
     }
 
     productsResult = ({ productList }) => {
-        console.log(productList);
         let data = [];
         if (this.props.match.params.id) {
-            console.log(1)
             data = productList;
         }
         else if (productList && productList.items && productList.items.docs) {
-
             data = productList.items.docs
-            console.log(data)
         }
         if (data && data.length) {
-            console.log(typeof (data));
             let arr = [];
             for (let x of data) {
                 arr.push(x);
             }
-            console.log(arr);
             let arrReturned
             if (this.state.sortVal === true) {
                 arrReturned = this.sorted(arr, 'inc');
