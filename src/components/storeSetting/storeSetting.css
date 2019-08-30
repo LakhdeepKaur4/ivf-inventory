@@ -1,0 +1,58 @@
+.store_setting_heading {
+  top: 132px;
+  left: 335px;
+  width: 210px;
+  height: 30px;
+  text-align: left;
+  font: Bold 24px/40px Muli;
+  letter-spacing: 0;
+  color: #555555;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+.settingRow {
+  margin-top: 30px;
+}
+.setting_icon {
+  top: 227px;
+  left: 335px;
+  width: 200px;
+  height: 200px;
+  border: 20px solid #ffffff;
+  opacity: 1;
+  border-radius: 50%;
+}
+
+.icon {
+  /* font: Solid 20px/40px Font Awesome 5 Pro; */
+  letter-spacing: 0;
+  color: #4d4f5c;
+  opacity: 1;
+}
+
+.iconLabel {
+  font: Bold 16px/20px Muli;
+  letter-spacing: 0;
+  color: #4d4f5c;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+.icon.icon1 {
+  top: 292px;
+  left: 424px;
+  width: 23px;
+  height: 21px;
+}
+
+.iconLabel.iconLabel1 {
+  top: 341px;
+  left: 384px;
+  width: 91px;
+  height: 20px;
+}
+
+.active_link{
+    color:#F74A4A !important
+}

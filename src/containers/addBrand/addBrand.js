@@ -12,7 +12,7 @@ class AddBrand extends Component {
   state = {
     brandName: "",
     description: "",
-    status: "enabled",
+    status: "",
     errorBrandName: "",
     errorDescription: "",
     fileName: [],
@@ -24,7 +24,6 @@ class AddBrand extends Component {
   componentDidMount() {
     $("input[type=file]").attr("id", "file-upload");
     $("#file-upload").change(function() {
-      // var i = $(this).prev('label').clone();
       var file = $("#file-upload")[0].files[0].name;
       $(this)
         .prev("label")
@@ -41,7 +40,7 @@ class AddBrand extends Component {
   handleInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
     if (event.target.checked) {
-      this.setState({ status: event.target.value });
+      this.setState({ status: event.target.value })
     }
   };
 
@@ -56,7 +55,8 @@ class AddBrand extends Component {
         status: status,
         logo: logo
       };
-      this.props.addBrand(payload, this.state.host);
+      console.log('payload...', payload)
+      this.props.addBrand(payload, this.state.host,this.props.page);
       this.setState({
         brandName: "",
         description: "",
@@ -189,7 +189,7 @@ class AddBrand extends Component {
                           <input
                             type="radio"
                             name="status"
-                            value="Enabled"
+                            value="enabled"
                             defaultChecked={true}
                             onChange={this.handleInputChange}
                             className="margin1 p-0"
@@ -204,7 +204,7 @@ class AddBrand extends Component {
                           <input
                             type="radio"
                             name="status"
-                            value="Disabled"
+                            value="disabled"
                             onChange={this.handleInputChange}
                             className="margin1 p-0"
                           />
@@ -247,7 +247,8 @@ class AddBrand extends Component {
 const mapStateToProps = state => {
   return {
     BrandsReducer: state.BrandsReducer,
-    isNewBrandAdd: state.BrandsReducer.isNewBrandAdd
+    isNewBrandAdd: state.BrandsReducer.isNewBrandAdd,
+    page:state.BrandsReducer.lastPage
   };
 };
 export default connect(

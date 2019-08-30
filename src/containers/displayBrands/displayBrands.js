@@ -143,7 +143,6 @@ class Brands extends Component {
   // Navigate to add brands component
   displayForm = () => {
     this.props.history.push("/addBrand");
-    this.getAllIds();
   };
 
   // Handle Edit brand
@@ -268,7 +267,6 @@ class Brands extends Component {
               <th scope="col">DESCRIPTION</th>
               <th scope="col">STATUS</th>
               <th scope="col">ACTIONS</th>
-              <th scope="col">...</th>
             </tr>
           </thead>
           <tbody>{this.displayBrands(this.props.BrandsReducer)}</tbody>
@@ -304,8 +302,7 @@ class Brands extends Component {
                     />
                   </div>
                 </div>
-                <div className="filter">Filter</div>
-                <div className="brands_actions my-auto p-0">
+                <div className="brands_actions my-auto ">
                   <div className="dropdown my-auto p-0">
                     <button
                       className="btn my-auto p-0"
@@ -348,7 +345,7 @@ class Brands extends Component {
                   </div>
                 </div>
                 <div className="add_brands" onClick={this.displayForm}>
-                  + Add
+                  + New
                 </div>
                 <div className="sw-action-bar__item sw-action-bar__item--right">
                   <Pagination
