@@ -33,8 +33,11 @@ class PushDataToStore extends React.Component {
         this.setState({ storeId: storeId.split(",") });
         localStorage.setItem('product', productId.split(","));
         localStorage.setItem('store', storeId.split(","));
-        // this.props.getProducts(this.state.host[1]);
-        // this.props.getStores(this.state.host[2 ]);
+        console.log(this.state.productId);
+        var shub = this.state.productId.join();
+        console.log(shub);
+        this.props.getProducts(this.state.host[1],this.state.productId);
+        this.props.getStores(this.state.host[0]);
 
     }
     componentWillUnmount() {
@@ -44,14 +47,16 @@ class PushDataToStore extends React.Component {
         }
     }
     getProducts = ({ getFilterProducts }) => {
+        console.log(getFilterProducts);
         if (getFilterProducts) {
-            return getFilterProducts.map((item) => {
-                if (this.state.productId.includes(item.id)) {
+            return getFilterProducts.item.map((item) => {
+                if (this.state.productId.includes(item._id)) {
                     return (
-                        <tr key={item.id}>
+                        <tr key={item._id}>
                             <td>
                                 <div className="prductWithStore">
-                                    <img src={item.image} className="img-fluid" alt="Sheep" />
+                                    {console.log(`${this.state.host[1]}/`+item.productPicture[0])}
+                                    <img src={`${this.state.host[1]}`+item.productPicture[0]} className="img-fluid" alt="Sheep" />
                                     <span className="text-left">{item.name}</span>
                                 </div>
                             </td>
@@ -91,8 +96,10 @@ class PushDataToStore extends React.Component {
     }
     navigateAhead = () => {
         // this.props.history.push('/')
-        // console.log(this.state.productId,this.state.storeId)
-        axios.post(`${this.state.host}/api/map/stores/products`,{products:this.state.productId,stores:this.state.storeId})
+        console.log(this.state.productId,this.state.storeId)
+        axios.post(`${this.state.host[1]}/api/map/stores/products`,{products:this.state.productId,stores:this.state.storeId})
+        .then((res)=>console.log(res));
+        //  this.props.history.push('/')
     }
     render() {
         return (
@@ -172,7 +179,7 @@ class PushDataToStore extends React.Component {
                 </Dashboard>
             </div>
             </HostResolver>
-            </HostResolver>
+            // </HostResolver>
         )
     }
 }
