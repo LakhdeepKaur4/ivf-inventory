@@ -74,8 +74,6 @@ class Categories extends Component {
         let categories = this.state.categories;
         if (categories) {
             return categories.map(category => {
-                console.log("category",category)
-                console.log("category",category.items)
                 return (
                     <tr key={category.id}>
                         <td><input type="checkbox" checked={category.checked}
