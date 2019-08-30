@@ -64,7 +64,7 @@ exports.getCategory = async (req, res, next) => {
       });
     });
     if (categories) {
-      return res.send({ categories });
+      return res.status(httpStatus.OK).send({ categories });
     }
   } catch (error) {
     console.log(error);
@@ -265,16 +265,41 @@ exports.searchCategory = async (req, res) => {
 }
 
 // Getting all items but segregated by pages
-exports.getCategoriesByPage = (req, res, next) => {
+exports.getCategoriesByPage = async (req, res, next) => {
   try {
-    Category.paginate({}, { page: req.params.pageNumber, limit: parseInt(req.params.limit) })
-      .then(items => {
-        return res.status(httpStatus.OK).json({ items });
-      })
-      .catch(err => {
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
-      })
+    let total, limit, page, pages;
+    const options = { populate: 'parent', page: req.params.pageNumber, limit: parseInt(req.params.limit) }
+    const categories = await Category.paginate({}, options)
+      .then(categories => {
+        const categoryIdToObjMap = {};
+        total = categories.total;
+        limit = categories.limit;
+        page = categories.page;
+        pages = categories.pages;
+        categories.docs.forEach(category => {
+          categoryIdToObjMap[category._id] = { ...category._doc, items: [] };
+        });
+        return categoryIdToObjMap;
+      }).then((categoryIdToObjMap) => {
+        return Item.find({}).then(items => {
+          items.forEach(item => {
+            if (item.category) {
+              item.category.forEach(categoryId => {
+                if (categoryIdToObjMap[categoryId]) {
+                  categoryIdToObjMap[categoryId].items.push({ sku: item.sku, optStock: item.optStock });
+                }
+              });
+            }
+          });
+          return Object.values(categoryIdToObjMap);
+        });
+      });
+
+    if (categories) {
+      return res.status(httpStatus.OK).json({ categories, total: total, limit: limit, page: page, pages: pages });
+    }
   } catch (err) {
+    console.log(err)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
   }
 }
