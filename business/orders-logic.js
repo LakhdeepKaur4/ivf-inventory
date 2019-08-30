@@ -8,39 +8,56 @@ const Shipments = require('../config/relations').shipments; // Shipments model i
 const httpStatus = require('http-status'); // Module to provide HTTP response codes
 const Op = require('sequelize').Op; // Sequelize operators imported
 
+const resJson = require('../helpers/response').resJson; //helper function to send response in JSON format
+
 // Getting all orders
 exports.getOrders = (req, res, next) => {
-  Orders.findAll({
-    include: [
-      { model: Customers, include: [{ model: Addresses }] },
-      { model: Carts, include: [{ model: CartProducts }] },
-      { model: Shipments },
-      { model: Payments }
-    ]
-  })
-    .then(orders => {
-      console.log(orders);
-      res.json(orders);
+  try {
+    Orders.findAll({
+      where: {
+        orderId: req.params.id
+      },
+      include: [
+        { model: Customers, include: [{ model: Addresses }] },
+        { model: Carts, include: [{ model: CartProducts }] },
+        { model: Shipments },
+        { model: Payments }
+      ]
     })
+      .then(orders => {
+        return resJson(res, httpStatus.OK, orders);
+      })
+      .catch(err => {
+        return resJson(res, httpStatus.NOT_FOUND, { message: 'Please try again...', error: err });
+      })
+  } catch (err) {
+    return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: 'Please try again...', error: err });
+  }
 }
 
 // Getting a single order based on orderId
 exports.getOrderById = (req, res, next) => {
-  Orders.findOne({
-    where: {
-      orderId: req.params.id
-    },
-    include: [
-      { model: Customers, include: [{ model: Addresses }] },
-      { model: Carts, include: [{ model: CartProducts }] },
-      { model: Shipments },
-      { model: Payments }
-    ]
-  })
-    .then(orders => {
-      console.log(orders);
-      res.json(orders);
+  try {
+    Orders.findOne({
+      where: {
+        orderId: req.params.id
+      },
+      include: [
+        { model: Customers, include: [{ model: Addresses }] },
+        { model: Carts, include: [{ model: CartProducts }] },
+        { model: Shipments },
+        { model: Payments }
+      ]
     })
+      .then(orders => {
+        return resJson(res, httpStatus.OK, orders);
+      })
+      .catch(err => {
+        return resJson(res, httpStatus.NOT_FOUND, { message: 'Please try again...', error: err });
+      })
+  } catch (err) {
+    return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: 'Please try again...', error: err });
+  }
 }
 
 // Creating an order with all supporting entities (Customers,Addresses,Shipments,Payments,Carts,CartProducts)
@@ -89,7 +106,7 @@ exports.create = (req, res, next) => {
                               ]
                             })
                               .then(order => {
-                                return res.status(httpStatus.OK).json({ order });
+                                return resJson(res, httpStatus.CREATED, { order });
                               })
                           })
                       })
@@ -98,7 +115,7 @@ exports.create = (req, res, next) => {
           })
       })
   } catch (err) {
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+    return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: 'Please try again...', error: err });
   }
 }
 
@@ -161,7 +178,7 @@ exports.advancedSearchOrders = (req, res, next) => {
       where: {
         [Op.and]: [
           { orderId: { [Op.gte]: body.orderIdLowerLimit } },
-          { orderId: { [Op.lte]: body.orderIdUpperLimit } }
+          { orderId: { [Op.lte]: body.orderIdUpperLimit } },
         ]
       },
       include: [
@@ -189,16 +206,22 @@ exports.advancedSearchOrders = (req, res, next) => {
       ]
     })
       .then(orders => {
-        res.status(httpStatus.OK).json({ orders });
+        let ordersSend = [];
+        let eventDateL = body.eventDateLowerLimit.split('-');
+        let eventDateU = body.eventDateUpperLimit.split('-');
+        eventDateL = new Date(eventDateL[2],eventDateL[1],eventDateL[0]);
+        eventDateU = new Date(eventDateU[2], eventDateU[1], eventDateU[0]);
+        ordersSend = orders.filter(item => {
+          console.log((item.createdAt.getTime() >= eventDateL.getTime()) && (item.createdAt.getTime() <= eventDateU.getTime()));
+          return ((item.createdAt.getTime() >= eventDateL.getTime()) && (item.createdAt.getTime() <= eventDateU.getTime()));
+        })
+        return resJson(res, httpStatus.OK, { orders: ordersSend });
       })
       .catch(err => {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-          message: 'Please try again...',
-          error: err
-        })
+        return resJson(res, httpStatus.NOT_FOUND, { message: 'Please try again...', error: err });
       })
   } catch (err) {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Please try again...', error: err })
+    return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: 'Please try again...', error: err });
   }
 }
 
