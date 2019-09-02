@@ -109,7 +109,7 @@ export function enableBrand(id,currentPage,url) {
       })
       .catch(err => {
         toasterMessage("error", err);
-      });
+      });changeStatus
   };
 }
 

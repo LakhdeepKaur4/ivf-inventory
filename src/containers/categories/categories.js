@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import Pagination from 'react-js-pagination';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { viewCategory } from '../../actions/categoriesAction';
+import { viewCategory, changeStatus } from '../../actions/categoriesAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import './categories.css';
 import _ from 'lodash';
 import HostResolver from '../../components/resolveHost/resolveHost';
 import axios from 'axios';
-import { toasterMessage } from "../../utils.js";
 
 class Categories extends Component {
     constructor(props) {
@@ -22,7 +21,8 @@ class Categories extends Component {
             checked: false,
             host: '',
             results: '',
-            categoryData: []
+            categoryData: [],
+            multiSelect: []
         }
         this.debouncedOnChange = _.debounce(this.debouncedOnChange.bind(this), 200);
     }
@@ -70,6 +70,33 @@ class Categories extends Component {
         this.props.history.push(`/productsView/${id}`)
     }
 
+    //Handle multiple
+    handleMultiple = value => {
+        const { multiSelect, pageNo, host } = this.state;
+        this.props.changeStatus(value, multiSelect, pageNo, host)
+        .then(()=>{          
+            this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit); 
+        });
+        
+        this.setState({
+          multiSelect: [],
+          isAllSelect: false,
+          dropdownClick: false
+        })
+        // this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit);
+    };
+
+// Get Ids for selected Category
+    getMultiId = (id, action) => {
+        let ids = this.state.multiSelect;
+        if (action === true) {
+            ids.push(id);
+        } else {
+            ids.splice(ids.indexOf(id), 1);
+        }
+        this.setState({ multiSelect: ids });
+    };
+
     categoryResult = () => {
         let categories = this.state.categories;
         if (categories) {
@@ -89,13 +116,17 @@ class Categories extends Component {
                                     }
                                 });
                             }}
+
+                            onChange={e => {
+                                this.getMultiId(category._id, e.currentTarget.checked);
+                            }}
+
                         ></input></td>
                         <td>{category.name}</td>
                         <td>{category.parent? category.parent.name:''}</td>
-                        {/* <td></td> */}
                         <td>{category.items?category.items.length:0}</td>
-                        {/* <td>{category.items ? category.items[0] : ''}</td> */}
-                        {(category.status === true) ? <td style={{ color: "#1ABC9C" }}>Visible</td> : <td style={{ color: "#F46565" }}>Not Visible</td>}
+
+                        {(category.status === true) ? <td style={{ color: "#1ABC9C" }}>Enable</td> : <td style={{ color: "#F46565" }}>Disabled</td>}
                         <td>
                        
                             <div className="category_actions" style={{ marginLeft: '3%' }}>
@@ -118,12 +149,21 @@ class Categories extends Component {
                                         <a className="dropdown-item" onClick={() => this.getProductData(category._id)}>
                                             View Products
                                         </a>
-                                        <a className="dropdown-item" >
-                                            Enable
-                                        </a>
-                                        <a className="dropdown-item" >
+                                        {category.status === false ? (
+                                            <a
+                                                className="dropdown-item"
+                                                onClick={() => this.handleEnable(category._id)}
+                                            >
+                                                Enable
+                                            </a>
+                                            ) : (
+                                            <a
+                                                className="dropdown-item"
+                                                onClick={() => this.handleDisable(category._id)}
+                                            >
                                             Disable
-                                        </a>
+                                            </a>
+                                        )}
 
                                        
                                     </div>
@@ -211,7 +251,7 @@ class Categories extends Component {
                                             <a
                                                 className="dropdown-item"
                                                 onClick={() => {
-                                                    this.handleMultiple("enabled");
+                                                    this.handleMultiple("Enabled");
                                                 }}
                                             >
                                                 Enable
@@ -219,7 +259,7 @@ class Categories extends Component {
                                             <a
                                                 className="dropdown-item"
                                                 onClick={() => {
-                                                    this.handleMultiple("enabled");
+                                                    this.handleMultiple("disabled");
                                                 }}
                                             >
                                                 Disable
@@ -262,7 +302,8 @@ class Categories extends Component {
                                 <thead>
                                     <tr>
                                         <th scope="col">
-                                            <input type="checkbox" onClick={this.selectAll} />
+                                            <input type="checkbox" onClick={this.selectAll} 
+                                          />
                                         </th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Parent</th>
@@ -313,7 +354,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ viewCategory }, dispatch)
+    return bindActionCreators({ viewCategory,changeStatus }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);
