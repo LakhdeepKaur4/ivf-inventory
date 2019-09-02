@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch ,Redirect} from 'react-router-dom';
 import Brands from './containers/displayBrands/displayBrands';
 import AdvancedSearch from './containers/advancedSearch/advancedSearch';
 import ViewOrder from './containers/viewOrder/viewOrder'
@@ -32,6 +32,7 @@ import ProductView from './containers/productView/productView';
 import productView from './containers/productView/productView';
 import StoresView from './containers/storesView/storesView';
 import UnderConstruction from './components/maintenance/maintenance';
+import StoreSetting from './components/storeSetting/storeSetting'
 
 class App extends Component {
   constructor(){
@@ -43,20 +44,16 @@ class App extends Component {
         <div>
           <Switch>
             <Route path="/storeSettings" component={ UnderConstruction } />
-
             <Route path="/storesView" component={StoresView} />
             <Route path="/productsView/:id" component={productView} />
             <Route path="/editcategory/:id" component={createCategory} />
             <Route path="/productsView" component={ProductView} />
             <Route path="/pushDataToStore" component={PushDataToStore} />
-
-            
             <Route path="/createProduct/createVariant"   component={ProductVariant} />
             <Route path="/createProduct/editVariant/:id"  component={ProductVariant} />
             <Route path="/createProduct/variant/:title/createOption"   component={ProductVariantOption} />
             <Route path="/createProduct/variant/:title/editOption/:id"  component={ProductVariantOption}/>
             <Route path="/createProduct" component={CreateProduct} />
-            
             <Route path="/createpage" component={CreatePage} />
             <Route path="/filestructure" component={FileStructure} />
             <Route path="/dataToStore" component={DataToStore} />
@@ -81,6 +78,9 @@ class App extends Component {
             <Route path="/blogPost" component={BlogPost} />
             <Route path="/blogSettings" component={BlogSettings} />
             <Route path="/blog" component={Blog} />
+            <Route path="/storeSetting" component={StoreSetting}/>
+            <Route path='/notFound' component={UnderConstruction} />
+            <Redirect from='*' to='/notFound' />
             <Route path="/" component={Login} />
             
           </Switch>

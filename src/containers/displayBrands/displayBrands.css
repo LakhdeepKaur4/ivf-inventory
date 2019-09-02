@@ -88,6 +88,7 @@ p {
   display: inline-block;
   width: 15%;
   cursor: pointer;
+  padding-left: 15px
 }
 .brand_list .form-control {
   background-color: #d7dade;

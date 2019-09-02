@@ -3,15 +3,13 @@ import axios from 'axios';
 import{ PRODUCTS_VIEW,MOCK_PRODUCTS_VIEW} from '../actionCreators/index';
 
 export function getProductsView(URL, categoryId=null,defaultPage,limit){
-    console.log(categoryId);
     let url = `${URL}/api/item/${defaultPage}/${limit}`;
     if(categoryId){
         url = `${URL}/api/item/category/${categoryId}`;
     }
-
     const request = axios.get(url)
     .then((response =>{
-     return categoryId?response.data.item:response.data
+     return categoryId?response.data.items.docs:response.data
         
     }))
 
