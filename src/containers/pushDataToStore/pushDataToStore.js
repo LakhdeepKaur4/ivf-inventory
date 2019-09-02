@@ -99,7 +99,7 @@ class PushDataToStore extends React.Component {
         console.log(this.state.productId,this.state.storeId)
         axios.post(`${this.state.host[1]}/api/map/stores/products`,{products:this.state.productId,stores:this.state.storeId})
         .then((res)=>console.log(res));
-        //  this.props.history.push('/')
+         this.props.history.push('/sidebar');
     }
     render() {
         return (

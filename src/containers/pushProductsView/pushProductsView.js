@@ -144,7 +144,6 @@ class ProductsView extends Component {
                 this.sortArr(arr,'dec')
             }
             return productListMock.items.docs.filter(this.searchFilter).map((item) => {
-                console.log(item);
                 return (
                     <tr>
                         <td scope="row"><input type="checkbox" checked={(this.state.ids.includes(item._id)) ? true : false} onClick={(e) => {
