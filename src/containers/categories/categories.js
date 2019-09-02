@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Pagination from 'react-js-pagination';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { viewCategory, changeStatus } from '../../actions/categoriesAction';
+import { viewCategory, changeStatus, enableCategory, disableCategory } from '../../actions/categoriesAction';
 import Dashboard from '../../components/dashboard/dashboard';
 import './categories.css';
 import _ from 'lodash';
@@ -33,8 +33,8 @@ class Categories extends Component {
         }
 
         this.setState({
-            totalItemsCount:nextprops.totalData
-        });       
+            totalItemsCount: nextprops.totalData
+        });
     }
 
     debouncedOnChange(value) {
@@ -74,19 +74,19 @@ class Categories extends Component {
     handleMultiple = value => {
         const { multiSelect, pageNo, host } = this.state;
         this.props.changeStatus(value, multiSelect, pageNo, host)
-        .then(()=>{          
-            this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit); 
-        });
-        
+            .then(() => {
+                this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit);
+            });
+
         this.setState({
-          multiSelect: [],
-          isAllSelect: false,
-          dropdownClick: false
+            multiSelect: [],
+            isAllSelect: false,
+            dropdownClick: false
         })
         // this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit);
     };
 
-// Get Ids for selected Category
+    // Get Ids for selected Category
     getMultiId = (id, action) => {
         let ids = this.state.multiSelect;
         if (action === true) {
@@ -96,6 +96,25 @@ class Categories extends Component {
         }
         this.setState({ multiSelect: ids });
     };
+
+    // Handle Enable
+    handleEnable = id => {
+        const { activePage, host } = this.state;
+        this.props.enableCategory(id, activePage, host)
+        .then(() => {
+            this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit);
+        });
+    };
+
+    // Handle Disable 
+    handleDisable = id => {
+        const { activePage, host } = this.state;
+        this.props.disableCategory(id, activePage, host)
+        .then(() => {
+            this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit);
+        });
+    };
+
 
     categoryResult = () => {
         let categories = this.state.categories;
@@ -123,12 +142,12 @@ class Categories extends Component {
 
                         ></input></td>
                         <td>{category.name}</td>
-                        <td>{category.parent? category.parent.name:''}</td>
-                        <td>{category.items?category.items.length:0}</td>
+                        <td>{category.parent ? category.parent.name : ''}</td>
+                        <td>{category.items ? category.items.length : 0}</td>
 
                         {(category.status === true) ? <td style={{ color: "#1ABC9C" }}>Enable</td> : <td style={{ color: "#F46565" }}>Disabled</td>}
                         <td>
-                       
+
                             <div className="category_actions" style={{ marginLeft: '3%' }}>
                                 <div className="dropdown">
                                     <button
@@ -156,16 +175,16 @@ class Categories extends Component {
                                             >
                                                 Enable
                                             </a>
-                                            ) : (
-                                            <a
-                                                className="dropdown-item"
-                                                onClick={() => this.handleDisable(category._id)}
-                                            >
-                                            Disable
+                                        ) : (
+                                                <a
+                                                    className="dropdown-item"
+                                                    onClick={() => this.handleDisable(category._id)}
+                                                >
+                                                    Disable
                                             </a>
-                                        )}
+                                            )}
 
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -198,8 +217,8 @@ class Categories extends Component {
         this.props.viewCategory(host, this.state.activePage, this.state.limit);
     }
 
-    handlePageChange = (pageNo)=>{
-        this.setState({activePage:pageNo});
+    handlePageChange = (pageNo) => {
+        this.setState({ activePage: pageNo });
         this.props.viewCategory(this.state.host, pageNo, this.state.limit);
     }
 
@@ -207,7 +226,7 @@ class Categories extends Component {
         return <Pagination activePage={this.state.activePage}
             firstPageText={<i class="fa fa-angle-left"></i>}
             lastPageText={<i class="fa fa-angle-right"></i>}
-            itemsCountPerPage={this.state.limit} 
+            itemsCountPerPage={this.state.limit}
             totalItemsCount={this.state.totalItemsCount}
             onChange={this.handlePageChange}
             itemClass='page-item'
@@ -269,9 +288,9 @@ class Categories extends Component {
 
                                 </div>
 
-                                <div className="parent-flex-center" 
-                                style={{ marginLeft:"16px"}}>
-                                    <i className="fa fa-plus" style={{ fontSize:"14px",marginLeft: '3%', marginTop: '1%', color: '#777777' }}>
+                                <div className="parent-flex-center"
+                                    style={{ marginLeft: "16px" }}>
+                                    <i className="fa fa-plus" style={{ fontSize: "14px", marginLeft: '3%', marginTop: '1%', color: '#777777' }}>
                                     </i>
                                     <button className="btn createText" onClick={this.clickToCreate}>
                                         New
@@ -290,10 +309,12 @@ class Categories extends Component {
                                 </datalist>
 
 
-                                <div 
-                                style={{alignSelf: "flex-end",
-                                    height: "30px"}}
-                                className="sw-action-bar__item sw-action-bar__item--right parent-flex-center">
+                                <div
+                                    style={{
+                                        alignSelf: "flex-end",
+                                        height: "30px"
+                                    }}
+                                    className="sw-action-bar__item sw-action-bar__item--right parent-flex-center">
                                     {this.renderPagination()}
                                 </div>
                             </div>
@@ -302,8 +323,8 @@ class Categories extends Component {
                                 <thead>
                                     <tr>
                                         <th scope="col">
-                                            <input type="checkbox" onClick={this.selectAll} 
-                                          />
+                                            <input type="checkbox" onClick={this.selectAll}
+                                            />
                                         </th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Parent</th>
@@ -342,8 +363,8 @@ function mapStateToProps(state) {
     let categories = [];
     let totalData = 0;
     if (state.catogoriesReducer && state.catogoriesReducer.categoryData
-        && state.catogoriesReducer.categoryData.categories 
-        ) {           
+        && state.catogoriesReducer.categoryData.categories
+    ) {
         categories = state.catogoriesReducer.categoryData.categories;
         totalData = state.catogoriesReducer.categoryData.total;
     }
@@ -354,7 +375,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ viewCategory,changeStatus }, dispatch)
+    return bindActionCreators({ viewCategory, changeStatus, enableCategory, disableCategory }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

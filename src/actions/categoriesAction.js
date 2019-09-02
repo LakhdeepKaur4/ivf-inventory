@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { 
-    // ENABLE_CATEGORY,
-    VIEW_CATEGORY,
-    CHANGE_STATUS_CATEGORY
+    VIEW_CATEGORY
 } from '../actionCreators/index';
 import { toasterMessage } from "../utils";
 
@@ -65,3 +63,40 @@ export function changeStatus(value, ids, pageNo, URL) {
     }
   }
   
+// Enable categories status
+export function enableCategory(id,pageNo,URL) {
+    return dispatch => {
+      return axios
+        .put(`${URL}/api/category/enable/${id}`)
+        .then(response => {
+            if (
+              response.status === 200
+            ) {
+              
+              toasterMessage("success", response.data.message);            
+            }
+          })
+        .catch(err => {
+          toasterMessage("error", err);
+        });changeStatus
+    };
+}
+
+// Disable Categories status
+export function disableCategory(id,pageNo,URL) {
+    return dispatch => {
+     return axios
+        .put(`${URL}/api/category/disable/${id}`)
+        .then(response => {
+            if (
+              response.status === 200
+            ) {
+              
+              toasterMessage("success", response.data.message);            
+            }
+          })
+        .catch(err => {
+          toasterMessage("error", err);
+        });
+    };
+  }
