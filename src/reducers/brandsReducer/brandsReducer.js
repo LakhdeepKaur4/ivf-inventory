@@ -22,6 +22,7 @@ import {
     isBrandDetail: false,
     isStatusChanged: false,
     total:'',
+    lastPage:'',
 
   };
   
@@ -81,6 +82,7 @@ import {
           ...state,
           brandsList:action.payload.brands.docs,
           total:action.payload.brands.total,
+          lastPage:action.payload.brands.pages,
           
         }
       }

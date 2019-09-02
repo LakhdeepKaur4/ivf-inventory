@@ -61,7 +61,7 @@ export function getActivePageBrandsDetails(pageNumber,url) {
 }
 
 // Add brands
-export function addBrand(data,url) {
+export function addBrand(data,url,page) {
   return dispatch => {
     axios
       .post(`${url}/api/brands`, data)
@@ -72,7 +72,13 @@ export function addBrand(data,url) {
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ADD_BRAND, payload: true });
-          dispatch(getDefaultPageBrandsDetails(1,url));
+          if(page===1){
+            dispatch(getDefaultPageBrandsDetails(page,url))
+          }
+          else{
+            dispatch(getActivePageBrandsDetails(page,url))
+          }
+          
         }
         
       })
@@ -95,7 +101,7 @@ export function enableBrand(id,currentPage,url) {
       .put(`${url}/api/brands/enable/${id}`)
       .then(response => {
         if (
-          response.status === 201 &&
+          response.status === 200 &&
           response.data.message === "Brand enabled"
         ) {
           toasterMessage("success", response.data.message);
@@ -120,7 +126,7 @@ export function disableBrand(id,currentPage,url) {
       .put(`${url}/api/brands/disable/${id}`)
       .then(response => {
         if (
-          response.status === 201 &&
+          response.status === 200 &&
           response.data.message === "Brand disabled"
         ) {
           toasterMessage("success", response.data.message);
@@ -176,7 +182,6 @@ export function updateBrandDetails(data,id,url) {
 
 // Change status of multiple brands
 export function changeStatus(value, ids,currentPage,url) {
-  
   let payload = {
     status: value,
     ids: ids
@@ -186,7 +191,7 @@ export function changeStatus(value, ids,currentPage,url) {
       .put(`${url}/api/brands/multiselect`, payload)
       .then(response => {
         if (
-          (response.status === 201 &&
+          (response.status === 200 &&
             response.data.message === "Brands disabled successfully") ||
           response.data.message === "Brands enabled successfully"
         ) {
