@@ -4,6 +4,7 @@ const httpStatus = require('http-status');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const helper = require('../helpers/user');
+const resJson = require('../helpers/response').resJson; //helper function to send response in JSON format
 
 exports.createCategory = async (req, res, next) => {
   try {
@@ -25,7 +26,7 @@ exports.createCategory = async (req, res, next) => {
           if (err) {
             console.log(err)
           } else {
-            console.log(updated)
+           return;
           }
         })
       }
@@ -304,6 +305,38 @@ exports.getCategoriesByPage = async (req, res, next) => {
   }
 }
 
+
+// Enable category
+exports.enableCategory = (req, res, next) => {
+  try {
+    Category.findOneAndUpdate({ _id: req.params.categoryId }, { status: true }, { new: true }, (err, category) => {
+      if (err) {
+        return resJson(res, httpStatus.NOT_MODIFIED, { message: 'Updation error', err });
+      } else {
+        return resJson(res, httpStatus.OK, { message: "Category enabled", category });
+      }
+    })
+  } catch (err) {
+    return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: "Please try again", err });
+  }
+}
+
+// Disable category
+exports.disableCategory = (req, res, next) => {
+  try {
+    Category.findOneAndUpdate({ _id: req.params.categoryId }, { status: false }, { new: true },
+      (err, category) => {
+        if (err) {
+          return resJson(res, httpStatus.NOT_MODIFIED, { message: 'Updation error', err });
+        } else {
+          return resJson(res, httpStatus.OK, { message: "Category disabled", category });
+        }
+      })
+  } catch (err) {
+    return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: "Please try again", err });
+  }
+}
+
 exports.multiEnableOrDisable = (req, res, next) => {
   try {
     const body = req.body;
@@ -314,7 +347,7 @@ exports.multiEnableOrDisable = (req, res, next) => {
       body.status = false;
     }
     const promise = body.ids.map(item => {
-      Category.findOneAndUpdate({ _id: item }, {
+      Category.update({ _id: item }, {
         $set: {
           status: body.status
         }
