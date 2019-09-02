@@ -60,7 +60,7 @@ class App extends Component {
             <Route path="/header" component={Header} />
             <Route path="/createcategory" component={createCategory} />
             <Route path="/sidebar" component={Sidebar} />
-            <Route path="/storeprofile" component={StoreProfile} />
+            <Route path="/storeprofile/:id" component={StoreProfile} />
             <Route path="/themes" component={Themes} />
             <Route path="/vieworders" component={ViewOrder} />
             {/* <Route path="/create" component={AddProduct} /> */}
@@ -78,7 +78,7 @@ class App extends Component {
             <Route path="/blogPost" component={BlogPost} />
             <Route path="/blogSettings" component={BlogSettings} />
             <Route path="/blog" component={Blog} />
-            <Route path="/storeSetting" component={StoreSetting}/>
+            <Route path="/storeSetting/:id" component={StoreSetting}/>
             <Route path='/notFound' component={UnderConstruction} />
             <Redirect from='*' to='/notFound' />
             <Route path="/" component={Login} />
