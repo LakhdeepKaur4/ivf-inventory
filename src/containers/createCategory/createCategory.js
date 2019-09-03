@@ -16,7 +16,7 @@ import UploadComponent from '../../components/uploadComponent/uploadComponent';
 class ClassCategory extends Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             userName:'',
             password:'',
@@ -38,7 +38,7 @@ class ClassCategory extends Component {
             errors: {},
             host: '',
             _id: props.match.params.id,
-            editorState:EditorState.createEmpty(),
+            editorState: EditorState.createEmpty(),
         }
 
     }
@@ -66,26 +66,26 @@ class ClassCategory extends Component {
             const request = axios.get(`${host}/api/category/edit/${this.state._id}`)
                 .then(async res => {
                     let { description, ...category } = res.data.category;
-                    let editorState = EditorState.createEmpty();                            
-                    try{
-                        if(res.data.category.description){
+                    let editorState = EditorState.createEmpty();
+                    try {
+                        if (res.data.category.description) {
                             const blocksFromHTML = convertFromHTML(res.data.category.description);
                             const state = ContentState.createFromBlockArray(
-                                    blocksFromHTML.contentBlocks,
-                                    blocksFromHTML.entityMap);  
-                            editorState = EditorState.createWithContent(state);                           
-                        }                                                
+                                blocksFromHTML.contentBlocks,
+                                blocksFromHTML.entityMap);
+                            editorState = EditorState.createWithContent(state);
+                        }
                     }
-                    catch(r){
+                    catch (r) {
                         editorState = EditorState.createEmpty();
                     }
-                    
+
 
                     this.setState({
                         ...category,
                         editorState
                     });
-             })
+                })
         }
     }
 
@@ -131,28 +131,30 @@ class ClassCategory extends Component {
         if (!this.state.editorState.getCurrentContent().hasText()) errors.description = 'Please enter desciption';
         this.setState({ errors });
         const isValid = Object.keys(errors).length === 0;
-        
+
         if (isValid) {
-            let { editorState , ...data } = this.state;
-            let editorContentHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));          
+            let { editorState, ...data } = this.state;
+            let editorContentHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
             data.description = editorContentHtml;
 
-            if(!this.state._id){
+            if (!this.state._id) {
                 this.props.onSubmit(this.state.host, { ...data })
-                .then(() => this.props.GetInitialCategory(this.state.host));
-            }            
-            else{
+                    .then(() => this.props.GetInitialCategory(this.state.host))
+                    .then(this.props.history.push(`/categories`));
+            }
+            else {
                 const request = axios.put(`${this.state.host}/api/category/${this.state._id}`,
-                { ...data })
+                    { ...data })
                     .then((response => {
                         toasterMessage("success", 'SUCCSESS');
-                    }));           
+                    }))
+                    .then(this.props.history.push(`/categories`));
             }
         }
     }
 
 
-    push = (e,id) => {
+    push = (e, id) => {
         this.setState({ parent: id });
         this.props.GetParticularCategory(this.state.host, id);
         this.setState({ show: true });
@@ -168,7 +170,7 @@ class ClassCategory extends Component {
         if (initialCategory) {
             return initialCategory.category.map((item) => {
                 return (
-                    <div id={item._id}><div className="fa fa-folder" onClick={(e) => this.push(e,item._id)} key={item._id} value={item._id}>
+                    <div id={item._id}><div className="fa fa-folder" onClick={(e) => this.push(e, item._id)} key={item._id} value={item._id}>
                         {item.name}</div></div>
                 )
             }
@@ -190,14 +192,14 @@ class ClassCategory extends Component {
                     <i class="fa fa-folder ml-3"
                     name="getParticularCategory" />${item.name}
                     </div></div>`),
-                            $(`#${item._id} > div`).click((e) => this.getCategory(e,item._id));
+                            $(`#${item._id} > div`).click((e) => this.getCategory(e, item._id));
                     }
                 }))
             }
         }
         return true;
     }
-    getCategory = (e,id) => {
+    getCategory = (e, id) => {
         this.setState({ parent: id, show: false, showSub: true });
         this.props.GetSubCategory(this.state.host, id);
         this.highlighter(e.currentTarget);
@@ -220,13 +222,13 @@ class ClassCategory extends Component {
     }
 
     onEditorStateChange = (editorState) => {
-        let errorObject = this.state.errors;    
+        let errorObject = this.state.errors;
         if (editorState.getCurrentContent().hasText()) {
-            errorObject.description='';
+            errorObject.description = '';
         }
-        this.setState({editorState, errors:errorObject});
-      };
-    
+        this.setState({ editorState, errors: errorObject });
+    };
+
       onFileUploaded=(files)=>{
           this.setState({ fileName: files[0].name, picture: files[0].base64 });
 
@@ -240,11 +242,11 @@ class ClassCategory extends Component {
                 <div>
                     <Dashboard>
                         <div className="m-auto">
-                            <div>{this.state._id ? <b>Edit Category</b> : <b>Create Category</b>}</div>
-                             <div className="row ">
+                            <div className="categoryHeading">{this.state._id ? <b>EDIT CATEGORY</b> : <b>CREATE CATEGORY</b>}</div>
+                            <div className="row ">
                                 <div className="col-4">
 
-                                    <div>Info</div>
+                                    <div className="firstrowsHeading">Info</div>
                                     <div style={{ color: 'red', fontSize: '10px' }} className="mt-2">Name</div>
                                     <div className="createCategory">
                                         <input type="text" placeholder="Enter Info" name="name" onChange={this.change} value={editableData.name} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
@@ -256,7 +258,7 @@ class ClassCategory extends Component {
                                     <span style={{ color: "red" }}>{this.state.errors.url}</span>
                                 </div>
                                 <div className="col-4">
-                                    <div>Theme</div>
+                                    <div className="firstrowsHeading">Theme</div>
                                     <div className="row ">
                                         <div className="col-6">Template Layout</div>
                                         <div className="col-6">
@@ -309,7 +311,7 @@ class ClassCategory extends Component {
                                 </div>
                                 <div className="col-4 ">
 
-                                    <div>Meta (SEO)</div>
+                                    <div className="firstrowsHeading">Meta (SEO)</div>
                                     <div style={{ color: 'red', fontSize: '10px' }}>Page Title</div>
                                     <div className="createCategory">
                                         <input type="text" placeholder="Enter Info" name="pageTitle" value={editableData.pageTitle} onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
@@ -334,20 +336,20 @@ class ClassCategory extends Component {
                                 </div>
                             </div>
                             <div className="row mt-5">
-                                <div className="col-8">Description
+                                <div className="col-8 firstrowsHeading">Description
                         <span style={{ color: "red" }}>{this.state.errors.description}</span></div>
-                                <div className="col-3"><span>Parent</span></div>
+                                <div className="col-3 firstrowsHeading">Parent</div>
                             </div>
                             <div className="row mt-3">
                                 <div className="col-8">
                                     <Editor
-                                       editorState={this.state.editorState}
+                                        editorState={this.state.editorState}
                                         wrapperClassName="demo-wrapper"
                                         editorClassName="demo-editor"
                                         onEditorStateChange={this.onEditorStateChange}
                                         className="card bg-light"
-                                    >                            
-                                    </Editor>                                    
+                                    >
+                                    </Editor>
                                 </div>
                                 <div className="col-4 card cardCreateCategory">
                                     {this.getInitialCategory(this.props.CreateCategory)}
