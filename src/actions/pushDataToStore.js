@@ -19,7 +19,8 @@ export function getProducts(URL,productId){
     }
 }
 export function getStores(URL){
-    const request = axios.get(`${URL}/dataToStore`)
+    console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii',URL)
+    const request = axios.get(`${URL}/provision/instances`)
     .then((response => response.data))
 
     return {
