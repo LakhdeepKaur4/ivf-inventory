@@ -5,6 +5,9 @@ import{GET_INITIAL_CATEGORY,GET_PARTICULAR_CATEGORY,GET_SUB_CATEGORY,ON_SUBMIT} 
 export function GetInitialCategory(URL){
     const request = axios.get(`${URL}/api/category/initial`)
     .then((response => response.data))
+    .then(data=>{
+       return data['category'];
+    });
 
     return {
         type: GET_INITIAL_CATEGORY,
@@ -13,9 +16,15 @@ export function GetInitialCategory(URL){
 }
 
 export function GetParticularCategory(URL,id){
-    
+    console.log('reached',URL,id);
     const request = axios.get(`${URL}/api/category/${id}`)
     .then((response => response.data))
+    .then(data=>{
+       return {
+           id,
+           data
+       }
+    });
 
     return {
         type: GET_PARTICULAR_CATEGORY,
@@ -26,6 +35,10 @@ export function GetParticularCategory(URL,id){
 export function GetSubCategory(URL,id){
     const request = axios.get(`${URL}/api/category/${id}`)
     .then((response => response.data))
+    .then(data=>{
+        id,
+        data
+    });
 
     return {
         type: GET_SUB_CATEGORY,

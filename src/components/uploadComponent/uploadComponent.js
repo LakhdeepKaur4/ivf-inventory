@@ -28,7 +28,7 @@ class UploadComponent extends Component {
     render() {
         return (
 
-            <div>
+            <div style={{marginLeft: '20px'}}>
                 <label
                     htmlFor="file-upload"
                     className="file custom_file_upload"
