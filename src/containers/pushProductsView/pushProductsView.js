@@ -14,15 +14,15 @@ class ProductsView extends Component {
         this.state = {
             search: '',
             activePage: '1',
-            limit: '3',
+            limit: '8',
             totalItemsCount: '',
             filterName: 'name',
             sortVal: false,
             ids: [],
             allIds: [],
             flag: false,
-            error:false,
-            host:''
+            error: false,
+            host: ''
         }
     }
     btnClick = () => {
@@ -34,47 +34,51 @@ class ProductsView extends Component {
             localStorage.clear();
         }
     }
-    
+
     setHost = host => {
-        var defaultPage= this.state.activePage;
-        var limit=this.state.limit
-        this.setState({host});
+        var defaultPage = this.state.activePage;
+        var limit = this.state.limit
+        this.setState({ host });
         if (localStorage.getItem('product') !== null) {
             let products = localStorage.getItem('product').split(',');
             this.setState({ ids: products });
         }
-        this.props.getMockProductsView(host,defaultPage,limit)
+        this.props.getMockProductsView(host, defaultPage, limit)
             .then(res => {
                 let Ids = [];
                 res.payload.items.docs.map(item => {
                     Ids.push(item._id);
                 })
-                this.setState({ allIds: Ids,limit: res.payload.items.limit, totalItemsCount: res.payload.items.total });
+                this.setState({ allIds: Ids, limit: res.payload.items.limit, totalItemsCount: res.payload.items.total });
             });
     }
 
-  // This function will be used in pagination in later stage.
+    // This function will be used in pagination in later stage.
 
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
-        console.log(pageNumber);
-        this.props.getMockProductsView(this.state.host,pageNumber,this.state.limit);
+        this.props.getMockProductsView(this.state.host, pageNumber, this.state.limit);
     }
 
     searchOnChange = (e) => {
         this.setState({ search: e.target.value })
-        
+
     }
 
     searchFilter = (x) => {
-        let search=this.state.search
-        console.log('search=====================',x,search)
-            return x.sku.toLowerCase().includes(search.toLowerCase()) ||
-                x.optStock.toString().includes(search.toString()) ||
-                x.name.toLowerCase().includes(search.toLowerCase()) ||
-                x.price.range.toString().includes(search.toString())||
-                !search;
-        
+        let search = this.state.search;
+        let ret = {};
+
+        ret.sku = (x.sku !== undefined) ? x.sku.toLowerCase().includes(search.toLowerCase()) : false;
+        ret.optStock = (x.optStock !== undefined) ? x.optStock.toString().includes(search.toString()) : false;
+        ret.name = (x.name !== undefined) ? x.name.toLowerCase().includes(search.toLowerCase()) : false;
+        ret.price = (x.price !== undefined && x.price.range !== undefined) ? x.price.range.toString().includes(search.toString()) : false;
+        return ret.sku ||
+            ret.optStock ||
+            ret.name ||
+            ret.price ||
+            !search;
+
     }
 
     onSort = () => {
@@ -104,7 +108,7 @@ class ProductsView extends Component {
     }
 
     pickIds = (Id, action) => {
-        this.setState({error:false})
+        this.setState({ error: false })
         var IDS = this.state.ids;
         if (action === true) {
             IDS.push(Id);
@@ -113,14 +117,13 @@ class ProductsView extends Component {
         }
         this.setState({ ids: IDS });
     }
-    sortArr=(arr,way)=>{
-        console.log(arr);
-        if(way=='inc'){
-                arr.sort((a,b)=>{
-                    var orderBool= a.name > b.name
-                    return orderBool ?1 : -1;
-                })
-        }else{
+    sortArr = (arr, way) => {
+        if (way == 'inc') {
+            arr.sort((a, b) => {
+                var orderBool = a.name > b.name
+                return orderBool ? 1 : -1;
+            })
+        } else {
             arr.sort((a, b) => {
                 var orderBool = a.name < b.name;
                 return orderBool ? 1 : -1;
@@ -129,19 +132,17 @@ class ProductsView extends Component {
     }
 
     productsResult = ({ productListMock }) => {
-        console.log(productListMock)
+        console.log(productListMock);
         if (productListMock) {
             // let Ids = [];
             // productListMock.item.map(item => {
             //     Ids.push(item._id);
             // })
-            console.log(productListMock)
             let arr = productListMock.items.docs
-            console.log(arr);
-            if(this.state.sortVal===true){
-                this.sortArr(arr,'inc')
-            }else{
-                this.sortArr(arr,'dec')
+            if (this.state.sortVal === true) {
+                this.sortArr(arr, 'inc')
+            } else {
+                this.sortArr(arr, 'dec')
             }
             return productListMock.items.docs.filter(this.searchFilter).map((item) => {
                 return (
@@ -151,11 +152,11 @@ class ProductsView extends Component {
                             this.pickIds(item._id, action);
                         }} /></td>
                         <td>
-                            {/* <img src={item.image} className="img-fluid" alt="Sheep" /> */}
-                            </td>
+                        <img src={`${this.state.host}`+item.productPicture[0]} className="img-fluid" alt="Sheep" />
+                        </td>
                         <td>{item.sku}</td>
                         <td>
-                        {item.optStock}
+                            {item.optStock}
                         </td>
                         <td>{item.name}</td>
                         <td>{item.price.range}</td>
@@ -166,33 +167,33 @@ class ProductsView extends Component {
         }
     }
     navigate = () => {
-        this.setState({error:true})
+        this.setState({ error: true })
         this.setState({ flag: true })
-        if(this.state.ids.length){
+        if (this.state.ids.length) {
             this.props.history.push(`/dataToStore/${this.state.ids}`)
         }
-        
+
     }
     selectAll = (action) => {
-        this.setState({error:false})
+        this.setState({ error: false })
         if (action === true) {
             this.setState({ ids: [...this.state.allIds] });
-           
+
         } else {
             this.setState({ ids: [] });
         }
     }
 
-    
+
 
     render() {
         let tableData =
             <div className="table-responsive card text-dark">
-                <table className="table">
+                <table className="table pushProductView">
                     <thead>
                         <tr>
                             <th scope="col"><input type="checkbox" checked={(this.state.ids.length === this.state.allIds.length) ? true : false} onClick={
-                                
+
                                 (e) => {
                                     this.selectAll(e.currentTarget.checked);
                                 }
@@ -300,59 +301,59 @@ class ProductsView extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
-            <div>
-                <Dashboard>
+                <div>
+                    <Dashboard>
 
 
-                    <div>
-                        {navLink}
-                    </div>
-                    <div className="md-stepper-horizontal orange">
-                        <div className="md-step activeProductsView ">
-                            <div className="md-step-circle activePush"><span>1</span></div>
-                            <div className="md-step-title">Select Products</div>
-                            <div className="md-step-bar-left"></div>
-                            <div className="md-step-bar-right"></div>
+                        <div>
+                            {navLink}
                         </div>
-                        <div className="md-step ">
-                            <div className="md-step-circle"><span>2</span></div>
-                            <div className="md-step-title deactive">Save to Store</div>
-                            <div className="md-step-bar-left"></div>
+                        <div className="md-stepper-horizontal orange">
+                            <div className="md-step activeProductsView ">
+                                <div className="md-step-circle activePush"><span>1</span></div>
+                                <div className="md-step-title">Select Products</div>
+                                <div className="md-step-bar-left"></div>
+                                <div className="md-step-bar-right"></div>
+                            </div>
+                            <div className="md-step ">
+                                <div className="md-step-circle"><span>2</span></div>
+                                <div className="md-step-title deactive">Save to Store</div>
+                                <div className="md-step-bar-left"></div>
 
-                            <div className="md-step-bar-right"></div>
+                                <div className="md-step-bar-right"></div>
+                            </div>
+                            <div className="md-step">
+                                <div className="md-step-circle"><span>3</span></div>
+                                <div className="md-step-title deactive">Proceed</div>
+                                <div className="md-step-bar-left"></div>
+                                <div className="md-step-bar-right"></div>
+                            </div>
                         </div>
-                        <div className="md-step">
-                            <div className="md-step-circle"><span>3</span></div>
-                            <div className="md-step-title deactive">Proceed</div>
-                            <div className="md-step-bar-left"></div>
-                            <div className="md-step-bar-right"></div>
+                        <div>
+                            {navIcon}
                         </div>
-                    </div>
-                    <div>
-                        {navIcon}
-                    </div>
-                    <div style={{ float: 'right' }}>
-                        <Pagination activePage={this.state.activePage}
-                            itemsCountPerPage={this.state.limit}
-                            totalItemsCount={this.state.totalItemsCount}
-                            onChange={this.handlePageChange}
-                            itemClass='page-item'
-                            linkClasss='page-link'
-                        />
-                    </div>
+                        <div style={{ float: 'right' }}>
+                            <Pagination activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.limit}
+                                totalItemsCount={this.state.totalItemsCount}
+                                onChange={this.handlePageChange}
+                                itemClass='page-item'
+                                linkClasss='page-link'
+                            />
+                        </div>
 
-                    <div>
-                        {tableData}
-                    </div>
-                    <div>
-                    <div className="col-12"style={{color:'red',textAlign:'right'}}>{this.state.error?'Please Select at Least one Id':''}
-                    </div>
-                        <button className="button-main button3" style={{marginTop:'15px'}} onClick={this.navigate}>Next</button>  
-                    </div>
+                        <div>
+                            {tableData}
+                        </div>
+                        <div>
+                            <div className="col-12" style={{ color: 'red', textAlign: 'right' }}>{this.state.error ? 'Please Select at Least one Id' : ''}
+                            </div>
+                            <button className="button-main button3" style={{ marginTop: '15px' }} onClick={this.navigate}>Next</button>
+                        </div>
 
 
-                </Dashboard>
-            </div>
+                    </Dashboard>
+                </div>
             </HostResolver>
 
         )

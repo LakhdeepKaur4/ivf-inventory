@@ -41,8 +41,8 @@ class DataToStore extends Component {
         this.props.getDataStore(host)
             .then(res => {
                 let Ids = [];
-                res.payload.map(item => {
-                    Ids.push(item.id);
+                res.payload.data.data.map(item => {
+                    Ids.push(item.instanceId);
                 })
                 this.setState({ allIds: Ids });
             });
@@ -65,24 +65,25 @@ class DataToStore extends Component {
         var IDS = [];
         IDS = this.state.storeIds;
         if (action === true) {
+            console.log('true')
             IDS.push(id);
         } else {
+            console.log('hii');
             IDS.splice(IDS.indexOf(id), 1);
         }
         this.setState({ storeIds: IDS })
     }
 
     sortArr=(arr,way)=>{
-        console.log(arr,way);
         if(way==='inc'){
             arr.sort((a,b)=>{
-                var orderBool= a.storeName > b.storeName
+                var orderBool= a.name > b.name
                 return orderBool ?1 :-1;
 
             })
         }else{
             arr.sort((a,b)=>{
-                var orderBool= a.storeName < b.storeName
+                var orderBool= a.name < b.name
                 return orderBool ?1 :-1;
             
         })
@@ -93,23 +94,32 @@ class DataToStore extends Component {
     viewOrderFun = ({ dataStore }) => {
         console.log(dataStore);
         if (dataStore) {
-            let arr= dataStore;
+            let arr= dataStore.data.data;
+            console.log(arr);
             if(this.state.sortVal===true){
                 this.sortArr(arr,'inc');
             }else{
                 this.sortArr(arr,'dec');
             }
-            return dataStore.filter(this.searchFilter).map((item => {
+            return dataStore.data.data
+            .filter(this.searchFilter)
+            .map((item => {
                 return (
-                    <tr>
-                        <td><input type="checkbox" checked={(this.state.storeIds.includes(item.id)) ? true : false} onClick={(e) => {
+                    <tr key={item.instanceId}>
+                        <td><input type="checkbox" checked={(this.state.storeIds.includes(item.instanceId)) ? true : false} onClick={(e) => {
                             let action = e.currentTarget.checked;
-                            this.getStoreId(item.id, action)
+                            this.getStoreId(item.instanceId, action)
                         }}></input></td>
-                        <td><img src={item.brandImage} className="img-fluid" alt="store" /></td>
-                        <td>{item.storeName}</td>
-                        <td>{item.location}</td>
-                        <td>{item.type}</td>
+                        {/* <td>
+                            <img src={item.brandImage} className="img-fluid" alt="store" />
+                        </td> */}
+                        <td>{item.name}</td>
+                        <td>
+                        {item.rootDomain+' '+item.selectedNode}
+                        </td>
+                        <td>{item.description}</td>
+                        <td>{item['Group.name']}</td>
+                        <td>Trinity</td>
                     </tr>
                 )
             }))
@@ -141,10 +151,20 @@ class DataToStore extends Component {
 
     }
     searchFilter = (x) => {
+        console.log(x)
         let search = this.state.search;
-        return x.storeName.toLowerCase().includes(search.toLowerCase()) ||
-            x.type.toLowerCase().includes(search.toLowerCase()) ||
+        let ret = {};
+
+        ret.name = (x.name !== undefined) ? x.name.toLowerCase().includes(search.toLowerCase()) : false;
+        // ret.rootDomain = (x.rootDomain !== undefined) ? x.rootDomain.toLowerCase().includes(search.toLowerCase()) : false;
+        // ret.selectedNode = (x.selectedNode !== undefined) ? x.selectedNode.toLowerCase().includes(search.toLowerCase()) : false;
+        // ret.price = (x.price !== undefined && x.price.range !== undefined) ? x.price.range.toString().includes(search.toString()) : false;
+        return ret.name ||
+            //  ret.rootDomain ||
+            //  ret.selectedNode ||
+            // ret.price ||
             !search;
+
     }
     onSort = () => {
         this.setState(() => {
@@ -168,16 +188,18 @@ class DataToStore extends Component {
     render() {
         let viewOrderData =
             <div className="table-responsive card">
-                <table className="table">
+                <table className="table dataToStore">
                     <thead>
                         <tr style={{ color: "#777777" }}>
                             <th scope="col"><input type="checkbox" checked={(this.state.storeIds.length === this.state.allIds.length) ? true : false} onClick={(e) => {
                                 this.selectAll(e.currentTarget.checked)
                             }}></input></th>
-                            <th scope="col">BRAND NAME</th>
+                            {/* <th scope="col">STORE LOGO</th> */}
                             <th scope="col">STORE NAME</th>
-                            <th scope="col">LOCATION</th>
-                            <th scope="col">TYPE</th>
+                            <th scope="col">STORE URL</th>
+                            <th scope="col">STORE Description</th>
+                            <th scope="col">Group</th>
+                            <th scope="col">Type</th>
 
                         </tr>
                     </thead>
@@ -235,7 +257,7 @@ class DataToStore extends Component {
                 </div>
             </nav>
         return (
-            <HostResolver hostToGet="mockup" hostResolved={host => {
+            <HostResolver hostToGet="voxel" hostResolved={host => {
                 this.setHost(host);
             }}>
                 <div>
