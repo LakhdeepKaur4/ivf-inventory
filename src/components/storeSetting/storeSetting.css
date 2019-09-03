@@ -22,6 +22,7 @@
   border: 20px solid #ffffff;
   opacity: 1;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .icon {
@@ -53,6 +54,9 @@
   height: 20px;
 }
 
-.active_link{
-    color:#F74A4A !important
+.setting_icon:hover{
+  border: 20px solid #F74A4A;
+}
+.setting_icon:hover div{
+  color:#F74A4A
 }

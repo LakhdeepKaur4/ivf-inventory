@@ -32,7 +32,8 @@ import ProductView from './containers/productView/productView';
 import productView from './containers/productView/productView';
 import StoresView from './containers/storesView/storesView';
 import UnderConstruction from './components/maintenance/maintenance';
-import StoreSetting from './components/storeSetting/storeSetting'
+import StoreSetting from './components/storeSetting/storeSetting';
+import UploadComponent from './components/uploadComponent/uploadComponent';
 
 class App extends Component {
   constructor(){
@@ -43,6 +44,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
+            <Route path="/uploadComponent" component={UploadComponent}/>
             <Route path="/storeSettings" component={ UnderConstruction } />
             <Route path="/storesView" component={StoresView} />
             <Route path="/productsView/:id" component={productView} />
@@ -60,7 +62,7 @@ class App extends Component {
             <Route path="/header" component={Header} />
             <Route path="/createcategory" component={createCategory} />
             <Route path="/sidebar" component={Sidebar} />
-            <Route path="/storeprofile" component={StoreProfile} />
+            <Route path="/storeprofile/:id" component={StoreProfile} />
             <Route path="/themes" component={Themes} />
             <Route path="/vieworders" component={ViewOrder} />
             {/* <Route path="/create" component={AddProduct} /> */}
@@ -78,7 +80,7 @@ class App extends Component {
             <Route path="/blogPost" component={BlogPost} />
             <Route path="/blogSettings" component={BlogSettings} />
             <Route path="/blog" component={Blog} />
-            <Route path="/storeSetting" component={StoreSetting}/>
+            <Route path="/storeSetting/:id" component={StoreSetting}/>
             <Route path='/notFound' component={UnderConstruction} />
             <Redirect from='*' to='/notFound' />
             <Route path="/" component={Login} />

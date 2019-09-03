@@ -33,9 +33,7 @@ class PushDataToStore extends React.Component {
         this.setState({ storeId: storeId.split(",") });
         localStorage.setItem('product', productId.split(","));
         localStorage.setItem('store', storeId.split(","));
-        console.log(this.state.productId);
-        var shub = this.state.productId.join();
-        console.log(shub);
+        var shub = this.state.productId.join();;
         this.props.getProducts(this.state.host[1],this.state.productId);
         this.props.getStores(this.state.host[0]);
 
@@ -47,7 +45,6 @@ class PushDataToStore extends React.Component {
         }
     }
     getProducts = ({ getFilterProducts }) => {
-        console.log(getFilterProducts);
         if (getFilterProducts) {
             return getFilterProducts.item.map((item) => {
                 if (this.state.productId.includes(item._id)) {
@@ -55,7 +52,6 @@ class PushDataToStore extends React.Component {
                         <tr key={item._id}>
                             <td>
                                 <div className="prductWithStore">
-                                    {console.log(`${this.state.host[1]}/`+item.productPicture[0])}
                                     <img src={`${this.state.host[1]}`+item.productPicture[0]} className="img-fluid" alt="Sheep" />
                                     <span className="text-left">{item.name}</span>
                                 </div>
@@ -96,7 +92,6 @@ class PushDataToStore extends React.Component {
     }
     navigateAhead = () => {
         // this.props.history.push('/')
-        console.log(this.state.productId,this.state.storeId)
         axios.post(`${this.state.host[1]}/api/map/stores/products`,{products:this.state.productId,stores:this.state.storeId})
         .then((res)=>console.log(res));
          this.props.history.push('/sidebar');
@@ -142,7 +137,7 @@ class PushDataToStore extends React.Component {
                         <div className="col-12 row pushDataToStoreTable">
                             <div className='card   col-4'>
                                 <div className="table-responsive tablePushDataToStore">
-                                    <table className="table ">
+                                    <table className="table pushDataToStore ">
                                         <thead>
                                             <tr>
                                                 <th>Product</th>
@@ -158,7 +153,7 @@ class PushDataToStore extends React.Component {
                             <div className="col-4 middlePushDataToStore"><div><span><i class="fas fa-arrow-right"></i></span></div></div>
                             <div className='card   col-4'>
                                 <div className="table-responsive tablePushDataToStore">
-                                    <table className="table ">
+                                    <table className="table pushDataToStore">
                                         <thead>
                                             <tr>
                                                 <th>Stores</th>

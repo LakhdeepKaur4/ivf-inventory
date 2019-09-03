@@ -65,15 +65,16 @@ class DataToStore extends Component {
         var IDS = [];
         IDS = this.state.storeIds;
         if (action === true) {
+            console.log('true')
             IDS.push(id);
         } else {
+            console.log('hii');
             IDS.splice(IDS.indexOf(id), 1);
         }
         this.setState({ storeIds: IDS })
     }
 
     sortArr=(arr,way)=>{
-        console.log(arr,way);
         if(way==='inc'){
             arr.sort((a,b)=>{
                 var orderBool= a.storeName > b.storeName
@@ -91,7 +92,6 @@ class DataToStore extends Component {
     
 
     viewOrderFun = ({ dataStore }) => {
-        console.log(dataStore);
         if (dataStore) {
             let arr= dataStore;
             if(this.state.sortVal===true){
@@ -168,7 +168,7 @@ class DataToStore extends Component {
     render() {
         let viewOrderData =
             <div className="table-responsive card">
-                <table className="table">
+                <table className="table dataToStore">
                     <thead>
                         <tr style={{ color: "#777777" }}>
                             <th scope="col"><input type="checkbox" checked={(this.state.storeIds.length === this.state.allIds.length) ? true : false} onClick={(e) => {
