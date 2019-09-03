@@ -111,27 +111,34 @@
       "storeName": "Brand House",
       "location": "United Kingdom 46 Park Avenue WIGAN WN22 5IU",
       "type": "Sports wear"
-    },
+    },   
     {
       "id": "4",
       "brandImage": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-      "storeName": "sinsay",
+      "storeName": "Cropp1",
       "location": "United Kingdom 46 Park Avenue WIGAN WN22 5IU",
-      "type": "Apparel"
+      "type": "Apparel1"
     },
     {
       "id": "5",
       "brandImage": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-      "storeName": "orsay",
+      "storeName": "top",
       "location": "United Kingdom 46 Park Avenue WIGAN WN22 5IU",
-      "type": "Apparel"
+      "type": "Apparel2"
     },
     {
       "id": "6",
       "brandImage": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
-      "storeName": "Cropp",
+      "storeName": "top1",
       "location": "United Kingdom 46 Park Avenue WIGAN WN22 5IU",
-      "type": "Apparel"
+      "type": "Apparel3"
+    },
+    {
+      "id": "7",
+      "brandImage": "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg",
+      "storeName": "top2",
+      "location": "United Kingdom 46 Park Avenue WIGAN WN22 5IU",
+      "type": "Apparel4"
     }
   ],
   "brands": [

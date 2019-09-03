@@ -63,8 +63,7 @@ p {
   color: #777777;
   opacity: 1;
 }
-.brandsPagination {
-  display: inline-block;
+.display_brands_list .sw-action-bar__item .page-item {
   top: 227px;
   left: 649px;
   width: 24px;
@@ -74,12 +73,22 @@ p {
   letter-spacing: 0;
   color: #777777;
   opacity: 1;
+  margin: 0 !important;
+}
+
+.display_brands_list .sw-action-bar__item .pagination {
+  text-align: right !important;
+}
+
+.display_brands_list .sw-action-bar__item{
+  margin-right: -1rem !important;
 }
 
 .brands_actions {
   display: inline-block;
   width: 15%;
   cursor: pointer;
+  padding-left: 15px
 }
 .brand_list .form-control {
   background-color: #d7dade;
@@ -153,6 +162,7 @@ p {
   letter-spacing: 0;
 }
 
-.display_brands_list .brandsPagination a{
-color: #4d4f5c;
+
+.display_brands_list .sw-action-bar__item .page-item a {
+  color: #4d4f5c;
 }

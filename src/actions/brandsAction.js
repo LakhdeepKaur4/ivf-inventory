@@ -2,7 +2,6 @@ import axios from "axios";
 import { toasterMessage } from "../utils.js";
 
 import {
-  BRANDURL,
   BRANDS_LIST,
   ADD_BRAND,
   DISABLE_BRAND,
@@ -16,11 +15,12 @@ import {
 
 // Get all brands
 export function getBrands(URL) {
+  
   return dispatch => {
     axios
       .get(`${URL}/api/brands`)
       .then(response => {
-        dispatch({ type: BRANDS_LIST, payload: response.data });
+          dispatch({ type: BRANDS_LIST, payload: response.data });
       })
       .catch(err => {
         toasterMessage("error", err);
@@ -37,6 +37,10 @@ export function getDefaultPageBrandsDetails(defaultPage,url) {
         dispatch({ type: GET_PAGE_DETAIL, payload: response.data });
       })
       .catch(err => {
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR FETCHING RECORDS');
+      }
+      else
         toasterMessage("error", err);
       });
   };
@@ -57,7 +61,7 @@ export function getActivePageBrandsDetails(pageNumber,url) {
 }
 
 // Add brands
-export function addBrand(data,url) {
+export function addBrand(data,url,page) {
   return dispatch => {
     axios
       .post(`${url}/api/brands`, data)
@@ -68,14 +72,24 @@ export function addBrand(data,url) {
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ADD_BRAND, payload: true });
-          dispatch(getBrands());
+          if(page===1){
+            dispatch(getDefaultPageBrandsDetails(page,url))
+          }
+          else{
+            dispatch(getActivePageBrandsDetails(page,url))
+          }
+          
         }
-        else if( response.status===200 && response.data.message==='Creation error'){
-          toasterMessage("error",response.data.message)
-        }
+        
       })
       .catch(err => {
-        toasterMessage("error",err);
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR FETCHING RECORDS');
+      }
+      else if(err.response.status===400){
+        toasterMessage("error",err.response.data.message);
+      }
+       
       });
   };
 }
@@ -101,7 +115,7 @@ export function enableBrand(id,currentPage,url) {
       })
       .catch(err => {
         toasterMessage("error", err);
-      });
+      });changeStatus
   };
 }
 
@@ -168,7 +182,6 @@ export function updateBrandDetails(data,id,url) {
 
 // Change status of multiple brands
 export function changeStatus(value, ids,currentPage,url) {
-  
   let payload = {
     status: value,
     ids: ids

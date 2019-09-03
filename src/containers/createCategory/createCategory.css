@@ -4,6 +4,9 @@
     width:90px;
     height:30px;
 }
+.higlightStructure{
+  background: lightcoral;
+}
 .cardCreateCategory{
     height:100%;
 }
@@ -829,7 +832,7 @@
     background-color: #f7f7f7;
     white-space: nowrap;
   }
-  .CodeMirror-linenumbers {}
+  /* .CodeMirror-linenumbers {} */
   .CodeMirror-linenumber {
     padding: 0 3px 0 5px;
     min-width: 20px;
@@ -891,7 +894,7 @@
   }
   
   /* Can style cursor different in overwrite (non-insert) mode */
-  .CodeMirror-overwrite .CodeMirror-cursor {}
+  /* .CodeMirror-overwrite .CodeMirror-cursor {} */
   
   .cm-tab { display: inline-block; text-decoration: inherit; }
   
@@ -921,10 +924,10 @@
   .cm-s-default .cm-atom {color: #219;}
   .cm-s-default .cm-number {color: #164;}
   .cm-s-default .cm-def {color: #00f;}
-  .cm-s-default .cm-variable,
+  /* .cm-s-default .cm-variable,
   .cm-s-default .cm-punctuation,
   .cm-s-default .cm-property,
-  .cm-s-default .cm-operator {}
+  .cm-s-default .cm-operator {} */
   .cm-s-default .cm-variable-2 {color: #05a;}
   .cm-s-default .cm-variable-3, .cm-s-default .cm-type {color: #085;}
   .cm-s-default .cm-comment {color: #a50;}
@@ -1074,7 +1077,7 @@
     padding: 0.1px; /* Force widget margins to stay inside of the container */
   }
   
-  .CodeMirror-widget {}
+  /* .CodeMirror-widget {} */
   
   .CodeMirror-rtl pre { direction: rtl; }
   
@@ -1190,8 +1193,8 @@
     padding: 5px !important;
     border-radius: 2px !important;
   }
-  .demo-editorWrapper {
-  }
+  /* .demo-editorWrapper {
+  } */
   .demo-content {
     border: 1px solid #F1F1F1;
     padding: 5px;
@@ -2239,15 +2242,65 @@
     background: #f1f1f1;
     border-radius: 3px;
     padding: 1px 10px;
-  }/**
-   * Draft v0.9.1
-   *
-   * Copyright (c) 2013-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the BSD-style license found in the
-   * LICENSE file in the root directory of this source tree. An additional grant
-   * of patent rights can be found in the PATENTS file in the same directory.
-   */
-  .DraftEditor-editorContainer,.DraftEditor-root,.public-DraftEditor-content{height:inherit;text-align:initial; background-color: white;}.public-DraftEditor-content[contenteditable=true]{-webkit-user-modify:read-write-plaintext-only}.DraftEditor-root{position:relative}.DraftEditor-editorContainer{background-color:rgba(255,255,255,0);border-left:.1px solid transparent;position:relative;z-index:1}.public-DraftEditor-block{position:relative}.DraftEditor-alignLeft .public-DraftStyleDefault-block{text-align:left}.DraftEditor-alignLeft .public-DraftEditorPlaceholder-root{left:0;text-align:left}.DraftEditor-alignCenter .public-DraftStyleDefault-block{text-align:center}.DraftEditor-alignCenter .public-DraftEditorPlaceholder-root{margin:0 auto;text-align:center;width:100%}.DraftEditor-alignRight .public-DraftStyleDefault-block{text-align:right}.DraftEditor-alignRight .public-DraftEditorPlaceholder-root{right:0;text-align:right}.public-DraftEditorPlaceholder-root{color:#9197a3;position:absolute;z-index:0}.public-DraftEditorPlaceholder-hasFocus{color:#bdc1c9}.DraftEditorPlaceholder-hidden{display:none}.public-DraftStyleDefault-block{position:relative;white-space:pre-wrap}.public-DraftStyleDefault-ltr{direction:ltr;text-align:left}.public-DraftStyleDefault-rtl{direction:rtl;text-align:right}.public-DraftStyleDefault-listLTR{direction:ltr}.public-DraftStyleDefault-listRTL{direction:rtl}.public-DraftStyleDefault-ol,.public-DraftStyleDefault-ul{margin:16px 0;padding:0}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR{margin-left:1.5em}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL{margin-right:1.5em}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR{margin-left:3em}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL{margin-right:3em}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR{margin-left:4.5em}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL{margin-right:4.5em}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listLTR{margin-left:6em}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listRTL{margin-right:6em}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listLTR{margin-left:7.5em}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listRTL{margin-right:7.5em}.public-DraftStyleDefault-unorderedListItem{list-style-type:square;position:relative}.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth0{list-style-type:disc}.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth1{list-style-type:circle}.public-DraftStyleDefault-orderedListItem{list-style-type:none;position:relative}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listLTR:before{left:-36px;position:absolute;text-align:right;width:30px}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listRTL:before{position:absolute;right:-36px;text-align:left;width:30px}.public-DraftStyleDefault-orderedListItem:before{content:counter(ol0) ". ";counter-increment:ol0}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth1:before{content:counter(ol1) ". ";counter-increment:ol1}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth2:before{content:counter(ol2) ". ";counter-increment:ol2}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth3:before{content:counter(ol3) ". ";counter-increment:ol3}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth4:before{content:counter(ol4) ". ";counter-increment:ol4}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-reset{counter-reset:ol0}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-reset{counter-reset:ol1}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-reset{counter-reset:ol2}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-reset{counter-reset:ol3}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-reset{counter-reset:ol4}
-  /*# sourceMappingURL=main.css.map*/
+  }
+  .DraftEditor-editorContainer,.DraftEditor-root,.public-DraftEditor-content {
+    height:inherit;
+    text-align:initial;
+    background-color: white;
+  }
+  .public-DraftEditor-content[contenteditable=true] {
+    -webkit-user-modify:read-write-plaintext-only
+  }
+  .DraftEditor-root {
+    position:relative
+  }
+  .DraftEditor-editorContainer  {
+    background-color:rgba(255,255,255,0);
+    border-left:.1px solid transparent;
+    position:relative;
+    z-index:1
+  }
+  .public-DraftEditor-block {
+    position:relative
+  }
+  .DraftEditor-alignLeft .public-DraftStyleDefault-block  {
+    text-align:left
+  }
+  .DraftEditor-alignLeft .public-DraftEditorPlaceholder-root  {
+    left:0;
+    text-align:left
+  }
+  .DraftEditor-alignCenter .public-DraftStyleDefault-block  {
+    text-align:center
+  }
+  .DraftEditor-alignCenter .public-DraftEditorPlaceholder-root  {
+    margin:0 auto;
+    text-align:center;
+    width:100%
+  }
+  .DraftEditor-alignRight .public-DraftStyleDefault-block {
+    text-align:right
+  }
+  .DraftEditor-alignRight .public-DraftEditorPlaceholder-root{right:0;text-align:right}.public-DraftEditorPlaceholder-root{color:#9197a3;position:absolute;z-index:0}.public-DraftEditorPlaceholder-hasFocus{color:#bdc1c9}.DraftEditorPlaceholder-hidden{display:none}.public-DraftStyleDefault-block{position:relative;white-space:pre-wrap}.public-DraftStyleDefault-ltr{direction:ltr;text-align:left}.public-DraftStyleDefault-rtl{direction:rtl;text-align:right}.public-DraftStyleDefault-listLTR{direction:ltr}.public-DraftStyleDefault-listRTL{direction:rtl}.public-DraftStyleDefault-ol,.public-DraftStyleDefault-ul{margin:16px 0;padding:0}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR{margin-left:1.5em}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL{margin-right:1.5em}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR{margin-left:3em}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL{margin-right:3em}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR{margin-left:4.5em}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL{margin-right:4.5em}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listLTR{margin-left:6em}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listRTL{margin-right:6em}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listLTR{margin-left:7.5em}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-listRTL{margin-right:7.5em}.public-DraftStyleDefault-unorderedListItem{list-style-type:square;position:relative}.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth0{list-style-type:disc}.public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth1{list-style-type:circle}.public-DraftStyleDefault-orderedListItem{list-style-type:none;position:relative}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listLTR:before{left:-36px;position:absolute;text-align:right;width:30px}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listRTL:before{position:absolute;right:-36px;text-align:left;width:30px}.public-DraftStyleDefault-orderedListItem:before{content:counter(ol0) ". ";counter-increment:ol0}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth1:before{content:counter(ol1) ". ";counter-increment:ol1}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth2:before{content:counter(ol2) ". ";counter-increment:ol2}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth3:before{content:counter(ol3) ". ";counter-increment:ol3}.public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth4:before{content:counter(ol4) ". ";counter-increment:ol4}.public-DraftStyleDefault-depth0.public-DraftStyleDefault-reset{counter-reset:ol0}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-reset{counter-reset:ol1}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-reset{counter-reset:ol2}.public-DraftStyleDefault-depth3.public-DraftStyleDefault-reset{counter-reset:ol3}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-reset{counter-reset:ol4}
+  
+  /* Heading text */
+  .categoryHeading {
+    top: 132px;
+    left: 335px;
+    width: 235px;
+    height: 30px;
+    text-align: left;
+    font: Black 24px/40px Muli;
+    letter-spacing: 0;
+    color: #555555;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+
+  .firstrowsHeading {
+    text-align: left;
+    font: Bold 18px/40px Muli;
+    letter-spacing: 0;
+    color: #555555;
+    opacity: 1;
+  }

@@ -2,15 +2,14 @@ import axios from 'axios';
 
 import{ PRODUCTS_VIEW,MOCK_PRODUCTS_VIEW} from '../actionCreators/index';
 
-export function getProductsView(URL, categoryId=null,defaultPage){
-    let url = `${URL}/api/item/${defaultPage}`;
+export function getProductsView(URL, categoryId=null,defaultPage,limit){
+    let url = `${URL}/api/item/${defaultPage}/${limit}`;
     if(categoryId){
         url = `${URL}/api/item/category/${categoryId}`;
     }
-
     const request = axios.get(url)
     .then((response =>{
-     return categoryId?response.data.item:response.data
+     return categoryId?response.data.items.docs:response.data
         
     }))
 
@@ -19,13 +18,12 @@ export function getProductsView(URL, categoryId=null,defaultPage){
         payload:request
     }
 }
-export function getMockProductsView(URL){
-        let url = `${URL}/products`
+export function getMockProductsView(URL,defaultPage,limit){
+        let url = `${URL}/api/item/${defaultPage}/${limit}`
 
     const request = axios.get(url)
     .then((response =>{
-     return response.data
-        
+      return response.data   
     }))
 
     return {

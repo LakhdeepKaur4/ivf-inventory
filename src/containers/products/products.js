@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './products.css';
 import Dashboard from '../../components/dashboard/dashboard';
-import { getProductsItem } from '../../actions/productItemAction';
+import { getProductsItem,getSearch } from '../../actions/productItemAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FileStructure from '../../components/fileStructure/fileStructure';
@@ -23,29 +23,43 @@ class Products extends Component {
     }
 
     searchOnChange = (e) => {
+        this.props.getSearch(this.state.host,e.target.value);
+        console.log(this.props.getSearch(this.state.host,e.target.value));
         this.setState({ search: e.target.value })
     }
 
-    productsItem=({productItem}) =>{
-        if(productItem && productItem.items) {
-           return productItem.items.map((item)=> {
-               return (
-                <tr key={item.cartProductId}>
-                    <td>{item.productTitle}</td>
-                    <td>{item.quantity}</td>
-                    
-                   
-                </tr>
-                )
-           })
-            
-
+    searchFilter = (search) => {
+        return function (x) {
+            return x.name.toLowerCase().includes(search.toLowerCase()) ||
+                !search;
         }
     }
 
-    viewProducts = ({ productItem }) => {
-        // if(productItem){
-        //     return productItem.map((item)=><option key={item.id}>{item.name}</option>)
+
+    productsItem = ({ productItem }) => {
+       
+        if (productItem) { 
+        
+                return productItem.order.cart.cartProducts ?  productItem.order.cart.cartProducts.map((item) => {
+                    return (
+                        <tr key={item.cartProductId}>
+                            <td >{item.productTitle}</td>
+                            <td>{productItem.order.shipment.type}</td>
+                            <td >{item.quantity}</td>       
+                            <td >{item.price}</td> 
+                            <td>{productItem.order.payment.amount}</td> 
+                        </tr>
+
+                    )
+
+                }):''
+                
+        }
+    }
+
+    viewProducts = ({ search }) => {console.log(search);
+        // if(search){
+        //     return search.map((item)=><option key={item.cartProductId}>{item.name}</option>) 
         // }
     }
 
@@ -86,7 +100,7 @@ class Products extends Component {
                 <div>
                     <Dashboard>
                         <div className="mt-4 ml-4">
-                            <h4>Products</h4>
+                           <h4>Products</h4>
                         </div>
 
                 <div className="md-stepper-horizontal orange">
@@ -120,11 +134,11 @@ class Products extends Component {
                                         <div>
                                             <span style={{ paddingTop: '1px' }}><span className="form-group has-search">
                                                 <span className="fa fa-search form-control-feedback"></span>
-                                                <input list="products" type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" placeholder="Search" />
+                                                <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" list="products" name="search" onChange={this.searchOnChange} style={{ backgroundColor: 'transparent' }} />
                                                 <datalist id="products">
-
-                                                    {this.viewProducts(this.props.ProductItemReducer)}
-                                                </datalist>
+                                                <option />
+                                                {this.viewProducts(this.props.ProductItemReducer)}
+                                            </datalist>
                                             </span>
                                             </span>
                                         </div>
@@ -169,13 +183,14 @@ class Products extends Component {
 }
 
 function mapStateToProps(state) {
+  
     return {
         ProductItemReducer: state.ProductItemReducer
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ getProductsItem }, dispatch)
+    return bindActionCreators({ getProductsItem,getSearch }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

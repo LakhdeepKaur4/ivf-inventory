@@ -22,6 +22,8 @@ import {
     isBrandDetail: false,
     isStatusChanged: false,
     total:'',
+    lastPage:'',
+
   };
   
   const BrandsReducer = (state = initialState, action) => {
@@ -80,6 +82,8 @@ import {
           ...state,
           brandsList:action.payload.brands.docs,
           total:action.payload.brands.total,
+          lastPage:action.payload.brands.pages,
+          
         }
       }
       case GET_ACTIVE_PAGE_DETAIL:{

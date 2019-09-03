@@ -6,6 +6,7 @@ import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
 import axios from 'axios';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import './productView.css';
 
 class ProductsView extends Component {
     constructor(props) {
@@ -14,16 +15,16 @@ class ProductsView extends Component {
         this.state = {
             search: '',
             activePage: '1',
-            limit: '',
+            limit: '5',
             totalItemsCount: '',
             filterName: 'name',
-            sortVal: false,
+            sortVal: true,
             ids: [],
             visible: [],
             allProductIds: [],
             productId: [],
-            productID:props.match.params.id,
-            host:''
+            productID: props.match.params.id,
+            host: ''
         }
     }
 
@@ -48,50 +49,57 @@ class ProductsView extends Component {
         this.setState({ productId: IDS })
     }
     setHost = host => {
-        var defaultPage=this.state.activePage;
-        this.setState({host});         
-        this.props.getProductsView(host, this.state.productID,defaultPage)
+        var defaultPage = this.state.activePage;
+        var limit=this.state.limit;
+        this.setState({ host });
+        this.props.getProductsView(host, this.state.productID, defaultPage,limit)
             .then((res) => {
                 let Ids = [];
-                if(res.payload && res.payload.items && res.payload.items.docs){
+                if (res.payload && res.payload.items && res.payload.items.docs) {
                     res.payload.items.docs.map((item) => {
                         Ids.push(item._id)
                     })
-                    this.setState({ allProductIds: Ids, limit:res.payload.items.limit, totalItemsCount:res.payload.items.total })
+                    this.setState({ allProductIds: Ids, limit: res.payload.items.limit, totalItemsCount: res.payload.items.total })
                 }
             })
-            if(this.state.productID){
+        if (this.state.productID) {
             const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
-            .then(response => {
-               
-            })
+                .then(response => {
+
+                })
         }
-        
+
     }
 
 
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
+        this.props.getProductsView(this.state.host,null,pageNumber,this.state.limit);
     }
 
     searchOnChange = (e) => {
         this.setState({ search: e.target.value })
     }
 
-    searchFilter = (search) => {
-        return function (x) {
-            return x.sku?x.sku.toLowerCase().includes(search.toLowerCase()) ||
-                x.stock.toString().includes(search.toString()) ||
-                x.name.toLowerCase().includes(search.toLowerCase()) ||
-                !search:true;
-        }
+    searchFilter =  (x)=> {
+        let search = this.state.search;
+        let ret = {};
+
+        ret.sku = (x.sku !== undefined) ? x.sku.toLowerCase().includes(search.toLowerCase()) : false;
+        ret.optStock = (x.optStock !== undefined) ? x.optStock.toString().includes(search.toString()) : false;
+        ret.name = (x.name !== undefined) ? x.name.toLowerCase().includes(search.toLowerCase()) : false;
+        ret.price = (x.price !== undefined && x.price.range !== undefined) ? x.price.range.toString().includes(search.toString()) : false;
+        return ret.sku ||
+            ret.optStock ||
+            ret.name ||
+            ret.price ||
+            !search;
     }
 
     onSort = () => {
         this.setState(() => {
             return {
                 sortVal: true,
-
             }
         });
 
@@ -120,22 +128,43 @@ class ProductsView extends Component {
         this.setState({ productId: IDS })
     }
 
+    sorted = (arr, way) => {
+        if (way === 'inc') {
+            arr.sort((a, b) => {
+                var orderBool = a.name > b.name;
+                return orderBool ? 1 : -1;
+            })
+        } else {
+            arr.sort((a, b) => {
+                var orderBool = a.name < b.name;
+                return orderBool ? 1 : -1;
+            })
+        }
+
+        return arr
+    }
+
     productsResult = ({ productList }) => {
         let data = [];
-        if(this.props.match.params.id){
-            data = productList;            
+        if (this.props.match.params.id) {
+            data = productList;
         }
-        else if(productList && productList.items && productList.items.docs){
+        else if (productList && productList.items && productList.items.docs) {
             data = productList.items.docs
         }
         if (data && data.length) {
-            return data.sort((item1, item2) => {
-                var cmprVal = (item1[this.state.filterName].localeCompare(item2[this.state.filterName]))
-                return this.state.sortVal ? cmprVal : -cmprVal;
-            })
-                .filter(this.searchFilter(this.state.search))
-                .
-                map((item) => {
+            let arr = [];
+            for (let x of data) {
+                arr.push(x);
+            }
+            let arrReturned
+            if (this.state.sortVal === true) {
+                arrReturned = this.sorted(arr, 'inc');
+            } else {
+                arrReturned = this.sorted(arr, 'dec');
+            }
+            return arrReturned.filter(this.searchFilter)
+                .map((item) => {
                     return (
                         <tr>
                             <td scope="row">
@@ -143,7 +172,7 @@ class ProductsView extends Component {
                                     onClick={(e) => this.pickIds(item._id, e.currentTarget.checked)} />
                             </td>
                             <td>
-                                {/* <img src={item.image} className="img-fluid" alt="Sheep" /> */}
+                            <img src={`${this.state.host}`+item.productPicture[0]} className="img-fluid" alt="Sheep" />
                             </td>
                             <td>{item.name}</td>
                             <td>
@@ -153,10 +182,10 @@ class ProductsView extends Component {
                                 {item.optStock}
                             </td>
                             <td>
-                                {item.price?item.price.range:''}
+                                {item.price ? item.price.range : ''}
                             </td>
                             <td>
-                                <div><button className="button button1 active" onClick={() => this.btnClick(item.id)}>{(this.state.visible.includes(item.id)) ? 'Invisible' : 'Visible'}</button></div>
+                                <div><button className="button button1 active" onClick={() => this.btnClick(item._id)}>{(this.state.visible.includes(item._id)) ? 'Invisible' : 'Visible'}</button></div>
                                 <div><button className="button button2" onClick={this.btnClick}>Bookmark</button></div>
                             </td>
                             <td>
@@ -221,10 +250,10 @@ class ProductsView extends Component {
         this.props.history.push('/createProduct');
     }
     render() {
-       
+
         let tableData =
             <div className="table-responsive card text-dark">
-                <table className="table">
+                <table className="table productView">
                     <thead>
                         <tr>
                             <th scope="col"><input type="checkbox" checked={(this.state.productId.length === this.state.allProductIds.length) ? true : false} onClick={(e) => this.selectAll(e.currentTarget.checked)} /></th>
@@ -333,35 +362,35 @@ class ProductsView extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
-            <div>
-                <Dashboard>
+                <div>
+                    <Dashboard>
 
 
-                    <div>
-                        {navLink}
-                    </div>
-                    {navIcon}
+                        <div>
+                            {navLink}
+                        </div>
+                        {navIcon}
 
-                    <div style={{ float: 'right' }}>
-                        <Pagination activePage={this.state.activePage}
-                            itemsCountPerPage={this.state.limit}
-                            totalItemsCount={this.state.totalItemsCount}
-                            onChange={this.handlePageChange}
-                            itemClass='page-item'
-                            linkClasss='page-link'
-                        />
-                    </div>
+                        <div style={{ float: 'right' }}>
+                            <Pagination activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.limit}
+                                totalItemsCount={this.state.totalItemsCount}
+                                onChange={this.handlePageChange}
+                                itemClass='page-item'
+                                linkClasss='page-link'
+                            />
+                        </div>
 
-                    <div>
-                        {tableData}
-                    </div>
-                    <div>
-                        {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
-                    </div>
+                        <div>
+                            {tableData}
+                        </div>
+                        <div>
+                            {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
+                        </div>
 
 
-                </Dashboard>
-            </div>
+                    </Dashboard>
+                </div>
 
             </HostResolver>
         )

@@ -51,3 +51,31 @@
     top:50%;
     left:50%;
 }
+
+.md-stepper-horizontal.editorder .md-step .md-step-bar-left,
+.md-stepper-horizontal.editorder .md-step .md-step-bar-right {
+	position: absolute;
+    top: 36px;
+    height: 2px;
+    border-top: 1px solid #F74A4A;
+}
+.pushDataToStore th {
+    top: 299px;
+    left: 473px;
+    width: 64px;
+    height: 14px;
+    text-align: left;
+    font: Bold 11px/14px Source Sans Pro;
+    letter-spacing: 0;
+    color: #a3a6b4;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+
+.pushDataToStore td {
+    text-align: left;
+    font: 13px/20px Source Sans Pro;
+    letter-spacing: 0;
+    color: #4d4f5c;
+    opacity: 1;
+  }
