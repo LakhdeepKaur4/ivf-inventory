@@ -33,7 +33,6 @@ class PushDataToStore extends React.Component {
         this.setState({ storeId: storeId.split(",") });
         localStorage.setItem('product', productId.split(","));
         localStorage.setItem('store', storeId.split(","));
-        var shub = this.state.productId.join();;
         this.props.getProducts(this.state.host[1],this.state.productId);
         this.props.getStores(this.state.host[0]);
 
@@ -45,6 +44,7 @@ class PushDataToStore extends React.Component {
         }
     }
     getProducts = ({ getFilterProducts }) => {
+        console.log(getFilterProducts);
         if (getFilterProducts) {
             return getFilterProducts.item.map((item) => {
                 if (this.state.productId.includes(item._id)) {
@@ -65,15 +65,16 @@ class PushDataToStore extends React.Component {
         }
     }
     getStores = ({ getStores }) => {
+        console.log(getStores)
         if (getStores) {
-            return getStores.map((item) => {
-                if (this.state.storeId.includes(item.id))
+            return getStores.data.map((item) => {
+                if (this.state.storeId.includes(item.instanceId))
                     return (
                         <tr key={item.id}>
                             <td>
                                 <div className="prductWithStore">
-                                    <img src={item.brandImage} className="img-fluid" alt="Sheep" />
-                                    <span>{item.storeName}</span>
+                                    {/* <img src={item.brandImage} className="img-fluid" alt="Sheep" /> */}
+                                    <span>{item.name}</span>
 
                                 </div>
                             </td>
@@ -96,12 +97,13 @@ class PushDataToStore extends React.Component {
         .then((res)=>console.log(res));
          this.props.history.push('/sidebar');
     }
+
     render() {
         return (
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
-                <HostResolver hostToGet="mockup" hostResolved={host => {
+                <HostResolver hostToGet="voxel" hostResolved={host => {
                 this.setHost(host);
             }}>
             <div>
@@ -168,8 +170,10 @@ class PushDataToStore extends React.Component {
                         </div>
                         <div className="col-12 pushDataToStore mt-5">
                             <div><button onClick={this.navigateAhead} className="button-main button3PushDataToStore" style={{ marginLeft: '15px' }}>Proceed</button></div>
-                            <div><button onClick={this.navigateBack} className="button-main button3PushDataToStore">Back</button></div>
+                            
+                            <div><button onClick={this.navigateBack} className="button-main button3PushDataToStore">Back</button></div>                  
                         </div>
+
                     </div>
                 </Dashboard>
             </div>

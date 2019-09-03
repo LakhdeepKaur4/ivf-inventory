@@ -14,7 +14,7 @@ class ProductsView extends Component {
         this.state = {
             search: '',
             activePage: '1',
-            limit: '3',
+            limit: '8',
             totalItemsCount: '',
             filterName: 'name',
             sortVal: false,

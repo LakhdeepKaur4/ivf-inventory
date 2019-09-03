@@ -52,7 +52,9 @@ export function getActivePageBrandsDetails(pageNumber,url) {
     axios
       .get(`${url}/api/brands/${pageNumber}`)
       .then(response => {
-        dispatch({ type: GET_ACTIVE_PAGE_DETAIL, payload: response.data.brands.docs });
+        if(response.status===200 || response.status===201){
+          dispatch({ type: GET_ACTIVE_PAGE_DETAIL, payload: response.data.brands.docs });
+        }
       })
       .catch(err => {
         toasterMessage("error", err);
@@ -67,8 +69,8 @@ export function addBrand(data,url,page) {
       .post(`${url}/api/brands`, data)
       .then(response => {
         if (
-          response.status === 201 &&
-          response.data.message === "Successful creation"
+          response.status===201||response.status===200 &&
+          response.data.message==="Successful creation"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ADD_BRAND, payload: true });
@@ -101,8 +103,8 @@ export function enableBrand(id,currentPage,url) {
       .put(`${url}/api/brands/enable/${id}`)
       .then(response => {
         if (
-          response.status === 200 &&
-          response.data.message === "Brand enabled"
+          response.status===200 ||response.status===201 &&
+          response.data.message==="Brand enabled"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ENABLE_BRAND, payload: true });
@@ -126,8 +128,8 @@ export function disableBrand(id,currentPage,url) {
       .put(`${url}/api/brands/disable/${id}`)
       .then(response => {
         if (
-          response.status === 200 &&
-          response.data.message === "Brand disabled"
+          response.status===201 || response.status===200 &&
+          response.data.message==="Brand disabled"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: DISABLE_BRAND, payload: true });
@@ -166,12 +168,12 @@ export function updateBrandDetails(data,id,url) {
       .put(`${url}/api/brands/${id}`, data)
       .then(response => {
         if (
-          response.status === 200 &&
-          response.data.message === "Brand updated"
+          response.status===200 || response.status===201 &&
+          response.data.message==="Brand updated"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: UPDATE_BRAND_DETAILS, payload: true });
-          dispatch(getBrands());
+          dispatch(getDefaultPageBrandsDetails(1,url));
         }
       })
       .catch(err => {
@@ -191,9 +193,9 @@ export function changeStatus(value, ids,currentPage,url) {
       .put(`${url}/api/brands/multiselect`, payload)
       .then(response => {
         if (
-          (response.status === 200 &&
-            response.data.message === "Brands disabled successfully") ||
-          response.data.message === "Brands enabled successfully"
+          (response.status===200 || response.status===201 &&
+            response.data.message==="Brands disabled successfully") ||
+          response.data.message==="Brands enabled successfully"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: CHANGE_STATUS, payload: true });
