@@ -11,7 +11,7 @@ import axios from 'axios';
 
 class Categories extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             search: '',
             filterName: "customer",
@@ -67,7 +67,7 @@ class Categories extends Component {
     }
 
     getProductData = (id) => {
-        this.props.history.push(`/productsView/${id}`)
+        this.props.history.push(`/productsView/${id}`);
     }
 
     //Handle multiple

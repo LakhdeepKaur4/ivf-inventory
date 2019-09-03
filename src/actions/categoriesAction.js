@@ -50,10 +50,7 @@ export function changeStatus(value, ids, pageNo, URL) {
       return axios
         .put(`${URL}/api/category/multiSelect/changeStatus`, payload)
         .then(response => {
-          if (
-            response.status === 200
-          ) {
-            
+          if ( response.status === 200 ) {
             toasterMessage("success", response.data.message);            
           }
         })
@@ -72,7 +69,6 @@ export function enableCategory(id,pageNo,URL) {
             if (
               response.status === 200
             ) {
-              
               toasterMessage("success", response.data.message);            
             }
           })
@@ -88,10 +84,7 @@ export function disableCategory(id,pageNo,URL) {
      return axios
         .put(`${URL}/api/category/disable/${id}`)
         .then(response => {
-            if (
-              response.status === 200
-            ) {
-              
+            if ( response.status === 200 ) {
               toasterMessage("success", response.data.message);            
             }
           })
