@@ -14,12 +14,15 @@ import { toasterMessage } from "../../utils.js";
 import { ContentState, EditorState, convertToRaw, convertFromRaw, convertFromHTML } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
+import UploadComponent from '../../components/uploadComponent/uploadComponent';
 
 class ClassCategory extends Component {
     constructor(props) {
         super(props);
         
         this.state = {
+            userName:'',
+            password:'',
             name: '',
             url: '',
             content: { "entityMap": {}, "blocks": [{ "key": "637gr", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }] },
@@ -43,6 +46,15 @@ class ClassCategory extends Component {
 
     }
 
+    componentDidMount() {
+        $("input[type=file]").attr("id", "file-upload");
+        $("#file-upload").change(function() {
+          var file = $("#file-upload")[0].files[0].name;
+          $(this)
+            .prev("label")
+            .text(file);
+        });
+      }
     setHost = host => {
         this.setState({ host });
         this.props.GetInitialCategory(host);
@@ -168,7 +180,6 @@ class ClassCategory extends Component {
     }
 
     getParticularCategory = ({ getParticularCategory }) => {
-        console.log(getParticularCategory);
         if (getParticularCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
@@ -219,7 +230,10 @@ class ClassCategory extends Component {
         this.setState({editorState, errors:errorObject});
       };
     
+      onFileUploaded=(files)=>{
+          this.setState({ fileName: files[0].name, picture: files[0].base64 });
 
+      }
     render() {
         let editableData = this.state;
         return (
@@ -266,9 +280,21 @@ class ClassCategory extends Component {
                                         <div className="col-6">Coteg Thumb</div>
                                         <div className="col-6">
                                             <div className="md-form ">
-                                                <label for="file-upload" className="custom-file-upload">CHOOSE</label>
+                                            <UploadComponent 
+                                            onFileUpload={this.onFileUploaded}
+                                            />
+                                             {/* <label
+                                                htmlFor="file-upload"
+                                                className="file custom_file_upload"
+                                            >
+                                                CHOOSE
+                                            </label>
+                                            <FileBase64
+                                                multiple={true}
+                                                onDone={this.getFiles}
+                                            /> */}
                                                 {/* {/ <label className="ml-2" style={{color:"#888888"}}></label> /} */}
-                                                <input id="file-upload" type="file" onClick={this.fileAttach} />
+                                                {/* <input id="file-upload" type="file" onClick={this.getFiles} /> */}
                                                 {/* <div><span style={{color:'red'}}>{this.state.errors.file}</span></div> */}
                                             </div></div>
                                         {/* <div className="col-6 mt-3"> <input type="file"name="fileName"  onChange={this.imageUpload}/></div> */}
@@ -333,7 +359,7 @@ class ClassCategory extends Component {
                                 </div>
                             </div>
 
-                        </div>
+                        </div>>
                     </Dashboard>
                 </div>
             </HostResolver>

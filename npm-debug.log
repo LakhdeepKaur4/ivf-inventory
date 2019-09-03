@@ -23,11 +23,7 @@
 14 verbose stack     at maybeClose (internal/child_process.js:925:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)
 15 verbose pkgid circle-dashboard@0.1.0
-<<<<<<< HEAD
-16 verbose cwd /home/shivani/Desktop/circle-control-panel
-=======
 16 verbose cwd /home/shubang/circle-control-panel
->>>>>>> 4f44dd5803afc8a0ee88ebc1e6fc64b503eaa69c
 17 error Linux 5.0.0-25-generic
 18 error argv "/usr/bin/node" "/usr/bin/npm" "start"
 19 error node v8.10.0
