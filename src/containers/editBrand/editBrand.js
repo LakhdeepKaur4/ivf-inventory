@@ -66,7 +66,6 @@ class EditBrands extends Component {
   saveBrandDetails = event => {
     event.preventDefault();
     const { brandName, description, status, picture } = this.state;
-
     let payload = {
       name: brandName ? brandName : this.props.brandDetail.name,
       description: description
@@ -110,6 +109,7 @@ class EditBrands extends Component {
 
   render() {
     const { brandName, description } = this.state;
+    let data = JSON.parse(localStorage.getItem("brandDetails"));
 
     return (
       <HostResolver
@@ -183,9 +183,9 @@ class EditBrands extends Component {
                               name="status"
                               value="Enabled"
                               defaultChecked={
-                                this.state.status === true ? true : false
+                                (this.state.status === true)?true:false
                               }
-                              onChange={this.handleInputChange}
+                              onClick={this.handleInputChange}
                               className="margin1 p-0"
                             />
                           </div>
@@ -199,9 +199,9 @@ class EditBrands extends Component {
                               type="radio"
                               name="status"
                               value="Disabled"
-                              onChange={this.handleInputChange}
+                              onClick={this.handleInputChange}
                               defaultChecked={
-                                !this.state.status === true ? true : false
+                                (!this.state.status===true)?true:false
                               }
                               className="margin1 p-0"
                             />
@@ -242,7 +242,7 @@ class EditBrands extends Component {
 const mapStateToProps = state => {
   return {
     brandDetail: state.BrandsReducer.brandDetail,
-    isBrandUpdate: state.BrandsReducer.isBrandUpdate
+    isBrandUpdate: state.BrandsReducer.isBrandUpdate,
   };
 };
 export default connect(
