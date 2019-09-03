@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import './createCategory.css';
 import { bindActionCreators } from 'redux';
 import { GetInitialCategory, GetParticularCategory, GetSubCategory, onSubmit } from '../../actions/createCategory';
-import FileStructure from '../../components/fileStructure/fileStructure';
-import FileBase64 from 'react-file-base64';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
 import HostResolver from '../../components/resolveHost/resolveHost';
 import axios from 'axios';
 import { toasterMessage } from "../../utils.js";
-
 import { ContentState, EditorState, convertToRaw, convertFromRaw, convertFromHTML } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
@@ -243,8 +240,8 @@ class ClassCategory extends Component {
                 <div>
                     <Dashboard>
                         <div className="m-auto">
-                            <div><b>Create Category</b></div>
-                            <div className="row ">
+                            <div>{this.state._id ? <b>Edit Category</b> : <b>Create Category</b>}</div>
+                             <div className="row ">
                                 <div className="col-4">
 
                                     <div>Info</div>

@@ -85,7 +85,7 @@ class Brands extends Component {
 
   // Handle Dropdown
   handleDropdown = () => {
-    this.setState({ dropdownClick: true });
+    this.setState({ dropdownClick: !this.state.dropdownClick });
   };
   // Select all brands
   handleAllSelect = action => {
