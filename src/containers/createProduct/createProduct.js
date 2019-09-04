@@ -223,6 +223,7 @@ class CreateProduct extends Component {
     }
 
     this.setState({ [e.target.name]: e.target.value, price: obj});
+    
   }
 
   //for Brands

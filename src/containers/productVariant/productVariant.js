@@ -188,8 +188,6 @@ class ProductVariant extends Component {
     formSubmit = () => {
 
         let variantTitle = this.props.match.params.id;
-        // const { brandId, name, price, title, subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures } = this.state
-
         if (variantTitle) {
             let index = this.props.CreateProductReducer.productData.item.variants.findIndex(variant => variant.title===variantTitle);
             let variants = this.props.CreateProductReducer.productData.item.variants;
@@ -228,7 +226,6 @@ class ProductVariant extends Component {
            && nextProps.CreateProductReducer.productData.item) {
             let variant = nextProps.CreateProductReducer.productData.item.variants.find(variant => variant.title===variantTitle);
             this.setState({
-                fileName:variant.fileName,
                 pictures: variant.pictures,
                 title: variant.title,
                 optionTitle: variant.optionTitle,
