@@ -58,9 +58,7 @@ class ProductVariantOption extends Component {
        renderVariants({ productData }) {
         let variantsHtml = null;
         if (productData) {
-          console.log(productData,"==============")
             variantsHtml = productData.item.variants.map(item => {
-              console.log(item,"======================variants")
                     return (
                       <div style={{marginTop:'10px',marginLeft: '12px'}}>
                         {item.title}

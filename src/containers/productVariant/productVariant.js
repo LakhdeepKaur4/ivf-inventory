@@ -30,7 +30,6 @@ class ProductVariant extends Component {
     renderProduct = ({ productData }) => {
       productData=productData.item
         if (productData) {
-          console.log(productData,"==============data")
           return <div><div><h5>{productData.name}
             <span onClick={this.displayEditProductForm.bind(this, productData.name)}>
               <i
@@ -57,9 +56,7 @@ class ProductVariant extends Component {
       renderVariants({ productData }) {
         let variantsHtml = null;
         if (productData) {
-          console.log(productData,"==============")
             variantsHtml = productData.item.variants.map(item => {
-              console.log(item,"======================variants")
                     return (
                       <div style={{marginTop:'10px',marginLeft: '12px'}}>
                         {item.title}
@@ -230,7 +227,6 @@ class ProductVariant extends Component {
         if (variantTitle && nextProps.CreateProductReducer.productData
            && nextProps.CreateProductReducer.productData.item) {
             let variant = nextProps.CreateProductReducer.productData.item.variants.find(variant => variant.title===variantTitle);
-            console.log(variant,"========variant")
             this.setState({
                 fileName:variant.fileName,
                 pictures: variant.pictures,

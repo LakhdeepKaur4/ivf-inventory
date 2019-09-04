@@ -79,9 +79,7 @@ class CreateProduct extends Component {
    renderVariants({ productData }) {
     let variantsHtml = null;
     if (productData) {
-      console.log(productData,"==============")
         variantsHtml = productData.item.variants.map(item => {
-          console.log(item,"======================variants")
                 return (
                   <div style={{marginTop:'10px',marginLeft: '12px'}}>
                     {item.title}
@@ -220,15 +218,11 @@ class CreateProduct extends Component {
   onPriceChange=(e)=>{
     
     let obj = {}
-    console.log(e.target.name)
     if (e.target.name =='range') {
       obj.range = parseInt(e.target.value)
     }
 
-    
-    this.setState({ [e.target.name]: e.target.value, price: obj},()=>{
-      console.log('price in cb', typeof(this.state.price.range))
-    });
+    this.setState({ [e.target.name]: e.target.value, price: obj});
   }
 
   //for Brands
@@ -297,7 +291,6 @@ class CreateProduct extends Component {
 
 
     let payload={brandId, name,sku, optStock, price, subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures,variants}
-    console.log("payload=====================", payload)
     if (productName) {
       this.props.updateProduct(this.state.host,this.props.CreateProductReducer.getProductInfo.itemId,{ brandId, name,sku, optStock, price, subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants: this.props.CreateProductReducer.productData.item.variants })
       .then(()=>{
@@ -732,7 +725,6 @@ class CreateProduct extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("state", state);
   return {
     CreateProductReducer: state.CreateProductReducer,
     BrandsReducer: state.BrandsReducer,
