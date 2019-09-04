@@ -133,7 +133,7 @@ class ProductsView extends Component {
 
     productsResult = ({ productListMock }) => {
         console.log(productListMock);
-        if (productListMock) {
+        if (productListMock && productListMock.items && productListMock.items.docs ) {
             // let Ids = [];
             // productListMock.item.map(item => {
             //     Ids.push(item._id);
