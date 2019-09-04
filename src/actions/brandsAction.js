@@ -37,6 +37,10 @@ export function getDefaultPageBrandsDetails(defaultPage,url) {
         dispatch({ type: GET_PAGE_DETAIL, payload: response.data });
       })
       .catch(err => {
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR FETCHING RECORDS');
+      }
+      else
         toasterMessage("error", err);
       });
   };
@@ -48,7 +52,9 @@ export function getActivePageBrandsDetails(pageNumber,url) {
     axios
       .get(`${url}/api/brands/${pageNumber}`)
       .then(response => {
-        dispatch({ type: GET_ACTIVE_PAGE_DETAIL, payload: response.data.brands.docs });
+        if(response.status===200 || response.status===201){
+          dispatch({ type: GET_ACTIVE_PAGE_DETAIL, payload: response.data.brands.docs });
+        }
       })
       .catch(err => {
         toasterMessage("error", err);
@@ -57,25 +63,35 @@ export function getActivePageBrandsDetails(pageNumber,url) {
 }
 
 // Add brands
-export function addBrand(data,url) {
+export function addBrand(data,url,page) {
   return dispatch => {
     axios
       .post(`${url}/api/brands`, data)
       .then(response => {
         if (
-          response.status === 201 &&
-          response.data.message === "Successful creation"
+          response.status===201||response.status===200 &&
+          response.data.message==="Successful creation"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ADD_BRAND, payload: true });
-          dispatch(getDefaultPageBrandsDetails(1,url));
+          if(page===1){
+            dispatch(getDefaultPageBrandsDetails(page,url))
+          }
+          else{
+            dispatch(getActivePageBrandsDetails(page,url))
+          }
+          
         }
-        else if( response.status===200 && response.data.message==='Creation error'){
-          toasterMessage("error",response.data.message)
-        }
+        
       })
       .catch(err => {
-        toasterMessage("error",err);
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR FETCHING RECORDS');
+      }
+      else if(err.response.status===400){
+        toasterMessage("error",err.response.data.message);
+      }
+       
       });
   };
 }
@@ -87,8 +103,8 @@ export function enableBrand(id,currentPage,url) {
       .put(`${url}/api/brands/enable/${id}`)
       .then(response => {
         if (
-          response.status === 200 &&
-          response.data.message === "Brand enabled"
+          response.status===200 ||response.status===201 &&
+          response.data.message==="Brand enabled"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: ENABLE_BRAND, payload: true });
@@ -101,7 +117,7 @@ export function enableBrand(id,currentPage,url) {
       })
       .catch(err => {
         toasterMessage("error", err);
-      });
+      });changeStatus
   };
 }
 
@@ -112,8 +128,8 @@ export function disableBrand(id,currentPage,url) {
       .put(`${url}/api/brands/disable/${id}`)
       .then(response => {
         if (
-          response.status === 200 &&
-          response.data.message === "Brand disabled"
+          response.status===201 || response.status===200 &&
+          response.data.message==="Brand disabled"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: DISABLE_BRAND, payload: true });
@@ -152,12 +168,12 @@ export function updateBrandDetails(data,id,url) {
       .put(`${url}/api/brands/${id}`, data)
       .then(response => {
         if (
-          response.status === 200 &&
-          response.data.message === "Brand updated"
+          response.status===200 || response.status===201 &&
+          response.data.message==="Brand updated"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: UPDATE_BRAND_DETAILS, payload: true });
-          dispatch(getBrands());
+          dispatch(getDefaultPageBrandsDetails(1,url));
         }
       })
       .catch(err => {
@@ -168,7 +184,6 @@ export function updateBrandDetails(data,id,url) {
 
 // Change status of multiple brands
 export function changeStatus(value, ids,currentPage,url) {
-  
   let payload = {
     status: value,
     ids: ids
@@ -178,9 +193,9 @@ export function changeStatus(value, ids,currentPage,url) {
       .put(`${url}/api/brands/multiselect`, payload)
       .then(response => {
         if (
-          (response.status === 200 &&
-            response.data.message === "Brands disabled successfully") ||
-          response.data.message === "Brands enabled successfully"
+          (response.status===200 || response.status===201 &&
+            response.data.message==="Brands disabled successfully") ||
+          response.data.message==="Brands enabled successfully"
         ) {
           toasterMessage("success", response.data.message);
           dispatch({ type: CHANGE_STATUS, payload: true });

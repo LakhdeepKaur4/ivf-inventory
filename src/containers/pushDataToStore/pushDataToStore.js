@@ -6,6 +6,7 @@ import './pushDataToStore.css';
 import $ from 'jquery';
 import Dashboard from '../../components/dashboard/dashboard';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import axios from 'axios';
 
 class PushDataToStore extends React.Component {
 
@@ -14,11 +15,14 @@ class PushDataToStore extends React.Component {
 
         this.state = {
             productId: [],
-            storeId: []
+            storeId: [],
+            host:[]
         }
     }
-    setHost = host => {
-        this.setState({host});
+    setHost = async host => {
+        let arr = this.state.host;
+        arr.push(host);
+        await this.setState({host:arr});
         window.onpopstate = () => {
             this.flag = true;
         }
@@ -29,8 +33,8 @@ class PushDataToStore extends React.Component {
         this.setState({ storeId: storeId.split(",") });
         localStorage.setItem('product', productId.split(","));
         localStorage.setItem('store', storeId.split(","));
-        this.props.getProducts(host);
-        this.props.getStores(host);
+        this.props.getProducts(this.state.host[1],this.state.productId);
+        this.props.getStores(this.state.host[0]);
 
     }
     componentWillUnmount() {
@@ -40,14 +44,15 @@ class PushDataToStore extends React.Component {
         }
     }
     getProducts = ({ getFilterProducts }) => {
+        console.log(getFilterProducts);
         if (getFilterProducts) {
-            return getFilterProducts.map((item) => {
-                if (this.state.productId.includes(item.id)) {
+            return getFilterProducts.item.map((item) => {
+                if (this.state.productId.includes(item._id)) {
                     return (
-                        <tr key={item.id}>
+                        <tr key={item._id}>
                             <td>
                                 <div className="prductWithStore">
-                                    <img src={item.image} className="img-fluid" alt="Sheep" />
+                                    <img src={`${this.state.host[1]}`+item.productPicture[0]} className="img-fluid" alt="Sheep" />
                                     <span className="text-left">{item.name}</span>
                                 </div>
                             </td>
@@ -60,15 +65,16 @@ class PushDataToStore extends React.Component {
         }
     }
     getStores = ({ getStores }) => {
+        console.log(getStores)
         if (getStores) {
-            return getStores.map((item) => {
-                if (this.state.storeId.includes(item.id))
+            return getStores.data.map((item) => {
+                if (this.state.storeId.includes(item.instanceId))
                     return (
                         <tr key={item.id}>
                             <td>
                                 <div className="prductWithStore">
-                                    <img src={item.brandImage} className="img-fluid" alt="Sheep" />
-                                    <span>{item.storeName}</span>
+                                    {/* <img src={item.brandImage} className="img-fluid" alt="Sheep" /> */}
+                                    <span>{item.name}</span>
 
                                 </div>
                             </td>
@@ -86,11 +92,18 @@ class PushDataToStore extends React.Component {
 
     }
     navigateAhead = () => {
-        this.props.history.push('/')
+        // this.props.history.push('/')
+        axios.post(`${this.state.host[1]}/api/map/stores/products`,{products:this.state.productId,stores:this.state.storeId})
+        .then((res)=>console.log(res));
+         this.props.history.push('/sidebar');
     }
+
     render() {
         return (
-            <HostResolver hostToGet="mockup" hostResolved={host => {
+            <HostResolver hostToGet="inventory" hostResolved={host => {
+                this.setHost(host);
+            }}>
+                <HostResolver hostToGet="voxel" hostResolved={host => {
                 this.setHost(host);
             }}>
             <div>
@@ -126,7 +139,7 @@ class PushDataToStore extends React.Component {
                         <div className="col-12 row pushDataToStoreTable">
                             <div className='card   col-4'>
                                 <div className="table-responsive tablePushDataToStore">
-                                    <table className="table ">
+                                    <table className="table pushDataToStore ">
                                         <thead>
                                             <tr>
                                                 <th>Product</th>
@@ -142,7 +155,7 @@ class PushDataToStore extends React.Component {
                             <div className="col-4 middlePushDataToStore"><div><span><i class="fas fa-arrow-right"></i></span></div></div>
                             <div className='card   col-4'>
                                 <div className="table-responsive tablePushDataToStore">
-                                    <table className="table ">
+                                    <table className="table pushDataToStore">
                                         <thead>
                                             <tr>
                                                 <th>Stores</th>
@@ -157,12 +170,15 @@ class PushDataToStore extends React.Component {
                         </div>
                         <div className="col-12 pushDataToStore mt-5">
                             <div><button onClick={this.navigateAhead} className="button-main button3PushDataToStore" style={{ marginLeft: '15px' }}>Proceed</button></div>
-                            <div><button onClick={this.navigateBack} className="button-main button3PushDataToStore">Back</button></div>
+                            
+                            <div><button onClick={this.navigateBack} className="button-main button3PushDataToStore">Back</button></div>                  
                         </div>
+
                     </div>
                 </Dashboard>
             </div>
             </HostResolver>
+            // </HostResolver>
         )
     }
 }

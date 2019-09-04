@@ -1,15 +1,31 @@
 import {GET_INITIAL_CATEGORY,GET_PARTICULAR_CATEGORY,GET_SUB_CATEGORY} from '../../actionCreators/index';
-export default function(state={},action){
+export default function(state={getParticularCategory:{},getSubCategory:{}},action){
+    if(action.error){
+        return state;
+    }
+    if(!action.payload){
+        return state;
+    }
     switch(action.type){
         case GET_INITIAL_CATEGORY:
          return{...state, initialCategory:action.payload}
 
-        case GET_PARTICULAR_CATEGORY:
-            return{...state, getParticularCategory:action.payload}
+        case GET_PARTICULAR_CATEGORY:{
+            
+            let id = action.payload.id;
+            let categories = action.payload.data;
+            let particularData = state.getParticularCategory;
+            particularData[id] = categories;
+            return{...state, getParticularCategory:{...particularData}}
+        }
 
-        case GET_SUB_CATEGORY:
-            return{...state,getSubCategory:action.payload}
-         
+        case GET_SUB_CATEGORY:{
+            let id = action.payload.id;
+            let categories = action.payload.data;
+            let subCategData = state.getSubCategory;
+            subCategData[id] = categories;
+            return{...state,getSubCategory:{...subCategData}}
+        }         
          default:
          return state;
     }

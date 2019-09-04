@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch ,Redirect} from 'react-router-dom';
 import Brands from './containers/displayBrands/displayBrands';
 import AdvancedSearch from './containers/advancedSearch/advancedSearch';
 import ViewOrder from './containers/viewOrder/viewOrder'
@@ -31,13 +31,21 @@ import Blog from './containers/blog/blog';
 import ProductView from './containers/productView/productView';
 import productView from './containers/productView/productView';
 import StoresView from './containers/storesView/storesView';
+import UnderConstruction from './components/maintenance/maintenance';
+import StoreSetting from './components/storeSetting/storeSetting';
+import UploadComponent from './components/uploadComponent/uploadComponent';
 
 class App extends Component {
+  constructor(){
+    super();    
+  }
   render() {
     return (
       <BrowserRouter>
         <div>
           <Switch>
+            <Route path="/uploadComponent" component={UploadComponent}/>
+            <Route path="/storeSettings" component={ UnderConstruction } />
             <Route path="/storesView" component={StoresView} />
             <Route path="/productsView/:id" component={productView} />
             <Route path="/editcategory/:id" component={createCategory} />
@@ -54,13 +62,14 @@ class App extends Component {
             <Route path="/productTree/editProduct/:name" component={CreateProduct} />
             <Route path="/productTree" exact={true} component={CreateProduct} />
             
+  
             <Route path="/createpage" component={CreatePage} />
             <Route path="/filestructure" component={FileStructure} />
             <Route path="/dataToStore" component={DataToStore} />
             <Route path="/header" component={Header} />
             <Route path="/createcategory" component={createCategory} />
             <Route path="/sidebar" component={Sidebar} />
-            <Route path="/storeprofile" component={StoreProfile} />
+            <Route path="/storeprofile/:id" component={StoreProfile} />
             <Route path="/themes" component={Themes} />
             <Route path="/vieworders" component={ViewOrder} />
             {/* <Route path="/create" component={AddProduct} /> */}
@@ -78,6 +87,9 @@ class App extends Component {
             <Route path="/blogPost" component={BlogPost} />
             <Route path="/blogSettings" component={BlogSettings} />
             <Route path="/blog" component={Blog} />
+            <Route path="/storeSetting/:id" component={StoreSetting}/>
+            <Route path='/notFound' component={UnderConstruction} />
+            <Redirect from='*' to='/notFound' />
             <Route path="/" component={Login} />
             
           </Switch>

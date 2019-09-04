@@ -6,6 +6,7 @@ import Pagination from 'react-js-pagination';
 import Dashboard from '../../components/dashboard/dashboard';
 import axios from 'axios';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import './productView.css';
 
 class ProductsView extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class ProductsView extends Component {
         this.state = {
             search: '',
             activePage: '1',
-            limit: '',
+            limit: '5',
             totalItemsCount: '',
             filterName: 'name',
             sortVal: true,
@@ -28,10 +29,8 @@ class ProductsView extends Component {
     }
 
     btnClick = (id) => {
-        console.log(id,this.state.visible);
         let ids = this.state.visible;
         if (ids.includes(id) === true) {
-            console.log(1);
             ids.splice(ids.indexOf(id), 1);
         } else {
             ids.push(id);
@@ -51,8 +50,9 @@ class ProductsView extends Component {
     }
     setHost = host => {
         var defaultPage = this.state.activePage;
+        var limit=this.state.limit;
         this.setState({ host });
-        this.props.getProductsView(host, this.state.productID, defaultPage)
+        this.props.getProductsView(host, this.state.productID, defaultPage,limit)
             .then((res) => {
                 let Ids = [];
                 if (res.payload && res.payload.items && res.payload.items.docs) {
@@ -74,6 +74,7 @@ class ProductsView extends Component {
 
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
+        this.props.getProductsView(this.state.host,null,pageNumber,this.state.limit);
     }
 
     searchOnChange = (e) => {
@@ -82,19 +83,23 @@ class ProductsView extends Component {
 
     searchFilter =  (x)=> {
         let search = this.state.search;
-            console.log('search==================',x)
-            return x.sku ? x.sku.toLowerCase().includes(search.toLowerCase()) ||
-                x.optStock.toString().includes(search.toString()) ||
-                x.name.toLowerCase().includes(search.toLowerCase()) ||
-                x.price.range.toString().includes(search.toString())||
-                !search : true;
+        let ret = {};
+
+        ret.sku = (x.sku !== undefined) ? x.sku.toLowerCase().includes(search.toLowerCase()) : false;
+        ret.optStock = (x.optStock !== undefined) ? x.optStock.toString().includes(search.toString()) : false;
+        ret.name = (x.name !== undefined) ? x.name.toLowerCase().includes(search.toLowerCase()) : false;
+        ret.price = (x.price !== undefined && x.price.range !== undefined) ? x.price.range.toString().includes(search.toString()) : false;
+        return ret.sku ||
+            ret.optStock ||
+            ret.name ||
+            ret.price ||
+            !search;
     }
 
     onSort = () => {
         this.setState(() => {
             return {
                 sortVal: true,
-
             }
         });
 
@@ -140,24 +145,18 @@ class ProductsView extends Component {
     }
 
     productsResult = ({ productList }) => {
-        console.log(productList);
         let data = [];
         if (this.props.match.params.id) {
-            console.log(1)
             data = productList;
         }
         else if (productList && productList.items && productList.items.docs) {
-
             data = productList.items.docs
-            console.log(data)
         }
         if (data && data.length) {
-            console.log(typeof (data));
             let arr = [];
             for (let x of data) {
                 arr.push(x);
             }
-            console.log(arr);
             let arrReturned
             if (this.state.sortVal === true) {
                 arrReturned = this.sorted(arr, 'inc');
@@ -173,7 +172,7 @@ class ProductsView extends Component {
                                     onClick={(e) => this.pickIds(item._id, e.currentTarget.checked)} />
                             </td>
                             <td>
-                                {/* <img src={item.image} className="img-fluid" alt="Sheep" /> */}
+                            <img src={`${this.state.host}`+item.productPicture[0]} className="img-fluid" alt="Sheep" />
                             </td>
                             <td>{item.name}</td>
                             <td>
@@ -254,7 +253,7 @@ class ProductsView extends Component {
 
         let tableData =
             <div className="table-responsive card text-dark">
-                <table className="table">
+                <table className="table productView">
                     <thead>
                         <tr>
                             <th scope="col"><input type="checkbox" checked={(this.state.productId.length === this.state.allProductIds.length) ? true : false} onClick={(e) => this.selectAll(e.currentTarget.checked)} /></th>
