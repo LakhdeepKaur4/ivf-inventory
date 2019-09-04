@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-const config = require('../../../env');
+const config = require('../../../env.example');
 
 class HostResolver extends Component {
     constructor(props) {

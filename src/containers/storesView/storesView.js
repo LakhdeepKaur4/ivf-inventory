@@ -39,8 +39,8 @@ class ProductsView extends Component {
     return (
       <Pagination
         activePage={this.state.activePage}
-        firstPageText={<i class="fa fa-angle-left"></i>}
-        lastPageText={<i class="fa fa-angle-right"></i>}
+        firstPageText={<i className="fa fa-angle-left"></i>}
+        lastPageText={<i className="fa fa-angle-right"></i>}
         itemsCountPerPage={this.state.limit}
         totalItemsCount={this.state.totalItemsCount}
         onChange={this.handlePageChange}
@@ -114,16 +114,16 @@ class ProductsView extends Component {
           <div className="sw-action-bar__item">
             <span className="sw-action-bar__text" role="button">
               {this.state.ordering == 1 ? (
-                <i class="fas fa-sort-amount-down" aria-hidden="true"></i>
+                <i className="fas fa-sort-amount-down" aria-hidden="true"></i>
               ) : (
-                <i class="fas fa-sort-amount-up" aria-hidden="true"></i>
+                <i className="fas fa-sort-amount-up" aria-hidden="true"></i>
               )}
               Order
             </span>
           </div>
           <div className="sw-action-bar__item">
             <span className="sw-action-bar__text" role="button">
-              <i class="fa fa-plus"></i>
+              <i className="fa fa-plus"></i>
               New
             </span>
           </div>
@@ -137,17 +137,19 @@ class ProductsView extends Component {
 
   renderTableData() {
     return this.state.stores.map(store => {
+      console.log("=================",store)
       return (
-        <tr key={store.id}>
+        <tr key={store.InstanceID}>
           <td>
             <input type="checkbox" />
           </td>
           <td>
-            <img src={store.img_src} width="60px" height="60px" />
+            {store.name}
           </td>
-          <td>{store.name}</td>
-          <td>{store.domain}</td>
-          <td>{store.type}</td>
+          <td>{store.rootDomain +''+ store.selectedNode }</td>
+          <td>{store.description}</td>
+          <td>{store['Group.name']}</td>
+          <td>Trinity</td>
           <td>
             <div className="dropdown">
               <button
@@ -186,11 +188,11 @@ class ProductsView extends Component {
               <th scope="col">
                 <input type="checkbox" />
               </th>
-              <th scope="col">STORE LOGO</th>
-              <th scope="col">STORE NAME</th>
-              <th scope="col">STORE DOMAIN</th>
-              <th scope="col">STORE TYPE</th>
-              <th scope="col">ACTION</th>
+              <th scope="col">Store Name</th>
+              <th scope="col">Store URL</th>
+              <th scope="col">Store descriptions</th>
+              <th scope="col">Group</th>
+              <th scope="col">Type</th>
             </tr>
           </thead>
           <tbody>{this.renderTableData(this.props.ProductsViewReducer)}</tbody>
@@ -202,7 +204,7 @@ class ProductsView extends Component {
   render() {
     return (
       <HostResolver
-        hostToGet="mockup"
+        hostToGet="voxel"
         hostResolved={host => {
           this.setHost(host);
         }}

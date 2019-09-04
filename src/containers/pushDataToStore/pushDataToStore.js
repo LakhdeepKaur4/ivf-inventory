@@ -40,7 +40,8 @@ class PushDataToStore extends React.Component {
     componentWillUnmount() {
         ;
         if (!this.flag) {
-            localStorage.clear();
+            localStorage.removeItem('product');
+            localStorage.removeItem('store');
         }
     }
     getProducts = ({ getFilterProducts }) => {

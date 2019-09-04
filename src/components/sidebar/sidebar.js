@@ -38,7 +38,7 @@ class Sidebar extends Component {
         this.setState(prevState => {
             let prevMenuState = prevState.menuState;
             return {
-                ...prevMenuState,
+                ...prevState,
                 menuState: {
                     ...prevMenuState,
                     [menuName]: {
@@ -72,7 +72,7 @@ class Sidebar extends Component {
 
                     <ul className="list-unstyled components">
                         <li className="active sidebarHead">
-                            <a to="" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded={menuState.stores.isOpen}>
+                            <a href="javascript:void(0)" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded={menuState.stores.isOpen}>
                                 <span><i className="far fa-circle" aria-hidden="true"
                                     style={{ color: "red" }}></i></span>STORES</a>
                             <ul className={
@@ -150,8 +150,9 @@ class Sidebar extends Component {
                             </ul>
                         </li>
                         <li className="active sidebarHead">
-                            <a id="provisionSubmenuLink" href="javascript:void(0)" 
-                             onClick={this.toggleMenu.bind(this,"provision")} aria-expanded={menuState.provision.isOpen} >
+                            <a id="provisionSubmenuLink" href="javascript:void(0)"
+                          
+                          onClick={this.toggleMenu.bind(this,"provision")} aria-expanded={menuState.provision.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.provision.isOpen ? "show" : ''}`
@@ -179,17 +180,17 @@ class Sidebar extends Component {
                                     </Link>}
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <Link href="#">
                                         <span>
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>Push Customers
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
 
                         <li className="active sidebarHead">
-                            <a id="ftSubmenuLink" 
+                            <a id="ftSubmenuLink" href="javascript:void(0)"
                                 onClick={this.toggleMenu.bind(this, "filter_and_search")} aria-expanded={menuState.filter_and_search.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>ADVANCE SEARCH</a>
                             <ul className={

@@ -31,7 +31,8 @@ class ProductsView extends Component {
 
     componentWillUnmount() {
         if (!this.state.flag) {
-            localStorage.clear();
+            localStorage.removeItem('product');
+            localStorage.removeItem('store');
         }
     }
 

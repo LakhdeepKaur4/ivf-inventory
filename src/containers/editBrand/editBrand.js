@@ -82,7 +82,7 @@ class EditBrands extends Component {
       this.props.match.params.id,
       this.state.host
     );
-    localStorage.clear();
+    localStorage.removeItem('brandDetails');
     this.setState({
       brandName: "",
       description: "",
@@ -94,7 +94,7 @@ class EditBrands extends Component {
   // Handle Cancle button
 
   handleCancel = () => {
-    localStorage.clear();
+    localStorage.removeItem('brandDetails');
     this.props.history.push("/brands");
   };
 
