@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import{CREATE_PRODUCT,POST_CREATE_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT, UPDATE_VARIANT} from '../actionCreators/index';
+import{CREATE_PRODUCT,POST_CREATE_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT, UPDATE_VARIANT, UPDATE_PRODUCT, UPDATE_PRODUCT_ID} from '../actionCreators/index';
 
 
 
@@ -17,7 +17,11 @@ export function createProductDetails(URL){
 
 
 
-export const productOption=(data)=>{
+export const createProductData=(brandId, name,sku, optStock, price,  subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures)=>{
+   const data={
+        brandId, name,sku, optStock, price,  subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures
+    }
+    console.log(data);
     return {
         type: POST_CREATE_PRODUCT,
         payload:data
@@ -30,21 +34,43 @@ export const productVariant=(data)=>{
         payload:data
     }
 }
-export const productData=(URL,data)=>{
-    console.log(data,"=====================product data");
-    const request = axios.post(`${URL}/api/item`, data )
+
+export const productData=(URL,payload)=>{
+    console.log("==========payload",payload)
+    const request = axios.post(`${URL}/api/item`, payload)
      .then(response => response.data)
-    
      return{
-         type:PRODUCT_DATA,
+         type:UPDATE_PRODUCT_ID,
          payload: request 
      }
 }
 
 export const updateVariant=(variants)=>{
-     
-     return{
+     return {
          type:UPDATE_VARIANT,
          payload: variants
      }
+}
+
+export const updateProduct=(URL,id,product)=>{
+    console.log(id,product,"=================id, product")
+    const request = axios.put(`${URL}/api/item/${id}`, product )
+    .then(response => response.data)
+    .then(()=>{
+        return {itemId: id, name: product.name};
+    })
+    return{
+        type:UPDATE_PRODUCT_ID,
+        payload: request
+    }
+}
+
+export const getProductById = (URL, id)=>{
+    const request = axios.get(`${URL}/api/item/${id}`)
+    .then(response =>response.data)
+
+    return {
+        type: PRODUCT_DATA,
+        payload:request
+    }
 }
