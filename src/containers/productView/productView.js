@@ -15,7 +15,7 @@ class ProductsView extends Component {
         this.state = {
             search: '',
             activePage: '1',
-            limit: '5',
+            limit: '20',
             totalItemsCount: '',
             filterName: 'name',
             sortVal: true,
@@ -23,6 +23,7 @@ class ProductsView extends Component {
             visible: [],
             allProductIds: [],
             productId: [],
+            errMessage:'',
             productID: props.match.params.id,
             host: ''
         }
@@ -59,9 +60,11 @@ class ProductsView extends Component {
                     res.payload.items.docs.map((item) => {
                         Ids.push(item._id)
                     })
-                    this.setState({ allProductIds: Ids, limit: res.payload.items.limit, totalItemsCount: res.payload.items.total })
+                    this.setState({ allProductIds: Ids,
+                        //  limit: res.payload.items.limit,
+                          totalItemsCount: res.payload.items.total })
                 }
-            })
+            }).then(()=>console.log(this.state.totalItemsCount))
         if (this.state.productID) {
             const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
                 .then(response => {
@@ -145,12 +148,15 @@ class ProductsView extends Component {
     }
 
     productsResult = ({ productList }) => {
+        console.log('wdewfdewfefwefewfew',productList)
         let data = [];
         if (this.props.match.params.id) {
             data = productList;
         }
         else if (productList && productList.items && productList.items.docs) {
             data = productList.items.docs
+        }else{
+            
         }
         if (data && data.length) {
             let arr = [];
@@ -163,6 +169,7 @@ class ProductsView extends Component {
             } else {
                 arrReturned = this.sorted(arr, 'dec');
             }
+            console.log('arrreturned',arrReturned)
             return arrReturned.filter(this.searchFilter)
                 .map((item) => {
                     return (
@@ -249,6 +256,15 @@ class ProductsView extends Component {
     navigate = () => {
         this.props.history.push('/createProduct');
     }
+    renderPagination=()=>{
+        return <Pagination activePage={this.state.activePage}
+        itemsCountPerPage={this.state.limit}
+        totalItemsCount={this.state.totalItemsCount}
+        onChange={this.handlePageChange}
+        itemClass='page-item'
+        linkClasss='page-link'
+    />
+    }
     render() {
 
         let tableData =
@@ -268,6 +284,8 @@ class ProductsView extends Component {
                         </tr>
                     </thead>
                     <tbody>
+                    
+                        {this.state.errMessage}
                         {this.productsResult(this.props.ProductsViewReducer)}
                     </tbody>
                 </table>
@@ -356,6 +374,14 @@ class ProductsView extends Component {
                         </li>
                     </ul>
                 </div>
+                <div
+                            style={{
+                                alignSelf: "flex-end",
+                                height: "30px"
+                            }}
+                            className="sw-action-bar__item sw-action-bar__item--right parent-flex-center">
+                            {this.renderPagination()}
+                        </div>
             </nav>
 
         return (
@@ -369,18 +395,7 @@ class ProductsView extends Component {
                         <div>
                             {navLink}
                         </div>
-                        {navIcon}
-
-                        <div style={{ float: 'right' }}>
-                            <Pagination activePage={this.state.activePage}
-                                itemsCountPerPage={this.state.limit}
-                                totalItemsCount={this.state.totalItemsCount}
-                                onChange={this.handlePageChange}
-                                itemClass='page-item'
-                                linkClasss='page-link'
-                            />
-                        </div>
-
+                        {navIcon}                        
                         <div>
                             {tableData}
                         </div>
