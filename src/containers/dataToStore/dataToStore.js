@@ -92,7 +92,6 @@ class DataToStore extends Component {
     
 
     viewOrderFun = ({ dataStore }) => {
-        console.log(dataStore);
         if (dataStore) {
             let arr= dataStore.data.data;
             console.log(arr);
