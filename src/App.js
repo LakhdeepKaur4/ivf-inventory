@@ -45,11 +45,14 @@ class App extends Component {
             <Route path="/pushDataToStore" component={PushDataToStore} />
 
             
-            <Route path="/createProduct/createVariant"   component={ProductVariant} />
-            <Route path="/createProduct/editVariant/:id"  component={ProductVariant} />
-            <Route path="/createProduct/variant/:title/createOption"   component={ProductVariantOption} />
-            <Route path="/createProduct/variant/:title/editOption/:id"  component={ProductVariantOption}/>
+            <Route path="/productTree/:itemid/createVariant" exact  component={ProductVariant} />
+            <Route path="/productTree/editVariant/:id"  component={ProductVariant} />
+            <Route path="/productTree/variant/:title/createOption"   component={ProductVariantOption} />
+            <Route path="/productTree/variant/:title/editOption/:id"  component={ProductVariantOption}/>
+            
             <Route path="/createProduct" component={CreateProduct} />
+            <Route path="/productTree/editProduct/:name" component={CreateProduct} />
+            <Route path="/productTree" exact={true} component={CreateProduct} />
             
             <Route path="/createpage" component={CreatePage} />
             <Route path="/filestructure" component={FileStructure} />
