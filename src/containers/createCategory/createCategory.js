@@ -12,14 +12,15 @@ import { ContentState, EditorState, convertToRaw, convertFromRaw, convertFromHTM
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import UploadComponent from '../../components/uploadComponent/uploadComponent';
+import FileStructure2 from './../../components/fileStructure/fileStructure2';
 
 class ClassCategory extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            userName:'',
-            password:'',
+            userName: '',
+            password: '',
             name: '',
             url: '',
             content: { "entityMap": {}, "blocks": [{ "key": "637gr", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }] },
@@ -35,26 +36,46 @@ class ClassCategory extends Component {
             subParent: '',
             show: false,
             showSub: false,
+            highlighted: false,
             errors: {},
             host: '',
             _id: props.match.params.id,
             editorState: EditorState.createEmpty(),
+            initialCategory: '',
+            particularCategory: []
         }
 
     }
 
     componentDidMount() {
         $("input[type=file]").attr("id", "file-upload");
-        $("#file-upload").change(function() {
-          var file = $("#file-upload")[0].files[0].name;
-          $(this)
-            .prev("label")
-            .text(file);
+        $("#file-upload").change(function () {
+            var file = $("#file-upload")[0].files[0].name;
+            $(this)
+                .prev("label")
+                .text(file);
         });
-      }
-    setHost = host => {
-        this.setState({ host });
-        this.props.GetInitialCategory(host);
+
+    }
+
+    setHost = async host => {
+        this.setState({ host })
+        // await this.props.GetInitialCategory(host)
+        //     .then((res) => {
+        //         let arr = [];
+        //         res.payload.category.map((item) => {
+        //             arr.push(item._id);
+        //         })
+        //         console.log(arr);
+        //         return arr;
+        //     })
+        //     .then(arr => {
+        //         this.setState({ initialCategory: arr });
+        //         arr.map(item=>{
+        //             this.push(true, item);
+        //         })
+        //     })
+
         this.setState({ show: false, showSub: false });
         $('#file-upload').change(function () {
             var i = $(this).prev('label').clone();
@@ -121,8 +142,11 @@ class ClassCategory extends Component {
         this.setState({ fileName: files[0].name, picture: files[0].base64 });
     }
 
-    submit = () => {
+    submit = async () => {
         let errors = {};
+        if (this.state.highlighted === false) {
+            await this.setState({ parent: null })
+        };
         if (this.state.name == '') errors.name = 'Please enter name';
         if (this.state.url == '') errors.url = 'Please enter URL';
         if (this.state.search == '') errors.search = 'Please enter Search Key';
@@ -158,10 +182,14 @@ class ClassCategory extends Component {
         this.setState({ parent: id });
         this.props.GetParticularCategory(this.state.host, id);
         this.setState({ show: true });
-        this.highlighter(e.currentTarget);
+        if (e !== true) {
+            this.highlighter(e.currentTarget);
+        }
+        return true;
     }
 
     highlighter = ele => {
+        this.setState({ highlighted: true });
         $('.higlightStructure').removeClass('higlightStructure');
         $(ele).addClass('higlightStructure');
     }
@@ -179,6 +207,7 @@ class ClassCategory extends Component {
     }
 
     getParticularCategory = ({ getParticularCategory }) => {
+        console.log(getParticularCategory);
         if (getParticularCategory) {
             if ($(`#${this.state.parent}`).children().length !== 1) {
                 return true;
@@ -186,7 +215,7 @@ class ClassCategory extends Component {
             else {
                 getParticularCategory.map((item) => item.subCategories.map((item) => {
                     if (this.state.parent === item.parent) {
-
+                        console.log(5456);
                         // <div style={{marginLeft:'20px'}} onClick={()=>this.getsubCategory(item._id)} className="fa fa-folder">{item.name}</div>
                         $(`#${this.state.parent}`).append(`<div id=${item._id}><div key=${item._id}>
                     <i class="fa fa-folder ml-3"
@@ -229,10 +258,10 @@ class ClassCategory extends Component {
         this.setState({ editorState, errors: errorObject });
     };
 
-      onFileUploaded=(files)=>{
-          this.setState({ fileName: files[0].name, picture: files[0].base64 });
+    onFileUploaded = (files) => {
+        this.setState({ fileName: files[0].name, picture: files[0].base64 });
 
-      }
+    }
     render() {
         let editableData = this.state;
         return (
@@ -260,29 +289,29 @@ class ClassCategory extends Component {
                                 <div className="col-4">
                                     <div className="firstrowsHeading">Theme</div>
                                     <div className="row ">
-                                        <div className="col-6">Template Layout</div>
+                                        <div className="col-6 titleSection">Template Layout</div>
                                         <div className="col-6">
                                             <select className=" selectCreateCategory form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
                                                 <option>
                                                     default
-                                        </option>
+                                                </option>
                                             </select>
-                                        </div>
+                                            <i class="fa fa-caret-down" aria-hidden="true"></i>                                        </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-6">Sort</div>
+                                        <div className="col-6 titleSection">Sort</div>
                                         <div className="col-6 createCategory">
                                             <input type="text" placeholder="Enter Info" className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
                                         </div>
                                     </div>
                                     <div className="row mt-2">
-                                        <div className="col-6">Coteg Thumb</div>
+                                        <div className="col-6 titleSection">Coteg Thumb</div>
                                         <div className="col-6">
                                             <div className="md-form ">
-                                            <UploadComponent 
-                                            onFileUpload={this.onFileUploaded}
-                                            />
-                                             {/* <label
+                                                <UploadComponent
+                                                    onFileUpload={this.onFileUploaded}
+                                                />
+                                                {/* <label
                                                 htmlFor="file-upload"
                                                 className="file custom_file_upload"
                                             >
@@ -298,14 +327,15 @@ class ClassCategory extends Component {
                                             </div></div>
                                         {/* <div className="col-6 mt-3"> <input type="file"name="fileName"  onChange={this.imageUpload}/></div> */}
                                     </div>
-                                    <div className="row mt-3">
-                                        <div className="col-6">Default Sort</div>
+                                    <div className="row mt-2">
+                                        <div className="col-6 titleSection">Default Sort</div>
                                         <div className="col-6 ">
-                                            <select className=" selectCreateCategory form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
+                                            <select className="selectCreateCategory form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0">
                                                 <option>
                                                     default
-                                        </option>
+                                                </option>
                                             </select>
+                                            <i class="fa fa-caret-down" aria-hidden="true"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -328,14 +358,14 @@ class ClassCategory extends Component {
                                         <input type="text" placeholder="Search key" value={editableData.search} name="search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
                                     </div>
                                     <span style={{ color: "red" }}>{this.state.errors.search}</span>
-                                    <div>
+                                    <div style={{ margin: '19px 0px' }}>
                                         <button className="button-main button3" style={{ marginTop: '5px' }} onClick={this.submit}>
                                             Submit
                                 </button>
                                     </div>
                                 </div>
                             </div>
-                            <div className="row mt-5">
+                            <div className="row mt-4">
                                 <div className="col-8 firstrowsHeading">Description
                         <span style={{ color: "red" }}>{this.state.errors.description}</span></div>
                                 <div className="col-3 firstrowsHeading">Parent</div>
@@ -352,13 +382,20 @@ class ClassCategory extends Component {
                                     </Editor>
                                 </div>
                                 <div className="col-4 card cardCreateCategory">
-                                    {this.getInitialCategory(this.props.CreateCategory)}
-                                    {this.state.show ? this.getParticularCategory(this.props.CreateCategory) : ''}
-                                    {this.state.showSub ? this.getSubCategory(this.props.CreateCategory) : ''}
+                                    {this.state.host? <FileStructure2 
+                                    showHiglighter={true}
+                                    level={0} 
+                                    defaultOpenLevels={1}
+                                    host={this.state.host}                                    
+                                    />:null }
+                                    
+                                    {/* {this.getInitialCategory(this.props.CreateCategory)}
+                                    {this.getParticularCategory(this.props.CreateCategory)}
+                                    {this.state.showSub ? this.getSubCategory(this.props.CreateCategory) : ''} */}
                                 </div>
                             </div>
 
-                        </div>>
+                        </div>
                     </Dashboard>
                 </div>
             </HostResolver>

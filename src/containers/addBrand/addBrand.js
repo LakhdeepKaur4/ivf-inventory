@@ -13,6 +13,7 @@ class AddBrand extends Component {
     brandName: "",
     description: "",
     status: "",
+    selected:"Enabled",
     errorBrandName: "",
     errorDescription: "",
     fileName: [],
@@ -47,15 +48,14 @@ class AddBrand extends Component {
   // Adding brand
   addBrand = event => {
     event.preventDefault();
-    const { brandName, description, status, logo } = this.state;
+    const { brandName, description, status, selected,logo } = this.state;
     if (this.validateForm()) {
       let payload = {
         name: brandName,
         description: description,
-        status: status,
+        status: status?status:selected,
         logo: logo
       };
-      console.log('payload...', payload)
       this.props.addBrand(payload, this.state.host,this.props.page);
       this.setState({
         brandName: "",
@@ -191,7 +191,7 @@ class AddBrand extends Component {
                             name="status"
                             value="enabled"
                             defaultChecked={true}
-                            onChange={this.handleInputChange}
+                            onClick={this.handleInputChange}
                             className="margin1 p-0"
                           />
                         </div>
@@ -205,7 +205,7 @@ class AddBrand extends Component {
                             type="radio"
                             name="status"
                             value="disabled"
-                            onChange={this.handleInputChange}
+                            onClick={this.handleInputChange}
                             className="margin1 p-0"
                           />
                         </div>

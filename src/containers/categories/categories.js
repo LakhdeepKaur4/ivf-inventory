@@ -58,7 +58,7 @@ class Categories extends Component {
 
     viewCategoryData = () => {
         if (this.state.categories) {
-            return this.state.categories.map((item) => <option key={item.id}>{item.name}</option>)
+            return this.state.categories.map((item) => <option key={item._id}>{item.name}</option>)
         }
     }
 
@@ -83,7 +83,6 @@ class Categories extends Component {
             isAllSelect: false,
             dropdownClick: false
         })
-        // this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit);
     };
 
     // Get Ids for selected Category
@@ -121,7 +120,7 @@ class Categories extends Component {
         if (categories) {
             return categories.map(category => {
                 return (
-                    <tr key={category.id}>
+                    <tr key={category._id}>
                         <td><input type="checkbox" checked={category.checked}
                             onClick={() => {
                                 this.setState((prevState) => {
@@ -224,8 +223,8 @@ class Categories extends Component {
 
     renderPagination() {
         return <Pagination activePage={this.state.activePage}
-            firstPageText={<i class="fa fa-angle-left"></i>}
-            lastPageText={<i class="fa fa-angle-right"></i>}
+            firstPageText={<i className="fa fa-angle-left"></i>}
+            lastPageText={<i className="fa fa-angle-right"></i>}
             itemsCountPerPage={this.state.limit}
             totalItemsCount={this.state.totalItemsCount}
             onChange={this.handlePageChange}
