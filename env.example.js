@@ -1,6 +1,6 @@
 module.exports = {
 	inventory:{
-        service: 'http://192.168.0.110:3003' //Place inventory server url here
+        service: 'http://192.168.0.118:3000' //Place inventory server url here
     },
     voxel:{
         service:'http://voxel.usingimagination.co.uk' //Place voxel server url here
