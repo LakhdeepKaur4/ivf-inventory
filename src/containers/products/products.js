@@ -4,7 +4,7 @@ import Dashboard from '../../components/dashboard/dashboard';
 import { getProductsItem,getSearch } from '../../actions/productItemAction';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import FileStructure from '../../components/fileStructure/fileStructure';
+import FileStructure2 from '../../components/fileStructure/fileStructure2';
 import HostResolver from '../../components/resolveHost/resolveHost';
 
 class Products extends Component {
@@ -38,7 +38,8 @@ class Products extends Component {
 
     productsItem = ({ productItem }) => {
        
-        if (productItem) { 
+        if (productItem &&  productItem.order &&  productItem.order.cart
+             ) { 
         
                 return productItem.order.cart.cartProducts ?  productItem.order.cart.cartProducts.map((item) => {
                     return (
@@ -153,7 +154,13 @@ class Products extends Component {
                                 <div class="card-body mainProductDiv">
                                     <h5>BROWSE Categories </h5>
                                     <hr className="prLine" />
-                                    <FileStructure />
+                                    {this.state.host? <FileStructure2 
+                                    showHiglighter={true}
+                                    level={0} 
+                                    defaultOpenLevels={1}
+                                    host={this.state.host}                                    
+                                    />:null }
+                                                            
                                     <div class="subDivBottom">
                                         <p>Team of use.Privacy policy</p>
                                     </div>

@@ -1,10 +1,17 @@
 import {GET_INITIAL_CATEGORY,GET_PARTICULAR_CATEGORY,GET_SUB_CATEGORY} from '../../actionCreators/index';
-export default function(state={},action){
+export default function(state={getParticularCategory:{},getSubCategory:{}},action){
+    if(action.error){
+        return state;
+    }
+    if(!action.payload){
+        return state;
+    }
     switch(action.type){
         case GET_INITIAL_CATEGORY:
          return{...state, initialCategory:action.payload}
 
         case GET_PARTICULAR_CATEGORY:{
+            
             let id = action.payload.id;
             let categories = action.payload.data;
             let particularData = state.getParticularCategory;

@@ -383,7 +383,9 @@ class ClassCategory extends Component {
                                 </div>
                                 <div className="col-4 card cardCreateCategory">
                                     {this.state.host? <FileStructure2 
+                                    showHiglighter={true}
                                     level={0} 
+                                    defaultOpenLevels={1}
                                     host={this.state.host}                                    
                                     />:null }
                                     

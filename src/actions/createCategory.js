@@ -18,7 +18,12 @@ export function GetInitialCategory(URL){
 export function GetParticularCategory(URL,id){
     console.log('reached',URL,id);
     const request = axios.get(`${URL}/api/category/${id}`)
-    .then((response => response.data))
+    .then((response => {
+        if(response.data && response.data.length){
+            return response.data[0].subCategories
+        }
+        return [];
+    }))
     .then(data=>{
        return {
            id,
@@ -34,10 +39,17 @@ export function GetParticularCategory(URL,id){
 
 export function GetSubCategory(URL,id){
     const request = axios.get(`${URL}/api/category/${id}`)
-    .then((response => response.data))
+    .then((response => {        
+        if(response.data && response.data.length){
+            return response.data[0].subCategories
+        }
+        return [];
+    }))
     .then(data=>{
-        id,
-        data
+        return {
+            id,
+            data
+        }
     });
 
     return {

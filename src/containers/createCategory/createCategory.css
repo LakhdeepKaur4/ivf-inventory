@@ -7,6 +7,17 @@
 .higlightStructure{
   background: lightcoral;
 }
+.folder-container{
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.folder-item{
+  flex:1;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
 /* .cardCreateCategory{
     height:100%;
 } */
