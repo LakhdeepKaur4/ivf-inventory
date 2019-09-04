@@ -36,9 +36,7 @@ import StoreSetting from './components/storeSetting/storeSetting';
 import UploadComponent from './components/uploadComponent/uploadComponent';
 
 class App extends Component {
-  constructor(){
-    super();    
-  }
+ 
   render() {
     return (
       <BrowserRouter>
