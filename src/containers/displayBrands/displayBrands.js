@@ -28,11 +28,11 @@ class Brands extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.brandDetail !== this.props.brandDetail) {
-      this.props.history.push(`/editBrand/${this.state.editId}`);
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.brandDetail !== this.props.brandDetail) {
+  //     this.props.history.push(`/editBrand/${this.state.editId}`);
+  //   }
+  // }
 
   // Handle Page change
   handlePageChange = pageNumber => {
@@ -147,8 +147,8 @@ class Brands extends Component {
 
   // Handle Edit brand
   handleEditBrand = id => {
-    this.props.getBrandDetails(id, this.state.host);
-    this.setState({ editId: id });
+    // this.props.getBrandDetails(id, this.state.host);
+    this.props.history.push(`/editBrand/${id}`)
   };
 
   // Display brands list

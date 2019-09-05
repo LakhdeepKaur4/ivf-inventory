@@ -191,7 +191,7 @@ class AddBrand extends Component {
                             name="status"
                             value="enabled"
                             defaultChecked={true}
-                            onClick={this.handleInputChange}
+                            onChange={this.handleInputChange}
                             className="margin1 p-0"
                           />
                         </div>
@@ -205,7 +205,7 @@ class AddBrand extends Component {
                             type="radio"
                             name="status"
                             value="disabled"
-                            onClick={this.handleInputChange}
+                            onChange={this.handleInputChange}
                             className="margin1 p-0"
                           />
                         </div>

@@ -193,6 +193,7 @@ class ProductsView extends Component {
               <th scope="col">Store descriptions</th>
               <th scope="col">Group</th>
               <th scope="col">Type</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>{this.renderTableData(this.props.ProductsViewReducer)}</tbody>

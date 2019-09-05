@@ -152,7 +152,6 @@ export function getBrandDetails(id,url) {
     axios
       .get(`${url}/api/brands/brand/${id}`)
       .then(response => {
-        localStorage.setItem('brandDetails', JSON.stringify(response.data.brand))
         dispatch({ type: BRAND_DETAIL, payload: response.data.brand });
       })
       .catch(err => {
