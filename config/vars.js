@@ -15,4 +15,5 @@ module.exports = {
         ? process.env.MONGO_URI_TESTS
         : process.env.MONGO_URI
   },
+  bucketName: process.env.BUCKET_NAME
 };
