@@ -18,6 +18,11 @@ const Orders = sequelize.define('orders',{
     email: {
         type: Sequelize.STRING
     },
+    status: {
+        type: Sequelize.STRING,
+        enum : ['ORDERED','APPROVED','PACKED','SHIPPED','DELIVERED'],
+        defaultValue: 'ORDERED'
+    },
     storeId: {
         type: Sequelize.INTEGER
     },

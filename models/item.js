@@ -15,7 +15,7 @@ var itemSchema = new Schema({
     type: String,
     index: true,
     maxlength: 128,
-    // required: true,
+    required: true,
     trim: true
   },
   ancestors: {
@@ -28,10 +28,11 @@ var itemSchema = new Schema({
   },
   sku: {
     type: String,
+    required:true
   },
   description: {
     type: String,
-    // required: true,
+    required: true,
   },
   pageTitle: {
     type: String,
@@ -56,7 +57,8 @@ var itemSchema = new Schema({
     type: Object,
   },
   price: {
-    type: PriceRange
+    type: PriceRange,
+    required:true
   },
   isLowQuantity: {
     type: Boolean,
@@ -137,7 +139,7 @@ var itemSchema = new Schema({
   },
   optStock: {
     type: Number,
-    // required: true,
+    required: true,
     trim: true
   },
   units: {

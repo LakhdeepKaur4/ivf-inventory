@@ -209,7 +209,7 @@ exports.advancedSearchOrders = (req, res, next) => {
         let ordersSend = [];
         let eventDateL = body.eventDateLowerLimit.split('-');
         let eventDateU = body.eventDateUpperLimit.split('-');
-        eventDateL = new Date(eventDateL[2],eventDateL[1],eventDateL[0]);
+        eventDateL = new Date(eventDateL[2], eventDateL[1], eventDateL[0]);
         eventDateU = new Date(eventDateU[2], eventDateU[1], eventDateU[0]);
         ordersSend = orders.filter(item => {
           console.log((item.createdAt.getTime() >= eventDateL.getTime()) && (item.createdAt.getTime() <= eventDateU.getTime()));
@@ -244,6 +244,24 @@ exports.searchCartProducts = async (req, res) => {
       res.status(httpStatus.OK).send({ message: "Cart Products Data", cartProducts })
     } else {
       res.status(httpStatus.OK).send({ message: "No data found" })
+    }
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
+  }
+}
+
+exports.changeStatus = async (req, res, next) => {
+  try {
+    const orderId = req.params.orderId;
+    const body = req.body;
+    const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(order => {
+      return order.update(body);
+    })
+    if (updatedOrder) {
+      return res.status(httpStatus.OK).json({ 
+        message: "Successfully status changed",
+        updatedOrder
+      });
     }
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
