@@ -121,9 +121,9 @@ exports.getItems = async (req, res, next) => {
   }
 }
 
-exports.getItemsByIds = async (req, res, next) => {
+exports.getItemById = async (req, res, next) => {
   try {
-    const item = await Item.find({});
+    const item = await Item.findOne({ _id: req.params.itemId });
     if (item) {
       return res.send({ item });
     }
@@ -155,7 +155,7 @@ exports.updateItems = async (req, res, next) => {
             body.productPicture[index] = newPath;
             Item.update({ _id: itemId }, { $set: body }, (err, resp) => {
               if (err) console.error(err);
-              else return;
+              else console.log(resp);
             });
           }
         })
@@ -229,7 +229,11 @@ exports.updateItems = async (req, res, next) => {
         }
       })
     }
-    return res.status(httpStatus.OK).send({ message: "Item updated" });
+    Item.update({ _id: itemId }, { $set: body }, (err, item) => {
+      if (err) console.error(err);
+      else return res.status(httpStatus.OK).send({ message: "Item updated", item });
+    });
+
   } catch (error) {
     console.log(error)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error });
