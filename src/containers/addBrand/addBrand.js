@@ -7,18 +7,18 @@ import FileBase64 from "react-file-base64";
 import Dashboard from "../../components/dashboard/dashboard";
 import $ from "jquery";
 import HostResolver from "../../components/resolveHost/resolveHost";
-
+import UploadComponent from "../../components/uploadComponent/uploadComponent";
 class AddBrand extends Component {
   state = {
     brandName: "",
     description: "",
     status: "",
-    selected:"Enabled",
+    selected: "Enabled",
     errorBrandName: "",
     errorDescription: "",
-    fileName: [],
-    logo: "",
+    logo_url: "",
     errorLogo: "",
+    folderStructure: "brands",
     host: ""
   };
 
@@ -41,27 +41,28 @@ class AddBrand extends Component {
   handleInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
     if (event.target.checked) {
-      this.setState({ status: event.target.value })
+      this.setState({ status: event.target.value });
     }
   };
 
   // Adding brand
   addBrand = event => {
+    console.log(this.state);
     event.preventDefault();
-    const { brandName, description, status, selected,logo } = this.state;
+    const { brandName, description, status, selected, logo_url } = this.state;
     if (this.validateForm()) {
       let payload = {
-        name: brandName,
+        name: brandName,  
         description: description,
-        status: status?status:selected,
-        logo: logo
+        status: status ? status : selected,
+        logo_url: logo_url
       };
-      this.props.addBrand(payload, this.state.host,this.props.page);
+      this.props.addBrand(payload, this.state.host, this.props.page);
       this.setState({
         brandName: "",
         description: "",
         status: "",
-        logo: ""
+        logo_url: ""
       });
     }
   };
@@ -71,10 +72,11 @@ class AddBrand extends Component {
   handleCancel = () => {
     this.props.history.push("/brands");
   };
-  //upload file
 
-  getFiles = files => {
-    this.setState({ fileName: files[0].name, logo: files[0].base64 }, () => {});
+  //upload file
+  onFileUploaded = URL => {
+    
+    this.setState({ logo_url: URL });
   };
 
   setHost = host => {
@@ -83,7 +85,7 @@ class AddBrand extends Component {
   //Validations
 
   validateForm = () => {
-    let { brandName, description, fileName } = this.state;
+    let { brandName, description, logo_url } = this.state;
     let errorBrandName = "";
     let errorDescription = "";
     let errorLogo = "";
@@ -102,7 +104,7 @@ class AddBrand extends Component {
     }
 
     //Logo
-    if (!fileName.length) {
+    if (!logo_url) {
       formIsValid = false;
       errorLogo = "* Please upload a logo";
     }
@@ -131,16 +133,9 @@ class AddBrand extends Component {
                   <div>
                     <span className="upload_logo">Upload your logo</span>
                     <span style={{ marginLeft: "20px" }}>
-                      <label
-                        htmlFor="file-upload"
-                        className="custom_file_upload"
-                      >
-                        CHOOSE
-                      </label>
-                      <FileBase64
-                        id="file-upload"
-                        multiple={true}
-                        onDone={this.getFiles}
+                      <UploadComponent
+                        onFileUpload={this.onFileUploaded}
+                        data={this.state.folderStructure}
                       />
                     </span>
                     <span style={{ paddingLeft: "20%" }} className="error_text">
@@ -151,7 +146,8 @@ class AddBrand extends Component {
                     <div className="form-group col-md-6">
                       <input
                         type="text"
-                        className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
+                        className="form-control border border-top-0 
+                        border-right-0 border-left-0 border-dark rounded-0"
                         name="brandName"
                         placeholder="Brand Name"
                         value={this.state.brandName}
@@ -167,7 +163,8 @@ class AddBrand extends Component {
                     <div className="form-group col-md-6">
                       <input
                         type="text"
-                        className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
+                        className="form-control border border-top-0 
+                        border-right-0 border-left-0 border-dark rounded-0"
                         placeholder="Description"
                         name="description"
                         value={this.state.description}
@@ -248,7 +245,7 @@ const mapStateToProps = state => {
   return {
     BrandsReducer: state.BrandsReducer,
     isNewBrandAdd: state.BrandsReducer.isNewBrandAdd,
-    page:state.BrandsReducer.lastPage
+    page: state.BrandsReducer.lastPage
   };
 };
 export default connect(

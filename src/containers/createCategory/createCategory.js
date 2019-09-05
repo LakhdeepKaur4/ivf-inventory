@@ -39,6 +39,7 @@ class ClassCategory extends Component {
             highlighted: false,
             errors: {},
             host: '',
+            folderStructure:'createCategory',
             _id: props.match.params.id,
             editorState: EditorState.createEmpty(),
             initialCategory: '',
@@ -144,9 +145,7 @@ class ClassCategory extends Component {
 
     submit = async () => {
         let errors = {};
-        if (this.state.highlighted === false) {
-            await this.setState({ parent: null })
-        };
+        
         if (this.state.name == '') errors.name = 'Please enter name';
         if (this.state.url == '') errors.url = 'Please enter URL';
         if (this.state.search == '') errors.search = 'Please enter Search Key';
@@ -177,22 +176,6 @@ class ClassCategory extends Component {
         }
     }
 
-
-    push = (e, id) => {
-        this.setState({ parent: id });
-        this.props.GetParticularCategory(this.state.host, id);
-        this.setState({ show: true });
-        if (e !== true) {
-            this.highlighter(e.currentTarget);
-        }
-        return true;
-    }
-
-    highlighter = ele => {
-        this.setState({ highlighted: true });
-        $('.higlightStructure').removeClass('higlightStructure');
-        $(ele).addClass('higlightStructure');
-    }
 
     getInitialCategory = ({ initialCategory }) => {
         if (initialCategory) {
@@ -229,7 +212,6 @@ class ClassCategory extends Component {
         return true;
     }
     getCategory = (e, id) => {
-        this.setState({ parent: id, show: false, showSub: true });
         this.props.GetSubCategory(this.state.host, id);
         this.highlighter(e.currentTarget);
     }
@@ -262,6 +244,12 @@ class ClassCategory extends Component {
         this.setState({ fileName: files[0].name, picture: files[0].base64 });
 
     }
+
+    //Previous state
+    clickToBack = () => {
+        this.props.history.push('/categories');
+    }
+
     render() {
         let editableData = this.state;
         return (
@@ -310,6 +298,7 @@ class ClassCategory extends Component {
                                             <div className="md-form ">
                                                 <UploadComponent
                                                     onFileUpload={this.onFileUploaded}
+                                                    data={this.state.folderStructure}
                                                 />
                                                 {/* <label
                                                 htmlFor="file-upload"
@@ -358,10 +347,17 @@ class ClassCategory extends Component {
                                         <input type="text" placeholder="Search key" value={editableData.search} name="search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
                                     </div>
                                     <span style={{ color: "red" }}>{this.state.errors.search}</span>
-                                    <div style={{ margin: '19px 0px' }}>
-                                        <button className="button-main button3" style={{ marginTop: '5px' }} onClick={this.submit}>
-                                            Submit
-                                </button>
+                                    <div className="buttonSet">
+                                        <div style={{ margin: '19px 0px' }}>
+                                            <button className="button-main button3" style={{ marginTop: '15px' }} onClick={this.clickToBack}>
+                                                Back
+                                            </button>
+                                        </div>
+                                        <div style={{ margin: '19px 0px', padding:'0px 5px' }}>
+                                            <button className="button-main button3" style={{ marginTop: '15px' }} onClick={this.submit}>
+                                                Submit
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -382,7 +378,13 @@ class ClassCategory extends Component {
                                     </Editor>
                                 </div>
                                 <div className="col-4 card cardCreateCategory">
-                                    {this.state.host? <FileStructure2 
+                                    {this.state.host? <FileStructure2
+                                    onActiveOpenedItemId={(id)=>{
+                                        console.log("GOT ID",id);
+                                        this.setState({
+                                            parent:id
+                                        });
+                                    }} 
                                     showHiglighter={true}
                                     level={0} 
                                     defaultOpenLevels={1}

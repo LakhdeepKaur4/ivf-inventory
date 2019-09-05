@@ -64,6 +64,7 @@ export function getActivePageBrandsDetails(pageNumber,url) {
 
 // Add brands
 export function addBrand(data,url,page) {
+  console.log('action data=========',data)
   return dispatch => {
     axios
       .post(`${url}/api/brands`, data)
