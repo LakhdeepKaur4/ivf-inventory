@@ -3,9 +3,10 @@ import { toasterMessage } from "../utils.js";
 import{GET_STORES} from '../actionCreators/index';
 
 export function getStores(URL){
+    console.log(URL)
     return (dispatch)=>{
-        axios.get(`${URL}/stores`)
-        .then((response =>response.data))
+        axios.get(`${URL}/provision/instances`)
+        .then((response =>response.data.data))
         .then(stores=>{
             dispatch({
                 type: GET_STORES,

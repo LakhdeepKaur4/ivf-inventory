@@ -244,6 +244,12 @@ class ClassCategory extends Component {
         this.setState({ fileName: files[0].name, picture: files[0].base64 });
 
     }
+
+    //Previous state
+    clickToBack = () => {
+        this.props.history.push('/categories');
+    }
+
     render() {
         let editableData = this.state;
         return (
@@ -341,10 +347,17 @@ class ClassCategory extends Component {
                                         <input type="text" placeholder="Search key" value={editableData.search} name="search" onChange={this.change} className=" form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" />
                                     </div>
                                     <span style={{ color: "red" }}>{this.state.errors.search}</span>
-                                    <div style={{ margin: '19px 0px' }}>
-                                        <button className="button-main button3" style={{ marginTop: '5px' }} onClick={this.submit}>
-                                            Submit
-                                </button>
+                                    <div className="buttonSet">
+                                        <div style={{ margin: '19px 0px' }}>
+                                            <button className="button-main button3" style={{ marginTop: '15px' }} onClick={this.clickToBack}>
+                                                Back
+                                            </button>
+                                        </div>
+                                        <div style={{ margin: '19px 0px', padding:'0px 5px' }}>
+                                            <button className="button-main button3" style={{ marginTop: '15px' }} onClick={this.submit}>
+                                                Submit
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
