@@ -112,13 +112,13 @@ class ClassCategory extends Component {
     }
 
     change = (e) => {
-        if (!this.state.errors[e.target.value]) {
+        if (this.state.errors[e.target.value]) {
             let errors = Object.assign({}, this.state.errors);
             delete errors[e.target.name];
             this.setState({ [e.target.name]: e.target.value.trim(''), errors });
             this.setState({ show: false, showSub: false });
         } else {
-            this.setState({ [e.target.name]: e.target.value.trim('') });
+            this.setState({ [e.target.name]: e.target.value });
             this.setState({ show: false, showSub: false });
         }
     }

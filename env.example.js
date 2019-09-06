@@ -1,14 +1,14 @@
 module.exports = {
 	inventory:{
-        service: 'Enter URL here' //Place inventory server url here
+        service: process.env.REACT_APP_INVENTORY_SERVICE
     },
     voxel:{
-        service:'Enter URL here' //Place voxel server url here
+        service: process.env.REACT_APP_VOXEL_SERVICE
     },
     angel:{
-        service:'Enter URL here' //Place angel server url here
+        service: process.env.REACT_APP_ANGEL_SERVICE
     },
     mockup:{
-        service: 'Enter URL here' //Place mockup server url here
+        service: process.env.REACT_APP_MOCKUP_SERVICE
     }
 }

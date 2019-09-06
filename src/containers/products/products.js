@@ -36,7 +36,7 @@ class Products extends Component {
     }
 
 
-    productsItem = ({ productItem }) => {
+    productsItem = ({ productItem }) => {console.log(productItem)
        
         if (productItem &&  productItem.order &&  productItem.order.cart
              ) { 
@@ -135,10 +135,30 @@ class Products extends Component {
                                                 <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" list="products" name="search" onChange={this.searchOnChange} style={{ backgroundColor: 'transparent' }} />
                                                 <datalist id="products">
                                                 <option />
-                                                {this.viewProducts(this.props.ProductItemReducer)}
+                                               
                                             </datalist>
                                             </span>
                                             </span>
+                                        </div>
+                                        <div className="table-responsive">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>IMAGES</th>    
+                                                        <th>NAME</th>
+                                                        <th>SKU</th>
+                                                        <th>STOCK</th>
+                                                        <th>PRICE</th>
+                                                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                {this.viewProducts(this.props.ProductItemReducer)}
+                                                
+                                                
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="subDivBottom">

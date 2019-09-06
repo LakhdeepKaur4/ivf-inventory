@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import{URN, THEME_ORDER} from '../actionCreators/index';
+import{ THEME_ORDER} from '../actionCreators/index';
 
 export function themes(URL){
     
