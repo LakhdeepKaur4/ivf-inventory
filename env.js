@@ -1,4 +1,7 @@
 // Environment variables to setup connection
+require('dotenv-safe').config({
+    example: './.env'
+});
 
 module.exports = {
     env: {
@@ -27,7 +30,7 @@ module.exports = {
         password: 'AYa0dkyR9fEZBiGX2zZq'
     },
     minio: {
-        BUCKET_NAME: 'buk',
+        BUCKET_NAME: 'circle',
         MINIO_URL: 'minio.ivfuture.internal',
         MINIO_PORT: 9000,
         MINIO_USE_SSL: false,
