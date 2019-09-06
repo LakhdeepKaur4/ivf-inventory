@@ -138,6 +138,7 @@ exports.updateItems = async (req, res, next) => {
     const itemId = req.params.itemId;
     let index;
     let body = req.body;
+    console.log("update item-=====>",body);
     let itemsUrl = "../public/images/items/";
     let variantsUrl = "../public/images/variants/";
     if (body.pictures !== null && body.pictures != undefined) {
@@ -207,7 +208,7 @@ exports.updateItems = async (req, res, next) => {
                     });
                     setObject["variants." + variantIndex + ".options." + optionIndex + ".variantPicture"] = newPath;
                     Item.update({ _id: req.params.itemId }, { $push: setObject }, (err, resp) => {
-                      if (err) console.log(error);
+                      if (err) console.log(err);
                       else return;
                     });
                     setObject["options." + optionIndex + ".picture"] = "";

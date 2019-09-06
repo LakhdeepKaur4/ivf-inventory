@@ -1,6 +1,10 @@
 // Environment variables to setup connection
 
 module.exports = {
+    env: {
+        NODE_ENV: 'Node environment for example production/development',
+        PORT: 'Port to run node app/server'
+    },
     mysql: {
         database: 'db_name',
         username: 'db_user',
@@ -16,8 +20,18 @@ module.exports = {
     mongo: {
         MONGO_URI: 'Mongo Connection URI'
     },
-    env: {
-        NODE_ENV: 'Node environment for example production/development',
-        PORT: 'Port to run node app/server'
+    rabbitmq: {
+        url: 'server URL',
+        port: 'PORT',
+        username: 'server_user',
+        password: 'server_pass'
+    },
+    minio: {
+        BUCKET_NAME: 'BUCKET_NAME',
+        MINIO_URL: 'server URL',
+        MINIO_PORT: 'PORT',
+        MINIO_USE_SSL: 'true/false',
+        MINIO_ACCESSKEY: 'MINIO_ACCESSKEY',
+        MINIO_SECRETKEY: 'MINIO_SECRETKEY'
     }
 }
