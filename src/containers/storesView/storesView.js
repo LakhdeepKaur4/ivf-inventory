@@ -137,7 +137,6 @@ class ProductsView extends Component {
 
   renderTableData() {
     return this.state.stores.map(store => {
-      console.log("=================",store)
       return (
         <tr key={store.InstanceID}>
           <td>

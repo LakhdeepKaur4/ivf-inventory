@@ -209,8 +209,6 @@ class Categories extends Component {
                                                     Disable
                                             </a>
                                             )}
-
-
                                     </div>
                                 </div>
                             </div>
