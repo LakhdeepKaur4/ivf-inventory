@@ -20,7 +20,7 @@ exports.saveToDisc = (url,_id, name, fileExt, base64String, callback) => {
     // console.log(base64String);
     fs.writeFile(fileName, dataBytes, function (err) {
         if (err) {
-            console.log("eroor", err)
+            console.log("error", err)
             callback(err);
         } else {
             callback(null, pathFile);

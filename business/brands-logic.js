@@ -9,31 +9,36 @@ const resJson = require('../helpers/response').resJson; //helper function to sen
 exports.createBrand = (req, res, next) => {
   try {
     const body = req.body;
-    let file = body.logo;
-    let fileExt = file.slice(file.indexOf('/') + 1, file.indexOf(';'));
-    file = file.slice(file.indexOf(',') + 1);
+    console.log(body);
+    console.log(body.logo_url)
+    // let file = body.logo;
+    // let fileExt = file.slice(file.indexOf('/') + 1, file.indexOf(';'));
+    // file = file.slice(file.indexOf(',') + 1);
 
-    body.logo_url = `public/images/brandLogos/${body.name}.${fileExt}`;
+    // body.logo_url = `public/images/brandLogos/${body.name}.${fileExt}`;
     if (body.status === 'Enabled') {
       body.status = true;
     } else {
       body.status = false;
     }
 
-    fileStore(body.name, fileExt, file, '../public/images/brandLogos/', (err, resp) => {
+    // fileStore(body.name, fileExt, file, '../public/images/brandLogos/', (err, resp) => {
+    //   if (err) {
+    //     return resJson(res, httpStatus.FAILED_DEPENDENCY, resp);
+    //   } else {
+    Brands(body).save((err, brand) => {
       if (err) {
-        return resJson(res, httpStatus.FAILED_DEPENDENCY, resp);
+        console.log(err)
+        return resJson(res, httpStatus.NOT_IMPLEMENTED, { message: 'Creation error', err });
       } else {
-        Brands(body).save((err, brand) => {
-          if (err) {
-            return resJson(res, httpStatus.NOT_IMPLEMENTED, { message: 'Creation error', err });
-          } else {
-            return resJson(res, httpStatus.CREATED, { message: "Successful creation", brand });
-          }
-        });
+        return resJson(res, httpStatus.CREATED, { message: "Successful creation", brand });
       }
     });
+    //   }
+    // });
+
   } catch (err) {
+    console.log(err);
     return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: "Please try again", err });
   }
 }
