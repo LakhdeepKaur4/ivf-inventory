@@ -12,13 +12,16 @@ import thunk from "redux-thunk";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-dropzone-uploader/dist/styles.css'
 
+import createInterceptors from './axiosInterceptor';
 
 const sagaMiddleware = createSagaMiddleware()
 
-const store= applyMiddleware(promise,sagaMiddleware,thunk)(createStore)
+const storeEnhancer= applyMiddleware(promise,sagaMiddleware,thunk)(createStore)
+const appStore = storeEnhancer(rootReducer);
+createInterceptors(appStore);
 
 ReactDOM.render( 
-    <Provider store={store(rootReducer)}>
+    <Provider store={appStore}>
             <App/>    
     </Provider>
 , document.getElementById('root'));
