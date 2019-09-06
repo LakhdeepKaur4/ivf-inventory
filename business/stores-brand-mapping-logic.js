@@ -1,6 +1,9 @@
 const MappedModel = require('../models/stores-brand-mapping'); // Stores/Brands mapping model imported
 const httpStatus = require('http-status'); // Module to provide HTTP response codes
 
+const resJson = require('../helpers/response').resJson; //helper function to send response in JSON format
+
+
 // Create mapping between stores and brands
 exports.createMapping = (req, res, next) => {
     try {
@@ -41,14 +44,12 @@ exports.createMapping = (req, res, next) => {
 
         Promise.all(promise)
             .then(result => {
-                res.status(httpStatus.OK).json({
-                    message: 'Succesfully added mapped data'
-                });
+                resJson(res, httpStatus.OK, { message: 'Succesfully added mapped data' });
             })
             .catch(err => {
-                return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", err });
+                return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: "Please try again", error: err });
             })
-    } catch (error) {
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error });
+    } catch (err) {
+        return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: "Please try again", error: err });
     }
 }

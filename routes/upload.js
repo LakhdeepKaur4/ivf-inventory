@@ -8,7 +8,7 @@ router.route("/make").get(controller.makeBucket);
 
 router.route("/").post(controller.uploadFiles);
 
-// router.route("/get/file").get(controller.getFile);
+// router.route("/get/file").get(controller.fetchFiles);
 
 
 module.exports = router; 
