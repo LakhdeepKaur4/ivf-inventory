@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toasterMessage } from "../utils.js"
 
 import{GET_INITIAL_CATEGORY,GET_PARTICULAR_CATEGORY,GET_SUB_CATEGORY,ON_SUBMIT} from '../actionCreators/index';
 
@@ -7,7 +8,14 @@ export function GetInitialCategory(URL){
     .then((response => response.data))
     .then(data=>{
        return data['category'];
-    });
+    }).catch(err=>{
+        if(err.isAxiosError){
+            toasterMessage("error", 'ERROR FETCHING FILESTRUCTURE');
+        }
+        else{
+            toasterMessage("error", err);
+        }
+    });;
 
     return {
         type: GET_INITIAL_CATEGORY,

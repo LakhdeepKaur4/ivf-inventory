@@ -86,11 +86,8 @@ class Products extends Component {
                         <th>TOTAL</th>
                     </tr>
                 </thead>
-                <tbody>
-                 
-                        {this.productsItem(this.props.ProductItemReducer)}
-                 
-                   
+                <tbody>     
+                   {this.productsItem(this.props.ProductItemReducer)}
                 </tbody>
             </table>
         </div>

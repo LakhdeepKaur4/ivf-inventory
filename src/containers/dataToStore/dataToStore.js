@@ -55,7 +55,8 @@ class DataToStore extends Component {
     componentWillUnmount() {
 
         if (!this.flag) {
-            localStorage.clear();
+            localStorage.removeItem('product');
+            localStorage.removeItem('store')
         }
     }
 
@@ -92,9 +93,10 @@ class DataToStore extends Component {
     
 
     viewOrderFun = ({ dataStore }) => {
+        console.log(dataStore)
         if (dataStore) {
-            let arr= dataStore.data.data;
-            console.log(arr);
+            if(dataStore.data.data){
+                let arr= dataStore.data.data;
             if(this.state.sortVal===true){
                 this.sortArr(arr,'inc');
             }else{
@@ -122,6 +124,8 @@ class DataToStore extends Component {
                     </tr>
                 )
             }))
+            }
+            
         }
 
     }
@@ -150,7 +154,6 @@ class DataToStore extends Component {
 
     }
     searchFilter = (x) => {
-        console.log(x)
         let search = this.state.search;
         let ret = {};
 

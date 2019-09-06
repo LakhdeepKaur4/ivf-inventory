@@ -10,6 +10,9 @@ class Sidebar extends Component {
             'stores': {
                 isOpen: false
             },
+            'dashboard': {
+                isOpen: false
+            },
             'inventory': {
                 isOpen: false
             },
@@ -17,6 +20,9 @@ class Sidebar extends Component {
                 isOpen: false
             },
             'filter_and_search': {
+                isOpen: false
+            },
+            'operations' : {
                 isOpen: false
             }
         }
@@ -38,7 +44,7 @@ class Sidebar extends Component {
         this.setState(prevState => {
             let prevMenuState = prevState.menuState;
             return {
-                ...prevMenuState,
+                ...prevState,
                 menuState: {
                     ...prevMenuState,
                     [menuName]: {
@@ -72,24 +78,13 @@ class Sidebar extends Component {
 
                     <ul className="list-unstyled components">
                         <li className="active sidebarHead">
-                            <a to="" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded={menuState.stores.isOpen}>
+                            <a href="javascript:void(0)" onClick={this.toggleMenu.bind(this, "stores")} aria-expanded={menuState.stores.isOpen}>
                                 <span><i className="far fa-circle" aria-hidden="true"
                                     style={{ color: "red" }}></i></span>STORES</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.stores.isOpen ? "show" : ''}`
                             } id="">
-                              <li>
-                                {(this.state.pageOn === 'newStore') ? <Link to="/" >
-                                        <span>
-                                            <i className="fas fa-circle" aria-hidden="true"></i>
-                                        </span><span style={{ color: "red" }}>New Store</span>
-                                    </Link> : <Link to="/" >
-                                            <span>
-                                                <i className="far fa-circle" aria-hidden="true"></i>
-                                            </span>New Store
-                                    </Link>}
-                                </li>
-                            
+                             
                                 <li>
                                 {(this.state.pageOn === 'storesView') ? <Link to="/storesView" >
                                         <span>
@@ -100,9 +95,34 @@ class Sidebar extends Component {
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>View Stores
                                     </Link>}
-                                </li>              
+                                </li>   
+
+                                 <li>
+                                {(this.state.pageOn === 'newStore') ? <Link to="/" >
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>Deploy New Store</span>
+                                    </Link> : <Link to="/" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Deploy New Store
+                                    </Link>}
+                                </li>           
                             </ul>
                         </li>
+
+                        <li className="active sidebarHead">
+                            <a id="dashboardSubmenuLink" href="javascript:void(0)" 
+                             onClick={this.toggleMenu.bind(this,"dashboard")} aria-expanded={menuState.dashboard.isOpen} >
+                                <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>DASHBOARD</a>
+                            <ul className={
+                                `collapse list-unstyled sidebarColl ${menuState.dashboard.isOpen ? "show" : ''}`
+                            }
+                                id="dashboardSubmenu">
+                            </ul>
+                        </li>
+
+
                         <li className="active sidebarHead">
                             <a id="inventorySubmenuLink" href="javascript:void(0)" 
                              onClick={this.toggleMenu.bind(this,"inventory")} aria-expanded={menuState.inventory.isOpen} >
@@ -149,9 +169,11 @@ class Sidebar extends Component {
                                 
                             </ul>
                         </li>
+
                         <li className="active sidebarHead">
-                            <a id="provisionSubmenuLink" href="javascript:void(0)" 
-                             onClick={this.toggleMenu.bind(this,"provision")} aria-expanded={menuState.provision.isOpen} >
+                            <a id="provisionSubmenuLink" href="javascript:void(0)"
+                          
+                          onClick={this.toggleMenu.bind(this,"provision")} aria-expanded={menuState.provision.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>PROVISION</a>
                             <ul className={
                                 `collapse list-unstyled sidebarColl ${menuState.provision.isOpen ? "show" : ''}`
@@ -168,28 +190,86 @@ class Sidebar extends Component {
                                     </Link>}
                                 </li>
                                 <li>
-                                    {(this.state.pageOn === 'vieworders') ? <Link to="/vieworders" >
+                                    {(this.state.pageOn === '') ? <Link to="/" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Push Orders</span>
-                                    </Link> : <Link to="/vieworders" >
+                                    </Link> : <Link to="/" >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Push Orders
                                     </Link>}
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    {(this.state.pageOn === '') ? <Link to="/" >
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>Push Customers</span>
+                                    </Link> : <Link to="/" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>Push Customers
+                                    </Link>}
+                                </li>
+                                <li>
+                                    <Link href="#">
                                         <span>
                                             <i className="far fa-circle" aria-hidden="true"></i>
                                         </span>Push Customers
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
 
                         <li className="active sidebarHead">
-                            <a id="ftSubmenuLink" 
+                            <a id="operationsSubmenuLink" href="javascript:void(0)" 
+                             onClick={this.toggleMenu.bind(this,'operations')} aria-expanded={menuState.operations.isOpen} >
+                                <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>OPERATIONS</a>
+                            <ul className={
+                                `collapse list-unstyled sidebarColl ${menuState.operations.isOpen ? "show" : ''}`
+                            }
+                                id="operationsSubmenu">
+                                <li>
+                                    {(this.state.pageOn === 'vieworders') ? <Link to="/vieworders">
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>View Orders</span>
+                                    </Link> : <Link to="/vieworders" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>View Orders
+                                    </Link>}
+                                </li>
+                                <li>
+                                {(this.state.pageOn === '') ? <Link to="/" >
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>View Shipments</span>
+                                    </Link> : 
+                                    <Link to="/" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span><span>View Shipments</span>
+                                    </Link>
+                                }
+                                </li>
+                                <li>
+                                    {(this.state.pageOn === '') ? <Link to="/" >
+                                        <span>
+                                            <i className="fas fa-circle" aria-hidden="true"></i>
+                                        </span><span style={{ color: "red" }}>View Payments</span>
+                                    </Link> : <Link to="/" >
+                                            <span>
+                                                <i className="far fa-circle" aria-hidden="true"></i>
+                                            </span>View Payments
+                                    </Link>}
+                                </li>
+                                
+                            </ul>
+                        </li>
+
+                        <li className="active sidebarHead">
+                            <a id="ftSubmenuLink" href="javascript:void(0)"
                                 onClick={this.toggleMenu.bind(this, "filter_and_search")} aria-expanded={menuState.filter_and_search.isOpen} >
                                 <span><i className="far fa-circle" aria-hidden="true" style={{ color: "red" }}></i></span>ADVANCE SEARCH</a>
                             <ul className={

@@ -12,13 +12,14 @@ import HostResolver from "../../components/resolveHost/resolveHost";
 
 class EditBrands extends Component {
   state = {
-    brandName: this.props.brandDetail.name,
-    description: this.props.brandDetail.description,
-    status: this.props.brandDetail.status,
-    logoUrl: `${this.props.brandDetail.logo_url}`,
+    brandName: "",
+    description: "",
+    status: "",
+    logoUrl: "",
     fileName: [],
     picture: "",
-    host: ""
+    host: "",
+    status_value:""
   };
 
   componentDidMount() {
@@ -29,7 +30,7 @@ class EditBrands extends Component {
         .prev("label")
         .text(file);
     });
-    this.refreshData();
+   
   }
   componentDidUpdate(prevProps) {
     if (prevProps.isBrandUpdate !== this.props.isBrandUpdate) {
@@ -37,29 +38,28 @@ class EditBrands extends Component {
     }
   }
 
-  refreshData = () => {
-    let data = JSON.parse(localStorage.getItem("brandDetails"));
-    this.setState({
-      brandName: data.name,
-      description: data.description,
-      status: data.status,
-      logoUrl: data.logo_url
-    });
-  };
-
+  componentWillReceiveProps(nextProps){
+    if(this.props.brandDetail!==nextProps.brandDetail){
+      this.setState({
+        brandName:nextProps.brandDetail.name,
+        description:nextProps.brandDetail.description,
+        status:nextProps.brandDetail.status?'Enabled':'Disabled',
+        logoUrl:`${nextProps.brandDetail.logo_url}`
+      })
+    }
+  }
+  
   // Handle input change
 
   handleInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-    if (event.target.checked) {
-      this.setState({ status: event.target.value });
-    }
   };
 
   // Get host url
 
   setHost = host => {
     this.setState({ host });
+    this.props.getBrandDetails(this.props.match.params.id, host)
   };
   // Update Brand Details
 
@@ -77,12 +77,13 @@ class EditBrands extends Component {
     if (!picture) {
       delete payload.logo;
     }
+    console.log('payload...', payload)
     this.props.updateBrandDetails(
       payload,
       this.props.match.params.id,
       this.state.host
     );
-    localStorage.clear();
+    localStorage.removeItem('brandDetails');
     this.setState({
       brandName: "",
       description: "",
@@ -94,7 +95,7 @@ class EditBrands extends Component {
   // Handle Cancle button
 
   handleCancel = () => {
-    localStorage.clear();
+    localStorage.removeItem('brandDetails');
     this.props.history.push("/brands");
   };
 
@@ -108,9 +109,7 @@ class EditBrands extends Component {
   };
 
   render() {
-    const { brandName, description } = this.state;
-    let data = JSON.parse(localStorage.getItem("brandDetails"));
-
+    const { brandName, description,logoUrl } = this.state;
     return (
       <HostResolver
         hostToGet="inventory"
@@ -128,7 +127,7 @@ class EditBrands extends Component {
                     <div>
                       <div className="brand_logo">
                         <img
-                          src={`${this.state.host}/${this.state.logoUrl}`}
+                          src={`${this.state.host}/${logoUrl}`}
                           alt="brand_logo"
                           style={{ width: "30px", height: "30px" }}
                         />
@@ -175,17 +174,16 @@ class EditBrands extends Component {
                         <label htmlFor="status" className="status">
                           Status
                         </label>
-
                         <div className="radio col-5 row">
                           <div className="col-1 text-right p-0">
                             <input
                               type="radio"
                               name="status"
                               value="Enabled"
-                              defaultChecked={
-                                (this.state.status === true)?true:false
+                              checked={
+                                this.state.status=='Enabled'
                               }
-                              onClick={this.handleInputChange}
+                              onChange={this.handleInputChange}
                               className="margin1 p-0"
                             />
                           </div>
@@ -199,9 +197,9 @@ class EditBrands extends Component {
                               type="radio"
                               name="status"
                               value="Disabled"
-                              onClick={this.handleInputChange}
-                              defaultChecked={
-                                (!this.state.status===true)?true:false
+                              onChange={this.handleInputChange}
+                              checked={
+                                this.state.status=='Disabled'
                               }
                               className="margin1 p-0"
                             />

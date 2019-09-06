@@ -15,6 +15,9 @@ class FileStructure extends React.Component {
     }
 
     onActiveOpenedItemId = (id) => {
+        if(this.props.onActiveOpenedItemId){
+            this.props.onActiveOpenedItemId(id);
+        }
         if (this.props.showHiglighter) {
             this.setState({
                 highlightedId: id

@@ -34,15 +34,15 @@ import StoresView from './containers/storesView/storesView';
 import UnderConstruction from './components/maintenance/maintenance';
 import StoreSetting from './components/storeSetting/storeSetting';
 import UploadComponent from './components/uploadComponent/uploadComponent';
+import Spinner from './containers/spinner/spinner';
 
 class App extends Component {
-  constructor(){
-    super();    
-  }
+ 
   render() {
     return (
       <BrowserRouter>
         <div>
+          <Spinner />
           <Switch>
             <Route path="/uploadComponent" component={UploadComponent}/>
             <Route path="/storeSettings" component={ UnderConstruction } />

@@ -8,6 +8,7 @@ import './categories.css';
 import _ from 'lodash';
 import HostResolver from '../../components/resolveHost/resolveHost';
 import axios from 'axios';
+import { throws } from 'assert';
 
 class Categories extends Component {
     constructor(props) {
@@ -22,7 +23,8 @@ class Categories extends Component {
             host: '',
             results: '',
             categoryData: [],
-            multiSelect: []
+            multiSelect: [],
+            isAllSelect: false,
         }
         this.debouncedOnChange = _.debounce(this.debouncedOnChange.bind(this), 200);
     }
@@ -70,12 +72,24 @@ class Categories extends Component {
         this.props.history.push(`/productsView/${id}`);
     }
 
+    getSelectedIds = () => {
+        let checkedIds = [];
+        this.state.categories.map((category) => {
+            if(category.checked) {
+                checkedIds.push(category._id);
+            }
+        })
+        return checkedIds;
+    }
+
+
     //Handle multiple
     handleMultiple = value => {
-        const { multiSelect, pageNo, host } = this.state;
-        this.props.changeStatus(value, multiSelect, pageNo, host)
+        let ids = this.getSelectedIds();
+        const { pageNo, host } = this.state;
+        this.props.changeStatus(value, ids, pageNo, host)
             .then(() => {
-                this.props.viewCategory(this.state.host, this.state.activePage, this.state.limit);
+                this.props.viewCategory(this.state.host,this.state.activePage, this.state.limit);
             });
 
         this.setState({
@@ -86,14 +100,40 @@ class Categories extends Component {
     };
 
     // Get Ids for selected Category
-    getMultiId = (id, action) => {
-        let ids = this.state.multiSelect;
-        if (action === true) {
-            ids.push(id);
-        } else {
-            ids.splice(ids.indexOf(id), 1);
+    onSingleSelect = (id, action) => {
+
+        this.setState((prevState) => {            
+            return {
+                categories: prevState.categories.map(_category => {
+                    if (_category._id == id) {
+                        return { ..._category, checked: !_category.checked }
+                    }
+                    return _category;
+                })
+            }
+        },()=>{
+            let isAllSelect = false;
+            if(action){
+                isAllSelect = this.state.categories.every(category=>{
+                    return category.checked;
+                });
+            }
+            this.setState({
+                isAllSelect
+            });
+        });
+        if(action){
+            let isAllSelect = 
+            
+            this.setState({
+                isAllSelect
+            });
+
+        }else{
+            this.setState({
+                isAllSelect: false
+            });
         }
-        this.setState({ multiSelect: ids });
     };
 
     // Handle Enable
@@ -121,25 +161,12 @@ class Categories extends Component {
             return categories.map(category => {
                 return (
                     <tr key={category._id}>
-                        <td><input type="checkbox" checked={category.checked}
-                            onClick={() => {
-                                this.setState((prevState) => {
-                                    return {
-                                        categories: prevState.categories.map(_category => {
-                                            if (_category._id == category._id) {
-                                                return { ..._category, checked: !_category.checked }
-                                            }
-                                            return _category;
-                                        })
-                                    }
-                                });
-                            }}
-
+                        <td><input type="checkbox" checked={category.checked}                        
                             onChange={e => {
-                                this.getMultiId(category._id, e.currentTarget.checked);
+                                this.onSingleSelect(category._id, e.currentTarget.checked);
                             }}
-
-                        ></input></td>
+                            />
+                        </td>
                         <td>{category.name}</td>
                         <td>{category.parent ? category.parent.name : ''}</td>
                         <td>{category.items ? category.items.length : 0}</td>
@@ -182,8 +209,6 @@ class Categories extends Component {
                                                     Disable
                                             </a>
                                             )}
-
-
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +229,7 @@ class Categories extends Component {
                     }
                 })
             }
-        });
+        })
     }
 
     clickToCreate = () => {
@@ -231,6 +256,18 @@ class Categories extends Component {
             itemClass='page-item'
             linkClasss='page-link'
         />
+    }
+
+    handleAllSelect = action => {
+       let categories = [];
+        categories = this.state.categories.map((category) => {
+            category.checked = action;
+            return category;
+       })
+       this.setState({
+           categories,
+           isAllSelect:action
+       })
     }
 
     render() {
@@ -322,7 +359,11 @@ class Categories extends Component {
                                 <thead>
                                     <tr>
                                         <th scope="col">
-                                            <input type="checkbox" onClick={this.selectAll}
+                                            <input type="checkbox" 
+                                            checked={this.state.isAllSelect}
+                                            onChange={e => {
+                                                this.handleAllSelect(e.currentTarget.checked);
+                                              }}
                                             />
                                         </th>
                                         <th scope="col">Name</th>
