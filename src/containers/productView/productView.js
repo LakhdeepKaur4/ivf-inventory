@@ -148,7 +148,6 @@ class ProductsView extends Component {
     }
 
     productsResult = ({ productList }) => {
-        console.log('wdewfdewfefwefewfew',productList)
         let data = [];
         if (this.props.match.params.id) {
             data = productList;
@@ -169,7 +168,6 @@ class ProductsView extends Component {
             } else {
                 arrReturned = this.sorted(arr, 'dec');
             }
-            console.log('arrreturned',arrReturned)
             return arrReturned.filter(this.searchFilter)
                 .map((item) => {
                     return (

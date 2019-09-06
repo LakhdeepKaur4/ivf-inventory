@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './sidebar.css';
 import { Link } from 'react-router-dom'
+import { bindActionCreators } from 'redux';
+import { setBreadCrumb } from '../../actions/breadcrumbAction';
+import { connect } from 'react-redux';
 
 class Sidebar extends Component {
     state = {
@@ -67,6 +70,10 @@ class Sidebar extends Component {
         });
     }
 
+    onChangeHeader = (url) => {
+        this.props.setBreadCrumb(url);
+    }
+
     render() {
         let menuState = this.state.menuState;
         return (
@@ -86,11 +93,12 @@ class Sidebar extends Component {
                             } id="">
                              
                                 <li>
-                                {(this.state.pageOn === 'storesView') ? <Link to="/storesView" >
+                                {(this.state.pageOn === 'storesView') ? <Link to="/storesView">
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>View Stores</span>
-                                    </Link> : <Link to="/storesView" >
+                                    </Link> : <Link to="/storesView" 
+                                    onClick={this.onChangeHeader.bind(this,'Stores/View Stores')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>View Stores
@@ -102,7 +110,7 @@ class Sidebar extends Component {
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Deploy New Store</span>
-                                    </Link> : <Link to="/" >
+                                    </Link> : <Link to="/" onClick={this.onChangeHeader.bind(this,'Stores/Deploy New Store')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Deploy New Store
@@ -132,11 +140,11 @@ class Sidebar extends Component {
                             }
                                 id="inventorySubmenu">
                                 <li>
-                                    {(this.state.pageOn === 'productsView') ? <Link to="/productsView">
+                                    {(this.state.pageOn === 'productsView') ? <Link to="/productsView" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>View Products</span>
-                                    </Link> : <Link to="/productsView" >
+                                    </Link> : <Link to="/productsView" onClick={this.onChangeHeader.bind(this,'Inventory/View Products')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>View Products
@@ -148,7 +156,7 @@ class Sidebar extends Component {
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>View Brands</span>
                                     </Link> : 
-                                    <Link to="/brands" >
+                                    <Link to="/brands" onClick={this.onChangeHeader.bind(this,'Inventory/View Brands')} >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span><span>View Brands</span>
@@ -160,7 +168,7 @@ class Sidebar extends Component {
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>View Categories</span>
-                                    </Link> : <Link to="/categories" >
+                                    </Link> : <Link to="/categories" onClick={this.onChangeHeader.bind(this,'Inventory/View Categories')} >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>View Categories
@@ -183,41 +191,39 @@ class Sidebar extends Component {
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Push Products</span>
-                                    </Link> : <Link to="/pushProductsView" >
+                                    </Link> : 
+                                    <Link to="/pushProductsView" onClick={this.onChangeHeader.bind(this,'Provision/Push Products')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Push Products
                                     </Link>}
                                 </li>
                                 <li>
-                                    {(this.state.pageOn === '') ? <Link to="/" >
+                                    {(this.state.pageOn === '') ? <Link to="/"  >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Push Orders</span>
-                                    </Link> : <Link to="/" >
+                                    </Link> : 
+                                    <Link to="/" onClick={this.onChangeHeader.bind(this,'Provision/Push Orders')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Push Orders
                                     </Link>}
                                 </li>
                                 <li>
-                                    {(this.state.pageOn === '') ? <Link to="/" >
+                                    {(this.state.pageOn === '') ? 
+                                    <Link to="/"  >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Push Customers</span>
-                                    </Link> : <Link to="/" >
+                                    </Link> : 
+                                    <Link to="/" onClick={this.onChangeHeader.bind(this,'Provision/Push Customers')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Push Customers
                                     </Link>}
                                 </li>
-                                <li>
-                                    <Link href="#">
-                                        <span>
-                                            <i className="far fa-circle" aria-hidden="true"></i>
-                                        </span>Push Customers
-                                    </Link>
-                                </li>
+                        
                             </ul>
                         </li>
 
@@ -230,23 +236,26 @@ class Sidebar extends Component {
                             }
                                 id="operationsSubmenu">
                                 <li>
-                                    {(this.state.pageOn === 'vieworders') ? <Link to="/vieworders">
+                                    {(this.state.pageOn === 'vieworders') ? 
+                                    <Link to="/vieworders" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>View Orders</span>
-                                    </Link> : <Link to="/vieworders" >
+                                    </Link> : 
+                                    <Link to="/vieworders" onClick={this.onChangeHeader.bind(this,'Operations/View Orders')} >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>View Orders
                                     </Link>}
                                 </li>
                                 <li>
-                                {(this.state.pageOn === '') ? <Link to="/" >
+                                {(this.state.pageOn === '') ? 
+                                    <Link to="/" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>View Shipments</span>
                                     </Link> : 
-                                    <Link to="/" >
+                                    <Link to="/" onClick={this.onChangeHeader.bind(this,'Operations/View Shipments')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span><span>View Shipments</span>
@@ -254,11 +263,13 @@ class Sidebar extends Component {
                                 }
                                 </li>
                                 <li>
-                                    {(this.state.pageOn === '') ? <Link to="/" >
+                                    {(this.state.pageOn === '') ? 
+                                    <Link to="/"  >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>View Payments</span>
-                                    </Link> : <Link to="/" >
+                                    </Link> : 
+                                    <Link to="/" onClick={this.onChangeHeader.bind(this,'Operations/View Payments')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>View Payments
@@ -277,11 +288,13 @@ class Sidebar extends Component {
                             }
                                 id="ftSubmenu">
                                 <li>
-                                    {(this.state.pageOn === 'advancedSearch') ? <Link to="/advancedSearch" >
+                                    {(this.state.pageOn === 'advancedSearch') ? 
+                                    <Link to="/advancedSearch"  >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
                                         </span><span style={{ color: "red" }}>Filter Orders</span>
-                                    </Link> : <Link to="/advancedSearch" >
+                                    </Link> : 
+                                    <Link to="/advancedSearch" onClick={this.onChangeHeader.bind(this,'Advance search/Filter Orders')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>Filter Orders
@@ -298,4 +311,10 @@ class Sidebar extends Component {
     }
 }
 
-export default Sidebar;
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        setBreadCrumb
+    }, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(Sidebar);

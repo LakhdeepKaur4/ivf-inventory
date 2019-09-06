@@ -16,7 +16,7 @@ import BlogReducer from './blogReducer/blogReducer';
 import catogoriesReducer from './catogoriesReducer/catogoriesReducer';
 import StoresReducer from './storesReducer/storesReducer'
 import LoaderReducer  from './loaderReducer';
-
+import breadcrumbReducer from './breadcrumbReducer';
 const rootReducer = combineReducers({
    ViewOrderReducer,
    AddProductReducer,
@@ -34,6 +34,8 @@ const rootReducer = combineReducers({
    CreateProductReducer,
    catogoriesReducer,
    StoresReducer,
-   LoaderReducer
+   LoaderReducer,
+   breadcrumbReducer
 })
+
 export default rootReducer;

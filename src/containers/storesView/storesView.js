@@ -137,7 +137,7 @@ class ProductsView extends Component {
 
   renderTableData() {
     return this.state.stores.map(store => {
-      return (
+       return (
         <tr key={store.InstanceID}>
           <td>
             <input type="checkbox" />
