@@ -28,12 +28,6 @@ class Brands extends Component {
     };
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.brandDetail !== this.props.brandDetail) {
-  //     this.props.history.push(`/editBrand/${this.state.editId}`);
-  //   }
-  // }
-
   // Handle Page change
   handlePageChange = pageNumber => {
     this.props.getActivePageBrandsDetails(pageNumber, this.state.host);
@@ -153,7 +147,6 @@ class Brands extends Component {
 
   // Display brands list
   displayBrands = ({ brandsList }) => {
-    console.log(brandsList);
     if (brandsList) {
       return brandsList
         .filter(this.searchFilter(this.state.searchTxt))

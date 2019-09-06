@@ -1,206 +1,251 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { getViewOrder } from '../../actions/viewOrderAction';
-import './viewOrder.css'
-import Pagination from 'react-js-pagination';
-import Dashboard from '../../components/dashboard/dashboard';
-import HostResolver from '../../components/resolveHost/resolveHost';
-
-
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getViewOrder } from "../../actions/viewOrderAction";
+import "./viewOrder.css";
+import Pagination from "react-js-pagination";
+import Dashboard from "../../components/dashboard/dashboard";
+import HostResolver from "../../components/resolveHost/resolveHost";
 
 class ViewOrder extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: "",
+      filterName: "customer",
+      activePage: "1",
+      limit: "5",
+      totalItemsCount: "",
+      host: "",
+      dropdownClick: false
+    };
+  }
 
-        this.state = {
-            search: '',
-            filterName: "customer",
-            activePage: '1',
-            limit:'5',
-            totalItemsCount:'',
-            host: ''
-        }
-    }
+  // Handle Dropdown
+  handleDropdown = () => {
+    this.setState({ dropdownClick: !this.state.dropdownClick });
+  };
 
-    
+  // Handle Page change
+  handlePageChange = pageNumber => {};
 
-    searchOnChange = (e) => {
-        this.setState({ search: e.target.value })
-    }
+  // Handle search input
 
-    searchFilter = (search) => {
-        return function (x) {
-            return x.orderId.toLowerCase().includes(search.toLowerCase()) ||
-                x.customer.toLowerCase().includes(search.toLowerCase()) ||
-                x.status.toLowerCase().includes(search.toLowerCase()) ||
-                !search;
-        }
-    }
+  handleSearchInput = e => {
+    e.preventDefault();
+    this.setState({ search: e.target.value });
+  };
 
-    handlePageChange = (pageNumber) => {
-    }
+  // Handle Search
 
+  searchFilter = search => {
+    return function(x) {
+      return (
+        // x.orderId.toLowerCase().includes(search.toLowerCase()) ||
+        x.customer.name.toLowerCase().includes(search.toLowerCase()) ||
+        x.status.toLowerCase().includes(search.toLowerCase()) ||
+        !search
+      );
+    };
+  };
 
-    viewOrderFun = ({ viewOrder }) => {
-        if (viewOrder) {
+  // Get host url
+  setHost = host => {
+    this.setState({ host: host });
+    this.props.getViewOrder(host);
+  };
 
+  // Handle Edit Order
+  handleEditOrder = id => {
+    this.props.history.push(`/editanorder/${id}`);
+  };
 
-            return viewOrder.sort((item1, item2) => {
-                var cmprVal = (item1.customer && item2.customer) ? (item1[this.state.filterName].localeCompare(item2[this.state.filterName])) : ''
-                return this.state.sortVal ? cmprVal : -cmprVal;
-            }).filter(this.searchFilter(this.state.search)).map(item => {
-                return (
-                    <tr key={item.orderId}>
-                        <th scope="row"><i className="fa fa-plus-circle" aria-hidden="true"></i></th>
-                        <td>{item.date}</td>
-                        <td>{item.orderId}</td>
-                        <td>{item.status === 'Failed' ? <span><i className="fa fa-circle" style={{ marginRight: '4px', color: 'red' }}></i></span> : item.status === 'Successful' ? <span><i className="fa fa-circle" style={{ marginRight: '4px', color: 'green' }}></i></span> : <span><i className="fa fa-circle" style={{ marginRight: '4px', color: 'yellow' }}></i></span>}{item.status}</td>
-                        <td>{item.customer}</td>
-                        <td>{item.stTotal}</td>
-                        <td>{item.billing}</td>
-                        <td>{item.shipping}</td>
-                        <td>{item.order}</td>
-                    </tr>
-                )
-            })
-        }
+  // Display orders list
 
-    }
+  viewOrdersList = ({ viewOrder }) => {
+    let orderStr = [];
+    if (viewOrder) {
+      return viewOrder
+        .filter(this.searchFilter(this.state.search))
+        .map(item => {
+          item.cart.cartProducts.map(data => {
+             return orderStr.push(data.productTitle);
+          });
+          orderStr = orderStr.join(", ");
+          return (
+            <tr key={item.orderId}>
+              <td>{item.createdAt}</td>
+              <td>{item.orderId}</td>
+              <td>
+                {item.status === "Failed" ? (
+                  <span>
+                    <i
+                      className="fa fa-circle"
+                      style={{ marginRight: "4px", color: "red" }}
+                    ></i>
+                  </span>
+                ) : item.status === "Successful" ? (
+                  <span>
+                    <i
+                      className="fa fa-circle"
+                      style={{ marginRight: "4px", color: "green" }}
+                    ></i>
+                  </span>
+                ) : (
+                  <span>
+                    <i
+                      className="fa fa-circle"
+                      style={{ marginRight: "4px", color: "yellow" }}
+                    ></i>
+                  </span>
+                )}
+                {item.status}
+              </td>
+              <td>{item.customer.name}</td>
+              <td>{item.payment.amount}</td>
+              <td>{orderStr}</td>
+              <td>
+                <div className="dropdown">
+                  <button
+                    className="btn"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    ...
+                  </button>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        this.handleEditOrder(item.orderId);
+                      }}
+                    >
+                      Edit Order
+                    </a>
 
-    setHost = async (host) => {
-        await this.setState({ host: host });
-        this.props.getViewOrder(this.state.host);
-        
-    }
-   
-    render(){
-        let viewOrderData=
-        <div className="table-responsive card">
-        <table className="table">
-        <thead>
-             <tr>
-             <th scope="col"></th>
-             <th scope="col">DATE</th>
-             <th scope="col">ORDER ID</th>
-             <th scope="col">STATUS</th>
-             <th scope="col">CUSTOMER</th>
-             <th scope="col">ST TOTAL</th>
-             <th scope="col">BILLING</th>
-             <th scope="col">SHIPPING</th>
-             <th scope="col">ORDER</th>
-             <th scope="col">...</th>
-             </tr>
-         </thead>
-         <tbody>
-             {this.viewOrderFun(this.props.ViewOrderReducer)}
-         </tbody>
-        </table>
-     </div>
-
-     let navLink=<div>
-          <nav className="navbar navbar-expand-sm navbar-light bg-faded">
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-            </button>
-                <h4 className="navbar-brand"><b>VIEW ORDERS</b></h4>
-                <div className="collapse navbar-collapse justify-content-end" id="nav-content">
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">AllPayments</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">AllFulfillments</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Incomplete</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">... More</a>
-                        </li>
-                    </ul>
+                    <a className="dropdown-item">Process Order</a>
+                  </div>
                 </div>
-        </nav>
-       
-     </div>
+              </td>
+            </tr>
+          );
+        });
+    }
+  };
 
-let navIcon=
-<nav className="navbar navbar-expand-lg navbar-light bg-faded" style={{marginLeft: '-24px'}}>
-    
-    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul className="navbar-nav">
-        <li className="nav-item">
-        <span className="nav-link"><i class="fas fa-plus" aria-hidden="true"></i><span style={{marginLeft: '5px'}}>New</span></span>
-        </li>
-        <li className="nav-item dropdown">
-                    <span className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Actions
-                    </span>
-                    <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a className="dropdown-item" href="#">Action</a>
-                    <a className="dropdown-item" href="#">Another action</a>
-                    <a className="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-       
-        <li className="nav-item">
-            <a className="nav-link" href="#">ExportsLimit</a>
-        </li>
-        <li className="nav-item">
-        <span className="nav-link" style={{paddingTop: '1px'}}><span className="form-group has-search">
-            <span className="fa fa-search form-control-feedback"></span>
-            <input type="text" className="form-control searchBox" placeholder="Search" value={this.state.search}
-                    onChange={this.searchOnChange} />
-        </span></span>
-        </li>
-
-      
-       
-        <span className="nav-link"><Pagination activePage={this.state.activePage}
-                     itemsCountPerPage={this.state.limit}
-                     totalItemsCount={this.state.totalItemsCount}
-                     onChange={this.handlePageChange}
-                     itemClass='page-item'
-                     linkClasss='page-link'
-                     /></span>
-      
-       
-        
-       
-        </ul>
-    </div>
-    </nav>
-        return(
-            <HostResolver hostToGet="mockup" hostResolved={host => {
-                this.setHost(host)
-            }}>
-        <div>
-           <Dashboard>
-                {navLink}
-              <div>
-                {navIcon}
+  render() {
+    let viewOrderData = (
+      <div className="table-responsive">
+        <table className="table" style={{ fontSize: "13px" }}>
+          <thead>
+            <tr>
+              <th scope="col">DATE</th>
+              <th scope="col">ORDER ID</th>
+              <th scope="col">STATUS</th>
+              <th scope="col">CUSTOMER</th>
+              <th scope="col">ST TOTAL</th>
+              <th scope="col">ORDER</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>{this.viewOrdersList(this.props.ViewOrderReducer)}</tbody>
+        </table>
+      </div>
+    );
+    return (
+      <HostResolver
+        hostToGet="inventory"
+        hostResolved={host => {
+          this.setHost(host);
+        }}
+      >
+        <Dashboard>
+          <div className="display_brands_list">
+            <div className="container">
+              <div className="img_content_wprapper">
+                <p className="heading">View Orders</p>
               </div>
-                 <div>{viewOrderData}</div>
-                 </Dashboard>
-        </div>
-          </HostResolver>
-        )
-    }
+              <div className="search_filter_wrapper d-flex">
+                <div className="search">
+                  <div className="form-group has-search">
+                    <span
+                      className="fa fa-search form-control-feedback"
+                      style={{ color: "black" }}
+                    ></span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={this.state.search}
+                      placeholder="Search"
+                      onChange={this.handleSearchInput}
+                    />
+                  </div>
+                </div>
+                <div className="brands_actions my-auto ">
+                  <div className="dropdown my-auto p-0">
+                    <button
+                      className="btn my-auto p-0"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      onClick={this.handleDropdown}
+                    >
+                      Limit
+                      {this.state.dropdownClick ? (
+                        <i className="fa fa-angle-up"></i>
+                      ) : (
+                        <i className="fa fa-angle-down"></i>
+                      )}
+                    </button>
+
+                    <div
+                      className="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
+                      <a className="dropdown-item">Limit10</a>
+                      <a className="dropdown-item">Limit20</a>
+                      <a className="dropdown-item">Limit30</a>
+                    </div>
+                  </div>
+                </div>
+                <div className="sw-action-bar__item sw-action-bar__item--right">
+                  <Pagination
+                    activePage={this.state.activePage}
+                    firstPageText={<i className="fa fa-angle-left"></i>}
+                    lastPageText={<i className="fa fa-angle-right"></i>}
+                    itemsCountPerPage={this.state.limit}
+                    totalItemsCount={this.props.total}
+                    onChange={this.handlePageChange}
+                    itemClass="page-item"
+                    linkClasss="page-link"
+                  />
+                </div>
+              </div>
+              <div className="display_brands">
+                <div>{viewOrderData}</div>
+              </div>
+            </div>
+          </div>
+        </Dashboard>
+      </HostResolver>
+    );
+  }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
+  return {
+    ViewOrderReducer: state.ViewOrderReducer
+  };
+};
 
-    return {
-        ViewOrderReducer: state.ViewOrderReducer
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ getViewOrder }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ViewOrder);
+export default connect(
+  mapStateToProps,
+  { getViewOrder }
+)(ViewOrder);

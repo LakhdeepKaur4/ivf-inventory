@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import "./addBrand.css";
-// import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { addBrand } from "../../actions/brandsAction";
-import FileBase64 from "react-file-base64";
 import Dashboard from "../../components/dashboard/dashboard";
 import $ from "jquery";
 import HostResolver from "../../components/resolveHost/resolveHost";

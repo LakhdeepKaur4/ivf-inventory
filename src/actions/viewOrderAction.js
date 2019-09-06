@@ -1,14 +1,25 @@
 import axios from 'axios';
+import { toasterMessage } from "../utils.js";
 
-import{VIEW_ORDER} from '../actionCreators/index';
+import{VIEW_ORDER, SEARCH_KEYWORD} from '../actionCreators/index';
 
-export function getViewOrder(URL){
-    const request = axios.get(`${URL}/viewOrders`)
-    .then((response =>response.data))
-
-    return {
-        type: VIEW_ORDER,
-        payload:request
-    }
-}
-
+// Get search keywords
+export function searchKeyword(data) {
+    return dispatch => {
+            dispatch({ type: SEARCH_KEYWORD, payload: data });
+    };
+  }
+  
+  // Get all orders
+export function getViewOrder(URL) {
+    return dispatch => {
+      axios
+        .get(`${URL}/api/orders/all`)
+        .then(response => {
+            dispatch({ type: VIEW_ORDER, payload: response.data });
+        })
+        .catch(err => {
+          toasterMessage("error", err);
+        });
+    };
+  }

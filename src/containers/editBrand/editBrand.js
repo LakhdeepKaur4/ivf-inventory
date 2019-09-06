@@ -77,7 +77,6 @@ class EditBrands extends Component {
     if (!picture) {
       delete payload.logo;
     }
-    console.log('payload...', payload)
     this.props.updateBrandDetails(
       payload,
       this.props.match.params.id,
@@ -181,7 +180,7 @@ class EditBrands extends Component {
                               name="status"
                               value="Enabled"
                               checked={
-                                this.state.status=='Enabled'
+                                this.state.status==='Enabled'
                               }
                               onChange={this.handleInputChange}
                               className="margin1 p-0"
@@ -199,7 +198,7 @@ class EditBrands extends Component {
                               value="Disabled"
                               onChange={this.handleInputChange}
                               checked={
-                                this.state.status=='Disabled'
+                                this.state.status==='Disabled'
                               }
                               className="margin1 p-0"
                             />
