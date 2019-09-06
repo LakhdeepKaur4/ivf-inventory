@@ -60,7 +60,7 @@ typings/
 .idea
 
 # public-images
-public/images
+
 
 # environment setup file
 env.js
