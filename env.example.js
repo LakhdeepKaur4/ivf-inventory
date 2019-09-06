@@ -1,14 +1,14 @@
 module.exports = {
 	inventory:{
-        service: 'http://192.168.0.110:3003' //Place inventory server url here
+        service: process.env.REACT_APP_INVENTORY_SERVICE
     },
     voxel:{
-        service:'http://voxel.usingimagination.co.uk' //Place voxel server url here
+        service: process.env.REACT_APP_VOXEL_SERVICE
     },
     angel:{
-        service:'Enter URL here' //Place angel server url here
+        service: process.env.REACT_APP_ANGEL_SERVICE
     },
     mockup:{
-        service: 'http://localhost:4000' //Place mockup server url here
+        service: process.env.REACT_APP_MOCKUP_SERVICE
     }
 }

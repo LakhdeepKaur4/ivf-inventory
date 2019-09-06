@@ -137,8 +137,7 @@ class ProductsView extends Component {
 
   renderTableData() {
     return this.state.stores.map(store => {
-      console.log("=================",store)
-      return (
+       return (
         <tr key={store.InstanceID}>
           <td>
             <input type="checkbox" />
@@ -193,6 +192,7 @@ class ProductsView extends Component {
               <th scope="col">Store descriptions</th>
               <th scope="col">Group</th>
               <th scope="col">Type</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>{this.renderTableData(this.props.ProductsViewReducer)}</tbody>

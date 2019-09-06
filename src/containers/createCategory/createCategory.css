@@ -2333,3 +2333,7 @@
     color: #43425D;
     opacity: 1;
   }
+
+.buttonSet {
+  display: flex;
+}
