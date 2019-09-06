@@ -22,6 +22,7 @@ const path = require('path');
 Promise = require('bluebird'); 
 const { port, env } = require("./config/vars");
 const mongoose = require("./config/mongoose");
+app.use(express.static(__dirname + '/public'));
 
 
 // function Inventory() {

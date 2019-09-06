@@ -38,6 +38,10 @@ var itemSchema = new Schema({
     type: String,
     required: true,
   },
+  tagsInfo: {
+    type: Array,
+    required: true,
+  },
   pageTitle: {
     type: String,
   },
