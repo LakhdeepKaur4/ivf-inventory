@@ -3,6 +3,8 @@ const Products = require('../models/item'); // Products model imported
 const httpStatus = require('http-status'); // Module to provide HTTP response codes
 var amqp = require('amqplib/callback_api'); // Rabbitmq supporting library
 
+const {rabbitmq} = require('../env');
+
 const resJson = require('../helpers/response').resJson; //helper function to send response in JSON format
 
 // funtion for filter an array over the second array
@@ -16,7 +18,7 @@ let filterTwoArrays = (...args) => {
 
 // sending message(products) to trinity based on number of stores
 let sendMessage = (...args) => {
-    amqp.connect('amqp://admin:AYa0dkyR9fEZBiGX2zZq@rabbitmq.ivfuture.internal', (err, connection) => {
+    amqp.connect(`amqp://${rabbitmq.username}:${rabbitmq.password}@${rabbitmq.url}`, (err, connection) => {
         if (err) {
             console.log('Error while connecting to rabbitmq --->', err);
         } else {

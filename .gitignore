@@ -58,3 +58,11 @@ typings/
 .env
 
 .idea
+
+# public-images
+public/images
+
+# environment setup file
+env.js
+
+package-lock.json

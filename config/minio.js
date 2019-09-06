@@ -1,10 +1,11 @@
 var Minio = require("minio");
+const {minio} = require('../env');
 
 exports.minioClient = new Minio.Client({
-    endPoint: "minio.ivfuture.internal",
-    port: 9000,
-    useSSL: false,
-    accessKey: "74RGVAAV0MPTM2YAU72Q",
-    secretKey: "6HJKLQdmlRjqnLr+984R5JEmT1VTf07GgKoZ4xet"
+    endPoint: minio.MINIO_URL,
+    port: minio.MINIO_PORT,
+    useSSL: minio.MINIO_USE_SSL,
+    accessKey: minio.MINIO_ACCESSKEY,
+    secretKey: minio.MINIO_SECRETKEY
 });
 
