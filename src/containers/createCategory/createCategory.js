@@ -39,6 +39,7 @@ class ClassCategory extends Component {
             highlighted: false,
             errors: {},
             host: '',
+            folderStructure:'createCategory',
             _id: props.match.params.id,
             editorState: EditorState.createEmpty(),
             initialCategory: '',
@@ -144,9 +145,7 @@ class ClassCategory extends Component {
 
     submit = async () => {
         let errors = {};
-        if (this.state.highlighted === false) {
-            await this.setState({ parent: null })
-        };
+        
         if (this.state.name == '') errors.name = 'Please enter name';
         if (this.state.url == '') errors.url = 'Please enter URL';
         if (this.state.search == '') errors.search = 'Please enter Search Key';
@@ -177,22 +176,6 @@ class ClassCategory extends Component {
         }
     }
 
-
-    push = (e, id) => {
-        this.setState({ parent: id });
-        this.props.GetParticularCategory(this.state.host, id);
-        this.setState({ show: true });
-        if (e !== true) {
-            this.highlighter(e.currentTarget);
-        }
-        return true;
-    }
-
-    highlighter = ele => {
-        this.setState({ highlighted: true });
-        $('.higlightStructure').removeClass('higlightStructure');
-        $(ele).addClass('higlightStructure');
-    }
 
     getInitialCategory = ({ initialCategory }) => {
         if (initialCategory) {
@@ -229,7 +212,6 @@ class ClassCategory extends Component {
         return true;
     }
     getCategory = (e, id) => {
-        this.setState({ parent: id, show: false, showSub: true });
         this.props.GetSubCategory(this.state.host, id);
         this.highlighter(e.currentTarget);
     }
@@ -316,6 +298,7 @@ class ClassCategory extends Component {
                                             <div className="md-form ">
                                                 <UploadComponent
                                                     onFileUpload={this.onFileUploaded}
+                                                    data={this.state.folderStructure}
                                                 />
                                                 {/* <label
                                                 htmlFor="file-upload"
@@ -395,7 +378,13 @@ class ClassCategory extends Component {
                                     </Editor>
                                 </div>
                                 <div className="col-4 card cardCreateCategory">
-                                    {this.state.host? <FileStructure2 
+                                    {this.state.host? <FileStructure2
+                                    onActiveOpenedItemId={(id)=>{
+                                        console.log("GOT ID",id);
+                                        this.setState({
+                                            parent:id
+                                        });
+                                    }} 
                                     showHiglighter={true}
                                     level={0} 
                                     defaultOpenLevels={1}

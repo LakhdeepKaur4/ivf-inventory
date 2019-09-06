@@ -64,6 +64,7 @@ export function getActivePageBrandsDetails(pageNumber,url) {
 
 // Add brands
 export function addBrand(data,url,page) {
+  console.log('action data=========',data)
   return dispatch => {
     axios
       .post(`${url}/api/brands`, data)
@@ -152,7 +153,6 @@ export function getBrandDetails(id,url) {
     axios
       .get(`${url}/api/brands/brand/${id}`)
       .then(response => {
-        localStorage.setItem('brandDetails', JSON.stringify(response.data.brand))
         dispatch({ type: BRAND_DETAIL, payload: response.data.brand });
       })
       .catch(err => {
