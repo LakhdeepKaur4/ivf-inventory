@@ -16,22 +16,23 @@ import { WithContext as ReactTags } from "react-tag-input";
 import _ from "underscore";
 import "./createProduct.css";
 import HostResolver from "../../components/resolveHost/resolveHost";
+import { OnKeyPressUserhandler, onKeyPresshandlerNumber } from "../../components/validationComponent/validationComponent"
 
 class CreateProduct extends Component {
   alreadyFetchedProductDetail = false;
   constructor(props) {
     super(props);
-   
+
     this.state = {
       brandId: "",
       fileName: "",
       picture: "",
       name: '',
-      sku:'',
-      optStock:'',
+      sku: '',
+      optStock: '',
       price: '',
       range: '',
-      subTitle: "",
+      subtitle: "",
       vendor: "",
       description: "",
       originCountry: "",
@@ -41,16 +42,12 @@ class CreateProduct extends Component {
       tagsInfo: [],
       host: "",
       pictures: [],
-      variants:[],
+      variants: [],
       errors: {}
     };
   }
 
-  // componentDidUpdate(previousProps){
-  //   if(previousProps.isProductCreated!==this.props.isProductCreated){
-  //     this.props.history.push('/productTree')
-  //   }
-  // }
+
   renderProduct = ({ productData }) => {
     if (productData) {
       productData = productData.item;
@@ -63,82 +60,82 @@ class CreateProduct extends Component {
           ></i>
         </span>
       </h5></div>
-      <div>Variants<span onClick={this.displayVariantForm.bind(this,productData._id)}>
+        <div><b>Variants</b><span onClick={this.displayVariantForm.bind(this, productData._id)}>
           <i
             className="fa fa-plus"
             aria-hidden="true"
             style={{ float: "right" }}
           ></i>
         </span></div>
-        </div>
+      </div>
     }
   }
 
- 
-   //for variants
-   renderVariants({ productData }) {
+
+  //for variants
+  renderVariants({ productData }) {
     let variantsHtml = null;
     if (productData) {
-        variantsHtml = productData.item.variants.map(item => {
-                return (
-                  <div style={{marginTop:'10px',marginLeft: '12px'}}>
-                    {item.title}
-                    <span>
-                      <i
-                        className="fa fa-edit float-right"
-                        aria-hidden="true"
-                        onClick={this.displayEditVariant.bind(this, item.title)}
-                        style={{ color: "#A3A6B4" }}
-                      ></i>
-                    </span>
-                    <div className="h5 small">
-                      {/* <span style={{ color: "#1ABC9C" }}>Visible</span>{" "} */}
-                      <span>XL SIZE</span>
-                    </div>
+      variantsHtml = productData.item.variants.map(item => {
+        return (
+          <div style={{ marginTop: '10px', marginLeft: '12px' }}>
+            {item.title}
+            <span>
+              <i
+                className="fa fa-edit float-right"
+                aria-hidden="true"
+                onClick={this.displayEditVariant.bind(this, item.title)}
+                style={{ color: "#A3A6B4" }}
+              ></i>
+            </span>
+            <div className="h5 small">
+              {/* <span style={{ color: "#1ABC9C" }}>Visible</span>{" "} */}
+              <span>XL SIZE</span>
+            </div>
+            <div>
+              <b>Options</b>
+               <span>
+                <i
+                  className="fa fa-plus float-right"
+                  aria-hidden="true"
+                  onClick={this.displayOptionForm.bind(this, item.title)}
+                  style={{ color: "#A3A6B4" }}
+                ></i>
+              </span>
+            </div>
+            <div className="variants-option mt-2">
+              {item.options
+                ? item.options.map(option1 => {
+                  return (
                     <div>
-                      Options
-                                <span>
-                        <i
-                          className="fa fa-plus float-right"
-                          aria-hidden="true"
-                          onClick={this.displayOptionForm.bind(this, item.title)}
-                          style={{ color: "#A3A6B4" }}
-                        ></i>
-                      </span>
+                      <div style={{fontSize:'15px'}}>
+                        {option1.title}
+                        <span>
+                          <i
+                            className="fa fa-edit float-right"
+                            aria-hidden="true"
+                            onClick={this.displayEditOptionForm.bind(
+                              this,
+                              item.title,
+                              option1.title
+                            )}
+                            style={{ color: "#A3A6B4" }}
+                          ></i>
+                        </span>
+                      </div>
+                      <div className="h5 small">
+                        {/* <span className="text-danger">Visible</span>{" "} */}
+                        <span>color {option1.color}</span>
+                      </div>
                     </div>
-                    <div className="variants-option mt-2">
-                      {item.options
-                        ? item.options.map(option1 => {
-                          return (
-                            <div>
-                              <div>
-                                {option1.title}
-                                <span>
-                                  <i
-                                    className="fa fa-edit float-right"
-                                    aria-hidden="true"
-                                    onClick={this.displayEditOptionForm.bind(
-                                      this,
-                                      item.title,
-                                      option1.title
-                                    )}
-                                    style={{ color: "#A3A6B4" }}
-                                  ></i>
-                                </span>
-                              </div>
-                              <div className="h5 small">
-                                {/* <span className="text-danger">Visible</span>{" "} */}
-                                <span>color {option1.color}</span>
-                              </div>
-                            </div>
-                          );
-                        })
-                        : ""}
-                    </div>
-                  </div>
-                );
-              
-        })
+                  );
+                })
+                : ""}
+            </div>
+          </div>
+        );
+
+      })
     }
     let wrapper = (
       <div >
@@ -211,33 +208,56 @@ class CreateProduct extends Component {
     this.setState({ tagsInfo: newTags });
   };
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });  
-  };
+  // onChange = e => {
+  //   this.setState({ [e.target.name]: e.target.value });  
+  // };
 
-  onPriceChange=(e)=>{
-    
+  onChange = (e) => {
+    if (!!this.state.errors[e.target.name]) {
+      let errors = Object.assign({}, this.state.errors);
+      delete errors[e.target.name];
+      this.setState({ [e.target.name]: e.target.value.trim(''), errors });
+    }
+    else {
+      this.setState({ [e.target.name]: e.target.value.trim('') });
+    }
+  }
+
+  onPriceChange = (e) => {
+
     let obj = {}
-    if (e.target.name =='range') {
+    if (e.target.name == 'range') {
       obj.range = parseInt(e.target.value)
     }
 
-    this.setState({ [e.target.name]: e.target.value, price: obj});
-    
+    if (!!this.state.errors[e.target.name]) {
+      let errors = Object.assign({}, this.state.errors);
+      delete errors[e.target.name];
+      this.setState({ [e.target.name]: e.target.value.trim(''), errors, price: obj });
+    }
+    else {
+      this.setState({ [e.target.name]: e.target.value.trim(''), price: obj });
+    }
+
   }
 
   //for Brands
   onChangeBrand = e => {
     let selected = e.target.value;
-    this.setState({
-      brandId: selected
-    });
+    if (!!this.state.errors[e.target.name]) {
+      let errors = Object.assign({}, this.state.errors);
+      delete errors[e.target.name];
+      this.setState({ [e.target.name]: e.target.value.trim(''), errors, brandId: selected });
+    }
+    else {
+      this.setState({ [e.target.name]: e.target.value.trim(''), brandId: selected });
+    }
   };
 
   //for picture
   handleSubmit = e => {
     e.preventDefault();
-
+    console.log(this.state.picture)
   };
 
   handleImageChange = e => {
@@ -259,7 +279,7 @@ class CreateProduct extends Component {
   };
 
   displayEditProductForm = (name) => {
-      // this.props.history.push(`/productTree/editProduct/${name}`)
+    this.props.history.push(`/productTree/editProduct/${name}`)
   }
 
   displayVariantForm = (itemid) => {
@@ -267,7 +287,7 @@ class CreateProduct extends Component {
   };
 
   displayEditVariant = (title) => {
-      // this.props.history.push(`/productTree/editVariant/${title}`);
+    // this.props.history.push(`/productTree/editVariant/${title}`);
   };
 
 
@@ -276,39 +296,78 @@ class CreateProduct extends Component {
   };
 
   displayEditOptionForm = (varTitle, optTitle) => {
-    // this.props.history.push(
-    //   `/productTree/variant/${varTitle}/editOption/${optTitle}`
-    // );
+    this.props.history.push(
+      `/productTree/variant/${varTitle}/editOption/${optTitle}`
+    );
   };
 
   previousForm = () => {
     this.props.history.push("/productsView");
   };
 
-  formSubmit = () => {
-    const { brandId, name, sku, optStock, price, subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures,variants } = this.state
+  formSubmit = (e) => {
+
+    e.preventDefault();
+
+    let errors = {};
+    if (!this.state.name) {
+      errors.name = "can't be empty"
+    }
+    else if (this.state.brandId === '') {
+      errors.brandId = "can't be empty";
+    }
+
+    else if (this.state.subtitle === '') {
+      errors.subtitle = "can't be empty";
+    }
+
+    else if (this.state.sku === '') {
+      errors.sku = "can't be empty";
+    }
+
+    else if (this.state.optStock === '') {
+      errors.optStock = "can't be empty";
+    }
+
+    else if (this.state.range === '') {
+      errors.range = "can't be empty";
+    }
+
+
+    else if (this.state.description === '') {
+      errors.description = "can't be empty";
+    }
+
+    this.setState({ errors });
+
+    const isValid = Object.keys(errors).length === 0;
+
+    const { brandId, name, fileName, picture, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants } = this.state
 
     let productName = this.props.match.params.name;
 
 
-    let payload={brandId, name,sku, optStock, price, subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures,variants}
-    if (productName) {
-      this.props.updateProduct(this.state.host,this.props.CreateProductReducer.getProductInfo.itemId,{ brandId, name,sku, optStock, price, subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants: this.props.CreateProductReducer.productData.item.variants })
-      .then(()=>{
-        this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
-        this.alreadyFetchedProductDetail = false;
-        this.props.history.push("/productTree");
-      }); 
+    let payload = { brandId, fileName, picture, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants }
+
+    if (isValid) {
+      if (productName) {
+        this.props.updateProduct(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId, { brandId, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants: this.props.CreateProductReducer.productData.item.variants })
+          .then(() => {
+            this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
+            this.alreadyFetchedProductDetail = false;
+            this.props.history.push("/productTree");
+          });
+      }
+      else {
+        this.props.productData(this.state.host, payload).then(() => {
+          this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
+          this.alreadyFetchedProductDetail = false;
+          this.props.history.push("/productTree");
+        });
+
+      }
     }
-    else {
-      this.props.productData(this.state.host,payload).then(()=>{
-        this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
-        this.alreadyFetchedProductDetail = false;
-        this.props.history.push("/productTree");
-      });
-     
-    }    
-     
+
   };
 
 
@@ -330,50 +389,50 @@ class CreateProduct extends Component {
     let productName = nextProps.match.params.name;
     if (productName) {
       let itemId = nextProps.CreateProductReducer.getProductInfo.itemId;
-      if(itemId && !this.alreadyFetchedProductDetail){
+      if (itemId && !this.alreadyFetchedProductDetail) {
         this.alreadyFetchedProductDetail = true;
         this.props.getProductById(this.state.host, nextProps.CreateProductReducer.getProductInfo.itemId);
         return;
       }
       let product = nextProps.CreateProductReducer.productData.item;
-      if(this.alreadyFetchedProductDetail && product){
+      
+      if (this.alreadyFetchedProductDetail && product) {
         this.setState({
-          fileName:product.fileName,
-          brandId:product.brandId, 
-          name:product.name, 
-          sku:product.sku,
-          optStock:product.optStock,
-          price:product.price,
-          subTitle:product.subTitle,
-          vendor:product.vendor,
-          description:product.description,
-          originCountry:product.originCountry,
-          template:product.template,
-          hashtags:product.hashtags,
-          metafields:product.metafields,
-          tagsInfo:product.tagsInfo,
-          pictures:product.pictures
-          })
+          brandId: product.brandId,
+          name: product.name,
+          sku: product.sku,
+          optStock: product.optStock,
+          range: product.price.range,
+          subtitle: product.subtitle,
+          vendor: product.vendor,
+          description: product.description,
+          originCountry: product.originCountry,
+          template: product.template,
+          hashtags: product.hashtags,
+          metafields: product.metafields,
+          tagsInfo: product.tagsInfo,
+          pictures: product.productPicture ? product.productPicture : ''
+        })
       }
     }
-     else {
-       if(nextProps.CreateProductReducer.getProductInfo){
+    else {
+      if (nextProps.CreateProductReducer.getProductInfo) {
         let itemId = nextProps.CreateProductReducer.getProductInfo.itemId;
-        if(itemId && !this.alreadyFetchedProductDetail){
+        if (itemId && !this.alreadyFetchedProductDetail) {
           this.alreadyFetchedProductDetail = true;
           this.props.getProductById(this.state.host, nextProps.CreateProductReducer.getProductInfo.itemId);
           return;
         }
-       }
+      }
       this.setState({
         brandId: "",
         fileName: "",
         picture: "",
         name: '',
-        sku:'',
-        optStock:'',
-        range:'',
-        subTitle: "",
+        sku: '',
+        optStock: '',
+        range: '',
+        subtitle: "",
         vendor: "",
         description: "",
         originCountry: "",
@@ -400,11 +459,22 @@ class CreateProduct extends Component {
 
     if (pictures) {
       $imagePreview = pictures.map((item, index) => {
-        return <tr>
+        if(item.picture){
+          return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-          <td><img src={item.picture} style={{ width: "60px" }} alt="productPic" /></td>
-          <td> <i className="fa fa-close close-icon" aria-hidden="true"></i></td>
+          <td><img src={item.picture} style={{ width: "60px" }} alt="productPic"/></td>
+          <td> <i className="fa fa-close close-icon" onClick = {()=>{
+            this.setState(prevState=>{
+              let pictures = [...prevState.pictures]
+              pictures.splice(index,1);
+              return{
+                pictures
+              }
+            })
+          }} aria-hidden="true"></i></td>
         </tr>
+        }
+        
       })
     }
 
@@ -458,7 +528,9 @@ class CreateProduct extends Component {
                               value={this.state.name}
                               placeholder="Title"
                               onChange={this.onChange}
+                              maxLength={50}
                             />
+                            <span style={{ color: 'red' }}>{this.state.errors.name}</span>
                           </div>
                         </div>
                         <div className="form-row col-12">
@@ -466,14 +538,13 @@ class CreateProduct extends Component {
                             <div className="col-12 mx-0 p-0">
                               <select
                                 className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
-                                placeholder="brand"
-                                name="_id"
+                                id="brandId"
+                                name="brandId"
                                 onChange={this.onChangeBrand}
-                                placeholder="Origin country"
                                 style={{ backgroundColor: "#F2F4F7" }}
                                 type="select"
                               >
-                                <option selected="true" disabled="disabled">
+                                <option selected disabled="disabled">
                                   Select Brands
                                 </option>
                                 {this.brandName(this.props.BrandsReducer)}
@@ -485,6 +556,7 @@ class CreateProduct extends Component {
                             >
                               <i className="fa fa-angle-down"></i>
                             </div>
+                            <span style={{ color: 'red' }}>{this.state.errors.brandId}</span>
                           </div>
                         </div>
                         <div className="form-row col-12">
@@ -493,11 +565,13 @@ class CreateProduct extends Component {
                               type="text"
                               className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
                               id="inputAddress"
-                              name="subTitle"
+                              name="subtitle"
                               placeholder="Subtitle"
                               onChange={this.onChange}
-                              value={this.state.subTitle}
+                              value={this.state.subtitle}
+                              maxLength={50}
                             />
+                            <span style={{ color: 'red' }}>{this.state.errors.subtitle}</span>
                           </div>
                         </div>
                         <div className="form-row col-12">
@@ -510,7 +584,9 @@ class CreateProduct extends Component {
                               placeholder="SKU"
                               onChange={this.onChange}
                               value={this.state.sku}
+                              maxLength={50}
                             />
+                            <span style={{ color: 'red' }}>{this.state.errors.sku}</span>
                           </div>
                         </div>
                         <div className="form-row col-12">
@@ -521,9 +597,12 @@ class CreateProduct extends Component {
                               id="inputAddress"
                               name="optStock"
                               placeholder="Stock"
+                              onKeyPress={onKeyPresshandlerNumber}
                               onChange={this.onChange}
                               value={this.state.optStock}
+                              maxLength={8}
                             />
+                            <span style={{ color: 'red' }}>{this.state.errors.optStock}</span>
                           </div>
                         </div>
                         <div className="form-row col-12">
@@ -534,9 +613,12 @@ class CreateProduct extends Component {
                               id="range"
                               name="range"
                               placeholder="Price"
+                              onKeyPress={onKeyPresshandlerNumber}
                               onChange={this.onPriceChange}
                               value={this.state.range}
+                              maxLength={20}
                             />
+                            <span style={{ color: 'red' }}>{this.state.errors.range}</span>
                           </div>
                         </div>
                         <div className="form-row col-12">
@@ -549,6 +631,8 @@ class CreateProduct extends Component {
                               placeholder="Vendor"
                               onChange={this.onChange}
                               value={this.state.vendor}
+                              onKeyPress={OnKeyPressUserhandler}
+                              maxLength={50}
                             />
                           </div>
                         </div>
@@ -562,7 +646,9 @@ class CreateProduct extends Component {
                               placeholder="Description"
                               onChange={this.onChange}
                               value={this.state.description}
+                              maxLength={200}
                             />
+                            <span style={{ color: 'red' }}>{this.state.errors.description}</span>
                           </div>
                         </div>
                         <div className="form-row col-12">
@@ -588,6 +674,7 @@ class CreateProduct extends Component {
                             >
                               <i className="fa fa-angle-down"></i>
                             </div>
+                            <span style={{ color: 'red' }}>{this.state.errors.originCountry}</span>
                           </div>
                         </div>
                         <div className="form-row col-12">
@@ -600,6 +687,7 @@ class CreateProduct extends Component {
                               placeholder="Template"
                               onChange={this.onChange}
                               value={this.state.template}
+                              maxLength={150}
                             />
                           </div>
                         </div>
@@ -729,7 +817,7 @@ function mapStateToProps(state) {
   return {
     CreateProductReducer: state.CreateProductReducer,
     BrandsReducer: state.BrandsReducer,
-    isProductCreated:state.CreateProductReducer.isProductCreated
+    isProductCreated: state.CreateProductReducer.isProductCreated
   };
 }
 
