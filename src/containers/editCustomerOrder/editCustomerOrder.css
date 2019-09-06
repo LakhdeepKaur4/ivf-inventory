@@ -13,13 +13,7 @@ border: none;
 color: red;
 }
 
-.editCard1Margin{
-    margin-left: 100px;
-}
 
-.editCard2Margin{
-    margin-right: 100px;
-}
 
 select {
     -webkit-appearance: none;
@@ -167,4 +161,12 @@ select {
 	margin-right:20px;
 }
 
+.btnCreate{
+	background-color: white !important;
+	color: #43425D !important;
+	margin-left: 30%;
+}
 
+.hide{
+	display: none !important;
+}
