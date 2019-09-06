@@ -15,6 +15,7 @@ RUN npm install react-scripts@3.0.1 -g --silent
 
 COPY . /usr/src/app
 COPY .env /app/
+COPY public /app/
 
 EXPOSE 8080
 
