@@ -9,16 +9,19 @@ const Customers = sequelize.define('customers',{
         allowNull: false,
         primaryKey: true
     },
-    name: {
+    firstname: {
         type: Sequelize.STRING
     },
-    surname: {
+    lastname: {
         type: Sequelize.STRING
     },
     email: {
         type: Sequelize.STRING
     },
     phone: {
+        type: Sequelize.STRING
+    },
+    password: {
         type: Sequelize.STRING
     },
     storeId: {
