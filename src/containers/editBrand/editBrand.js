@@ -5,21 +5,22 @@ import {
   getBrandDetails,
   updateBrandDetails
 } from "../../actions/brandsAction";
-import FileBase64 from "react-file-base64";
 import Dashboard from "../../components/dashboard/dashboard";
 import $ from "jquery";
 import HostResolver from "../../components/resolveHost/resolveHost";
+import UploadComponent from "../../components/uploadComponent/uploadComponent";
 
 class EditBrands extends Component {
   state = {
     brandName: "",
     description: "",
     status: "",
-    logoUrl: "",
+    logo_url: "",
     fileName: [],
     picture: "",
-    host: "",
-    status_value:""
+    host: [],
+    status_value:"",
+    folderStructure: "brands",
   };
 
   componentDidMount() {
@@ -34,12 +35,13 @@ class EditBrands extends Component {
   }
   
   componentWillReceiveProps(nextProps){
+    console.log(nextProps);
     if(this.props.brandDetail!==nextProps.brandDetail){
       this.setState({
         brandName:nextProps.brandDetail.name,
         description:nextProps.brandDetail.description,
         status:nextProps.brandDetail.status?'Enabled':'Disabled',
-        logoUrl:`${nextProps.brandDetail.logo_url}`
+        logo_url: nextProps.brandDetail.logo_url
       })
     }
   }
@@ -52,22 +54,24 @@ class EditBrands extends Component {
 
   // Get host url
 
-  setHost = host => {
-    this.setState({ host });
-    this.props.getBrandDetails(this.props.match.params.id, host)
+  setHost = async host => {
+    let arr = this.state.host;
+    arr.push(host);
+    await this.setState({host:arr});
+    this.props.getBrandDetails(this.props.match.params.id, this.state.host[1])
   };
   // Update Brand Details
 
   saveBrandDetails = event => {
     event.preventDefault();
-    const { brandName, description, status, picture } = this.state;
+    const { brandName, description, status, picture ,logo_url} = this.state;
     let payload = {
       name: brandName ? brandName : this.props.brandDetail.name,
       description: description
         ? description
         : this.props.brandDetail.description,
       status: status,
-      logo: picture ? picture : ""
+      logo_url: logo_url ? logo_url : ""
     };
     if (!picture) {
       delete payload.logo;
@@ -75,12 +79,13 @@ class EditBrands extends Component {
     this.props.updateBrandDetails(
       payload,
       this.props.match.params.id,
-      this.state.host,
+      this.state.host[1],
       res=>{
         if(res){
           this.props.history.push("/brands")
         }
       }
+      
     );
     this.setState({
       brandName: "",
@@ -97,20 +102,22 @@ class EditBrands extends Component {
     this.props.history.push("/brands");
   };
 
-  //upload file
-
-  getFiles = files => {
-    this.setState(
-      { fileName: files[0].name, picture: files[0].base64 },
-      () => {}
-    );
+  onFileUploaded = URL => {
+    
+    this.setState({ logo_url: URL });
   };
 
   render() {
-    const { brandName, description,logoUrl } = this.state;
+    const { brandName, description,logo_url } = this.state;
     return (
       <HostResolver
         hostToGet="inventory"
+        hostResolved={host => {
+          this.setHost(host);
+        }}
+      >
+        <HostResolver
+        hostToGet="minio"
         hostResolved={host => {
           this.setHost(host);
         }}
@@ -125,23 +132,16 @@ class EditBrands extends Component {
                     <div>
                       <div className="brand_logo">
                         <img
-                          src={`${this.state.host}/${logoUrl}`}
+                          src={`${this.state.host[0]}${logo_url}`}
                           alt="brand_logo"
                           style={{ width: "30px", height: "30px" }}
                         />
                       </div>
                       <div className="upload_logo">
-                        <label
-                          htmlFor="file-upload"
-                          className="custom-file-upload"
-                        >
-                          CHOOSE
-                        </label>
-                        <FileBase64
-                          id="file-upload"
-                          multiple={true}
-                          onDone={this.getFiles}
-                        />
+                      <UploadComponent
+                        onFileUpload={this.onFileUploaded}
+                        data={this.state.folderStructure}
+                      />
                       </div>
                     </div>
                     <div className="form-row ">
@@ -231,6 +231,7 @@ class EditBrands extends Component {
             )}
           </div>
         </Dashboard>
+      </HostResolver>
       </HostResolver>
     );
   }

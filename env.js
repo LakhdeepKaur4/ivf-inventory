@@ -1,3 +1,4 @@
+console.log("dfdf", process.env);
 module.exports = {
 	inventory:{
         service: process.env.REACT_APP_INVENTORY_SERVICE

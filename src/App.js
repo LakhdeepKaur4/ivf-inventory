@@ -35,6 +35,7 @@ import UnderConstruction from './components/maintenance/maintenance';
 import StoreSetting from './components/storeSetting/storeSetting';
 import UploadComponent from './components/uploadComponent/uploadComponent';
 import Spinner from './containers/spinner/spinner';
+import ProcessOrder from './containers/processOrder/processOrder';
 
 class App extends Component {
  
@@ -44,6 +45,9 @@ class App extends Component {
         <div>
           <Spinner />
           <Switch>
+
+            <Route path="/processOrder" component={ProcessOrder} />
+
             <Route path="/uploadComponent" component={UploadComponent}/>
             <Route path="/storeSettings" component={ UnderConstruction } />
             <Route path="/storesView" component={StoresView} />
@@ -59,7 +63,7 @@ class App extends Component {
             <Route path="/productTree/variant/:title/editOption/:id"  component={ProductVariantOption}/>
             
             <Route path="/createProduct" component={CreateProduct} />
-            <Route path="/productTree/editProduct/:name" component={CreateProduct} />
+            <Route path="/productTree/editProduct/:itemid" component={CreateProduct} />
             <Route path="/productTree" exact={true} component={CreateProduct} />
             
   
