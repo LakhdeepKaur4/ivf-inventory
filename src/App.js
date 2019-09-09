@@ -59,7 +59,7 @@ class App extends Component {
             <Route path="/productTree/variant/:title/editOption/:id"  component={ProductVariantOption}/>
             
             <Route path="/createProduct" component={CreateProduct} />
-            <Route path="/productTree/editProduct/:name" component={CreateProduct} />
+            <Route path="/productTree/editProduct/:itemid" component={CreateProduct} />
             <Route path="/productTree" exact={true} component={CreateProduct} />
             
   

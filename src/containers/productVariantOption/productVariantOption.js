@@ -35,7 +35,7 @@ class ProductVariantOption extends Component {
     if (productData) {
 
       return <div><div><h5>{productData.name}
-        <span onClick={this.displayEditProductForm.bind(this, productData.name)}>
+        <span onClick={this.displayEditProductForm.bind(this, productData._id)}>
           <i
             className="fa fa-edit"
             aria-hidden="true"
@@ -131,13 +131,13 @@ class ProductVariantOption extends Component {
 
   
   onChange = (e) => {
-    if (!!this.state.errors[e.target.name]) {
+    if (this.state.errors[e.target.name]) {
       let errors = Object.assign({}, this.state.errors);
       delete errors[e.target.name];
       this.setState({ [e.target.name]: e.target.value.trim(''), errors });
     }
     else {
-      this.setState({ [e.target.name]: e.target.value.trim('') });
+      this.setState({ [e.target.name]: e.target.value });
     }
   }
 
@@ -166,8 +166,8 @@ class ProductVariantOption extends Component {
     reader.readAsDataURL(file);
   };
 
-  displayEditProductForm = (name) => {
-    this.props.history.push(`/productTree/editProduct/${name}`)
+  displayEditProductForm = (itemid) => {
+    this.props.history.push(`/productTree/editProduct/${itemid}`)
   }
 
   displayVariantForm = (itemid) => {
@@ -175,7 +175,7 @@ class ProductVariantOption extends Component {
   };
 
   displayEditVariant = (title) => {
-    // this.props.history.push(`/productTree/editVariant/${title}`);
+    this.props.history.push(`/productTree/editVariant/${title}`);
   };
 
 
@@ -246,20 +246,7 @@ class ProductVariantOption extends Component {
       errors.originCountry = "can't be empty";
     }
 
-    else if (this.state.width === '') {
-      errors.width = "can't be empty";
-    }
-    else if (this.state.length === '') {
-      errors.length = "can't be empty";
-    }
-
-    else if (this.state.height === '') {
-      errors.height = "can't be empty";
-    }
-
-    else if (this.state.weight === '') {
-      errors.weight = "can't be empty";
-    }
+   
 
     this.setState({ errors });
 
@@ -307,7 +294,7 @@ class ProductVariantOption extends Component {
       $imagePreview = pictures.map((item, index) => {
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-          <td><img src={item.picture} style={{ width: "60px" }} alt="productPic" value={this.state.picture} onChange={this.handleImageChange} /></td>
+          <td><img src={item.picture} style={{ width: "60px" }} alt="productPic" value={this.state.picture} /></td>
           <td> <i className="fa fa-close close-icon" onClick = {()=>{
             this.setState(prevState=>{
               let pictures = [...prevState.pictures]
@@ -392,21 +379,17 @@ class ProductVariantOption extends Component {
                         <div className="form-row col-12 createProduct">
                           <div className="form-group col-6">
                             <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="width" name="width" value={this.state.width} onChange={this.onChange} placeholder="Width" onKeyPress={onKeyPresshandlerNumber} maxLength={20} />
-                            <span style={{ color: 'red' }}>{this.state.errors.width}</span>
                           </div>
                           <div className="form-group col-6">
                             <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="length" name="length" value={this.state.length} onChange={this.onChange} placeholder="Length" onKeyPress={onKeyPresshandlerNumber} maxLength={20} />
-                            <span style={{ color: 'red' }}>{this.state.errors.length}</span>
                           </div>
                         </div>
                         <div className="form-row col-12 createProduct">
                           <div className="form-group col-6">
                             <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="height" name="height" value={this.state.height} onChange={this.onChange} placeholder="Height" onKeyPress={onKeyPresshandlerNumber} maxLength={20} />
-                            <span style={{ color: 'red' }}>{this.state.errors.height}</span>
                           </div>
                           <div className="form-group col-6">
                             <input type="text" className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" id="weight" name="weight" value={this.state.weight} onChange={this.onChange} placeholder="Weight" onKeyPress={onKeyPresshandlerNumber} maxLength={20} />
-                            <span style={{ color: 'red' }}>{this.state.errors.weight}</span>
                           </div>
                         </div>
                       </form>

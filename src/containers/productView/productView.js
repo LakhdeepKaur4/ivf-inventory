@@ -74,6 +74,10 @@ class ProductsView extends Component {
 
     }
 
+    handleEditBrand=(itemid)=>{
+        this.props.history.push(`/productTree/editProduct/${itemid}`)
+    }
+
 
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
@@ -148,7 +152,6 @@ class ProductsView extends Component {
     }
 
     productsResult = ({ productList }) => {
-        console.log('wdewfdewfefwefewfew',productList)
         let data = [];
         if (this.props.match.params.id) {
             data = productList;
@@ -169,7 +172,6 @@ class ProductsView extends Component {
             } else {
                 arrReturned = this.sorted(arr, 'dec');
             }
-            console.log('arrreturned',arrReturned)
             return arrReturned.filter(this.searchFilter)
                 .map((item) => {
                     return (
@@ -413,7 +415,6 @@ class ProductsView extends Component {
 }
 
 function mapStateToProps(state) {
-
     return {
         ProductsViewReducer: state.ProductsViewReducer
     }
