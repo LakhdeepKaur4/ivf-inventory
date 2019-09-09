@@ -1,40 +1,39 @@
-
-.selectAdvancedSearch {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -o-appearance: none;
-  }
-  
-  .selectAdvancedSearch + i.fa {
-    float: right;
-    margin-top: -30px;
-    margin-right: 5px;
-    pointer-events: none;
-    background-color: transparent;
-    color: #777777;
-    padding-right: 5px;
-  }
-
-
-  .react-datepicker__input-container input{
-    background-color: transparent;
-  }
-
-  .col-10 input::placeholder{
-    color:#43425D;
+.selectAdvancedSearch{
+  text-align: left;
+  font: 12px/25px Muli;
+  letter-spacing: 0;
+  color: #43425d;
+  opacity: 1;
 }
 
- .containerAdvancedSearch{
-     background-color: #F2F4F7;
- }
-
- .btnNextAdvanced{
-   background-color:#333333 !important ;
-   color: #FFFFFF !important;
-   float: left;
-   margin-left: 12px;
- }
-
-
-
-
+.search-keyword {
+  text-align: left;
+  font: 9px/25px Muli;
+  letter-spacing: 0;
+  color: #F46565;
+  opacity: 1;
+}
+.advanced-search input {
+  text-align: left;
+  font: 12px/25px Muli;
+  letter-spacing: 0;
+  color: #43425d;
+  opacity: 1;
+}
+.selectAdvancedSearch{
+  top: 266px;
+left: 341px;
+width: 69px;
+height: 15px;
+text-align: left;
+font:12px/25px Muli;
+letter-spacing: 0;
+color: #43425D;
+opacity: 1;
+}
+.btnNextAdvanced {
+  background-color: #333333 !important ;
+  color: #ffffff !important;
+  float: left;
+  margin-left: 12px;
+}

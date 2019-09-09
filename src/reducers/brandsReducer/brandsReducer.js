@@ -68,7 +68,7 @@ import {
       case UPDATE_BRAND_DETAILS: {
         return {
           ...state,
-          isBrandUpdate: action.payload
+          isBrandUpdate: true
         };
       }
       case CHANGE_STATUS: {

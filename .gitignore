@@ -1,6 +1,5 @@
 node_modules
 build
-env.js
 .env
 npm-debug.log
 package-lock.json

@@ -14,7 +14,7 @@ import CreateProductReducer from './createProductReducer/createProductReducer';
 import PushDataToStore from './pushDataToStore/pushDataToStore';
 import BlogReducer from './blogReducer/blogReducer';
 import catogoriesReducer from './catogoriesReducer/catogoriesReducer';
-import StoresReducer from './storesReducer/storesReducer'
+import StoresReducer from './storesReducer/storesReducer';
 import LoaderReducer  from './loaderReducer';
 import breadcrumbReducer from './breadcrumbReducer';
 const rootReducer = combineReducers({

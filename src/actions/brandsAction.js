@@ -64,7 +64,6 @@ export function getActivePageBrandsDetails(pageNumber,url) {
 
 // Add brands
 export function addBrand(data,url,page) {
-  console.log('action data=========',data)
   return dispatch => {
     axios
       .post(`${url}/api/brands`, data)
@@ -163,16 +162,18 @@ export function getBrandDetails(id,url) {
 
 // Update brand details
 export function updateBrandDetails(data,id,url) {
+  console.log(url,data);
   return dispatch => {
     axios
       .put(`${url}/api/brands/${id}`, data)
       .then(response => {
+        console.log(response)
         if (
           response.status===200 || response.status===201 &&
           response.data.message==="Brand updated"
         ) {
           toasterMessage("success", response.data.message);
-          dispatch({ type: UPDATE_BRAND_DETAILS, payload: true });
+          dispatch({ type: UPDATE_BRAND_DETAILS, payload: response.data });
           dispatch(getDefaultPageBrandsDetails(1,url));
         }
       })
