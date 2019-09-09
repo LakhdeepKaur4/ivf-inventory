@@ -1,7 +1,15 @@
 // Environment variables to setup connection
-require('dotenv-safe').config({
-    example: './.env'
-});
+const fs = require('fs');
+const envPath = './.env';
+
+try{
+    fs.accessSync(envPath, fs.R_OK);
+    require('dotenv-safe').config({
+        example: envPath
+    });    
+}
+catch(e){
+}
 
 module.exports = {
     env: {
@@ -11,7 +19,7 @@ module.exports = {
     mysql: {
         database: process.env.MYSQL_DATABASE,
         username: process.env.MYSQL_USERNAME,
-        password: process.env.MYSQL_password,
+        password: process.env.MYSQL_PASSWORD,
         host: process.env.MYSQL_HOST,
         pool: {
             max_connections: parseInt(process.env.MYSQL_MAX_CONNECTIONS),
