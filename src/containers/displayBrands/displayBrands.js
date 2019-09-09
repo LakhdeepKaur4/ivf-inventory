@@ -21,7 +21,7 @@ class Brands extends Component {
       multiSelect: [],
       isAllSelect: false,
       editId: "",
-      host: "",
+      host: [],
       dropdownClick: false,
       allIds: [],
       brandList: []
@@ -117,9 +117,12 @@ class Brands extends Component {
   };
 
   // Get host url
-  setHost = host => {
-    this.props.getDefaultPageBrandsDetails(1, host);
-    this.setState({ host });
+  setHost = async host => {
+    let arr = this.state.host;
+        arr.push(host);
+        await this.setState({host:arr});
+    this.props.getDefaultPageBrandsDetails(1, this.state.host[1]);
+    
   };
 
   // Get Ids for selected brands
@@ -169,7 +172,8 @@ class Brands extends Component {
                   className="brand_logo"
                   // style={{ width: "30px", height: "30px" }}
                   alt={item.name}
-                  src={`${this.state.host}/${item.logo_url}`}
+                  
+                  src={`${this.state.host[0]}${item.logo_url}`}
                 />
               </td>
               <td>{item.name}</td>
@@ -274,11 +278,17 @@ class Brands extends Component {
           this.setHost(host);
         }}
       >
+         <HostResolver
+        hostToGet="minio"
+        hostResolved={host => {
+          this.setHost(host);
+        }}
+      >
         <Dashboard>
           <div className="display_brands_list">
             <div className="container">
               <div className="img_content_wprapper">
-                <p className="heading">Brands</p>
+                <p className="heading">Brand</p>
               </div>
               <div className="search_filter_wrapper d-flex">
                 <div className="search">
@@ -360,6 +370,7 @@ class Brands extends Component {
             </div>
           </div>
         </Dashboard>
+        </HostResolver>
       </HostResolver>
     );
   }

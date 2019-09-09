@@ -45,7 +45,6 @@ class AddBrand extends Component {
 
   // Adding brand
   addBrand = event => {
-    console.log(this.state);
     event.preventDefault();
     const { brandName, description, status, selected, logo_url } = this.state;
     if (this.validateForm()) {
