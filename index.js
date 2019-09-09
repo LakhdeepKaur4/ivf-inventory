@@ -46,8 +46,8 @@ app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
 //     extended: true
 // }));
-app.use(bodyParser.json({ limit: '100mb' ,extended:true,type:"application/json"}));
-app.use(bodyParser.urlencoded({ limit: '100mb', extended: true,type:'application/x-www-form-urlencoding'}));
+app.use(bodyParser.json({ limit: '500mb' ,extended:true,type:"application/json"}));
+app.use(bodyParser.urlencoded({ limit: '500mb', extended: true,type:'application/x-www-form-urlencoding'}));
 
 app.use('/public',express.static(path.resolve(__dirname, 'public')));
 app.get('/', function(req, res){
@@ -66,7 +66,7 @@ mysqlDB.sync({force:false})
     console.log('Connection Succeded');
 })
 .catch(err => {
-    // console.log('MySql connection error',err);
+    console.log('MySql connection error',err);
 })
 
 app.listen(port, () => console.info(`server started on port ${port} (${env})`));
