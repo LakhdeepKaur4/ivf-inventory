@@ -143,13 +143,14 @@ class Brands extends Component {
   };
 
   // Handle Edit brand
-  handleEditBrand = id => {
+  handleEditBrand = (id,item) => {
     // this.props.getBrandDetails(id, this.state.host);
-    this.props.history.push(`/editBrand/${id}`)
+    this.props.history.push(`/editBrand/${id}/${item}`)
   };
 
   // Display brands list
   displayBrands = ({ brandsList }) => {
+    console.log(brandsList);
     if (brandsList) {
       return brandsList
         .filter(this.searchFilter(this.state.searchTxt))
@@ -208,7 +209,7 @@ class Brands extends Component {
                   >
                     <a
                       className="dropdown-item"
-                      onClick={() => this.handleEditBrand(item._id)}
+                      onClick={() => this.handleEditBrand(item._id,item.logo_url)}
                     >
                       Edit
                     </a>
