@@ -11,29 +11,9 @@ exports.createCategory = async (req, res, next) => {
   try {
     let body = req.body;
     const category = await new Category(body).save();
-    const categoryId = category._id;
-    let url = "../public/images/categoryThumbnails/";
-    let index = body.fileName.lastIndexOf('.');
-    body.fileExt = body.fileName.slice(index + 1);
-    body.fileName = body.fileName.slice(0, index);
-    body.picture = body.picture.split(',')[1];
-
-    // await helper.saveToDisc(url, categoryId, body.fileName, body.fileExt, body.picture, (err, res) => {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     let index = res.indexOf('../');
-    //     let newPath = res.slice(index + 2, res.length);
-    //     Category.update({ _id: categoryId }, { $set: { categoryThumbnail: newPath } }, function (err, updated) {
-    //       if (err) {
-    //         console.log(err)
-    //       } else {
-    //        return;
-    //       }
-    //     })
-    //   }
-    // })
-    return res.status(httpStatus.OK).json({ message: "Successful category created" });
+    if (category) {
+      return res.status(httpStatus.OK).json({ message: "Successful category created" });
+    }
   } catch (error) {
     return res.send(error);
   }
