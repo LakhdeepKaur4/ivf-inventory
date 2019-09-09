@@ -9,10 +9,10 @@ module.exports = {
         PORT: 3000
     },
     mysql: {
-        database: 'sql7303918',
-        username: 'sql7303918',
-        password: 'QZQyrDHdyB',
-        host: 'sql7.freemysqlhosting.net',
+        database: 'circle-orders',
+        username: 'circle',
+        password: 'changeME#123',
+        host: '10.0.90.0',
         pool: {
             max_connections: 10,
             min_connections: 0,

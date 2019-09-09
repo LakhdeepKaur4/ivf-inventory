@@ -1,31 +1,17 @@
 const Brands = require('../models/brands'); // Brands model imported
 const Item = require('../models/item'); // Items/Products model imported
 const httpStatus = require('http-status'); // Module to provide HTTP response codes
-
-const fileStore = require('../helpers/fileSave'); // helper function to save image file
 const resJson = require('../helpers/response').resJson; //helper function to send response in JSON format
 
 // Create/Add a brand
 exports.createBrand = (req, res, next) => {
   try {
     const body = req.body;
-    console.log(body);
-    console.log(body.logo_url)
-    // let file = body.logo;
-    // let fileExt = file.slice(file.indexOf('/') + 1, file.indexOf(';'));
-    // file = file.slice(file.indexOf(',') + 1);
-
-    // body.logo_url = `public/images/brandLogos/${body.name}.${fileExt}`;
     if (body.status === 'Enabled') {
       body.status = true;
     } else {
       body.status = false;
     }
-
-    // fileStore(body.name, fileExt, file, '../public/images/brandLogos/', (err, resp) => {
-    //   if (err) {
-    //     return resJson(res, httpStatus.FAILED_DEPENDENCY, resp);
-    //   } else {
     Brands(body).save((err, brand) => {
       if (err) {
         console.log(err)
@@ -34,9 +20,6 @@ exports.createBrand = (req, res, next) => {
         return resJson(res, httpStatus.CREATED, { message: "Successful creation", brand });
       }
     });
-    //   }
-    // });
-
   } catch (err) {
     console.log(err);
     return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: "Please try again", err });
@@ -82,38 +65,15 @@ exports.updateBrand = (req, res, next) => {
     } else {
       body.status = false;
     }
-    if (body.hasOwnProperty('logo')) {
-      let file = body.logo;
-      let fileExt = file.slice(file.indexOf('/') + 1, file.indexOf(';'));
-      file = file.slice(file.indexOf(',') + 1);
-
-      body.logo_url = `public/images/brandLogos/${body.name}.${fileExt}`;
-      fileStore(body.name, fileExt, file, '../public/images/brandLogos/', (err, resp) => {
-        if (err) {
-          return resJson(res, httpStatus.FAILED_DEPENDENCY, resp);
-        } else {
-          Brands.findOneAndUpdate({ _id: req.params.id }, {
-            $set: body
-          }, (err, brand) => {
-            if (err) {
-              return resJson(res, httpStatus.NOT_MODIFIED, { message: 'Updation error', err });
-            } else {
-              return resJson(res, httpStatus.CREATED, { message: "Brand updated", brand });
-            }
-          });
-        }
-      });
-    } else {
-      Brands.findOneAndUpdate({ _id: req.params.id }, {
-        $set: body
-      }, (err, brand) => {
-        if (err) {
-          return resJson(res, httpStatus.NOT_MODIFIED, { message: 'Updation error', err });
-        } else {
-          return resJson(res, httpStatus.CREATED, { message: "Brand updated", brand });
-        }
-      })
-    }
+    Brands.findOneAndUpdate({ _id: req.params.id }, {
+      $set: body
+    }, (err, brand) => {
+      if (err) {
+        return resJson(res, httpStatus.NOT_MODIFIED, { message: 'Updation error', err });
+      } else {
+        return resJson(res, httpStatus.CREATED, { message: "Brand updated", brand });
+      }
+    })
   } catch (err) {
     return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: "Please try again", err });
   }

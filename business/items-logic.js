@@ -14,8 +14,9 @@ exports.createItems = async (req, res, next) => {
     const item = await new Item(body).save();
     const itemId = item._id;
     let itemsUrl = "../public/images/items/";
-    let variantsUrl = "../public/images/variants/";
+    // let variantsUrl = "../public/images/variants/";
     let index;
+    console.log(body.pictures)
     if (body.pictures !== null && body.pictures != undefined) {
       body.pictures.map(async (picture, picIndex) => {
         index = picture.fileName.lastIndexOf('.');
@@ -29,7 +30,9 @@ exports.createItems = async (req, res, next) => {
             let index = res.indexOf('../');
             let newPath = res.slice(index + 2, res.length);
             Item.update({ _id: itemId }, { $push: { productPicture: newPath } }, (err, resp) => {
-              if (err) console.error(err);
+              if (err) {
+                console.error(err);
+              }
               else return;
             });
           }
@@ -136,11 +139,12 @@ exports.getItemById = async (req, res, next) => {
 exports.updateItems = async (req, res, next) => {
   try {
     const itemId = req.params.itemId;
+    console.log(itemId)
     let index;
     let body = req.body;
-    console.log("update item-=====>",body);
     let itemsUrl = "../public/images/items/";
     let variantsUrl = "../public/images/variants/";
+    console.log(body.pictures);
     if (body.pictures !== null && body.pictures != undefined) {
       body.pictures.map(async (picture, picIndex) => {
         index = picture.fileName.lastIndexOf('.');
@@ -153,10 +157,11 @@ exports.updateItems = async (req, res, next) => {
           } else {
             let index = res.indexOf('../');
             let newPath = res.slice(index + 2, res.length);
-            body.productPicture[index] = newPath;
+            // console.log("newPath",newPath)
+            body.productPicture = newPath;
             Item.update({ _id: itemId }, { $set: body }, (err, resp) => {
               if (err) console.error(err);
-              else console.log(resp);
+              else return;
             });
           }
         })
@@ -172,6 +177,7 @@ exports.updateItems = async (req, res, next) => {
         delete setObject["variants." + variantIndex + ".ancestors"];
         if (variant.pictures !== null && variant.pictures != undefined) {
           variant.pictures.map(async (picture, picIndex) => {
+            // console.log("**")
             await helper.saveToDisc(variantsUrl, savedVariants._id, picture.fileName, picture.fileExt, picture.picture, (err, res) => {
               if (err) {
                 console.log(err);
@@ -179,6 +185,11 @@ exports.updateItems = async (req, res, next) => {
                 let index = res.indexOf('../');
                 let newPath = res.slice(index + 2, res.length);
                 setObject["variants." + variantIndex + ".variantPicture"] = newPath;
+                // delete setObject["variants." + variantIndex + ".variantPicture"];
+                Item.update({ _id: req.params.itemId }, { $push: setObject }, (err, resp) => {
+                  if (err) console.error(err);
+                  else return;
+                });
                 ItemVariant.update({ _id: savedVariants._id }, { $push: { variantPicture: newPath } }, (err, resp) => {
                   if (err) console.error(err);
                   else return;
@@ -206,13 +217,18 @@ exports.updateItems = async (req, res, next) => {
                       if (err) console.error(err);
                       else return;
                     });
+                    setObject["variants." + variantIndex + ".options." + optionIndex + ".pictures"] = "";
+                    Item.update({ _id: req.params.itemId }, { $push: setObject }, (err, resp) => {
+                      if (err) console.error(err);
+                      else return;
+                    });
                     setObject["variants." + variantIndex + ".options." + optionIndex + ".variantPicture"] = newPath;
                     Item.update({ _id: req.params.itemId }, { $push: setObject }, (err, resp) => {
                       if (err) console.log(err);
                       else return;
                     });
                     setObject["options." + optionIndex + ".picture"] = "";
-                    ItemVariant.update({ _id: savedVariants._id }, { $set: setObject }, (err, resp) => {
+                    ItemVariant.update({ _id: savedVariants._id }, { $push: setObject }, (err, resp) => {
                       if (err) console.error(err);
                       else return;
                     });
@@ -232,7 +248,7 @@ exports.updateItems = async (req, res, next) => {
     }
     Item.update({ _id: itemId }, { $set: body }, (err, item) => {
       if (err) console.error(err);
-      else return res.status(httpStatus.OK).send({ message: "Item updated", item });
+      else return res.status(httpStatus.OK).send({ message: "Item updated" });
     });
 
   } catch (error) {
