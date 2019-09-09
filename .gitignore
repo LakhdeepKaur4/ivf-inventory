@@ -63,6 +63,5 @@ typings/
 public/images
 
 # environment setup file
-env.js
 
 package-lock.json
