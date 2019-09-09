@@ -1,0 +1,215 @@
+.parentProcessOrder{
+    position: relative;
+}
+
+.childProcessOrder{
+    position:absolute;
+    top:90%;
+    margin-left:30px;
+}
+
+/* Main Heading */
+.mainHeading {
+    margin-left: 40px;
+    width: 210px;
+    height: 30px;
+    text-align: left;
+    font: bolder 24px/40px Muli;
+    letter-spacing: 0;
+    color: #272424;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+.buttonNew {
+    margin-left: 40px;
+    margin-top: 70px;
+    width: 180px;
+    height: 35px;
+    background: #F46565 0% 0% no-repeat padding-box;
+    border-radius: 18px;
+    opacity: 1;
+    color: #ffffff;
+}
+
+.buttonText {
+    padding: 8px 0px 0px 66px;
+    font: Regular 14px/28px Acumin Pro Condensed;
+    letter-spacing: 0.84px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+/* Content Heading */
+.headingContentHeading {
+    margin-left: 40px;
+    margin-top: 60px;
+    width: 83px;
+    height: 23px;
+    text-align: left;
+    font: Bold 18px/40px Muli;
+    letter-spacing: 0;
+    color: #555555;
+    opacity: 1;
+}
+
+
+/* Form section */
+.underSummarySection {
+    margin-left: 40px;
+    margin-top: 30px;
+    height: 368px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #9D1E1E0D;
+    border-radius: 6px;
+    opacity: 1;
+}
+
+.invoiceSection {
+    margin-left: 30px;
+    margin-top: 30px;
+    height: 450px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #9D1E1E0D;
+    border-radius: 6px;
+    opacity: 1;
+}
+
+.summaryContentHeading > label {
+    height: 15px;
+    text-align: left;
+    font: bolder 12px/40px Muli;
+    letter-spacing: 0;
+    color: #555555;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+.summaryContentData > label {
+    margin-top: 10px;
+    height: 15px;
+    text-align: left;
+    font: bold 12px/15px Muli;
+    letter-spacing: 0;
+    color: #818080;
+    opacity: 1;
+}
+
+.invoiceHeadingSec {
+    margin: 10px;
+    width: 41px;
+    height: 20px;
+    text-align: left;
+    font: bolder 18px/25px Muli;
+    letter-spacing: 0;
+    color: #43425D;
+    opacity: 0.5;
+}
+
+.shippingFastTruck {
+    text-align: left;
+    font: Regular 12px/25px Font Awesome 5 Pro;
+    letter-spacing: 0;
+    color: #43425D;
+    opacity: 0.75;
+}
+
+.shippingTextData {
+    margin: 10px;
+    width: 41px;
+    height: 20px;
+    text-align: left;
+    font: bolder 18px/25px Muli;
+    letter-spacing: 0;
+    color: #43425D;
+    opacity: 0.5;
+}
+
+.addressSection>label{
+    margin: 10px 30px;
+    text-align: left;
+    font: normal 14px/18px Muli;
+    letter-spacing: 0;
+    color: #43425D;
+    opacity: 1;
+}
+
+.courierTrackingContent {
+    margin: 10px 30px;
+    text-align: left;
+    font: bolder 18px/25px Muli;
+    letter-spacing: 0;
+    color: #43425D;
+    opacity: 0.5;
+}
+
+.saveButtonData {
+    width: 170px;
+    height: 36px;
+    border: 1px solid #1ABC9C;
+    border-radius: 22px;
+    opacity: 1;
+}
+
+.saveButtonData label {
+    text-align: center;
+    font: Bold 12px/15px Muli;
+    letter-spacing: 0;
+    color: #1ABC9C;
+    text-transform: uppercase;
+    opacity: 1;
+    background-color: #ffffff;
+}
+
+.notifyMessage {
+    margin: 40px 30px;
+    height: 15px;
+    text-align: left;
+    font: Regular 13px/18px Muli;
+    letter-spacing: 0;
+    color: #43425D;
+    opacity: 1;
+}
+
+.bottomButtom {
+    width: 470px;
+    height: 50px;
+    background: #333333 no-repeat padding-box;
+    border-radius: 115px;
+    opacity: 1;
+}
+
+.bottomBtnText {
+    width: 50px;
+    height: 15px;
+    text-align: center;
+    font: Bold 12px/15px Muli;
+    letter-spacing: 0;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    opacity: 1;
+    margin:auto;
+}
+
+.backToOrdersButton {
+    margin: 70px 10px 70px ;
+    float: right;
+    width: 300px;
+    height: 50px;
+    border: 1px solid #43425D;
+    border-radius: 115px;
+    opacity: 1;
+}
+
+.backToOrdersButtonText {
+    margin: 12px 0px 0px 70px;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+    font: Regular 12px/15px Muli;
+    letter-spacing: 0;
+    color: #4D4F5C;
+    text-transform: uppercase;
+    opacity: 1;
+}
