@@ -78,7 +78,7 @@ class App extends Component {
             {/* <Route path="/shipping" component={Shipping} /> */}
             <Route path="/pushProductsView" component={PushProductsView} />
             <Route path="/addBrand" component={AddBrand} />
-            <Route path="/editanorder" component={EditCustomerOrder} />
+            <Route path="/editanorder/:id" component={EditCustomerOrder} />
             <Route path="/finalizeorder" component={EditOrder} />
             <Route path="/addbrand" component={AddBrand} />
             <Route path="/editproducts" component={Products} />

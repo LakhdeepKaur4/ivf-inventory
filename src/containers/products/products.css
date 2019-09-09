@@ -5,10 +5,12 @@ ul li{
 .mainProductDiv { 
     position: relative; 
     height: 300px;
+    overflow: auto;
 } 
 .subDivBottom { 
     position: absolute; 
-    bottom: 0px; 
+    display: flex;
+    align-items: baseline;
 } 
 
 .productsMainContainer {

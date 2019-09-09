@@ -21,3 +21,26 @@
 
 /* End Search */
 
+
+.view-order-list th{
+    top: 299px;
+    left: 473px;
+    width: 64px;
+    height: 14px;
+    text-align: left;
+    font: Bold 11px/14px Source Sans Pro;
+    letter-spacing: 0;
+    color: #a3a6b4;
+    text-transform: uppercase;
+    opacity: 1
+}
+.view-order-list td {
+    text-align: left;
+    font: 13px/20px Source Sans Pro;
+    letter-spacing: 0;
+    color: #4d4f5c;
+    opacity: 1;
+  }
+  .pagination{
+      float:right;
+  }

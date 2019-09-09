@@ -13,41 +13,7 @@
       "Download Saved"
     ]
   },
-  "viewOrders": [
-    {
-      "link": "https://www.google.com/search?q=iv+future&oq=iv+&aqs=chrome.4.69i57j69i60l3j69i59j0.4925j0j7&sourceid=chrome&ie=UTF-8",
-      "date": "22/07/2019",
-      "orderId": "#CFZ8493ar",
-      "status": "Pending",
-      "customer": "Carter",
-      "stTotal": 34234,
-      "billing": "New Delhi",
-      "shipping": "New Delhi",
-      "order": "order is pending"
-    },
-    {
-      "link": "https://www.google.com/search?q=iv+future&oq=iv+&aqs=chrome.4.69i57j69i60l3j69i59j0.4925j0j7&sourceid=chrome&ie=UTF-8",
-      "date": "22/07/2019",
-      "orderId": "#CFZ8494ar",
-      "status": "Failed",
-      "customer": "Jitendra",
-      "stTotal": 2726,
-      "billing": "Romania",
-      "shipping": "Romania",
-      "order": "order is failed"
-    },
-    {
-      "link": "https://www.google.com/search?q=iv+future&oq=iv+&aqs=chrome.4.69i57j69i60l3j69i59j0.4925j0j7&sourceid=chrome&ie=UTF-8",
-      "date": "22/07/2019",
-      "orderId": "#CFZ8495ar",
-      "status": "Successful",
-      "customer": "Smith",
-      "stTotal": 73786,
-      "billing": "Bangalore",
-      "shipping": "Bangalore",
-      "order": "order is successfully"
-    }
-  ],
+  
   "products": [
     {
       "id": "1",

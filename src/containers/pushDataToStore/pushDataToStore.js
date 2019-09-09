@@ -179,7 +179,7 @@ class PushDataToStore extends React.Component {
                 </Dashboard>
             </div>
             </HostResolver>
-            // </HostResolver>
+            </HostResolver>
         )
     }
 }

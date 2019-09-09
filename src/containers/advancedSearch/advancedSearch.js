@@ -4,6 +4,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import Dashboard from "../../components/dashboard/dashboard";
 import HostResolver from "../../components/resolveHost/resolveHost";
+import {connect} from "react-redux";
+import {searchKeyword} from "../../actions/viewOrderAction"
 
 class AdvancedSearch extends Component {
   constructor() {
@@ -12,7 +14,7 @@ class AdvancedSearch extends Component {
       startDate: new Date(),
       host: "",
       searchTxt:"",
-      optionStatus:"",
+      orderStatus:"",
       paymentOption:"",
       shop:"",
       orderId:"",
@@ -27,9 +29,21 @@ class AdvancedSearch extends Component {
 
   // Handle Input change
   handleChangeInput=event=>{
-    //   console.log(`Name is :${event.target.name} and value ${event.target.value}`)
-      this.setState({[event.target.name]:event.target.value} )
- //   this.props.getSearchResult(this.state.searchTxt,this.state.host)
+      this.setState({[event.target.name]:event.target.value})
+      
+  }
+
+  // handle next button
+  handleNextButton=()=>{
+    let payload={
+      searchTxt:this.state.searchTxt,
+      orderStatus:this.state.orderStatus,
+      paymentOption:this.state.paymentOption,
+      orderId:this.state.orderId
+    }
+    
+ this.props.searchKeyword(payload)
+ this.props.history.push('/vieworders')
   }
   setHost = async host => {
     await this.setState({ host });
@@ -48,13 +62,13 @@ class AdvancedSearch extends Component {
             <h3 className="p-4" style={{ color: "#555555" }}>
               ADVANCED SEARCH
             </h3>
-            <span className="ml-4" style={{ color: "salmon" }}>
+            <span className="ml-4 search-keyword">
               Search Key words (tags)
             </span>
             <div className="row w-100">
               <div className="col-5">
                 <div className="col-12">
-                  <div className="md-form active-purple-2 mb-3">
+                  <div className="md-form active-purple-2 mb-3 advanced-search">
                     <input
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0"
@@ -69,12 +83,12 @@ class AdvancedSearch extends Component {
 
                   <div className="md-form active-purple-2 mb-3">
                     <select
-                      className="selectAdvancedSearch form-control border 
+                      className=" selectAdvancedSearch form-control border 
                       border-top-0 border-right-0 border-left-0 border-dark rounded-0 "
                       style={{ backgroundColor: "#F2F4F7" }}
                       type="select"
-                      name='optionStatus'
-                      value={this.state.optionStatus}
+                      name='orderStatus'
+                      value={this.state.orderStatus}
                       onChange={this.handleChangeInput}
                     >
                       <option>
@@ -95,8 +109,8 @@ class AdvancedSearch extends Component {
 
                   <div className="md-form active-purple-2 mb-3">
                     <select
-                      className="selectAdvancedSearch form-control border 
-                      border-top-0 border-right-0 border-left-0 border-dark rounded-0"
+                      className=" selectAdvancedSearch form-control border border-top-0
+                       border-right-0 border-left-0 border-dark rounded-0 "
                       style={{ backgroundColor: "#F2F4F7" }}
                       type="select"
                       name="paymentOption"
@@ -133,7 +147,7 @@ class AdvancedSearch extends Component {
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-2"
                       type="text"
-                      name="odrderId"
+                      name="orderId"
                       value={this.state.orderId}
                       onChange={this.handleChangeInput}
                       style={{ backgroundColor: "transparent" }}
@@ -229,11 +243,12 @@ class AdvancedSearch extends Component {
               <button
                 type="button"
                 className="btn pl-5 pr-5 rounded-pill btnNextAdvanced"
+                onClick={this.handleNextButton}
               >
                 NEXT STEP
               </button>
             </div>
-            <div style={{ height: "52px" }}></div>
+            <div ></div>
           </div>
         </Dashboard>
       </HostResolver>
@@ -241,4 +256,12 @@ class AdvancedSearch extends Component {
   }
 }
 
-export default AdvancedSearch;
+const mapStateToProps=state=>{
+  return{
+  isSearchKeywordReceived:state.ViewOrderReducer.isSearchKeywordReceived
+  }
+}
+export default connect(
+  mapStateToProps,
+  {searchKeyword}
+)(AdvancedSearch);

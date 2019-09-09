@@ -28,6 +28,10 @@ class HostResolver extends Component {
             url = config.mockup.service;
             return url;
         }
+        else if (host === 'minio') {
+            url = config.minio.service;
+            return url;
+        }
     }
 
     render() {
