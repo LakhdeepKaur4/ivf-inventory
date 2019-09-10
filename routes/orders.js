@@ -8,7 +8,7 @@ router.route("/all").get(controller.getOrders);
 
 router.route("/search/cart").get(controller.searchCartProducts);
 
-router.route("/advancedSearch").get(controller.advancedSearchOrders);
+router.route("/advancedSearch").get(controller.advancedSearchOrdersNew);
 
 router.route("/:id").get(controller.getOrderById);
 
