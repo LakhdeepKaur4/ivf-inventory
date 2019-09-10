@@ -33,6 +33,8 @@ class EditBrands extends Component {
     });
    
   }
+
+
   
   componentWillReceiveProps(nextProps){
     if(this.props.brandDetail!==nextProps.brandDetail){
