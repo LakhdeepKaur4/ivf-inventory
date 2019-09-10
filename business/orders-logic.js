@@ -14,9 +14,6 @@ const resJson = require('../helpers/response').resJson; //helper function to sen
 exports.getOrders = (req, res, next) => {
   try {
     Orders.findAll({
-      where: {
-        orderId: req.params.id
-      },
       include: [
         { model: Customers, include: [{ model: Addresses }] },
         { model: Carts, include: [{ model: CartProducts }] },
@@ -225,6 +222,91 @@ exports.advancedSearchOrders = (req, res, next) => {
   }
 }
 
+// Searching orders on advanced filters latest API
+exports.advancedSearchOrdersNew = (req, res, next) => {
+  try {
+    const order = req.query;
+
+    Orders.findAll({
+      include: [
+        { model: Customers, include: [{ model: Addresses }] },
+        { model: Carts, include: [{ model: CartProducts }] },
+        { model: Shipments },
+        { model: Payments }
+      ]
+    })
+      .then(orders => {
+        let ordersNew = [];
+        ordersNew = orders;
+
+        if (order.orderStatus !== 'undefined' && order.orderStatus !== '' && order.orderStatus !== null) {
+          ordersNew = orders.filter(item => {
+            return order.orderStatus.toLowerCase() === item.status.toLowerCase();
+          })
+          orders = ordersNew;
+        }
+        if (order.paymentOption !== 'undefined' && order.paymentOption !== '' && order.paymentOption !== null) {
+          ordersNew = orders.filter(item => {
+            return order.paymentOption.toLowerCase() === item.payment.paymentMethod.toLowerCase();
+          })
+          orders = ordersNew;
+        }
+        if (order.orderId !== 'undefined' && order.orderId !== '' && order.orderId !== null) {
+          ordersNew = orders.filter(item => {
+            return parseInt(order.orderId) === item.orderId;
+          })
+          orders = ordersNew;
+        }
+        if (order.orderStart !== 'undefined' && order.orderStart !== '' && order.orderStart !== null) {
+          ordersNew = orders.filter(item => {
+            return order.orderStart <= item.payment.amount;
+          })
+          orders = ordersNew;
+        }
+        if (order.orderEnd !== 'undefined' && order.orderEnd !== '' && order.orderEnd !== null) {
+          ordersNew = orders.filter(item => {
+            return order.orderEnd >= item.payment.amount;
+          })
+          orders = ordersNew;
+        }
+        if (order.createStartDate !== 'undefined' && order.createStartDate !== '' && order.createStartDate !== null) {
+          ordersNew = orders.filter(item => {
+            return Date.parse(order.createStartDate) <= Date.parse(item.createdAt);
+          })
+          orders = ordersNew;
+        }
+        if (order.createEndDate !== 'undefined' && order.createEndDate !== '' && order.createEndDate !== null) {
+          ordersNew = orders.filter(item => {
+            return Date.parse(order.createEndDate) >= Date.parse(item.createdAt);
+          })
+          orders = ordersNew;
+        }
+        if (order.updateStartDate !== 'undefined' && order.updateStartDate !== '' && order.updateStartDate !== null) {
+          ordersNew = orders.filter(item => {
+            return Date.parse(order.updateStartDate) <= Date.parse(item.updatedAt);
+          })
+          orders = ordersNew;
+        }
+        if (order.updateEndDate !== 'undefined' && order.updateEndDate !== '' && order.updateEndDate !== null) {
+          ordersNew = orders.filter(item => {
+            return Date.parse(order.updateEndDate) >= Date.parse(item.updatedAt);
+          })
+          orders = ordersNew;
+        }
+        if (ordersNew.length === 0) {
+          resJson(res, httpStatus.OK, { message: 'No matching content found', orders: ordersNew });
+        } else {
+          resJson(res, httpStatus.OK, { orders: ordersNew });
+        }
+      })
+      .catch(err => {
+        resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: 'Please try again...', error: err })
+      })
+  } catch (err) {
+    return resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: 'Please try again...', error: err });
+  }
+}
+
 /* 
     Searching existing products in cart
 */
@@ -258,7 +340,7 @@ exports.changeStatus = async (req, res, next) => {
       return order.update(body);
     })
     if (updatedOrder) {
-      return res.status(httpStatus.OK).json({ 
+      return res.status(httpStatus.OK).json({
         message: "Successfully status changed",
         updatedOrder
       });
