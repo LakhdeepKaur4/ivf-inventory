@@ -61,18 +61,23 @@ class ViewOrder extends Component {
     this.props.history.push(`/editanorder/${id}`);
   };
 
+  // handle back button
+
+  handleBackButton=()=>{
+    this.props.history.push("/advancedSearch")
+  }
   // Display orders list
 
   viewOrdersList = ({ viewOrder }) => {
-    let orderStr = [];
+    const orderStr = [];
     if (viewOrder) {
       return viewOrder
         .filter(this.searchFilter(this.state.search))
         .map(item => {
           item.cart.cartProducts.map(data => {
-             return orderStr.push(data.productTitle);
+              orderStr.push(data.productTitle);
           });
-          orderStr = orderStr.join(", ");
+          let productStr = orderStr.join(", ");
           return (
             <tr key={item.orderId}>
               <td>{item.createdAt}</td>
@@ -104,7 +109,7 @@ class ViewOrder extends Component {
               </td>
               <td>{item.customer.firstname}</td>
               <td>{item.payment.amount}</td>
-              <td>{orderStr}</td>
+              <td>{productStr}</td>
               <td>
                 <div className="dropdown">
                   <button
@@ -175,8 +180,10 @@ class ViewOrder extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-2"><i className="fas fa-sort-amount-down" aria-hidden="true"></i></div>
-                  <div className="col-2"><i className="fas fa-sort-amount-up" aria-hidden="true"></i></div>
+                  <div className="col-2 ">
+                    <i className="fas fa-sort-amount-down" aria-hidden="true"></i></div>
+                  <div className="col-2">
+                    <i className="fas fa-sort-amount-up" aria-hidden="true"></i></div>
                   <div className="col-3">
                   <select type="select">
                     <option>Limit</option>
@@ -184,7 +191,7 @@ class ViewOrder extends Component {
                     <option>Limit20</option>
                     <option>Limit30</option>
                   </select>
-                  <i className="fa fa-angle-down"/>
+                  {/* <i className="fa fa-angle-down"/> */}
                   </div>
                   <div className="col-2">search</div>
                   <div className="col-2">
@@ -205,6 +212,15 @@ class ViewOrder extends Component {
               <div className="orders_list">
                 <div>{viewOrderData}</div>
               </div>
+            </div>
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                className="btn pl-5 pr-5 rounded-pill btnNextAdvanced"
+                onClick={this.handleBackButton}
+              >
+                back
+              </button>
             </div>
           </div>
         </Dashboard>
