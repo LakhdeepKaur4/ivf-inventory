@@ -222,9 +222,11 @@ exports.advancedSearchOrders = (req, res, next) => {
   }
 }
 
+// Searching orders on advanced filters latest API
 exports.advancedSearchOrdersNew = (req, res, next) => {
   try {
     const order = req.query;
+
     Orders.findAll({
       include: [
         { model: Customers, include: [{ model: Addresses }] },
@@ -235,61 +237,67 @@ exports.advancedSearchOrdersNew = (req, res, next) => {
     })
       .then(orders => {
         let ordersNew = [];
-        if (order.orderStatus !== undefined && order.orderStatus !== '' && order.orderStatus !== null) {
+        ordersNew = orders;
+
+        if (order.orderStatus !== 'undefined' && order.orderStatus !== '' && order.orderStatus !== null) {
           ordersNew = orders.filter(item => {
             return order.orderStatus.toLowerCase() === item.status.toLowerCase();
           })
           orders = ordersNew;
         }
-        if (order.paymentOption !== undefined && order.paymentOption !== '' && order.paymentOption !== null) {
+        if (order.paymentOption !== 'undefined' && order.paymentOption !== '' && order.paymentOption !== null) {
           ordersNew = orders.filter(item => {
             return order.paymentOption.toLowerCase() === item.payment.paymentMethod.toLowerCase();
           })
           orders = ordersNew;
         }
-        if (order.orderId !== undefined && order.orderId !== '' && order.orderId !== null) {
+        if (order.orderId !== 'undefined' && order.orderId !== '' && order.orderId !== null) {
           ordersNew = orders.filter(item => {
             return parseInt(order.orderId) === item.orderId;
           })
           orders = ordersNew;
         }
-        if (order.orderStart !== undefined && order.orderStart !== '' && order.orderStart !== null) {
+        if (order.orderStart !== 'undefined' && order.orderStart !== '' && order.orderStart !== null) {
           ordersNew = orders.filter(item => {
             return order.orderStart <= item.payment.amount;
           })
           orders = ordersNew;
         }
-        if (order.orderEnd !== undefined && order.orderEnd !== '' && order.orderEnd !== null) {
+        if (order.orderEnd !== 'undefined' && order.orderEnd !== '' && order.orderEnd !== null) {
           ordersNew = orders.filter(item => {
             return order.orderEnd >= item.payment.amount;
           })
           orders = ordersNew;
         }
-        if (order.createStartDate !== undefined && order.createStartDate !== '' && order.createStartDate !== null) {
+        if (order.createStartDate !== 'undefined' && order.createStartDate !== '' && order.createStartDate !== null) {
           ordersNew = orders.filter(item => {
             return Date.parse(order.createStartDate) <= Date.parse(item.createdAt);
           })
           orders = ordersNew;
         }
-        if (order.createEndDate !== undefined && order.createEndDate !== '' && order.createEndDate !== null) {
+        if (order.createEndDate !== 'undefined' && order.createEndDate !== '' && order.createEndDate !== null) {
           ordersNew = orders.filter(item => {
             return Date.parse(order.createEndDate) >= Date.parse(item.createdAt);
           })
           orders = ordersNew;
         }
-        if (order.updateStartDate !== undefined && order.updateStartDate !== '' && order.updateStartDate !== null) {
+        if (order.updateStartDate !== 'undefined' && order.updateStartDate !== '' && order.updateStartDate !== null) {
           ordersNew = orders.filter(item => {
             return Date.parse(order.updateStartDate) <= Date.parse(item.updatedAt);
           })
           orders = ordersNew;
         }
-        if (order.updateEndDate !== undefined && order.updateEndDate !== '' && order.updateEndDate !== null) {
+        if (order.updateEndDate !== 'undefined' && order.updateEndDate !== '' && order.updateEndDate !== null) {
           ordersNew = orders.filter(item => {
             return Date.parse(order.updateEndDate) >= Date.parse(item.updatedAt);
           })
           orders = ordersNew;
         }
-        resJson(res, httpStatus.OK, { orders:ordersNew });
+        if (ordersNew.length === 0) {
+          resJson(res, httpStatus.OK, { message: 'No matching content found', orders: ordersNew });
+        } else {
+          resJson(res, httpStatus.OK, { orders: ordersNew });
+        }
       })
       .catch(err => {
         resJson(res, httpStatus.INTERNAL_SERVER_ERROR, { message: 'Please try again...', error: err })

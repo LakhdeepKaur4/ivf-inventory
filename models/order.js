@@ -24,7 +24,7 @@ const Orders = sequelize.define('orders',{
         defaultValue: 'ORDERED'
     },
     storeId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
     },
     createdAt: {
         type: Sequelize.DATE
