@@ -399,13 +399,13 @@ class CreateProduct extends Component {
         let product = productData.item;
       
         if (this.alreadyFetchedProductDetail && product) {
-
           this.setState({
             brandId: product.brandId,
             name: product.name,
             sku: product.sku,
             optStock: product.optStock,
             range: product.price.range,
+            price:product.price,
             subtitle: product.subtitle,
             vendor: product.vendor,
             description: product.description,
@@ -459,7 +459,7 @@ class CreateProduct extends Component {
   };
 
   render() {
-    console.log(this.state.pictures)
+    console.log(  this.state.pictures)
     let { pictures } = this.state;
     let $imagePreview = null;
 

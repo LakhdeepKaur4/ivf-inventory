@@ -262,7 +262,7 @@ class ProductVariant extends Component {
       && nextProps.CreateProductReducer.productData.item) {
       let variant = nextProps.CreateProductReducer.productData.item.variants.find(variant => variant.title === variantTitle);
       this.setState({
-        pictures: variant.pictures ? variant.pictures :'',
+        pictures: variant.variantPicture,
         title: variant.title,
         optionTitle: variant.optionTitle,
         originCountry: variant.originCountry,
@@ -285,7 +285,7 @@ class ProductVariant extends Component {
       $imagePreview = pictures.map((item, index) => {
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-          <td><img src={`${this.state.host}${item}`} style={{ width: "60px" }} alt="productPic" value={this.state.picture}  /></td>
+          <td><img src={item.picture ? item.picture : `${this.state.host}${item}`} style={{ width: "60px" }} alt="productPic" value={this.state.picture}  /></td>
           <td> <i className="fa fa-close close-icon" onClick = {()=>{
             this.setState(prevState=>{
               let pictures = [...prevState.pictures]

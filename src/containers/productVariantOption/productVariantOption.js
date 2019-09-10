@@ -273,7 +273,7 @@ class ProductVariantOption extends Component {
           variant.options = [this.state];
         }
       }
-  
+    
       this.props.updateProduct(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId,
         { ...this.props.CreateProductReducer.productData.item });
       this.props.history.push("/productTree");
@@ -294,7 +294,7 @@ class ProductVariantOption extends Component {
       $imagePreview = pictures.map((item, index) => {
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-          <td><img src={item.picture} style={{ width: "60px" }} alt="productPic" value={this.state.picture} /></td>
+          <td><img src={item.picture} style={{ width: "60px" }} alt="optionPic" value={this.state.picture} /></td>
           <td> <i className="fa fa-close close-icon" onClick = {()=>{
             this.setState(prevState=>{
               let pictures = [...prevState.pictures]
