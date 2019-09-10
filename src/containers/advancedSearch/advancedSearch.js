@@ -5,54 +5,97 @@ import DatePicker from "react-datepicker";
 import Dashboard from "../../components/dashboard/dashboard";
 import HostResolver from "../../components/resolveHost/resolveHost";
 import {connect} from "react-redux";
-import {searchKeyword} from "../../actions/viewOrderAction"
+import {searchKeyword,getShopList} from "../../actions/viewOrderAction"
 
 class AdvancedSearch extends Component {
   constructor() {
     super();
     this.state = {
-      startDate: new Date(),
       host: "",
       searchTxt:"",
       orderStatus:"",
       paymentOption:"",
       shop:"",
       orderId:"",
+      orderStart:"",
+      orderEnd:"",
+      createStartDate: new Date(),
+      createEndDate:new Date(),
+      updateStartDate: new Date(),
+      updateEndDate: new Date(),
+      shopList:'',
     };
   }
 
-  handleChange = date => {
-    this.setState({
-      startDate: date
-    });
+  handleDateChange =(name,event)=> {
+     switch(name){
+       case 'createStartDate':{
+         this.setState({createStartDate:event})
+       }
+       case 'createEndDate':{
+        this.setState({createEndDate:event})
+      }
+      case'updateStartDate':{
+        this.setState({updateStartDate:event})
+      }
+      case 'updateEndDate':{
+        this.setState({updateEndDate:event})
+      }
+      default:
+        return
+     }
   };
 
   // Handle Input change
   handleChangeInput=event=>{
       this.setState({[event.target.name]:event.target.value})
-      
   }
 
   // handle next button
   handleNextButton=()=>{
+    const {searchTxt,orderStatus,paymentOption,orderId,
+      orderStart,orderEnd,createStartDate,createEndDate,
+      updateStartDate,updateEndDate,shop}=this.state
     let payload={
-      searchTxt:this.state.searchTxt,
-      orderStatus:this.state.orderStatus,
-      paymentOption:this.state.paymentOption,
-      orderId:this.state.orderId
+      searchTxt:searchTxt,
+      orderStatus:orderStatus,
+      paymentOption:paymentOption,
+      orderId:orderId,
+      orderStart:orderStart,
+      orderEnd:orderEnd,
+      createStartDate:createStartDate,
+      createEndDate:createEndDate,
+      updateStartDate:updateStartDate,
+      updateEndDate:updateEndDate,
+      shop:shop
     }
-    
- this.props.searchKeyword(payload)
- this.props.history.push('/vieworders')
+    console.log('payload....', payload)
+  this.props.searchKeyword(payload)
+  this.props.history.push('/vieworders')
   }
-  setHost = async host => {
-    await this.setState({ host });
+  setHost = host => {
+   this.setState({ host });
+   this.props.getShopList(host)
+  };
+
+  // display shops
+  
+  displayShopList = ({ shopList }) => {
+    if (shopList) {
+      return shopList.map(item => {
+        return (
+          <option key={item.id} value={item.instanceId}>
+            {item.selectedNode}{" "}{item.rootDomain}
+          </option>
+        );
+      });
+    }
   };
 
   render() {
     return (
       <HostResolver
-        hostToGet="inventory"
+        hostToGet="voxel"
         hostResolved={host => {
           this.setHost(host);
         }}
@@ -94,8 +137,8 @@ class AdvancedSearch extends Component {
                       <option>
                         Order status
                       </option>
-                      <option  value="Open">
-                        Open
+                      <option  value="ordered">
+                        Ordered
                       </option>
                       <option  value="Processing">
                         Processing
@@ -132,8 +175,12 @@ class AdvancedSearch extends Component {
                       type="select"
                       style={{ backgroundColor: "#F2F4F7" }}
                       placeholder="Select"
+                      name="shop"
+                      value={this.state.shop}
+                      onChange={this.handleChangeInput}
                     >
                       <option>Shop</option>
+                      {this.displayShopList(this.props.ViewOrderReducer)}
                     </select>
                     <i className="fa fa-angle-down"></i>
                   </div>
@@ -161,6 +208,9 @@ class AdvancedSearch extends Component {
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-2"
                       type="text"
+                      value={this.state.orderStart}
+                      name="orderStart"
+                      onChange={this.handleChangeInput}
                       style={{ backgroundColor: "transparent" }}
                     />
                     <div className="col-2">to</div>
@@ -168,6 +218,9 @@ class AdvancedSearch extends Component {
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-2"
                       type="text"
+                      name="orderEnd"
+                      value={this.state.orderEnd}
+                      onChange={this.handleChangeInput}
                       style={{ backgroundColor: "transparent" }}
                     />
                   </div>
@@ -177,8 +230,8 @@ class AdvancedSearch extends Component {
                       Order Created
                     </div>
                     <DatePicker
-                      selected={this.state.startDate}
-                      onChange={this.handleChange}
+                      selected={this.state.createStartDate}
+                      onChange={(event)=>{this.handleDateChange('createStartDate',event)}}
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-6"
                     />
@@ -190,8 +243,9 @@ class AdvancedSearch extends Component {
                     </div>
                     <div className="col-2">to</div>
                     <DatePicker
-                      selected={this.state.startDate}
-                      onChange={this.handleChange}
+                      selected={this.state.createEndDate}
+                      onChange={(event)=>{this.handleDateChange('createEndDate',event)}}
+                      name="createEndDate"
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-6"
                     />
@@ -211,8 +265,9 @@ class AdvancedSearch extends Component {
                       Order Update
                     </div>
                     <DatePicker
-                      selected={this.state.startDate}
-                      onChange={this.handleChange}
+                      selected={this.state.updateStartDate}
+                      onChange={(event)=>{this.handleDateChange('updateStartDate',event)}}
+                      name="updateStartDate"updateStartDate
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-6"
                     />
@@ -224,8 +279,9 @@ class AdvancedSearch extends Component {
                     </div>
                     <div className="col-2">to</div>
                     <DatePicker
-                      selected={this.state.startDate}
-                      onChange={this.handleChange}
+                      selected={this.state.updateEndDate}
+                      onChange={(event)=>{this.handleDateChange('updateEndDate',event)}}
+                      name="updateEndDate"
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-6"
                     />
@@ -258,10 +314,11 @@ class AdvancedSearch extends Component {
 
 const mapStateToProps=state=>{
   return{
-  isSearchKeywordReceived:state.ViewOrderReducer.isSearchKeywordReceived
+  isSearchKeywordReceived:state.ViewOrderReducer.isSearchKeywordReceived,
+  ViewOrderReducer:state.ViewOrderReducer
   }
 }
 export default connect(
   mapStateToProps,
-  {searchKeyword}
+  {searchKeyword,getShopList}
 )(AdvancedSearch);

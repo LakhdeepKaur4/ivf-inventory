@@ -161,20 +161,23 @@ export function getBrandDetails(id,url) {
 }
 
 // Update brand details
-export function updateBrandDetails(data,id,url) {
+export function updateBrandDetails(data,id,url,callback) {
   console.log(url,data);
   return dispatch => {
     axios
       .put(`${url}/api/brands/${id}`, data)
       .then(response => {
-        console.log(response)
         if (
           response.status===200 || response.status===201 &&
           response.data.message==="Brand updated"
         ) {
+          callback(true)
           toasterMessage("success", response.data.message);
           dispatch({ type: UPDATE_BRAND_DETAILS, payload: response.data });
           dispatch(getDefaultPageBrandsDetails(1,url));
+        }
+        else{
+          callback(false)
         }
       })
       .catch(err => {

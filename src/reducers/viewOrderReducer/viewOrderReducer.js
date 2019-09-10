@@ -1,8 +1,9 @@
-import {VIEW_ORDER,SEARCH_KEYWORD} from '../../actionCreators/index';
+import {VIEW_ORDER,SEARCH_KEYWORD,SHOP_LIST,SERACH_RESULT} from '../../actionCreators/index';
 const initialState={
     viewOrder:[],
     seachKeyword:[],
-    isSearchKeywordReceived:false
+    isSearchKeywordReceived:false,
+    shopList:''
 }
 
 const ViewOrderReducer=(state=initialState,action)=>{
@@ -18,6 +19,18 @@ const ViewOrderReducer=(state=initialState,action)=>{
                 ...state,
                 seachKeyword:action.payload,
                 isSearchKeywordReceived:true
+            }
+        }
+        case SHOP_LIST:{
+            return{
+                ...state,
+                shopList:action.payload
+            }
+        }
+        case SERACH_RESULT:{
+            return{
+                ...state,
+                viewOrder:action.payload
             }
         }
         default:
