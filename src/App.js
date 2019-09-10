@@ -36,6 +36,7 @@ import StoreSetting from './components/storeSetting/storeSetting';
 import UploadComponent from './components/uploadComponent/uploadComponent';
 import Spinner from './containers/spinner/spinner';
 import ProcessOrder from './containers/processOrder/processOrder';
+import StatusBar from './components/orderStatus/orderStatus';
 
 class App extends Component {
  
@@ -45,7 +46,7 @@ class App extends Component {
         <div>
           <Spinner />
           <Switch>
-
+            <Route path="/statusbar" component={StatusBar} />
             <Route path="/processOrder" component={ProcessOrder} />
 
             <Route path="/uploadComponent" component={UploadComponent}/>

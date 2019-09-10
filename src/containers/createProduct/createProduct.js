@@ -269,23 +269,23 @@ class CreateProduct extends Component {
 
   };
 
-  handleImageChange = e => {
-    e.preventDefault();
-    let reader = new FileReader();
-    let file = e.target.files[0];
+  // handleImageChange = e => {
+  //   e.preventDefault();
+  //   let reader = new FileReader();
+  //   let file = e.target.files[0];
 
-    reader.onloadend = e => {
-      let obj = {};
-      obj.fileName = file.name
-      obj.picture = e.target.result;
-      this.setState({
-        fileName: file.name,
-        picture: e.target.result,
-        productPictures: [...this.state.productPictures, obj]
-      });
-    };
-    reader.readAsDataURL(file);
-  };
+  //   reader.onloadend = e => {
+  //     let obj = {};
+  //     obj.fileName = file.name
+  //     obj.picture = e.target.result;
+  //     this.setState({
+  //       fileName: file.name,
+  //       picture: e.target.result,
+  //       productPictures: [...this.state.productPictures, obj]
+  //     });
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
   displayEditProductForm = (itemid) => {
     this.props.history.push(`/productTree/editProduct/${itemid}`)
@@ -476,6 +476,7 @@ class CreateProduct extends Component {
     this.props.getBrands(this.state.host[1]);
     this.props.createProductDetails(this.state.host[1]);
   };
+
   onFileUploaded = URL => {
     console.log(URL);
     this.setState({productPictures: [...this.state.productPictures, URL] });
@@ -488,7 +489,6 @@ class CreateProduct extends Component {
 
     if (productPictures) {
       $imagePreview = productPictures.map((item, index) => {
-        console.log(item);
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
 

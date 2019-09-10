@@ -7,6 +7,7 @@ import '../createProduct/createProduct.css';
 import HostResolver from '../../components/resolveHost/resolveHost';
 import { onKeyPresshandlerNumber, OnKeyPressUserhandler } from "../../components/validationComponent/validationComponent"
 import UploadComponent from '../../components/uploadComponent/uploadComponent';
+import $ from 'jquery';
 
 class ProductVariant extends Component {
   constructor(props) {
@@ -24,9 +25,10 @@ class ProductVariant extends Component {
       length: '',
       height: '',
       weight: '',
-      host: '',
+      host: [],
       variantPictures:[],
-      errors:{}
+      errors:{},
+      folderStructure:'createProduct'
     }
   }
 
@@ -227,10 +229,10 @@ class ProductVariant extends Component {
         let index = this.props.CreateProductReducer.productData.item.variants.findIndex(variant => variant.title === variantTitle);
         let variants = this.props.CreateProductReducer.productData.item.variants;
         variants[index] = { ...this.state, options: variants[index].options };
-        this.props.updateProduct(this.state.host, this.props.CreateProductReducer.productData.item._id,
+        this.props.updateProduct(this.state.host[1], this.props.CreateProductReducer.productData.item._id,
           { ...this.props.CreateProductReducer.productData.item })
           .then(() => {
-            this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
+            this.props.getProductById(this.state.host[1], this.props.CreateProductReducer.getProductInfo.itemId);
             this.props.history.push(`/productTree/editProduct/${this.props.CreateProductReducer.getProductInfo.itemId}`);
           });
       }
@@ -238,11 +240,11 @@ class ProductVariant extends Component {
         let data = this.props.CreateProductReducer.productData;
         let variants = data.item.variants;
         variants.push(this.state);
-        this.props.updateProduct(this.state.host, this.props.CreateProductReducer.productData.item._id,
+        this.props.updateProduct(this.state.host[1], this.props.CreateProductReducer.productData.item._id,
           { ...this.props.CreateProductReducer.productData.item }
         )
           .then(() => {
-            this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
+            this.props.getProductById(this.state.host[1], this.props.CreateProductReducer.getProductInfo.itemId);
             this.props.history.push(`/productTree/editProduct/${this.props.CreateProductReducer.getProductInfo.itemId}`);
           });
       }
@@ -253,8 +255,26 @@ class ProductVariant extends Component {
 
 
   setHost = async (host) => {
-    await this.setState({ host: host });
-    this.props.createProductDetails(this.state.host);
+    let arr = this.state.host;
+    arr.push(host);
+    await this.setState({ host: arr });
+    this.props.createProductDetails(this.state.host[1]);
+  }
+
+  onFileUploaded = URL => {
+    console.log(URL);
+    this.setState({variantPictures:  URL });
+  };
+
+  componentDidMount() {
+    $("input[type=file]").attr("id", "file-upload");
+    $("#file-upload").change(function () {
+      var file = $("#file-upload")[0].files[0].name;
+      $(this)
+        .prev("label")
+        .text(file);
+    });
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -263,7 +283,7 @@ class ProductVariant extends Component {
       && nextProps.CreateProductReducer.productData.item) {
       let variant = nextProps.CreateProductReducer.productData.item.variants.find(variant => variant.title === variantTitle);
       this.setState({
-        variantPictures: variant.variantPictures ? variant.variantPictures :'',
+        variantPictures: variant.variantPictures,
         title: variant.title,
         optionTitle: variant.optionTitle,
         originCountry: variant.originCountry,
@@ -283,10 +303,11 @@ class ProductVariant extends Component {
     let $imagePreview = null;
 
     if (variantPictures) {
+      console.log(variantPictures,"=============================")
       $imagePreview = variantPictures.map((item, index) => {
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-          <td><img src={`${this.state.host}${item}`} style={{ width: "60px" }} alt="productPic" value={this.state.picture}  /></td>
+          <td><img src={item.picture ? item.picture : `${this.state.host[0]}${item}`} style={{ width: "60px" }} value={this.state.picture} alt="productPic" /></td>
           <td> <i className="fa fa-close close-icon" onClick = {()=>{
             this.setState(prevState=>{
               let variantPictures = [...prevState.variantPictures]
@@ -302,10 +323,17 @@ class ProductVariant extends Component {
 
 
     return (
-      <HostResolver hostToGet="inventory" hostResolved={host => {
+      <HostResolver 
+      hostToGet="inventory" 
+      hostResolved={host => {
         this.setHost(host)
       }}>
-        <div>
+        <HostResolver
+        hostToGet="minio"
+        hostResolved={host => {
+          this.setHost(host);
+        }}
+      > <div>
           <Dashboard>
             <div className="mainDiv text-muted">
               <h3><b>CREATE PRODUCT</b></h3>
@@ -404,7 +432,11 @@ class ProductVariant extends Component {
                         </table>
                       </div>
                     </div>
-                    <div className="card-footer image-card">
+                    <UploadComponent
+                      onFileUpload={this.onFileUploaded}
+                      data={this.state.folderStructure}
+                    />
+                    {/* <div className="card-footer image-card">
                       <label htmlFor="file" className="ml-3">
                         <div>
                           <i className="fa fa-picture-o" aria-hidden="true"></i>
@@ -430,7 +462,7 @@ class ProductVariant extends Component {
                                                 </button>
                         </form>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -445,6 +477,7 @@ class ProductVariant extends Component {
             </div>
           </Dashboard>
         </div>
+        </HostResolver>
       </HostResolver>
     );
   }
