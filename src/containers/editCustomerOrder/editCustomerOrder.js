@@ -86,7 +86,6 @@ class EditCustomerOrder extends Component {
         $('.tabHead').addClass('visible');
         $(e.currentTarget).children('h5').removeClass('visible');
     }
-
 existingCustomer=({view})=>{
     if(view){
         return view.customer.map(item=>{         
