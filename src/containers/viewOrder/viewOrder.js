@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getViewOrder,getSearchResult } from "../../actions/viewOrderAction";
+import { getSearchResult } from "../../actions/viewOrderAction";
 import "./viewOrder.css";
 import Pagination from "react-js-pagination";
 import Dashboard from "../../components/dashboard/dashboard";
 import HostResolver from "../../components/resolveHost/resolveHost";
-import { timingSafeEqual } from "crypto";
+// import { timingSafeEqual } from "crypto";
 
 class ViewOrder extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class ViewOrder extends Component {
   searchFilter = search => {
     return function(x) {
       return (
-        x.customer.name.toLowerCase().includes(search.toLowerCase()) ||
+        // x.customer.firstname.toLowerCase().includes(search.toLowerCase()) ||
         x.status.toLowerCase().includes(search.toLowerCase()) ||
         !search
       );
@@ -53,11 +53,7 @@ class ViewOrder extends Component {
   // Get host url
     setHost = async host => {
     await this.setState({ host: host });
-    if(this.props.ViewOrderReducer.seachKeyword){
       this.props.getSearchResult(host,this.props.ViewOrderReducer.seachKeyword)
-    }
-    else
-    this.props.getViewOrder(host);
   };
 
   // Handle Edit Order
@@ -65,18 +61,23 @@ class ViewOrder extends Component {
     this.props.history.push(`/editanorder/${id}`);
   };
 
+  // handle back button
+
+  handleBackButton=()=>{
+    this.props.history.push("/advancedSearch")
+  }
   // Display orders list
 
   viewOrdersList = ({ viewOrder }) => {
-    let orderStr = [];
+    const orderStr = [];
     if (viewOrder) {
       return viewOrder
         .filter(this.searchFilter(this.state.search))
         .map(item => {
           item.cart.cartProducts.map(data => {
-             return orderStr.push(data.productTitle);
+              orderStr.push(data.productTitle);
           });
-          orderStr = orderStr.join(", ");
+          let productStr = orderStr.join(", ");
           return (
             <tr key={item.orderId}>
               <td>{item.createdAt}</td>
@@ -106,9 +107,9 @@ class ViewOrder extends Component {
                 )}
                 {item.status}
               </td>
-              <td>{item.customer.name}</td>
+              <td>{item.customer.firstname}</td>
               <td>{item.payment.amount}</td>
-              <td>{orderStr}</td>
+              <td>{productStr}</td>
               <td>
                 <div className="dropdown">
                   <button
@@ -173,55 +174,28 @@ class ViewOrder extends Component {
         <Dashboard>
           <div className="view-order-list">
             <div className="container">
-              <div className="img_content_wprapper">
-                <p className="heading">View Orders</p>
-              </div>
-              <div className="search_filter_wrapper d-flex">
-                <div className="search">
-                  <div className="form-group has-search">
-                    <span
-                      className="fa fa-search form-control-feedback"
-                      style={{ color: "black" }}
-                    ></span>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={this.state.search}
-                      placeholder="Search"
-                      onChange={this.handleSearchInput}
-                    />
+                <div className="row">
+                  <div className="col-12">
+                  <p className="view-orders-heading">View Orders</p>
                   </div>
                 </div>
-                <div className=" my-auto ">
-                  <div className="dropdown my-auto p-0">
-                    <button
-                      className="btn my-auto p-0"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      onClick={this.handleDropdown}
-                    >
-                      Limit
-                      {this.state.dropdownClick ? (
-                        <i className="fa fa-angle-up"></i>
-                      ) : (
-                        <i className="fa fa-angle-down"></i>
-                      )}
-                    </button>
-
-                    <div
-                      className="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
-                      <a className="dropdown-item">Limit10</a>
-                      <a className="dropdown-item">Limit20</a>
-                      <a className="dropdown-item">Limit30</a>
-                    </div>
+                <div className="row">
+                  <div className="col-2 ">
+                    <i className="fas fa-sort-amount-down" aria-hidden="true"></i></div>
+                  <div className="col-2">
+                    <i className="fas fa-sort-amount-up" aria-hidden="true"></i></div>
+                  <div className="col-3">
+                  <select type="select">
+                    <option>Limit</option>
+                    <option>Limit10</option>
+                    <option>Limit20</option>
+                    <option>Limit30</option>
+                  </select>
+                  {/* <i className="fa fa-angle-down"/> */}
                   </div>
-                </div>
-                <div className="sw-action-bar__item sw-action-bar__item--right">
+                  <div className="col-2">search</div>
+                  <div className="col-2">
+                  <div className="sw-action-bar__item sw-action-bar__item--right">
                   <Pagination
                     activePage={this.state.activePage}
                     firstPageText={<i className="fa fa-angle-left"></i>}
@@ -233,10 +207,20 @@ class ViewOrder extends Component {
                     linkClasss="page-link"
                   />
                 </div>
-              </div>
+                  </div>
+                </div>
               <div className="orders_list">
                 <div>{viewOrderData}</div>
               </div>
+            </div>
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                className="btn pl-5 pr-5 rounded-pill btnNextAdvanced"
+                onClick={this.handleBackButton}
+              >
+                back
+              </button>
             </div>
           </div>
         </Dashboard>
@@ -254,5 +238,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getViewOrder,getSearchResult }
+  {getSearchResult }
 )(ViewOrder);

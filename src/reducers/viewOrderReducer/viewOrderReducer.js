@@ -1,19 +1,14 @@
-import {VIEW_ORDER,SEARCH_KEYWORD,SHOP_LIST,SERACH_RESULT} from '../../actionCreators/index';
+import {SEARCH_KEYWORD,SHOP_LIST,SERACH_RESULT} from '../../actionCreators/index';
 const initialState={
     viewOrder:[],
-    seachKeyword:[],
+    seachKeyword:'',
     isSearchKeywordReceived:false,
     shopList:''
 }
 
 const ViewOrderReducer=(state=initialState,action)=>{
+    console.log('inside view order reducer...', action.payload)
     switch(action.type){
-        case VIEW_ORDER:{
-            return{
-                ...state,
-                viewOrder:action.payload
-            }
-        }
         case SEARCH_KEYWORD:{
             return{
                 ...state,

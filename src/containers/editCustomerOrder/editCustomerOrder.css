@@ -170,3 +170,23 @@ select {
 .hide{
 	display: none !important;
 }
+
+.underline.visible{
+	visibility: hidden !important;
+}
+
+.card-title.visible{
+	color: #999999 !important;
+}
+.buttonupdate{
+	top: 529px;
+	left: 1420px;
+	padding-left:10px;
+	padding-right:10px;  
+	border: 1px solid #1ABC9C;
+	border-radius: 11px;
+	opacity: 1;
+	background-color: white;
+   
+
+}

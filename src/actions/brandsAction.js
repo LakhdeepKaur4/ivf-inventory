@@ -162,7 +162,6 @@ export function getBrandDetails(id,url) {
 
 // Update brand details
 export function updateBrandDetails(data,id,url,callback) {
-  console.log(url,data);
   return dispatch => {
     axios
       .put(`${url}/api/brands/${id}`, data)

@@ -5,6 +5,8 @@ import { createProductDetails, createProductData, productVariant, updateVariant,
 import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import UploadComponent from '../../components/uploadComponent/uploadComponent';
+import $ from 'jquery';
 import { onKeyPresshandlerNumber, OnKeyPressUserhandler } from "../../components/validationComponent/validationComponent"
 
 class ProductVariantOption extends Component {
@@ -24,9 +26,10 @@ class ProductVariantOption extends Component {
       length: '',
       height: '',
       weight: '',
-      host: '',
-      pictures: [],
-      errors: {}
+      host: [],
+      variantPictures: [],
+      errors: {},
+      folderStructure:'createProduct'
     }
   }
 
@@ -53,7 +56,17 @@ class ProductVariantOption extends Component {
       </div>
     }
   }
+  
+  componentDidMount() {
+    $("input[type=file]").attr("id", "file-upload");
+    $("#file-upload").change(function () {
+      var file = $("#file-upload")[0].files[0].name;
+      $(this)
+        .prev("label")
+        .text(file);
+    });
 
+  }
 
 
   //for variants
@@ -160,7 +173,7 @@ class ProductVariantOption extends Component {
       this.setState({
         fileName: file.name,
         picture: e.target.result,
-        pictures: [...this.state.pictures, obj]
+        variantPictures: [...this.state.variantPictures, obj]
       });
     };
     reader.readAsDataURL(file);
@@ -199,10 +212,10 @@ class ProductVariantOption extends Component {
       let optionInd = variant.options.findIndex(option => option.title == optionId);
 
       let option = variant.options[optionInd];
-
+       console.log(option,"==================option")
       // this.props.updateVariant(variants);
       this.setState({
-        pictures: option.pictures,
+        variantPictures: option.variantPictures,
         title: option.title,
         optionTitle: option.optionTitle,
         inventoryQuantity: option.inventoryQuantity,
@@ -271,10 +284,11 @@ class ProductVariantOption extends Component {
         }
         else {
           variant.options = [this.state];
-        }
+         }
       }
-  
-      this.props.updateProduct(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId,
+      
+      console.log(this.props.CreateProductReducer.getProductInfo)
+      this.props.updateProduct(this.state.host[1], this.props.CreateProductReducer.getProductInfo.itemId,
         { ...this.props.CreateProductReducer.productData.item });
       this.props.history.push("/productTree");
     }
@@ -282,25 +296,32 @@ class ProductVariantOption extends Component {
 
 
   setHost = async (host) => {
-    await this.setState({ host: host });
-    this.props.createProductDetails(this.state.host);
+    let arr = this.state.host;
+    arr.push(host);
+    await this.setState({ host: arr });
+    this.props.createProductDetails(this.state.host[1]);
   }
 
+  onFileUploaded = URL => {
+    console.log(URL);
+    this.setState({variantPictures:  URL });
+  };
+
   render() {
-    let { pictures } = this.state;
+    let { variantPictures } = this.state;
     let $imagePreview = null;
 
-    if (pictures) {
-      $imagePreview = pictures.map((item, index) => {
+    if (variantPictures) {
+      $imagePreview = variantPictures.map((item, index) => {
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-          <td><img src={item.picture} style={{ width: "60px" }} alt="productPic" value={this.state.picture} /></td>
+          <td><img src={item.picture ? item.picture : `${this.state.host[0]}${item}`} style={{ width: "60px" }} value={this.state.picture} alt="productPic" /></td>
           <td> <i className="fa fa-close close-icon" onClick = {()=>{
             this.setState(prevState=>{
-              let pictures = [...prevState.pictures]
-              pictures.splice(index,1);
+              let variantPictures = [...prevState.variantPictures]
+              variantPictures.splice(index,1);
               return{
-                pictures
+                variantPictures
               }
             })
           }} aria-hidden="true"></i></td>
@@ -309,9 +330,17 @@ class ProductVariantOption extends Component {
     }
 
     return (
-      <HostResolver hostToGet="inventory" hostResolved={host => {
+      <HostResolver 
+      hostToGet="inventory" 
+      hostResolved={host => {
         this.setHost(host)
       }}>
+        <HostResolver
+        hostToGet="minio"
+        hostResolved={host => {
+          this.setHost(host);
+        }}
+      >
         <div>
           <Dashboard>
             <div className="mainDiv text-muted">
@@ -413,7 +442,11 @@ class ProductVariantOption extends Component {
                         </table>
                       </div>
                     </div>
-                    <div className="card-footer image-card">
+                    <UploadComponent
+                      onFileUpload={this.onFileUploaded}
+                      data={this.state.folderStructure}
+                    />
+                    {/* <div className="card-footer image-card">
                       <label htmlFor="file" className="ml-3">
                         <div>
                           <i className="fa fa-picture-o" aria-hidden="true"></i>
@@ -439,7 +472,7 @@ class ProductVariantOption extends Component {
                                                 </button>
                         </form>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -453,6 +486,7 @@ class ProductVariantOption extends Component {
             </div>
           </Dashboard>
         </div>
+        </HostResolver>
       </HostResolver>
     );
   }
