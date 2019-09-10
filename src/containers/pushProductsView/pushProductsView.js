@@ -153,7 +153,7 @@ class ProductsView extends Component {
                             this.pickIds(item._id, action);
                         }} /></td>
                         <td>
-                        <img src={`${this.state.host}`+item.productPicture[0]} className="img-fluid" alt="Sheep" />
+                        {/* <img src={`${this.state.host}`+item.productPicture[0]} className="img-fluid" alt="Sheep" /> */}
                         </td>
                         <td>{item.sku}</td>
                         <td>

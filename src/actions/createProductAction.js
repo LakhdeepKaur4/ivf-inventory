@@ -17,9 +17,9 @@ export function createProductDetails(URL){
 
 
 
-export const createProductData=(brandId, name,sku, optStock, price,  subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures)=>{
+export const createProductData=(brandId, name,sku, optStock, price,  subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, productPictures)=>{
    const data={
-        brandId, name,sku, optStock, price,  subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures
+        brandId, name,sku, optStock, price,  subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, productPictures
     }
     console.log(data);
     return {
