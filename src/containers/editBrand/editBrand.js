@@ -33,15 +33,9 @@ class EditBrands extends Component {
     });
    
   }
-  componentDidUpdate(prevProps) {
-    console.log(`prevProps ${prevProps.isBrandUpdate} and this.props ${this.props.isBrandUpdate}`)
-    if (prevProps.isBrandUpdate !== this.props.isBrandUpdate) {
-      this.props.history.push("/brands");
-    }
-  }
+
 
   componentWillReceiveProps(nextProps){
-    console.log(nextProps);
     if(this.props.brandDetail!==nextProps.brandDetail){
       this.setState({
         brandName:nextProps.brandDetail.name,
@@ -85,9 +79,13 @@ class EditBrands extends Component {
     this.props.updateBrandDetails(
       payload,
       this.props.match.params.id,
-      this.state.host[1]
+      this.state.host[1],
+      res=>{
+        if(res){
+          this.props.history.push('/brands')
+        }
+      }
     );
-    localStorage.removeItem('brandDetails');
     this.setState({
       brandName: "",
       description: "",

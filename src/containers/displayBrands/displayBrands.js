@@ -150,7 +150,6 @@ class Brands extends Component {
 
   // Display brands list
   displayBrands = ({ brandsList }) => {
-    console.log(brandsList);
     if (brandsList) {
       return brandsList
         .filter(this.searchFilter(this.state.searchTxt))
