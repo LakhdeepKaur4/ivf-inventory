@@ -19,31 +19,16 @@ class AdvancedSearch extends Component {
       orderId:"",
       orderStart:"",
       orderEnd:"",
-      createStartDate: new Date(),
-      createEndDate:new Date(),
-      updateStartDate: new Date(),
-      updateEndDate: new Date(),
+      createStartDate:'',
+      createEndDate:'',
+      updateStartDate: '',
+      updateEndDate: '',
       shopList:'',
     };
   }
 
   handleDateChange =(name,event)=> {
-     switch(name){
-       case 'createStartDate':{
-         this.setState({createStartDate:event})
-       }
-       case 'createEndDate':{
-        this.setState({createEndDate:event})
-      }
-      case'updateStartDate':{
-        this.setState({updateStartDate:event})
-      }
-      case 'updateEndDate':{
-        this.setState({updateEndDate:event})
-      }
-      default:
-        return
-     }
+     this.setState({[name]:event})
   };
 
   // Handle Input change
@@ -69,7 +54,6 @@ class AdvancedSearch extends Component {
       updateEndDate:updateEndDate,
       shop:shop
     }
-    console.log('payload....', payload)
   this.props.searchKeyword(payload)
   this.props.history.push('/vieworders')
   }
@@ -186,10 +170,10 @@ class AdvancedSearch extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-5" style={{ color: "#43425D" }}>
+              <div className="col-5">
                 <div className="col-12">
                   <div className="md-form active-purple-2 mb-3 row">
-                    <div className="col-6">Order ID</div>
+                    <div className="col-6 fontLabels">Order ID</div>
                     <input
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-2"
@@ -203,7 +187,7 @@ class AdvancedSearch extends Component {
                   </div>
 
                   <div className="md-form active-purple-2 mb-3 row">
-                    <div className="col-6">Order Total</div>
+                    <div className="col-6 fontLabels">Order Total</div>
                     <input
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-2"
@@ -213,7 +197,7 @@ class AdvancedSearch extends Component {
                       onChange={this.handleChangeInput}
                       style={{ backgroundColor: "transparent" }}
                     />
-                    <div className="col-2">to</div>
+                    <div className="col-2 fontLabels">to</div>
                     <input
                       className="form-control border border-top-0 
                       border-right-0 border-left-0 border-dark rounded-0 col-2"
@@ -226,7 +210,7 @@ class AdvancedSearch extends Component {
                   </div>
 
                   <div className="md-form active-purple-2 mb-3 row">
-                    <div className="mt-auto mb-auto col-2 mr-4">
+                    <div className="mt-auto mb-auto col-4 mr-4 fontLabels">
                       Order Created
                     </div>
                     <DatePicker
@@ -241,7 +225,7 @@ class AdvancedSearch extends Component {
                     >
                       <i className="far fa-calendar-alt"></i>
                     </div>
-                    <div className="col-2">to</div>
+                    <div className="col-2 fontLabels">to</div>
                     <DatePicker
                       selected={this.state.createEndDate}
                       onChange={(event)=>{this.handleDateChange('createEndDate',event)}}
@@ -259,7 +243,7 @@ class AdvancedSearch extends Component {
 
                   <div className="md-form active-purple-2 mb-3 row">
                     <div
-                      className="mt-auto mb-auto col-5"
+                      className="mt-auto mb-auto col-5 fontLabels"
                       style={{ marginRight: "-50px" }}
                     >
                       Order Update
@@ -275,9 +259,9 @@ class AdvancedSearch extends Component {
                       className="col-1 mt-auto mb-auto"
                       style={{ marginLeft: "-100px" }}
                     >
-                      <i className="far fa-calendar-alt"></i>
+                      <i className="far fa-calendar-alt "></i>
                     </div>
-                    <div className="col-2">to</div>
+                    <div className="col-2 fontLabels">to</div>
                     <DatePicker
                       selected={this.state.updateEndDate}
                       onChange={(event)=>{this.handleDateChange('updateEndDate',event)}}

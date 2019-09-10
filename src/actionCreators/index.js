@@ -1,4 +1,3 @@
-export const VIEW_ORDER='VIEW_ORDER';
 export const ADD_PRODUCT="ADD_PRODUCT";
 export const THEME_ORDER="THEME_ORDER";
 export const GET_COUNTRY="GET_COUNTRY";

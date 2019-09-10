@@ -35,7 +35,6 @@ class EditBrands extends Component {
   }
   
   componentWillReceiveProps(nextProps){
-    console.log(nextProps);
     if(this.props.brandDetail!==nextProps.brandDetail){
       this.setState({
         brandName:nextProps.brandDetail.name,
