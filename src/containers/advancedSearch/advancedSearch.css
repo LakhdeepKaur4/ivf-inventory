@@ -2,7 +2,7 @@
   text-align: left;
   font: 12px/25px Muli;
   letter-spacing: 0;
-  color: #43425d;
+  color: #43425d !important;
   opacity: 1;
 }
 
@@ -13,20 +13,10 @@
   color: #F46565;
   opacity: 1;
 }
-.advanced-search input {
-  text-align: left;
-  font: 12px/25px Muli;
-  letter-spacing: 0;
-  color: #43425d;
-  opacity: 1;
-}
-.selectAdvancedSearch{
-  top: 266px;
-left: 341px;
-width: 69px;
-height: 15px;
+
+.advanced-search{
 text-align: left;
-font:12px/25px Muli;
+font: 12px/25px Muli;
 letter-spacing: 0;
 color: #43425D;
 opacity: 1;

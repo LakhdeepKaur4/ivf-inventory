@@ -1,3 +1,4 @@
+
 module.exports = {
 	inventory:{
         service: process.env.REACT_APP_INVENTORY_SERVICE
@@ -10,5 +11,8 @@ module.exports = {
     },
     mockup:{
         service: process.env.REACT_APP_MOCKUP_SERVICE
+    },
+    minio: {
+        service: process.env.REACT_APP_MINIO_SERVICE
     }
 }

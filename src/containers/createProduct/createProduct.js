@@ -16,7 +16,7 @@ import { WithContext as ReactTags } from "react-tag-input";
 import _ from "underscore";
 import "./createProduct.css";
 import HostResolver from "../../components/resolveHost/resolveHost";
-import { OnKeyPressUserhandler, onKeyPresshandlerNumber } from "../../components/validationComponent/validationComponent"
+import { OnKeyPressUserhandler, onKeyPresshandlerNumber} from "../../components/validationComponent/validationComponent"
 
 class CreateProduct extends Component {
   alreadyFetchedProductDetail = false;
@@ -52,7 +52,7 @@ class CreateProduct extends Component {
     if (productData) {
       productData = productData.item;
       return <div className="text-muted"><div><h5>{productData.name}
-        <span onClick={this.displayEditProductForm.bind(this, productData.name)}>
+        <span onClick={this.displayEditProductForm.bind(this, productData._id)}>
           <i
             className="fa fa-edit"
             aria-hidden="true"
@@ -107,7 +107,7 @@ class CreateProduct extends Component {
               {item.options
                 ? item.options.map(option1 => {
                   return (
-                    <div>
+                    <div key={option1.title}>
                       <div style={{fontSize:'15px'}}>
                         {option1.title}
                         <span>
@@ -208,18 +208,16 @@ class CreateProduct extends Component {
     this.setState({ tagsInfo: newTags });
   };
 
-  // onChange = e => {
-  //   this.setState({ [e.target.name]: e.target.value });  
-  // };
+  
 
   onChange = (e) => {
-    if (!!this.state.errors[e.target.name]) {
+    if (this.state.errors[e.target.name]) {
       let errors = Object.assign({}, this.state.errors);
       delete errors[e.target.name];
       this.setState({ [e.target.name]: e.target.value.trim(''), errors });
     }
     else {
-      this.setState({ [e.target.name]: e.target.value.trim('') });
+      this.setState({ [e.target.name]: e.target.value });
     }
   }
 
@@ -236,7 +234,7 @@ class CreateProduct extends Component {
       this.setState({ [e.target.name]: e.target.value.trim(''), errors, price: obj });
     }
     else {
-      this.setState({ [e.target.name]: e.target.value.trim(''), price: obj });
+      this.setState({ [e.target.name]: e.target.value, price: obj });
     }
 
   }
@@ -257,7 +255,7 @@ class CreateProduct extends Component {
   //for picture
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state.picture)
+  
   };
 
   handleImageChange = e => {
@@ -278,8 +276,8 @@ class CreateProduct extends Component {
     reader.readAsDataURL(file);
   };
 
-  displayEditProductForm = (name) => {
-    this.props.history.push(`/productTree/editProduct/${name}`)
+  displayEditProductForm = (itemid) => {
+    this.props.history.push(`/productTree/editProduct/${itemid}`)
   }
 
   displayVariantForm = (itemid) => {
@@ -287,7 +285,7 @@ class CreateProduct extends Component {
   };
 
   displayEditVariant = (title) => {
-    // this.props.history.push(`/productTree/editVariant/${title}`);
+    this.props.history.push(`/productTree/editVariant/${title}`);
   };
 
 
@@ -344,18 +342,20 @@ class CreateProduct extends Component {
 
     const { brandId, name, fileName, picture, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants } = this.state
 
-    let productName = this.props.match.params.name;
-
+    let itemId = this.props.match.params.itemid;
+    
 
     let payload = { brandId, fileName, picture, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants }
 
     if (isValid) {
-      if (productName) {
-        this.props.updateProduct(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId, { brandId, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants: this.props.CreateProductReducer.productData.item.variants })
+    
+      if (itemId) {
+      
+        this.props.updateProduct(this.state.host, itemId, { brandId, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants: this.props.CreateProductReducer.productData.item.variants })
           .then(() => {
             this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
             this.alreadyFetchedProductDetail = false;
-            this.props.history.push("/productTree");
+            this.props.history.push("/productsView");
           });
       }
       else {
@@ -386,41 +386,46 @@ class CreateProduct extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    let productName = nextProps.match.params.name;
-    if (productName) {
-      let itemId = nextProps.CreateProductReducer.getProductInfo.itemId;
+    let itemId = nextProps.match.params.itemid;
+    if (itemId) {
+      // let itemId = nextProps.CreateProductReducer.getProductInfo.itemId;
       if (itemId && !this.alreadyFetchedProductDetail) {
         this.alreadyFetchedProductDetail = true;
-        this.props.getProductById(this.state.host, nextProps.CreateProductReducer.getProductInfo.itemId);
+        this.props.getProductById(this.state.host,itemId);
         return;
       }
-      let product = nextProps.CreateProductReducer.productData.item;
+      let productData = nextProps.CreateProductReducer.productData;
+      if(productData){
+        let product = productData.item;
       
-      if (this.alreadyFetchedProductDetail && product) {
-        this.setState({
-          brandId: product.brandId,
-          name: product.name,
-          sku: product.sku,
-          optStock: product.optStock,
-          range: product.price.range,
-          subtitle: product.subtitle,
-          vendor: product.vendor,
-          description: product.description,
-          originCountry: product.originCountry,
-          template: product.template,
-          hashtags: product.hashtags,
-          metafields: product.metafields,
-          tagsInfo: product.tagsInfo,
-          pictures: product.productPicture ? product.productPicture : ''
-        })
+        if (this.alreadyFetchedProductDetail && product) {
+
+          this.setState({
+            brandId: product.brandId,
+            name: product.name,
+            sku: product.sku,
+            optStock: product.optStock,
+            range: product.price.range,
+            subtitle: product.subtitle,
+            vendor: product.vendor,
+            description: product.description,
+            originCountry: product.originCountry,
+            template: product.template,
+            hashtags: product.hashtags,
+            metafields: product.metafields,
+            tagsInfo: product.tagsInfo,
+            pictures: product.productPicture
+          })
+        }
       }
+      
     }
     else {
       if (nextProps.CreateProductReducer.getProductInfo) {
-        let itemId = nextProps.CreateProductReducer.getProductInfo.itemId;
+        // let itemId = nextProps.CreateProductReducer.getProductInfo.itemId;
         if (itemId && !this.alreadyFetchedProductDetail) {
           this.alreadyFetchedProductDetail = true;
-          this.props.getProductById(this.state.host, nextProps.CreateProductReducer.getProductInfo.itemId);
+          this.props.getProductById(this.state.host,itemId);
           return;
         }
       }
@@ -457,12 +462,13 @@ class CreateProduct extends Component {
     let { pictures } = this.state;
     let $imagePreview = null;
 
+
     if (pictures) {
       $imagePreview = pictures.map((item, index) => {
-        if(item.picture){
           return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-          <td><img src={item.picture} style={{ width: "60px" }} alt="productPic"/></td>
+
+          <td><img src={item.picture ? item.picture : `${this.state.host}${item}`} style={{ width: "60px" }} value={this.state.picture} alt="productPic"/></td>
           <td> <i className="fa fa-close close-icon" onClick = {()=>{
             this.setState(prevState=>{
               let pictures = [...prevState.pictures]
@@ -473,7 +479,7 @@ class CreateProduct extends Component {
             })
           }} aria-hidden="true"></i></td>
         </tr>
-        }
+        
         
       })
     }
@@ -540,11 +546,12 @@ class CreateProduct extends Component {
                                 className="selectAdvancedSearch form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
                                 id="brandId"
                                 name="brandId"
+                                value={this.state.brandId}
                                 onChange={this.onChangeBrand}
                                 style={{ backgroundColor: "#F2F4F7" }}
                                 type="select"
                               >
-                                <option selected disabled="disabled">
+                                <option >
                                   Select Brands
                                 </option>
                                 {this.brandName(this.props.BrandsReducer)}
@@ -639,9 +646,9 @@ class CreateProduct extends Component {
                         <div className="form-row col-12">
                           <div className="form-group col-12 createProduct">
                             <input
-                              type="text"
+                              type="textarea"
                               className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0"
-                              id="inputDescription"
+                              id="description"
                               name="description"
                               placeholder="Description"
                               onChange={this.onChange}
@@ -802,7 +809,7 @@ class CreateProduct extends Component {
                   className="button-variant"
                   onClick={this.formSubmit}
                 >
-                  <span className="text-btn">{this.props.match.params.name ? 'SAVE' : 'CREATE'} PRODUCT</span>
+                  <span className="text-btn">{this.props.match.params.itemid ? 'SAVE' : 'CREATE'} PRODUCT</span>
                 </button>
               </div>
             </div>

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getViewOrder } from "../../actions/viewOrderAction";
+import { getViewOrder,getSearchResult } from "../../actions/viewOrderAction";
 import "./viewOrder.css";
 import Pagination from "react-js-pagination";
 import Dashboard from "../../components/dashboard/dashboard";
 import HostResolver from "../../components/resolveHost/resolveHost";
+import { timingSafeEqual } from "crypto";
 
 class ViewOrder extends Component {
   constructor(props) {
@@ -16,9 +17,11 @@ class ViewOrder extends Component {
       limit: "5",
       totalItemsCount: "",
       host: "",
-      dropdownClick: false
+      dropdownClick: false,
+      seachKeyword:[]
     };
   }
+
 
   // Handle Dropdown
   handleDropdown = () => {
@@ -40,7 +43,6 @@ class ViewOrder extends Component {
   searchFilter = search => {
     return function(x) {
       return (
-        // x.orderId.toLowerCase().includes(search.toLowerCase()) ||
         x.customer.name.toLowerCase().includes(search.toLowerCase()) ||
         x.status.toLowerCase().includes(search.toLowerCase()) ||
         !search
@@ -49,8 +51,12 @@ class ViewOrder extends Component {
   };
 
   // Get host url
-  setHost = host => {
-    this.setState({ host: host });
+    setHost = async host => {
+    await this.setState({ host: host });
+    if(this.props.ViewOrderReducer.seachKeyword){
+      this.props.getSearchResult(host,this.props.ViewOrderReducer.seachKeyword)
+    }
+    else
     this.props.getViewOrder(host);
   };
 
@@ -165,7 +171,7 @@ class ViewOrder extends Component {
         }}
       >
         <Dashboard>
-          <div className="display_brands_list">
+          <div className="view-order-list">
             <div className="container">
               <div className="img_content_wprapper">
                 <p className="heading">View Orders</p>
@@ -186,7 +192,7 @@ class ViewOrder extends Component {
                     />
                   </div>
                 </div>
-                <div className="brands_actions my-auto ">
+                <div className=" my-auto ">
                   <div className="dropdown my-auto p-0">
                     <button
                       className="btn my-auto p-0"
@@ -228,7 +234,7 @@ class ViewOrder extends Component {
                   />
                 </div>
               </div>
-              <div className="display_brands">
+              <div className="orders_list">
                 <div>{viewOrderData}</div>
               </div>
             </div>
@@ -241,11 +247,12 @@ class ViewOrder extends Component {
 
 const mapStateToProps = state => {
   return {
-    ViewOrderReducer: state.ViewOrderReducer
+    ViewOrderReducer: state.ViewOrderReducer,
+    
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getViewOrder }
+  { getViewOrder,getSearchResult }
 )(ViewOrder);

@@ -20,7 +20,7 @@ export default function createInterceptors(store){
   });
 
   function removeLoader(){
-    if(requestCount == 0){
+    if(requestCount === 0){
       store.dispatch({
         type:"RESET_LOADER"
       });
@@ -28,7 +28,7 @@ export default function createInterceptors(store){
   }
 
   function addLoader(){
-    if(requestCount == 1){
+    if(requestCount === 1){
       store.dispatch({
         type:"SET_LOADER"
       });

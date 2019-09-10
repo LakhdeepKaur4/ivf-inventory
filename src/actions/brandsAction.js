@@ -167,7 +167,6 @@ export function updateBrandDetails(data,id,url,callback) {
     axios
       .put(`${url}/api/brands/${id}`, data)
       .then(response => {
-        console.log(response)
         if (
           response.status===200 || response.status===201 &&
           response.data.message==="Brand updated"

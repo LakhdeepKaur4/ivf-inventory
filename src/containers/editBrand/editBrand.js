@@ -35,6 +35,7 @@ class EditBrands extends Component {
   }
 
 
+  
   componentWillReceiveProps(nextProps){
     if(this.props.brandDetail!==nextProps.brandDetail){
       this.setState({
@@ -82,9 +83,10 @@ class EditBrands extends Component {
       this.state.host[1],
       res=>{
         if(res){
-          this.props.history.push('/brands')
+          this.props.history.push("/brands")
         }
       }
+      
     );
     this.setState({
       brandName: "",
@@ -100,15 +102,6 @@ class EditBrands extends Component {
     localStorage.removeItem('brandDetails');
     this.props.history.push("/brands");
   };
-
-  //upload file
-
-  // getFiles = files => {
-  //   this.setState(
-  //     { fileName: files[0].name, picture: files[0].base64 },
-  //     () => {}
-  //   );
-  // };
 
   onFileUploaded = URL => {
     
@@ -150,17 +143,6 @@ class EditBrands extends Component {
                         onFileUpload={this.onFileUploaded}
                         data={this.state.folderStructure}
                       />
-                        {/* <label
-                          htmlFor="file-upload"
-                          className="custom-file-upload"
-                        >
-                          CHOOSE
-                        </label>
-                        <FileBase64
-                          id="file-upload"
-                          multiple={true}
-                          onDone={this.getFiles}
-                        /> */}
                       </div>
                     </div>
                     <div className="form-row ">

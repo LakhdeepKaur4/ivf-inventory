@@ -282,7 +282,7 @@ class Categories extends Component {
                             <div className="descriptionText">
                                 <p>
                                     Categories are intended to group together pages on similar subjects. They are implemented by a MediaWiki feature that adds any page with a text like [[Category:XYZ]] in its wikimarkup to the automated listing that is the category with name XYZ. Categories help readers to find, and navigate around, a subject area, to see pages sorted by title, and to thus find article relationships.
-                            </p>
+                                </p>
                             </div>
 
                             <div className="sw-action-bar">

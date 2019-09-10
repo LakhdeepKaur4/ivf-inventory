@@ -74,6 +74,10 @@ class ProductsView extends Component {
 
     }
 
+    handleEditBrand=(itemid)=>{
+        this.props.history.push(`/productTree/editProduct/${itemid}`)
+    }
+
 
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
@@ -411,7 +415,6 @@ class ProductsView extends Component {
 }
 
 function mapStateToProps(state) {
-
     return {
         ProductsViewReducer: state.ProductsViewReducer
     }
