@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../../commonCss/style.css';
 import './processOrder.css';
 import Dashboard from '../../components/dashboard/dashboard';
+import StatusBar from '../../components/orderStatus/orderStatus';
 
 class ProcessOrder extends Component {
 
@@ -9,11 +10,13 @@ class ProcessOrder extends Component {
         return (
             <div>
                 <Dashboard>
+
                     <div className="mainHeading">
                         PROCESS ORDER
                     </div>
-                    <div className="buttonNew">
-                        <div className="buttonText">New </div>
+                   
+                    <div style={{marginTop:'25px', marginLeft:'30px'}}>
+                        <StatusBar />
                     </div>
                     <div className="headingContentHeading">
                         Summary
@@ -50,7 +53,7 @@ class ProcessOrder extends Component {
                                         <label>STATUS</label>
                                     </div>
                                     <div className="summaryContentData col-6">
-                                        <label>Processing</label>
+                                        <label style={{color:'#FFCA83'}}>Processing</label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -66,7 +69,7 @@ class ProcessOrder extends Component {
                                         <label>SHIPPING</label>
                                     </div>
                                     <div className="summaryContentData col-6">
-                                        <label>PACKED</label>
+                                        <label style={{color:'#FFCA83'}}>PACKED</label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -82,12 +85,12 @@ class ProcessOrder extends Component {
 
                             <div className="col-6 invoiceSection">
                                 <div>
-                                    <i class="fa fa-file-archive-o shippingFastTruck" aria-hidden="true"></i>
+                                    <i className="fa fa-file-archive-o shippingFastTruck" aria-hidden="true"></i>
                                     <label className="invoiceHeadingSec">Invoice</label>
                                 </div>
                                 <hr />
                                 <div>
-                                    <i class="fas fa-shipping-fast shippingFastTruck"></i>
+                                    <i className="fas fa-shipping-fast shippingFastTruck"></i>
                                     <label className="shippingTextData">Shipping</label>
                                 </div>
 
