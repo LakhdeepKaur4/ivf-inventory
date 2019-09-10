@@ -215,7 +215,7 @@ class AdvancedSearch extends Component {
 
                   <div className="md-form active-purple-2 mb-3 row">
                     <div className="mt-auto mb-auto col-5 fontLabels">
-                      Order Created
+                      Order createdAt from
                     </div>
                     <div className="col-3">
                     <DatePicker
@@ -242,7 +242,7 @@ class AdvancedSearch extends Component {
 
                   <div className="md-form active-purple-2 mb-3 row">
                     <div className="mt-auto mb-auto col-5 fontLabels">
-                      Order Updated
+                      Order updatedAt from
                     </div>
                     <div className="col-3">
                     <DatePicker

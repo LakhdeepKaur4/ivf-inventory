@@ -67,7 +67,6 @@ class ViewOrder extends Component {
     this.props.history.push("/advancedSearch")
   }
   // Display orders list
-
   viewOrdersList = ({ viewOrder }) => {
     const orderStr = [];
     if (viewOrder) {
@@ -80,7 +79,7 @@ class ViewOrder extends Component {
           let productStr = orderStr.join(", ");
           return (
             <tr key={item.orderId}>
-              <td>{item.createdAt}</td>
+              <td>{item.createdAt.split('T')[0]}</td>
               <td>{item.orderId}</td>
               <td>
                 {item.status === "Failed" ? (
@@ -148,7 +147,7 @@ class ViewOrder extends Component {
   render() {
     let viewOrderData = (
       <div className="table-responsive">
-        <table className="table" style={{ fontSize: "13px" }}>
+        <table className="table viewOrderTable">
           <thead>
             <tr>
               <th scope="col">DATE</th>
@@ -179,21 +178,21 @@ class ViewOrder extends Component {
                   <p className="view-orders-heading">View Orders</p>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-2 ">
+                <div className="row iconsRow">
+                  <div className="col-1 ">
                     <i className="fas fa-sort-amount-down" aria-hidden="true"></i></div>
-                  <div className="col-2">
+                  <div className="col-1">
                     <i className="fas fa-sort-amount-up" aria-hidden="true"></i></div>
-                  <div className="col-3">
+                  <div className="col-4">
                   <select type="select">
                     <option>Limit</option>
-                    <option>Limit10</option>
-                    <option>Limit20</option>
-                    <option>Limit30</option>
+                    <option>Limit 10</option>
+                    <option>Limit 20</option>
+                    <option>Limit 30</option>
                   </select>
                   {/* <i className="fa fa-angle-down"/> */}
                   </div>
-                  <div className="col-2">search</div>
+                  <div className="col-2">Search</div>
                   <div className="col-2">
                   <div className="sw-action-bar__item sw-action-bar__item--right">
                   <Pagination
