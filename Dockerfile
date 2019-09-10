@@ -2,7 +2,7 @@ FROM mhart/alpine-node:11 AS builder
 WORKDIR /app
 COPY . .
 
-ENV REACT_APP_INVENTORY_SERVICE="http://circle.tip.ivfuture.tk:88"
+ENV REACT_APP_INVENTORY_SERVICE="http://circle-inv.apps.ivfuture.tk:88"
 ENV REACT_APP_VOXEL_SERVICE="http://voxel-cp.tip.ivfuture.tk:88"
 ENV REACT_APP_MINIO_SERVICE="http://minio.ivfuture.internal:9000/"
 
