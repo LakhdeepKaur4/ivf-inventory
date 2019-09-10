@@ -25,7 +25,7 @@ class ProductsView extends Component {
             productId: [],
             errMessage:'',
             productID: props.match.params.id,
-            host: ''
+            host: []
         }
     }
 
@@ -49,11 +49,13 @@ class ProductsView extends Component {
         }
         this.setState({ productId: IDS })
     }
-    setHost = host => {
+    setHost = async host => {
         var defaultPage = this.state.activePage;
         var limit=this.state.limit;
-        this.setState({ host });
-        this.props.getProductsView(host, this.state.productID, defaultPage,limit)
+        let arr = this.state.host;
+        arr.push(host);
+        await this.setState({ host:arr });
+        this.props.getProductsView(this.state.host[1], this.state.productID, defaultPage,limit)
             .then((res) => {
                 let Ids = [];
                 if (res.payload && res.payload.items && res.payload.items.docs) {
@@ -74,8 +76,9 @@ class ProductsView extends Component {
 
     }
 
-    handleEditBrand=(itemid)=>{
-        this.props.history.push(`/productTree/editProduct/${itemid}`)
+    handleEditBrand=(itemid,productPictures)=>{
+        console.log(productPictures);
+        this.props.history.push(`/productTree/editProduct/${itemid}/${productPictures}`)
     }
 
 
@@ -172,6 +175,7 @@ class ProductsView extends Component {
             } else {
                 arrReturned = this.sorted(arr, 'dec');
             }
+            console.log(arrReturned);
             return arrReturned.filter(this.searchFilter)
                 .map((item) => {
                     return (
@@ -181,7 +185,7 @@ class ProductsView extends Component {
                                     onClick={(e) => this.pickIds(item._id, e.currentTarget.checked)} />
                             </td>
                             <td>
-                            <img src={`${this.state.host}`+item.productPicture[0]} className="img-fluid" alt="Sheep" />
+                            <img src={`${this.state.host[0]}`+item.productPictures[0]} className="img-fluid" alt="Sheep" />
                             </td>
                             <td>{item.name}</td>
                             <td>
@@ -215,7 +219,7 @@ class ProductsView extends Component {
                                     >
                                         <a
                                             className="dropdown-item"
-                                            onClick={() => this.handleEditBrand(item._id)}
+                                            onClick={() => this.handleEditBrand(item._id,item.productPictures)}
                                         >
                                             Edit
                     </a>
@@ -390,6 +394,12 @@ class ProductsView extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
+                 <HostResolver
+        hostToGet="minio"
+        hostResolved={host => {
+          this.setHost(host);
+        }}
+      >
                 <div>
                     <Dashboard>
 
@@ -409,6 +419,7 @@ class ProductsView extends Component {
                     </Dashboard>
                 </div>
 
+            </HostResolver>
             </HostResolver>
         )
     }

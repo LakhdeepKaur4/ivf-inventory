@@ -6,6 +6,7 @@ import Dashboard from '../../components/dashboard/dashboard';
 import '../createProduct/createProduct.css';
 import HostResolver from '../../components/resolveHost/resolveHost';
 import { onKeyPresshandlerNumber, OnKeyPressUserhandler } from "../../components/validationComponent/validationComponent"
+import UploadComponent from '../../components/uploadComponent/uploadComponent';
 
 class ProductVariant extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class ProductVariant extends Component {
       height: '',
       weight: '',
       host: '',
-      pictures: [],
+      variantPictures:[],
       errors:{}
     }
   }
@@ -155,7 +156,7 @@ class ProductVariant extends Component {
       this.setState({
         fileName: file.name,
         picture: e.target.result,
-        pictures: [...this.state.pictures, obj]
+        variantPictures: [...this.state.variantPictures, obj]
       });
     };
     reader.readAsDataURL(file);
@@ -262,7 +263,7 @@ class ProductVariant extends Component {
       && nextProps.CreateProductReducer.productData.item) {
       let variant = nextProps.CreateProductReducer.productData.item.variants.find(variant => variant.title === variantTitle);
       this.setState({
-        pictures: variant.pictures ? variant.pictures :'',
+        variantPictures: variant.variantPictures ? variant.variantPictures :'',
         title: variant.title,
         optionTitle: variant.optionTitle,
         originCountry: variant.originCountry,
@@ -278,20 +279,20 @@ class ProductVariant extends Component {
   }
 
   render() {
-    let { pictures } = this.state;
+    let { variantPictures } = this.state;
     let $imagePreview = null;
 
-    if (pictures) {
-      $imagePreview = pictures.map((item, index) => {
+    if (variantPictures) {
+      $imagePreview = variantPictures.map((item, index) => {
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
           <td><img src={`${this.state.host}${item}`} style={{ width: "60px" }} alt="productPic" value={this.state.picture}  /></td>
           <td> <i className="fa fa-close close-icon" onClick = {()=>{
             this.setState(prevState=>{
-              let pictures = [...prevState.pictures]
-              pictures.splice(index,1);
+              let variantPictures = [...prevState.variantPictures]
+              variantPictures.splice(index,1);
               return{
-                pictures
+                variantPictures
               }
             })
           }} aria-hidden="true"></i></td>

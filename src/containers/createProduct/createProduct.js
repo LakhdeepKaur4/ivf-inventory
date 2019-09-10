@@ -15,8 +15,10 @@ import { connect } from "react-redux";
 import { WithContext as ReactTags } from "react-tag-input";
 import _ from "underscore";
 import "./createProduct.css";
+import $ from 'jquery';
+import UploadComponent from '../../components/uploadComponent/uploadComponent';
 import HostResolver from "../../components/resolveHost/resolveHost";
-import { OnKeyPressUserhandler, onKeyPresshandlerNumber} from "../../components/validationComponent/validationComponent"
+import { OnKeyPressUserhandler, onKeyPresshandlerNumber } from "../../components/validationComponent/validationComponent"
 
 class CreateProduct extends Component {
   alreadyFetchedProductDetail = false;
@@ -40,8 +42,8 @@ class CreateProduct extends Component {
       hashtags: [],
       metafields: [],
       tagsInfo: [],
-      host: "",
-      pictures: [],
+      host: [],
+      productPictures: [],
       variants: [],
       errors: {}
     };
@@ -70,7 +72,16 @@ class CreateProduct extends Component {
       </div>
     }
   }
+  componentDidMount() {
+    $("input[type=file]").attr("id", "file-upload");
+    $("#file-upload").change(function () {
+      var file = $("#file-upload")[0].files[0].name;
+      $(this)
+        .prev("label")
+        .text(file);
+    });
 
+  }
 
   //for variants
   renderVariants({ productData }) {
@@ -94,7 +105,7 @@ class CreateProduct extends Component {
             </div>
             <div>
               <b>Options</b>
-               <span>
+              <span>
                 <i
                   className="fa fa-plus float-right"
                   aria-hidden="true"
@@ -108,7 +119,7 @@ class CreateProduct extends Component {
                 ? item.options.map(option1 => {
                   return (
                     <div key={option1.title}>
-                      <div style={{fontSize:'15px'}}>
+                      <div style={{ fontSize: '15px' }}>
                         {option1.title}
                         <span>
                           <i
@@ -208,7 +219,7 @@ class CreateProduct extends Component {
     this.setState({ tagsInfo: newTags });
   };
 
-  
+
 
   onChange = (e) => {
     if (this.state.errors[e.target.name]) {
@@ -255,7 +266,7 @@ class CreateProduct extends Component {
   //for picture
   handleSubmit = e => {
     e.preventDefault();
-  
+
   };
 
   handleImageChange = e => {
@@ -270,7 +281,7 @@ class CreateProduct extends Component {
       this.setState({
         fileName: file.name,
         picture: e.target.result,
-        pictures: [...this.state.pictures, obj]
+        productPictures: [...this.state.productPictures, obj]
       });
     };
     reader.readAsDataURL(file);
@@ -340,27 +351,30 @@ class CreateProduct extends Component {
 
     const isValid = Object.keys(errors).length === 0;
 
-    const { brandId, name, fileName, picture, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants } = this.state
+    const { brandId, name, fileName, picture, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, productPictures, variants } = this.state
 
     let itemId = this.props.match.params.itemid;
-    
 
-    let payload = { brandId, fileName, picture, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants }
+
+    let payload = { brandId, fileName, picture, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, productPictures, variants }
 
     if (isValid) {
-    
+
       if (itemId) {
-      
-        this.props.updateProduct(this.state.host, itemId, { brandId, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, pictures, variants: this.props.CreateProductReducer.productData.item.variants })
+
+        this.props.updateProduct(this.state.host[1], itemId, { brandId, name, sku, optStock, price, subtitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, productPictures, variants: this.props.CreateProductReducer.productData.item.variants })
           .then(() => {
-            this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
+            this.props.getProductById(this.state.host[1],itemId);
             this.alreadyFetchedProductDetail = false;
             this.props.history.push("/productsView");
           });
       }
       else {
-        this.props.productData(this.state.host, payload).then(() => {
-          this.props.getProductById(this.state.host, this.props.CreateProductReducer.getProductInfo.itemId);
+        
+        this.props.productData(this.state.host[1], payload).then((resp) => {
+
+         this.props.getProductById(this.state.host[1], 
+          this.props.CreateProductReducer.getProductInfo.item._id);
           this.alreadyFetchedProductDetail = false;
           this.props.history.push("/productTree");
         });
@@ -386,26 +400,28 @@ class CreateProduct extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     let itemId = nextProps.match.params.itemid;
     if (itemId) {
       // let itemId = nextProps.CreateProductReducer.getProductInfo.itemId;
       if (itemId && !this.alreadyFetchedProductDetail) {
         this.alreadyFetchedProductDetail = true;
-        this.props.getProductById(this.state.host,itemId);
+        this.props.getProductById(this.state.host[1], itemId);
         return;
       }
       let productData = nextProps.CreateProductReducer.productData;
-      if(productData){
+      if (productData) {
         let product = productData.item;
-      
-        if (this.alreadyFetchedProductDetail && product) {
 
+        if (this.alreadyFetchedProductDetail && product) {
+          console.log(product,"==========================")
           this.setState({
             brandId: product.brandId,
             name: product.name,
             sku: product.sku,
             optStock: product.optStock,
             range: product.price.range,
+            price:product.price,
             subtitle: product.subtitle,
             vendor: product.vendor,
             description: product.description,
@@ -414,18 +430,18 @@ class CreateProduct extends Component {
             hashtags: product.hashtags,
             metafields: product.metafields,
             tagsInfo: product.tagsInfo,
-            pictures: product.productPicture
+            productPictures: product.productPictures
           })
         }
       }
-      
+
     }
     else {
       if (nextProps.CreateProductReducer.getProductInfo) {
         // let itemId = nextProps.CreateProductReducer.getProductInfo.itemId;
         if (itemId && !this.alreadyFetchedProductDetail) {
           this.alreadyFetchedProductDetail = true;
-          this.props.getProductById(this.state.host,itemId);
+          this.props.getProductById(this.state.host, itemId);
           return;
         }
       }
@@ -445,42 +461,50 @@ class CreateProduct extends Component {
         hashtags: [],
         metafields: [],
         tagsInfo: [],
-        pictures: [],
-        errors: {}
+        productPictures: [],
+        errors: {},
+        folderStructure:'createProduct'
       });
     }
 
   }
 
   setHost = async host => {
-    await this.setState({ host: host });
-    this.props.getBrands(this.state.host);
-    this.props.createProductDetails(this.state.host);
+    let arr = this.state.host;
+    arr.push(host);
+    await this.setState({ host: arr });
+    this.props.getBrands(this.state.host[1]);
+    this.props.createProductDetails(this.state.host[1]);
+  };
+  onFileUploaded = URL => {
+    console.log(URL);
+    this.setState({productPictures: [...this.state.productPictures, URL] });
   };
 
   render() {
-    let { pictures } = this.state;
+    let { productPictures } = this.state;
     let $imagePreview = null;
 
 
-    if (pictures) {
-      $imagePreview = pictures.map((item, index) => {
-          return <tr>
+    if (productPictures) {
+      $imagePreview = productPictures.map((item, index) => {
+        console.log(item);
+        return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
 
-          <td><img src={item.picture ? item.picture : `${this.state.host}${item}`} style={{ width: "60px" }} value={this.state.picture} alt="productPic"/></td>
-          <td> <i className="fa fa-close close-icon" onClick = {()=>{
-            this.setState(prevState=>{
-              let pictures = [...prevState.pictures]
-              pictures.splice(index,1);
-              return{
-                pictures
+          <td><img src={item.picture ? item.picture : `${this.state.host[0]}${item}`} style={{ width: "60px" }} value={this.state.picture} alt="productPic" /></td>
+          <td> <i className="fa fa-close close-icon" onClick={() => {
+            this.setState(prevState => {
+              let productPictures = [...prevState.productPictures]
+              productPictures.splice(index, 1);
+              return {
+                productPictures
               }
             })
           }} aria-hidden="true"></i></td>
         </tr>
-        
-        
+
+
       })
     }
 
@@ -491,6 +515,12 @@ class CreateProduct extends Component {
     return (
       <HostResolver
         hostToGet="inventory"
+        hostResolved={host => {
+          this.setHost(host);
+        }}
+      >
+         <HostResolver
+        hostToGet="minio"
         hostResolved={host => {
           this.setHost(host);
         }}
@@ -722,7 +752,11 @@ class CreateProduct extends Component {
                         </table>
                       </div>
                     </div>
-                    <div className="card-footer image-card">
+                    <UploadComponent
+                      onFileUpload={this.onFileUploaded}
+                      data={this.state.folderStructure}
+                    />
+                    {/* <div className="card-footer image-card">
                       <label htmlFor="file" className="ml-3">
                         <div>
                           <i className="fa fa-picture-o" aria-hidden="true"></i>
@@ -748,7 +782,7 @@ class CreateProduct extends Component {
                           </button>
                         </form>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -815,6 +849,7 @@ class CreateProduct extends Component {
             </div>
           </Dashboard>
         </div>
+      </HostResolver>
       </HostResolver>
     );
   }
