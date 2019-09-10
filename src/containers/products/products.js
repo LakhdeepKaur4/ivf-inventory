@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FileStructure2 from '../../components/fileStructure/fileStructure2';
 import HostResolver from '../../components/resolveHost/resolveHost';
+import $ from 'jquery';
 
 class Products extends Component {
 
@@ -58,10 +59,38 @@ class Products extends Component {
         }
     }
 
-    viewProducts = ({ search }) => {console.log(search);
-        // if(search){
-        //     return search.map((item)=><option key={item.cartProductId}>{item.name}</option>) 
-        // }
+    toggle = (e, id) => {
+        console.log();
+        if (id === 1) {
+            $('.toggleCustomer1').removeClass('hide');
+            $('.toggleCustomer2').addClass('hide');
+           
+        } else if (id === 2) {
+            $('.toggleCustomer2').removeClass('hide');
+            $('.toggleCustomer1').addClass('hide');
+        }
+        $('.underline').addClass('visible');
+        $(e.currentTarget).children('hr').removeClass('visible');
+        $('.tabHead').addClass('visible');
+        $(e.currentTarget).children('h5').removeClass('visible');
+    }
+
+
+    viewProducts = ({ search }) => {
+        if(search){
+            return search.map(item=>{
+                console.log(item)
+                return(
+                    item?<tr>
+                            <td>{item.image}</td>
+                            <td>{item.name}</td>
+                            <td>{item.sku}</td>
+                            <td>{item.stock}</td>
+                            <td>{item.price}</td>
+                    </tr>:""
+                )
+            })
+        }
     }
 
     prevStatusHandle = () => {
