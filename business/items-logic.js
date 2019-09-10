@@ -5,7 +5,7 @@ const helper = require('../helpers/user');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
-exports.createItems = async (req, res, next) => {
+exports.create = async (req, res, next) => {
   try {
     let body = req.body;
     if (Object.entries(body).length === 0) {
@@ -114,12 +114,13 @@ exports.createItems = async (req, res, next) => {
 
 exports.getItems = async (req, res, next) => {
   try {
+    console.log("getItems")
     const item = await Item.find({});
     if (item) {
-      return res.send({ item });
+      return res.json({ item });
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.send(error);
   }
 }
@@ -128,7 +129,7 @@ exports.getItemById = async (req, res, next) => {
   try {
     const item = await Item.findOne({ _id: req.params.itemId });
     if (item) {
-      return res.send({ item });
+      return res.json({ item });
     }
   } catch (error) {
     console.log(error);
@@ -142,30 +143,49 @@ exports.updateItems = async (req, res, next) => {
     console.log(itemId)
     let index;
     let body = req.body;
+    console.log("update ", body)
     let itemsUrl = "../public/images/items/";
     let variantsUrl = "../public/images/variants/";
     console.log(body.pictures);
     if (body.pictures !== null && body.pictures != undefined) {
+      body.productPicture = [];
+      Item.update({ _id: itemId }, { $set: body }, (err, resp) => {
+        if (err) console.error(err);
+        else return;
+      });
       body.pictures.map(async (picture, picIndex) => {
+        if (!picture.fileName) {
+          await Item.update({ _id: itemId }, { $push: { productPicture: picture } }, (err, resp) => {
+            if (err) {
+              console.error(err);
+            }
+            else return;
+          });
+          return;
+        }
+        let fileExt, fileName;
         index = picture.fileName.lastIndexOf('.');
-        body.fileExt = picture.fileName.slice(index + 1);
-        body.fileName = picture.fileName.slice(0, index);
-        body.productPicture = picture.picture.split(',')[1];
-        await helper.saveToDisc(itemsUrl, itemId, body.fileName, body.fileExt, body.productPicture, (err, res) => {
+        fileExt = picture.fileName.slice(index + 1);
+        fileName = picture.fileName.slice(0, index);
+        await helper.saveToDisc(itemsUrl, itemId, fileName, fileExt, picture.picture.split(',')[1], (err, res) => {
           if (err) {
             console.log(err);
           } else {
             let index = res.indexOf('../');
             let newPath = res.slice(index + 2, res.length);
+
             // console.log("newPath",newPath)
-            body.productPicture = newPath;
-            Item.update({ _id: itemId }, { $set: body }, (err, resp) => {
-              if (err) console.error(err);
+            body.productPicture.push(newPath);
+            Item.update({ _id: itemId }, { $push: { productPicture: newPath } }, (err, resp) => {
+              if (err) {
+                console.error(err);
+              }
               else return;
             });
           }
         })
       })
+      console.log("after update", body)
     }
     if (body.variants) {
       body.variants.map(async (variant, variantIndex) => {
@@ -259,10 +279,9 @@ exports.updateItems = async (req, res, next) => {
 
 exports.getVariantsByProductId = async (req, res, next) => {
   try {
-    console.log("****");
     let item = await ItemVariant.find({ 'ancestors': { $in: [ObjectId(req.params.id)] } }, { new: true }).populate("ancestors", "sku").exec((err, resp) => {
       if (err) console.log(err);
-      else console.log("))))", resp)
+      else return;
     });
     if (item) {
       return res.status(httpStatus.OK).send({ message: "Item Page", item });
@@ -356,10 +375,9 @@ exports.searchItems = async (req, res) => {
       "name": { "$regex": '^' + searchField, "$options": 'i' }
     });
     if (items) {
-      return res.send({ items });
+      return res.status(httpStatus.OK).json(items);
     }
   } catch (error) {
-    console.log(error)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
   }
 }
@@ -377,6 +395,87 @@ exports.getItemsByIds = async (req, res, next) => {
     }
   } catch (error) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error.message });
+  }
+}
+
+
+exports.createItems = async (req, res, next) => {
+  try {
+    let body = req.body;
+    if (Object.entries(body).length === 0) {
+      return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ message: "Item body is empty" })
+    }
+    const item = await new Item(body).save();
+    if (item) {
+      return res.status(httpStatus.OK).send({ message: "Item Page", item });
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error });
+  }
+}
+
+exports.updateItems = async (req, res, next) => {
+  try {
+    console.log("update item==");
+    const itemId = req.params.itemId;
+    let body = req.body;
+    if (body.variants) {
+      await Promise.all(body.variants.map(async (variant, variantIndex) => {
+        let savedVariant;
+        variant.ancestors = itemId;
+        let options = variant.options;
+        variant.options = [];
+
+        if(variant._id){
+          savedVariant = await ItemVariant.findOne(variant._id);
+          if(!savedVariant){
+            return;
+          }
+        }
+        else{
+          savedVariant = await new ItemVariant(variant).save();
+          await Item.update({ _id: itemId }, { $push: {"variants":savedVariant} });
+        }
+
+         if (options) {
+          await Promise.all(options.map(async (option, optionIndex) => {
+            let savedOption;
+            option.ancestors = savedVariant._id;
+            if(option._id){
+              savedOption = await ItemVariant.findOne(option._id);
+              if(!savedOption){
+                return;
+              }
+            }
+            else{
+              console.log(option);
+              savedOption = await new ItemVariant(option).save();
+              console.log("saved variants", savedVariant._id);
+              await ItemVariant.update({ _id: savedVariant._id }, { $push: {"options":savedOption} });
+            }
+            // const savedVariants = await new ItemVariant(option).save();
+            // setObject["variants." + variantIndex + ".options." + optionIndex + ".ancestors"] = savedVariants._id;
+            // console.log("____",setObject)
+            // await Item.update({ _id: itemId }, { $set: setObject }, { new: true }).exec();
+            // delete setObject["variants." + variantIndex + ".options." + optionIndex + ".ancestors"];
+            // setObject["options." + optionIndex + ".ancestors"] = savedVariants._id;
+            // await ItemVariant.update({ _id: savedVariants._id }, { $set: setObject  }).exec();
+          }))
+        }
+        
+        
+       
+      }))
+    }
+    res.send("sent")
+    // Item.update({ _id: itemId }, { $set: body }, (err, resp) => {
+    //   if (err) console.error(err);
+    //   return res.status(httpStatus.OK).send({ message: "Item Updated Page" });
+    // });
+  } catch (error) {
+    console.log(error)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error });
   }
 }
 
