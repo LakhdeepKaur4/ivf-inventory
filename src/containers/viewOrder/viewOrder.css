@@ -55,3 +55,6 @@
   .view-order-list.search{
       border: none !important
   }
+  .view-order-list i{
+    color: #777777;
+  }

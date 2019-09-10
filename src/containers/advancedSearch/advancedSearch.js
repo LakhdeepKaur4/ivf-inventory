@@ -101,7 +101,7 @@ class AdvancedSearch extends Component {
                       border-right-0 border-left-0 border-dark rounded-0"
                       type="text"
                       style={{ backgroundColor: "transparent" }}
-                      placeholder="pants,nike"
+                      placeholder="search products"
                       value={this.state.searchTxt}
                       name="searchTxt"
                       onChange={this.handleChangeInput}
@@ -131,7 +131,7 @@ class AdvancedSearch extends Component {
                         Completed
                       </option>
                     </select>
-                    <i className="fa fa-angle-down"></i>
+                    <i className="fa fa-angle-down "></i>
                   </div>
 
                   <div className="md-form active-purple-2 mb-3">
@@ -170,13 +170,14 @@ class AdvancedSearch extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-5">
+              <div className="col-6">
                 <div className="col-12">
                   <div className="md-form active-purple-2 mb-3 row">
-                    <div className="col-6 fontLabels">Order ID</div>
+                    <div className="col-5 fontLabels">Order ID</div>
+                    <div className="col-7">
                     <input
                       className="form-control border border-top-0 
-                      border-right-0 border-left-0 border-dark rounded-0 col-2"
+                      border-right-0 border-left-0 border-dark rounded-0 float-left"
                       type="text"
                       name="orderId"
                       value={this.state.orderId}
@@ -184,96 +185,86 @@ class AdvancedSearch extends Component {
                       style={{ backgroundColor: "transparent" }}
                     />
             
+                    </div>
                   </div>
 
                   <div className="md-form active-purple-2 mb-3 row">
-                    <div className="col-6 fontLabels">Order Total</div>
-                    <input
+                    <div className="col-5 fontLabels">Order Amount</div>
+                    <div className="col-3"><input
                       className="form-control border border-top-0 
-                      border-right-0 border-left-0 border-dark rounded-0 col-2"
+                      border-right-0 border-left-0 border-dark rounded-0"
                       type="text"
                       value={this.state.orderStart}
                       name="orderStart"
                       onChange={this.handleChangeInput}
                       style={{ backgroundColor: "transparent" }}
-                    />
-                    <div className="col-2 fontLabels">to</div>
+                    /></div>
+                    <div className="col-1 fontLabels">to</div>
+                    <div className="col-3">
                     <input
                       className="form-control border border-top-0 
-                      border-right-0 border-left-0 border-dark rounded-0 col-2"
+                      border-right-0 border-left-0 border-dark rounded-0"
                       type="text"
                       name="orderEnd"
                       value={this.state.orderEnd}
                       onChange={this.handleChangeInput}
                       style={{ backgroundColor: "transparent" }}
                     />
+                    </div>
                   </div>
 
                   <div className="md-form active-purple-2 mb-3 row">
-                    <div className="mt-auto mb-auto col-4 mr-4 fontLabels">
+                    <div className="mt-auto mb-auto col-5 fontLabels">
                       Order Created
                     </div>
+                    <div className="col-3">
                     <DatePicker
                       selected={this.state.createStartDate}
                       onChange={(event)=>{this.handleDateChange('createStartDate',event)}}
                       className="form-control border border-top-0 
-                      border-right-0 border-left-0 border-dark rounded-0 col-6"
+                      border-right-0 border-left-0 border-dark rounded-0"
                     />
-                    <div
-                      className="col-1 mt-auto mb-auto"
-                      style={{ marginLeft: "-100px" }}
-                    >
-                      <i className="far fa-calendar-alt"></i>
+                    <i className="far fa-calendar-alt"></i>
                     </div>
-                    <div className="col-2 fontLabels">to</div>
+                  
+                    <div className="col-1 fontLabels">to</div>
+                    <div className="col-3">
                     <DatePicker
                       selected={this.state.createEndDate}
                       onChange={(event)=>{this.handleDateChange('createEndDate',event)}}
                       name="createEndDate"
                       className="form-control border border-top-0 
-                      border-right-0 border-left-0 border-dark rounded-0 col-6"
+                      border-right-0 border-left-0 border-dark rounded-0"
                     />
-                    <div
-                      className="col-1 mt-auto mb-auto"
-                      style={{ marginLeft: "-100px" }}
-                    >
-                      <i className="far fa-calendar-alt"></i>
+                    <i className="far fa-calendar-alt"></i>
                     </div>
                   </div>
 
                   <div className="md-form active-purple-2 mb-3 row">
-                    <div
-                      className="mt-auto mb-auto col-5 fontLabels"
-                      style={{ marginRight: "-50px" }}
-                    >
-                      Order Update
+                    <div className="mt-auto mb-auto col-5 fontLabels">
+                      Order Updated
                     </div>
+                    <div className="col-3">
                     <DatePicker
                       selected={this.state.updateStartDate}
                       onChange={(event)=>{this.handleDateChange('updateStartDate',event)}}
-                      name="updateStartDate"updateStartDate
+                      name="updateStartDate"
                       className="form-control border border-top-0 
-                      border-right-0 border-left-0 border-dark rounded-0 col-6"
+                      border-right-0 border-left-0 border-dark rounded-0"
                     />
-                    <div
-                      className="col-1 mt-auto mb-auto"
-                      style={{ marginLeft: "-100px" }}
-                    >
-                      <i className="far fa-calendar-alt "></i>
+                    <i className="far fa-calendar-alt"></i>
                     </div>
-                    <div className="col-2 fontLabels">to</div>
+                  
+                    <div className="col-1 fontLabels">to</div>
+                    <div className="col-3">
                     <DatePicker
                       selected={this.state.updateEndDate}
                       onChange={(event)=>{this.handleDateChange('updateEndDate',event)}}
                       name="updateEndDate"
                       className="form-control border border-top-0 
-                      border-right-0 border-left-0 border-dark rounded-0 col-6"
+                      border-right-0 border-left-0 border-dark rounded-0"
                     />
-                    <div
-                      className="col-1 mt-auto mb-auto"
-                      style={{ marginLeft: "-100px" }}
-                    >
-                      <i className="far fa-calendar-alt"></i>
+                    <i className="far fa-calendar-alt"></i>
                     </div>
                   </div>
                 </div>
@@ -288,7 +279,6 @@ class AdvancedSearch extends Component {
                 NEXT STEP
               </button>
             </div>
-            <div ></div>
           </div>
         </Dashboard>
       </HostResolver>
