@@ -2,9 +2,9 @@ FROM mhart/alpine-node:11 AS builder
 WORKDIR /app
 COPY . .
 
-ENV INVENTORY_SERVICE="http://circle-inv.tip.ivfuture.tk:88"
-ENV VOXEL_SERVICE="http://voxel-cp.tip.ivfuture.tk:88"
-ENV MOCKUP_SERVICE="http://localhost:4200"
+ENV REACT_APP_INVENTORY_SERVICE="http://circle.tip.ivfuture.tk:88"
+ENV REACT_APP_VOXEL_SERVICE="http://voxel-cp.tip.ivfuture.tk:88"
+ENV REACT_APP_MINIO_SERVICE="http://minio.ivfuture.internal:9000/"
 
 RUN yarn install
 
