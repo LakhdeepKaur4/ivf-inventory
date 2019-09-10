@@ -1,41 +1,55 @@
-.selectAdvancedSearch option{
-  font:12px/25px Muli;
+.selectAdvancedSearch option {
+  font: 12px/25px Muli;
   letter-spacing: 0;
-  color: #43425D;
+  color: #43425d;
   opacity: 1;
 }
- select.selectAdvancedSearch{
-  font:12px/25px Muli;
+select.selectAdvancedSearch {
+  font: 12px/25px Muli;
   letter-spacing: 0;
-  color: #43425D;
+  color: #43425d;
   opacity: 1;
 }
 .search-keyword {
   text-align: left;
   font: 9px/25px Muli;
   letter-spacing: 0;
-  color: #F46565;
+  color: #f46565;
   opacity: 1;
 }
 
-.advanced-search input{
-  font:12px/25px Muli;
+.advanced-search input {
+  font: 12px/25px Muli;
   letter-spacing: 0;
-  color: #43425D;
+  color: #43425d;
   opacity: 1;
 }
 .btnNextAdvanced {
   background-color: #333333 !important ;
+  text-align: center;
+  font: Bold 12px/15px Muli;
+  letter-spacing: 0;
   color: #ffffff !important;
+  text-transform: uppercase;
+  opacity: 1;
   float: left;
-  margin-left: 12px;
+  
 }
-.fontLabels{
-font:12px/25px Muli;
-letter-spacing: 0;
-color: #43425D;
-opacity: 1;
+.fontLabels {
+  font: 12px/25px Muli;
+  letter-spacing: 0;
+  color: #43425d;
+  opacity: 1;
 }
-.react-datepicker__input-container input{
-  background-color: transparent
+.react-datepicker__input-container input {
+  background-color: transparent;
+  font-size: 0.6rem;
+}
+.containerAdvancedSearch i {
+  color: #43425d;
+  margin-left: -14px;
+}
+
+.react-datepicker-wrapper,.react-datepicker__input-container{
+  padding: 0px;
 }

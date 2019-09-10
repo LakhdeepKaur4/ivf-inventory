@@ -72,6 +72,7 @@ class EditCustomerOrder extends Component {
     }
 
     toggle = (e, id) => {
+        console.log();
         if (id === 1) {
             $('.toggleCustomer1').removeClass('hide');
             $('.toggleCustomer2').addClass('hide');
@@ -80,23 +81,25 @@ class EditCustomerOrder extends Component {
             $('.toggleCustomer2').removeClass('hide');
             $('.toggleCustomer1').addClass('hide');
         }
-        $('.underline').toggleClass('visible');
-        $('h5[class=card-title]').toggleClass('visible');
+        $('.underline').addClass('visible');
+        $(e.currentTarget).children('hr').removeClass('visible');
+        $('.tabHead').addClass('visible');
+        $(e.currentTarget).children('h5').removeClass('visible');
     }
-
 existingCustomer=({view})=>{
     if(view){
         return view.customer.map(item=>{         
             return(
+                item?  <tr>
+                <td>{`${item.firstname} ${item.lastname}`}</td>
+                <td>{item.email}</td>
+                <td>{item.phone}</td>
+                <td>{item.address}</td>
+                <td>{item.address}</td>
+                <td><button className='buttonupdate'><font color="#1ABC9C">Update</font></button></td>
+            </tr>:''
       
-                <tr>
-                    <td>{`${item.firstname} ${item.lastname}`}</td>
-                    <td>{item.email}</td>
-                    <td>{item.phone}</td>
-                    <td>{item.address}</td>
-                    <td>{item.address}</td>
-                    <td><button className='buttonupdate'>Update</button></td>
-                </tr>
+              
             )
         })
     }
@@ -146,14 +149,14 @@ existingCustomer=({view})=>{
                                 <div className="card-body row">
                                     <div className="row">
                                         <div className="col" onClick={e => { this.toggle(e, 1) }}>
-                                            <h5 className="card-title " >EXISTING Customer</h5>
+                                            <h5 className="card-title tabHead" >EXISTING Customer</h5>
                                             <hr className="underline" />
                                              
 
 
                                         </div>
                                         <div className="col" onClick={e => { this.toggle(e, 2) }}>
-                                            <h5 className="card-title mr-5 visible" >NEW Customer</h5>
+                                            <h5 className="card-title tabHead mr-5 visible" >NEW Customer</h5>
                                             <hr className="underline visible" />
                                         </div>
                                     </div>
