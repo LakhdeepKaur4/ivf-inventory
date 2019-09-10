@@ -1,23 +1,20 @@
-# base image
-FROM node:12.2.0-alpine
-
-# set working directory
+FROM mhart/alpine-node:11 AS builder
 WORKDIR /app
+COPY . .
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+ENV INVENTORY_SERVICE="http://circle-inv.tip.ivfuture.tk:88"
+ENV VOXEL_SERVICE="http://voxel-cp.tip.ivfuture.tk:88"
+ENV MOCKUP_SERVICE="http://localhost:4200"
 
-# install and cache app dependencies
-COPY package.json /app/package.json
+RUN yarn install
 
-RUN npm install --silent
-RUN npm install react-scripts@3.0.1 -g --silent
+RUN yarn run build
 
-COPY . /usr/src/app
-COPY .env /app/
-COPY public /app/
+FROM mhart/alpine-node
+RUN yarn global add serve
+WORKDIR /app
+COPY --from=builder /app/build .
 
-EXPOSE 8080
 
-# start app
-CMD ["npm", "start"]
+EXPOSE 80
+CMD ["serve", "-p", "80", "-s", "."]
