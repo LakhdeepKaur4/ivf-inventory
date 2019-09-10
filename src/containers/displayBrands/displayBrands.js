@@ -144,7 +144,6 @@ class Brands extends Component {
 
   // Handle Edit brand
   handleEditBrand = (id,item) => {
-    // this.props.getBrandDetails(id, this.state.host);
     this.props.history.push(`/editBrand/${id}/${item}`)
   };
 

@@ -44,3 +44,14 @@
   .pagination{
       float:right;
   }
+  .view-orders-heading{
+    text-align: left;
+    font: Bold 24px/40px Muli;
+    letter-spacing: 0;
+    color: #555555;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+  .view-order-list.search{
+      border: none !important
+  }
