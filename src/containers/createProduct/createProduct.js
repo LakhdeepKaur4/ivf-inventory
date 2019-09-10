@@ -459,6 +459,7 @@ class CreateProduct extends Component {
   };
 
   render() {
+    console.log(this.state.pictures)
     let { pictures } = this.state;
     let $imagePreview = null;
 
