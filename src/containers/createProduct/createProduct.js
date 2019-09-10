@@ -414,12 +414,14 @@ class CreateProduct extends Component {
         let product = productData.item;
 
         if (this.alreadyFetchedProductDetail && product) {
+          console.log(product,"==========================")
           this.setState({
             brandId: product.brandId,
             name: product.name,
             sku: product.sku,
             optStock: product.optStock,
             range: product.price.range,
+            price:product.price,
             subtitle: product.subtitle,
             vendor: product.vendor,
             description: product.description,
@@ -428,7 +430,7 @@ class CreateProduct extends Component {
             hashtags: product.hashtags,
             metafields: product.metafields,
             tagsInfo: product.tagsInfo,
-            productPictures: product.productPicture
+            productPictures: product.productPictures
           })
         }
       }
@@ -476,7 +478,7 @@ class CreateProduct extends Component {
   };
   onFileUploaded = URL => {
     console.log(URL);
-    this.setState({productPictures: URL });
+    this.setState({productPictures: [...this.state.productPictures, URL] });
   };
 
   render() {
