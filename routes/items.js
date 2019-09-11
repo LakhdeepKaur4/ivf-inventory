@@ -8,9 +8,9 @@ router.route("/").post(controller.createItems);
 
 router.route("/").get(controller.getItems);
 
-router.route("/:itemId").get(controller.getItemById);
-
 router.route("/search").get(controller.searchItems);
+
+router.route("/:itemId").get(controller.getItemById);
 
 router.route("/multiselect/ids").get(controller.getItemsByIds);
 

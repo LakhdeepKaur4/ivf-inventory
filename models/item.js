@@ -40,7 +40,7 @@ var itemSchema = new Schema({
   },
   tagsInfo: {
     type: Array,
-    required: true,
+    // required: true,
   },
   pageTitle: {
     type: String,
@@ -166,7 +166,8 @@ var itemSchema = new Schema({
     trim: true
   },
   variants: {
-    type: [ItemVariant]
+    type: [ItemVariant],
+    defaultValue:[]
   },
   brandId: {
     type: Schema.Types.ObjectId,
@@ -177,7 +178,7 @@ var itemSchema = new Schema({
     type: Boolean,
     defaultValue: true
   },
-  productPicture: [{
+  productPictures: [{
     type: String
   }],
   user: {
