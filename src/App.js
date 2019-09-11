@@ -36,6 +36,7 @@ import StoreSetting from './components/storeSetting/storeSetting';
 import UploadComponent from './components/uploadComponent/uploadComponent';
 import Spinner from './containers/spinner/spinner';
 import ProcessOrder from './containers/processOrder/processOrder';
+import StatusBar from './components/orderStatus/orderStatus';
 
 class App extends Component {
  
@@ -45,7 +46,7 @@ class App extends Component {
         <div>
           <Spinner />
           <Switch>
-
+            <Route path="/statusbar" component={StatusBar} />
             <Route path="/processOrder" component={ProcessOrder} />
 
             <Route path="/uploadComponent" component={UploadComponent}/>
@@ -58,9 +59,9 @@ class App extends Component {
 
             
             <Route path="/productTree/:itemid/createVariant" exact  component={ProductVariant} />
-            <Route path="/productTree/editVariant/:id"  component={ProductVariant} />
-            <Route path="/productTree/variant/:title/createOption"   component={ProductVariantOption} />
-            <Route path="/productTree/variant/:title/editOption/:id"  component={ProductVariantOption}/>
+            <Route path="/productTree/:itemid/editVariant/:variantId"  component={ProductVariant} />
+            <Route path="/productTree/:itemid/variant/:variantId/createOption"   component={ProductVariantOption} />
+            <Route path="/productTree/:itemid/variant/:variantId/editOption/:optionId"  component={ProductVariantOption}/>
             
             <Route path="/createProduct" component={CreateProduct} />
             <Route path="/productTree/editProduct/:itemid" component={CreateProduct} />

@@ -60,7 +60,8 @@ class Categories extends Component {
 
     viewCategoryData = () => {
         if (this.state.categories) {
-            return this.state.categories.map((item) => <option key={item._id}>{item.name}</option>)
+            return this.state.categories.map((item) => 
+            <option key={item._id}>{item.name}</option>)
         }
     }
 
@@ -219,7 +220,7 @@ class Categories extends Component {
         }
     }
     selectAll = () => {
-        this.setState(currentState => {
+        this.setState(currentState => { 
             return {
                 checked: !currentState.checked,
                 categories: currentState.categories.map(category => {
