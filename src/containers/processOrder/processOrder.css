@@ -6,6 +6,7 @@
     position:absolute;
     top:90%;
     margin-left:30px;
+    width: 100%;
 }
 
 /* Main Heading */
@@ -150,16 +151,7 @@
     border: 1px solid #1ABC9C;
     border-radius: 22px;
     opacity: 1;
-}
-
-.saveButtonData label {
-    text-align: center;
-    font: Bold 12px/15px Muli;
-    letter-spacing: 0;
-    color: #1ABC9C;
-    text-transform: uppercase;
-    opacity: 1;
-    background-color: #ffffff;
+    background: transparent;
 }
 
 .notifyMessage {
@@ -173,7 +165,7 @@
 }
 
 .bottomButtom {
-    width: 470px;
+    width: 43%;
     height: 50px;
     background: #333333 no-repeat padding-box;
     border-radius: 115px;
@@ -181,7 +173,7 @@
 }
 
 .bottomBtnText {
-    width: 50px;
+    width: 100%;
     height: 15px;
     text-align: center;
     font: Bold 12px/15px Muli;
@@ -210,6 +202,15 @@
     font: Regular 12px/15px Muli;
     letter-spacing: 0;
     color: #4D4F5C;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+.saveBtnText {
+    text-align: center;
+    font: Bold 12px/15px Muli;
+    letter-spacing: 0;
+    color: #1ABC9C;
     text-transform: uppercase;
     opacity: 1;
 }

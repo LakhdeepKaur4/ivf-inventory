@@ -7,7 +7,6 @@ const initialState={
 }
 
 const ViewOrderReducer=(state=initialState,action)=>{
-    console.log('inside view order reducer...', action.payload)
     switch(action.type){
         case SEARCH_KEYWORD:{
             return{
