@@ -15,6 +15,9 @@ const Addresses = sequelize.define('addresses',{
     address2: {
         type: Sequelize.STRING
     },
+    type: {
+        type: Sequelize.STRING
+    },
     city: {
         type: Sequelize.STRING
     },

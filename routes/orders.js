@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route("/all").get(controller.getOrders);
 
-router.route("/search/cart").get(controller.searchCartProducts);
+router.route("/search/cart/:limit/:page").get(controller.searchCartProducts);
 
 router.route("/advancedSearch").get(controller.advancedSearchOrdersNew);
 
