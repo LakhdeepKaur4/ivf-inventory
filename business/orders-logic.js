@@ -312,6 +312,11 @@ exports.advancedSearchOrdersNew = (req, res, next) => {
 */
 exports.searchCartProducts = async (req, res) => {
   try {
+    let offset = 0;
+    let limit = parseInt(req.params.limit);
+    let page = parseInt(req.params.page);
+    // offset = parseInt(limit * (page - 1));
+    // console.log(offset);
     const searchField = req.query.search;
     const cartProducts = await CartProducts.findAll({
       where: {
@@ -319,9 +324,12 @@ exports.searchCartProducts = async (req, res) => {
           productTitle: {
             [Op.like]: '%' + searchField + '%'
           }
-        }
-      }
+        },
+      },
+      offset: page,
+      limit: limit,
     });
+    // console.log(cartProducts)
     if (cartProducts.length > 0) {
       res.status(httpStatus.OK).send({ message: "Cart Products Data", cartProducts })
     } else {
