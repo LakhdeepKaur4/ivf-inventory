@@ -12,6 +12,9 @@ const Carts = sequelize.define('carts',{
     currency: {
         type: Sequelize.STRING
     },
+    amount: {
+        type: Sequelize.FLOAT
+    },
     discount: {
         type: Sequelize.FLOAT
     },

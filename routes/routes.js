@@ -11,6 +11,7 @@ module.exports = (router) => {
     const storesBrandmappingRoutes = require('./stores-brand-mapping');
     const storesCategorymappingRoutes = require('./stores-category-mapping');
     const ordersRoutes = require('./orders');
+    const shipmentsRoutes = require('./shipments');
     const customersRoutes = require('./customer');
     const uploadRoutes = require('./upload');
     
@@ -24,6 +25,7 @@ module.exports = (router) => {
     router.use('/map/stores/brands', storesBrandmappingRoutes);
     router.use('/map/stores/categories', storesCategorymappingRoutes);
     router.use('/orders', ordersRoutes);
+    router.use('/shipments', shipmentsRoutes);
     router.use('/customer', customersRoutes);
     router.use('/upload', uploadRoutes);
 }

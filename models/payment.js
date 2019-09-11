@@ -9,16 +9,16 @@ const Payments = sequelize.define('payments',{
         allowNull: false,
         primaryKey: true
     },
-    amount: {
-        type: Sequelize.FLOAT
-    },
     displayName: {
         type: Sequelize.STRING
     },
     method: {
         type: Sequelize.STRING
     },
-    paymentMethod: {
+    amount: {
+        type: Sequelize.FLOAT
+    },
+    currency: {
         type: Sequelize.STRING
     },
     createdAt: {
