@@ -11,6 +11,12 @@ const Shipments = sequelize.define('shipments',{
     },
     type: {
         type: Sequelize.STRING
+    },
+    status: {
+        type: Sequelize.STRING
+    },
+    trackingNumber: {
+        type: Sequelize.STRING
     }
 });
 
