@@ -1,5 +1,6 @@
 import { CREATE_PRODUCT,POST_CREATE_PRODUCT, BRAND_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT,UPDATE_PRODUCT, UPDATE_VARIANT, UPDATE_PRODUCT_ID } from '../../actionCreators/index';
 export default function(state={productVariant:[]},action){
+  
     switch(action.type){
         case UPDATE_PRODUCT_ID:
             return { ...state, getProductInfo:action.payload }

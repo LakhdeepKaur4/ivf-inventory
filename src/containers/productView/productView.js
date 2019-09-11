@@ -77,8 +77,7 @@ class ProductsView extends Component {
     }
 
     handleEditBrand=(itemid,productPictures)=>{
-        console.log(productPictures);
-        this.props.history.push(`/productTree/editProduct/${itemid}/${productPictures}`)
+        this.props.history.push(`/productTree/editProduct/${itemid}`)
     }
 
 

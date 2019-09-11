@@ -9,52 +9,23 @@ class UploadComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filename: '',
-            picture: '',
-            folderName: '',
-            host: '',
-            imageURLs: []
-        }
+            host:''
+        };
     }
 
     setHost = async host => {
-        console.log(host)
         this.setState({ host })
     }
     getFiles = (files) => {
-        let arr = this.state.imageURLs;
-        if (this.props.data == 'createProduct') {
             let obj = {};
             obj.foldername = this.props.data;
             obj.filename = files[0].name;
             obj.picture = files[0].base64;
-            console.log(obj);
-            let URL = this.state.host
-            console.log(this.props.data, `folderName=${this.props.data}`, URL);
-            console.log(URL, obj, files[0].base64);
+            let URL = this.state.host;
             axios.post(`${URL}/api/upload`, obj).then((res) => {
-                console.log(res);
-                arr.push(res.data.path)
-                this.setState({ imageURLs: arr });
+                return res.data.path;
             }
-            ).then(() => this.props.onFileUpload(arr))
-
-        } else {
-            let obj = {};
-            obj.foldername = this.props.data;
-            obj.filename = files[0].name;
-            obj.picture = files[0].base64;
-            console.log(obj);
-            let URL = this.state.host
-            console.log(this.props.data, `folderName=${this.props.data}`, URL);
-            console.log(URL, obj, files[0].base64);
-            axios.post(`${URL}/api/upload`, obj).then((res) => {
-                console.log(res);
-                this.props.onFileUpload(res.data.path)
-            }
-
-            )
-        }
+            ).then((path) => this.props.onFileUpload(path));
 
     }
     render() {
