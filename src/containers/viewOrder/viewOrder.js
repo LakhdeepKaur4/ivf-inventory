@@ -61,6 +61,11 @@ class ViewOrder extends Component {
     this.props.history.push(`/editanorder/${id}`);
   };
 
+
+  // Handle Process order
+  handleProcessOrder=id=>{
+    this.props.history.push(`/processOrder/${id}`)
+  }
   // handle back button
 
   handleBackButton=()=>{
@@ -77,37 +82,17 @@ class ViewOrder extends Component {
               orderStr.push(data.productTitle);
           });
           let productStr = orderStr.join(", ");
+          let color=item.status==='NEW'?'#F46565':(item.status==='COMPLETED'?'#1ABC9C':'#F79F2B')
           return (
             <tr key={item.orderId}>
               <td>{item.createdAt.split('T')[0]}</td>
               <td>{item.orderId}</td>
-              <td>
-                {item.status === "Failed" ? (
-                  <span>
-                    <i
-                      className="fa fa-circle"
-                      style={{ marginRight: "4px", color: "red" }}
-                    ></i>
-                  </span>
-                ) : item.status === "Successful" ? (
-                  <span>
-                    <i
-                      className="fa fa-circle"
-                      style={{ marginRight: "4px", color: "green" }}
-                    ></i>
-                  </span>
-                ) : (
-                  <span>
-                    <i
-                      className="fa fa-circle"
-                      style={{ marginRight: "4px", color: "yellow" }}
-                    ></i>
-                  </span>
-                )}
-                {item.status}
+              <td style={{color:color}}>
+              
+              {item.status}
               </td>
               <td>{item.customer.firstname}</td>
-              <td>{item.payment.amount}</td>
+              <td>{item.amount}</td>
               <td>{productStr}</td>
               <td>
                 <div className="dropdown">
@@ -134,7 +119,7 @@ class ViewOrder extends Component {
                       Edit Order
                     </a>
 
-                    <a className="dropdown-item">Process Order</a>
+                    <a className="dropdown-item" onClick={()=>{this.handleProcessOrder(item.orderId)}}>Process Order</a>
                   </div>
                 </div>
               </td>
@@ -180,10 +165,10 @@ class ViewOrder extends Component {
                 </div>
                 <div className="row iconsRow">
                   <div className="col-1 ">
-                    <i className="fas fa-sort-amount-down" aria-hidden="true"></i></div>
+                    <i className="fa fa-sort-amount-down" aria-hidden="true"></i></div>
                   <div className="col-1">
-                    <i className="fas fa-sort-amount-up" aria-hidden="true"></i></div>
-                  <div className="col-4">
+                    <i className="fa fa-sort-amount-up" aria-hidden="true"></i></div>
+                  <div className="col-2">
                   <select type="select">
                     <option>Limit</option>
                     <option>Limit 10</option>
@@ -192,7 +177,13 @@ class ViewOrder extends Component {
                   </select>
                   {/* <i className="fa fa-angle-down"/> */}
                   </div>
-                  <div className="col-2">Search</div>
+                  <div className="col-2">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input type="text"
+                    name="search"
+                    value={this.state.search}
+                    onChange={this.handleSearchInput}/>
+                    </div>
                   <div className="col-2">
                   <div className="sw-action-bar__item sw-action-bar__item--right">
                   <Pagination

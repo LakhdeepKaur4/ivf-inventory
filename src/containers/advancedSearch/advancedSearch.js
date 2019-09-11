@@ -121,11 +121,26 @@ class AdvancedSearch extends Component {
                       <option>
                         Order status
                       </option>
-                      <option  value="ordered">
-                        Ordered
+                      <option  value="New">
+                        New
                       </option>
-                      <option  value="Processing">
-                        Processing
+                      <option  value="Approved">
+                        Approved
+                      </option>
+                      <option  value="Paid">
+                        Paid
+                      </option>
+                      <option  value="Packed">
+                        Packed
+                      </option>
+                      <option  value="Shipped">
+                        Shipped
+                      </option>
+                      <option  value="Payment Failed">
+                        Payment Failed
+                      </option>
+                      <option  value="Delivered">
+                        Delivered
                       </option>
                       <option value="Completed">
                         Completed
@@ -133,7 +148,6 @@ class AdvancedSearch extends Component {
                     </select>
                     <i className="fa fa-angle-down "></i>
                   </div>
-
                   <div className="md-form active-purple-2 mb-3">
                     <select
                       className=" selectAdvancedSearch form-control border border-top-0
@@ -215,7 +229,7 @@ class AdvancedSearch extends Component {
 
                   <div className="md-form active-purple-2 mb-3 row">
                     <div className="mt-auto mb-auto col-5 fontLabels">
-                      Order createdAt from
+                      Order CreatedAt from
                     </div>
                     <div className="col-3">
                     <DatePicker
@@ -242,7 +256,7 @@ class AdvancedSearch extends Component {
 
                   <div className="md-form active-purple-2 mb-3 row">
                     <div className="mt-auto mb-auto col-5 fontLabels">
-                      Order updatedAt from
+                      Order UpdatedAt from
                     </div>
                     <div className="col-3">
                     <DatePicker
