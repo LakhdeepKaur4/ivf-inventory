@@ -3,8 +3,51 @@ import '../../commonCss/style.css';
 import './processOrder.css';
 import Dashboard from '../../components/dashboard/dashboard';
 import StatusBar from '../../components/orderStatus/orderStatus';
+import { connect } from 'react-redux';
 
 class ProcessOrder extends Component {
+
+    textVariants = {
+        'New':{
+            btn:'APPROVE'
+        },
+        'Approved':{
+            btn: 'CAPTURE PAYMENT'
+        }
+    };
+
+    state = {
+        headingData: ['New', 'Approved', 'Paid', 'Picked', 'Completed'],
+        currentStatus: 'New',
+        currentStatusIndex: 0
+    }
+
+    moveToNextStatus = () => {
+        if (this.state.currentStatusIndex + 1 < this.state.headingData.length) {
+            this.setState((prevState) => ({
+                currentStatus: prevState.headingData[prevState.currentStatusIndex + 1],
+                currentStatusIndex: prevState.currentStatusIndex + 1
+            }));
+        }
+    }
+
+    renderStatusButton = () => {
+        if(this.state.currentStatusIndex == (this.state.headingData.length - 1)){
+            return null;
+        }
+
+        return (
+            <div className="childProcessOrder">
+                <button className="bottomButtom" type="button"
+                    onClick={this.moveToNextStatus} >
+                    <label className="bottomBtnText">
+                        {this.textVariants[this.state.currentStatus].btn}
+                    </label>
+                </button>
+            </div>
+
+        )
+    }
 
     render() {
         return (
@@ -14,9 +57,12 @@ class ProcessOrder extends Component {
                     <div className="mainHeading">
                         PROCESS ORDER
                     </div>
-                   
-                    <div style={{marginTop:'25px', marginLeft:'30px'}}>
-                        <StatusBar />
+
+                    <div style={{ marginTop: '25px', marginLeft: '30px' }}>
+                        <StatusBar
+                            currentStatusIndex={this.state.currentStatusIndex}
+                            headingData={this.state.headingData}
+                            currentStatus={this.state.currentStatus} />
                     </div>
                     <div className="headingContentHeading">
                         Summary
@@ -53,7 +99,7 @@ class ProcessOrder extends Component {
                                         <label>STATUS</label>
                                     </div>
                                     <div className="summaryContentData col-6">
-                                        <label style={{color:'#FFCA83'}}>Processing</label>
+                                        <label style={{ color: '#FFCA83' }}>Processing</label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -69,7 +115,7 @@ class ProcessOrder extends Component {
                                         <label>SHIPPING</label>
                                     </div>
                                     <div className="summaryContentData col-6">
-                                        <label style={{color:'#FFCA83'}}>PACKED</label>
+                                        <label style={{ color: '#FFCA83' }}>PACKED</label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -114,7 +160,7 @@ class ProcessOrder extends Component {
                                         </div>
                                         <div className="col-5">
                                             <button type="submit" className="saveButtonData">
-                                                <label style={{background:'transparent'}}>SAVE</label>
+                                                <label style={{ background: 'transparent' }}>SAVE</label>
                                             </button>
                                         </div>
                                     </div>
@@ -126,13 +172,7 @@ class ProcessOrder extends Component {
 
                         </div>
 
-                        <div className="childProcessOrder">
-                            <button className="bottomButtom" type="button" >
-                                <label className="bottomBtnText">
-                                    Button
-                                </label>
-                            </button>
-                        </div>
+                        {this.renderStatusButton()}
                     </div>
                     <div className="backToOrdersButton">
                         <label className="backToOrdersButtonText">back to orders</label>
@@ -142,5 +182,7 @@ class ProcessOrder extends Component {
         )
     }
 }
+
+
 
 export default ProcessOrder;
