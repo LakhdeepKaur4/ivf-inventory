@@ -10,8 +10,8 @@
 .containerDiv{
     display: inline-block;
     border: 1px solid #1ABC9C;
-    width: 100px;
-    padding: 5px;
+    width: 120px;
+    padding: 5px 10px;
     border-radius: 18px;
     background-color: #1ABC9C;
     text-align: center;
@@ -24,7 +24,7 @@
 
 .filedText {
     text-align: left;
-    font: normal 14px/28px Acumin Pro Condensed;
+    font: regular 14px/28px Acumin Pro Condensed;
     letter-spacing: 0px;
     color: #FFFFFF;
     text-transform: uppercase;
