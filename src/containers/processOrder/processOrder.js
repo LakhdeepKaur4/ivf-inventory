@@ -13,7 +13,13 @@ class ProcessOrder extends Component {
         },
         'Approved':{
             btn: 'CAPTURE PAYMENT'
-        }
+        },
+        'Paid': {
+            btn: 'PACK ITEMS'
+        },
+        'Picked': {
+            btn: 'SHIP ITEMS'
+        },
     };
 
     state = {
@@ -53,7 +59,6 @@ class ProcessOrder extends Component {
         return (
             <div>
                 <Dashboard>
-
                     <div className="mainHeading">
                         PROCESS ORDER
                     </div>
@@ -62,7 +67,8 @@ class ProcessOrder extends Component {
                         <StatusBar
                             currentStatusIndex={this.state.currentStatusIndex}
                             headingData={this.state.headingData}
-                            currentStatus={this.state.currentStatus} />
+                            currentStatus={this.state.currentStatus} 
+                        />
                     </div>
                     <div className="headingContentHeading">
                         Summary
@@ -112,14 +118,6 @@ class ProcessOrder extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="summaryContentHeading col-6">
-                                        <label>SHIPPING</label>
-                                    </div>
-                                    <div className="summaryContentData col-6">
-                                        <label style={{ color: '#FFCA83' }}>PACKED</label>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="summaryContentHeading col-6">
                                         <label>ORDER</label>
                                     </div>
                                     <div className="summaryContentData col-6">
@@ -160,7 +158,7 @@ class ProcessOrder extends Component {
                                         </div>
                                         <div className="col-5">
                                             <button type="submit" className="saveButtonData">
-                                                <label style={{ background: 'transparent' }}>SAVE</label>
+                                                <label className="saveBtnText" style={{ background: 'transparent' }}>SAVE</label>
                                             </button>
                                         </div>
                                     </div>
