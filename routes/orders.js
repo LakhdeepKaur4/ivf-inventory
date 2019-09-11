@@ -18,7 +18,7 @@ router.route("/:orderId").put(controller.updateOrder);
 
 router.route("/:orderId").put(controller.updateOrder);
 
-router.route("/customer/address/:customerId").get(controller.getAddresses);
+router.route("/customer/address/:orderId").get(controller.getAddresses);
 
 router.route("/status/:orderId").put(controller.changeStatus);
 
