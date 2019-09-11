@@ -358,3 +358,23 @@ exports.changeStatus = async (req, res, next) => {
   }
 }
 
+exports.changeStatus = async (req, res, next) => {
+  try {
+    const orderId = req.params.orderId;
+    const body = req.body;
+    const order = await Addresses.findOne({ where: { orderId: orderId } }).then(order => {
+      return order.update(body);
+    })
+    if (updatedOrder) {
+      return res.status(httpStatus.OK).json({
+        message: "Successfully status changed",
+        updatedOrder
+      });
+    }
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
+  }
+}
+
+
+

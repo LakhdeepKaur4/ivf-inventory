@@ -169,56 +169,33 @@ exports.createItems = async (req, res, next) => {
 
 exports.updateItems = async (req, res, next) => {
   try {
-    const itemId = req.params.itemId;
-    // console.log(req.body)
+    let itemId = req.params.itemId;
     let body = req.body;
-    if (body.variants) {
-      await Promise.all(body.variants.map(async (variant, variantIndex) => {
-        let savedVariant;
-        variant.ancestors = itemId;
-        let options = variant.options;
-        variant.options = [];
-
-        if (variant._id) {
-          console.log("__", variant._id);
-          savedVariant = await ItemVariant.findOne(variant._id);
-          if (!savedVariant) {
-            return;
-          }
-        }
-        else {
-          savedVariant = await new ItemVariant(variant).save();
-          await Item.update({ _id: itemId }, { $push: { "variants": savedVariant } });
-        }
-
-        if (options) {
-          await Promise.all(options.map(async (option, optionIndex) => {
-            let savedOption;
-            option.ancestors = savedVariant._id;
-            if (option._id) {
-              savedOption = await ItemVariant.findOne(option._id);
-              if (!savedOption) {
-                return;
+    Item.update({ _id: itemId }, { $set: body }, async (err, resp) => {
+      let item = await Item.findOne({_id:itemId});   
+      if(item.variants){
+        item.variants.map(variant=>{
+          variant.ancestors = [item._id];
+          if(variant.options){
+            variant.options.map(option=>{
+              if(!option._id){
+                option._id = new ObjectId()
               }
-            }
-            else {
-              savedOption = await new ItemVariant(option).save();
-              await ItemVariant.update({ _id: savedVariant._id }, { $push: { "options": savedOption } });
-              await Item.update({ _id: itemId }, {
-                $push: {
-                  ["variants." + variantIndex + ".options"]: savedOption
-                }
-              });
-            }
-          }))
-        }
-      }))
-    }
-    Item.update({ _id: itemId }, { $set: body }, (err, resp) => {
-      if (err) console.error(err);
-      return res.status(httpStatus.OK).send({ message: "Item Updated Page" });
+              option.ancestors = [variant._id];
+            });
+          }
+        });
+      }
+
+      Item.update({ _id: itemId }, { $set: item }, async (err, resp) =>{
+        if(err)
+          return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error });
+        return res.status(httpStatus.OK).send({ message: "Item Updated Page" });
+      });
+      
+      if (err) 
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error });
     });
-    // return res.status(httpStatus.OK).send({ message: "Item Updated Page" });
 
   } catch (error) {
     console.log(error)
