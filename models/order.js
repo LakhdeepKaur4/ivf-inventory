@@ -15,6 +15,9 @@ const Orders = sequelize.define('orders',{
     amount: {
         type: Sequelize.FLOAT
     },
+    discount: {
+        type: Sequelize.FLOAT
+    },
     email: {
         type: Sequelize.STRING
     },
