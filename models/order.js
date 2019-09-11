@@ -12,7 +12,7 @@ const Orders = sequelize.define('orders',{
     currency: {
         type: Sequelize.STRING
     },
-    discount: {
+    amount: {
         type: Sequelize.FLOAT
     },
     email: {
@@ -20,8 +20,8 @@ const Orders = sequelize.define('orders',{
     },
     status: {
         type: Sequelize.STRING,
-        enum : ['ORDERED','APPROVED','PACKED','SHIPPED','DELIVERED'],
-        defaultValue: 'ORDERED'
+        enum : ['NEW','APPROVED','PAID','PACKED','PAYMENT FAILED','SHIPPED','DELIVERED','COMPLETED'],
+        defaultValue: 'NEW'
     },
     storeId: {
         type: Sequelize.STRING
