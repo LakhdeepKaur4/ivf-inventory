@@ -37,9 +37,6 @@
     color: #4d4f5c;
     opacity: 1;
   }
-  .pagination{
-      float:right;
-  }
   .view-orders-heading{
     text-align: left;
     font: Bold 24px/40px Muli;
@@ -84,3 +81,4 @@
   .view-order-list .sw-action-bar__item{
     margin-right: -1rem !important;
   }
+  
