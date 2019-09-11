@@ -43,12 +43,15 @@ class ViewOrder extends Component {
   searchFilter = search => {
     return function(x) {
       return (
-        // x.customer.firstname.toLowerCase().includes(search.toLowerCase()) ||
+        x.customer.firstname.toLowerCase().includes(search.toLowerCase()) ||
+        x.customer.lastname.toLowerCase().includes(search.toLowerCase())||
         x.status.toLowerCase().includes(search.toLowerCase()) ||
+        x.orderId.toString().includes(search.toString())||
         !search
       );
     };
   };
+
 
   // Get host url
     setHost = async host => {

@@ -109,6 +109,8 @@ class EditBrands extends Component {
   };
 
   render() {
+
+    console.log("Inside edit render" ,this.props.match.params.id)
     const { brandName, description,logo_url } = this.state;
     return (
       <HostResolver

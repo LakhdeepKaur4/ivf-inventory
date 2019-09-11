@@ -47,7 +47,7 @@ class App extends Component {
           <Spinner />
           <Switch>
             <Route path="/statusbar" component={StatusBar} />
-            <Route path="/processOrder" component={ProcessOrder} />
+            <Route path="/processOrder/:id" component={ProcessOrder} />
 
             <Route path="/uploadComponent" component={UploadComponent}/>
             <Route path="/storeSettings" component={ UnderConstruction } />

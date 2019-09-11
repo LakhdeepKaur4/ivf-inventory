@@ -2,8 +2,6 @@ import axios from 'axios';
 
 import{CREATE_PRODUCT,POST_CREATE_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT, UPDATE_VARIANT, UPDATE_PRODUCT, UPDATE_PRODUCT_ID} from '../actionCreators/index';
 
-
-
 export function createProductDetails(URL){
     const request = axios.get(`${URL}/api/item`)
     .then(response =>response.data)

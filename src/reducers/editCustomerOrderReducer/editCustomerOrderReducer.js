@@ -1,7 +1,6 @@
 import {ADD_CUSTOMER,GET_CUSTOMER} from '../../actionCreators/index';
 
 export default function(state={},action){
-    console.log('inside reducer....', action.payload)
     
     switch(action.type){
 
