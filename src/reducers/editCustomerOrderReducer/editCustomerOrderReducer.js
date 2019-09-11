@@ -1,17 +1,21 @@
-import {ADD_CUSTOMER,GET_CUSTOMER} from '../../actionCreators/index';
+import { ADD_CUSTOMER, GET_CUSTOMER, GET_ORDER_DETAILS } from '../../actionCreators/index';
 
-export default function(state={},action){
-    console.log('inside reducer....', action.payload)
-    
-    switch(action.type){
+export default function (state = {}, action) {
+    switch (action.type) {
 
         case ADD_CUSTOMER:
-        return{...state, add:action.payload}
-        
+            return { ...state, add: action.payload }
+
         case GET_CUSTOMER:
-            return{...state, 
-                view:action.payload}
-         default:
-         return state;
+            return {
+                ...state,
+                view: action.payload
+            }
+        case GET_ORDER_DETAILS:
+            return {
+                ...state, orderDetails:action.payload
+            }
+        default:
+            return state;
     }
 }
