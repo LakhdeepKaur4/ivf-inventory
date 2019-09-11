@@ -43,8 +43,10 @@ class ViewOrder extends Component {
   searchFilter = search => {
     return function(x) {
       return (
-        // x.customer.firstname.toLowerCase().includes(search.toLowerCase()) ||
+        x.customer.firstname.toLowerCase().includes(search.toLowerCase()) ||
+        x.customer.lastname.toLowerCase().includes(search.toLowerCase())||
         x.status.toLowerCase().includes(search.toLowerCase()) ||
+        x.orderId.toString().includes(search.toString())||
         !search
       );
     };
@@ -163,29 +165,32 @@ class ViewOrder extends Component {
                   <p className="view-orders-heading">View Orders</p>
                   </div>
                 </div>
-                <div className="row iconsRow">
-                  <div className="col-1 ">
+                <div className="col-12 row p-0 iconRow">
+                <div className="col-5 p-0 d-flex justify-content-around">
+                <div className="">
                     <i className="fa fa-sort-amount-down" aria-hidden="true"></i></div>
-                  <div className="col-1">
+                  <div className="">
                     <i className="fa fa-sort-amount-up" aria-hidden="true"></i></div>
-                  <div className="col-2">
-                  <select type="select">
-                    <option>Limit</option>
-                    <option>Limit 10</option>
-                    <option>Limit 20</option>
-                    <option>Limit 30</option>
+                  <div className="col-4 p-0 d-flex justify-content-start">
+                    <label className="float-left my-auto">Limit</label>
+                  <select type="select" className="float-left my-auto" >
+                    <option>10</option>
+                    <option>20</option>
+                    <option>30</option>
                   </select>
-                  {/* <i className="fa fa-angle-down"/> */}
+                  <i className="fa fa-angle-down my-auto float-left"/>
                   </div>
-                  <div className="col-2">
+                  <div className="col-4">
                     <i class="fa fa-search" aria-hidden="true"></i>
                     <input type="text"
-                    name="search"
+                    className="col-3"
+                    placeholder="Search"
                     value={this.state.search}
                     onChange={this.handleSearchInput}/>
                     </div>
-                  <div className="col-2">
-                  <div className="sw-action-bar__item sw-action-bar__item--right">
+                </div>
+                
+                  <div className="sw-action-bar__item sw-action-bar__item--right col-7 p-0">
                   <Pagination
                     activePage={this.state.activePage}
                     firstPageText={<i className="fa fa-angle-left"></i>}
@@ -196,7 +201,7 @@ class ViewOrder extends Component {
                     itemClass="page-item"
                     linkClasss="page-link"
                   />
-                </div>
+        
                   </div>
                 </div>
               <div className="orders_list">
