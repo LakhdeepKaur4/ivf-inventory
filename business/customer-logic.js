@@ -45,7 +45,9 @@ exports.createCustomer = async (req, res, next) => {
         await new Customer(body).save()
             .then(customer => {
                 body.address.customerId = customer.customerId;
+                body.address.type = 'address';
                 body.billingAddress.customerId = customer.customerId;
+                body.billingAddress.type = 'billing';
                 Addresses.create(body.address);
                 Addresses.create(body.billingAddress);
             });
