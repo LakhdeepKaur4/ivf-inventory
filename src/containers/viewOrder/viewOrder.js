@@ -52,6 +52,7 @@ class ViewOrder extends Component {
     };
   };
 
+
   // Get host url
     setHost = async host => {
     await this.setState({ host: host });
