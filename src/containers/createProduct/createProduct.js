@@ -283,7 +283,6 @@ class CreateProduct extends Component {
   };
 
   displayEditOptionForm = (productId, varId, optId) => {
-
     this.props.history.push(
       `/productTree/${productId}/variant/${varId}/editOption/${optId}`
     );

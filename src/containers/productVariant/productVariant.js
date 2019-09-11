@@ -154,7 +154,6 @@ class ProductVariant extends Component {
     }
   }
 
-
   displayEditProductForm = (itemid) => {
     this.props.history.push(`/productTree/editProduct/${itemid}`)
   }
@@ -174,7 +173,7 @@ class ProductVariant extends Component {
 
   displayEditOptionForm = (productId, varId, optId) => {
     this.props.history.push(
-      `/productTree/${productId}/variant//${varId}/editOption/${optId}`
+      `/productTree/${productId}/variant/${varId}/editOption/${optId}`
     );
   };
 
