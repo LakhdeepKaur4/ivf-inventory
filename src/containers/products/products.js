@@ -20,6 +20,7 @@ class Products extends Component {
             limit: 5,
             totalItemsCount: 0,
         }
+        this.orderId = this.props.match.params.orderId;
     }
 
     setHost = host => {
@@ -30,8 +31,7 @@ class Products extends Component {
     searchOnChange = (e) => {
        
         this.props.getSearch(this.state.host, e.target.value);
-        console.log("this.props.getSearch======>",this.props.getSearch(this.state.host, e.target.value));
-        this.setState({ search: e.target.value })
+        this.setState({ search: e.target.value });
     }
 
     searchFilter = (search) => {
@@ -132,7 +132,7 @@ class Products extends Component {
             <table className="table">
                 <thead>
                     <tr>
-
+                        <th>PRODUCTS</th>
                         <th>NAME</th>
                         <th>SHIPPED</th>
                         <th>QTY.</th>

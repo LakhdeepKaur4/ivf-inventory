@@ -87,7 +87,7 @@ class App extends Component {
             <Route path="/editanorder" component={EditCustomerOrder} />
             <Route path="/finalizeorder" component={EditOrder} />
             <Route path="/addbrand" component={AddBrand} />
-            <Route path="/editproducts" component={Products} />
+            <Route path="/editproducts/:orderId" component={Products} />
             <Route path="/categories" component={Categories} />
             <Route path="/editBrand/:id" component={EditBrand} />
             <Route path="/blogPost" component={BlogPost} />
