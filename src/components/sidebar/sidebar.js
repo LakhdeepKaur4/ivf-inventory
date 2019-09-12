@@ -107,6 +107,17 @@ class Sidebar extends Component {
                             </ul>
                         </li>
 
+                        <li className="active sidebarHead">
+                            <a href="javascript:void(0)" onClick={this.toggleMenu.bind(this, "dashboard")} aria-expanded={menuState.dashboard.isOpen}>
+                                <span><i className="far fa-circle" aria-hidden="true"
+                                    style={{ color: "red" }}></i></span>DASHBOARD</a>
+                            <ul className={
+                                `collapse list-unstyled sidebarColl ${menuState.dashboard.isOpen ? "show" : ''}`
+                            } id="">
+                               
+                            </ul>
+                        </li>
+
 
                         <li className="active sidebarHead">
                             <a id="inventorySubmenuLink" href="javascript:void(0)" 
