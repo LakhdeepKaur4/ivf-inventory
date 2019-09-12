@@ -124,10 +124,10 @@ exports.updateOrder = async (req, res, next) => {
     const orderId = req.params.orderId;
     const body = req.body;
     const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(order => {
-      // if (body.product) {
-      //   body.product.cartId = order.cartId;
-      //   new CartProducts(body.product).save();
-      // }
+      if (body.product) {
+        body.product.cartId = order.cartId;
+        new CartProducts(body.product).save();
+      }
       return order.update(body);
     })
     if (updatedOrder) {
@@ -322,8 +322,7 @@ exports.searchCartProducts = async (req, res) => {
     let offset = 0;
     let limit = parseInt(req.params.limit);
     let page = parseInt(req.params.page);
-    // offset = parseInt(limit * (page - 1));
-    // console.log(offset);
+    offset = parseInt(limit * (page - 1));
     const searchField = req.query.search;
     const cartProducts = await CartProducts.findAll({
       where: {
@@ -333,7 +332,7 @@ exports.searchCartProducts = async (req, res) => {
           }
         },
       },
-      offset: page,
+      offset: offset,
       limit: limit,
     });
     // console.log(cartProducts)
@@ -346,6 +345,10 @@ exports.searchCartProducts = async (req, res) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
   }
 }
+
+/* 
+  Change status of orders
+*/
 
 exports.changeStatus = async (req, res, next) => {
   try {
@@ -365,23 +368,33 @@ exports.changeStatus = async (req, res, next) => {
   }
 }
 
-// exports.changeStatus = async (req, res, next) => {
-//   try {
-//     const orderId = req.params.orderId;
-//     const body = req.body;
-//     const order = await Addresses.findOne({ where: { orderId: orderId } }).then(order => {
-//       return order.update(body);
-//     })
-//     if (updatedOrder) {
-//       return res.status(httpStatus.OK).json({
-//         message: "Successfully status changed",
-//         updatedOrder
-//       });
-//     }
-//   } catch (error) {
-//     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
-//   }
-// }
+/* 
+  Change address associate with particular address
+*/
+
+exports.getAddresses = async (req, res, next) => {
+  try {
+    const address = await Orders.findOne({
+      where: { orderId: req.params.orderId },
+      include: [
+        { model: Customers, required: false, include: [{ model: Addresses, where: { type: 'Billing' } }] },
+        { model: Shipments, include: [{ model: Addresses }] },
+      ]
+    })
+    if (address) {
+      return res.status(httpStatus.OK).json({
+        message: "Address Page",
+        address
+      });
+    } else {
+      return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+        message: "No address associated with customer"
+      });
+    }
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
+  }
+}
 
 
 

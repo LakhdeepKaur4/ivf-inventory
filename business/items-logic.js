@@ -24,7 +24,6 @@ exports.getItemById = async (req, res, next) => {
       return res.json({ item });
     }
   } catch (error) {
-    console.log(error);
     return res.send(error);
   }
 }
@@ -32,7 +31,7 @@ exports.getItemById = async (req, res, next) => {
 exports.getVariantsByProductId = async (req, res, next) => {
   try {
     let item = await ItemVariant.find({ 'ancestors': { $in: [ObjectId(req.params.id)] } }, { new: true }).populate("ancestors", "sku").exec((err, resp) => {
-      if (err) console.log(err);
+      if (err) return;
       else return;
     });
     if (item) {
@@ -92,7 +91,6 @@ exports.getProductByBrand = async (req, res, next) => {
 exports.getProductByCategory = async (req, res, next) => {
   try {
     const categoryId = req.params.id;
-    console.log(categoryId)
     let category = await Item.find({ 'category': { $in: [categoryId] } }, { new: true }).select({ "name": 1, "shopId": 1, "description": 1, "variants": 1, "productType": 1, "originCountry": 1 }).populate('category', 'name');
     if (category) {
       return res.status(httpStatus.OK).send({ message: "Item by category page", item: category });
@@ -139,7 +137,7 @@ exports.getItemsByIds = async (req, res, next) => {
   try {
     const ids = req.query.ids;
     let item = await Item.find({ '_id': { $in: ids } }).exec((err, resp) => {
-      if (err) console.log(err);
+      if (err) return;
       else return;
     });
     if (item) {
@@ -198,7 +196,6 @@ exports.updateItems = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.log(error)
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", message: error });
   }
 }
