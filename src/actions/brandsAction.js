@@ -38,7 +38,7 @@ export function getDefaultPageBrandsDetails(defaultPage,url) {
       })
       .catch(err => {
         if(err.isAxiosError){
-          toasterMessage("error", 'ERROR FETCHING RECORDS');
+          toasterMessage("error", 'ERROR FETCHING BRANDS');
       }
       else
         toasterMessage("error", err);
@@ -86,10 +86,10 @@ export function addBrand(data,url,page) {
       })
       .catch(err => {
         if(err.isAxiosError){
-          toasterMessage("error", 'ERROR FETCHING RECORDS');
+          toasterMessage("error", 'ERROR ADDING BRAND');
       }
-      else if(err.response.status===400){
-        toasterMessage("error",err.response.data.message);
+      else {
+        toasterMessage("error",err);
       }
        
       });
@@ -116,8 +116,12 @@ export function enableBrand(id,currentPage,url) {
         }
       })
       .catch(err => {
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR CHANGING BRAND STATUS');
+      }
+      else
         toasterMessage("error", err);
-      });changeStatus
+      })
   };
 }
 
@@ -141,6 +145,9 @@ export function disableBrand(id,currentPage,url) {
         }
       })
       .catch(err => {
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR CHANGING BRAND STATUS');
+      }
         toasterMessage("error", err);
       });
   };
@@ -155,7 +162,13 @@ export function getBrandDetails(id,url) {
         dispatch({ type: BRAND_DETAIL, payload: response.data.brand });
       })
       .catch(err => {
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR GETTING BRAND DETAILS');
+      }
+      else{
         toasterMessage("error", err);
+      }
+        
       });
   };
 }
@@ -180,7 +193,13 @@ export function updateBrandDetails(data,id,url,callback) {
         }
       })
       .catch(err => {
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR UPDATING BRAND DETAILS');
+      }
+      else{
         toasterMessage("error", err);
+      }
+        
       });
   };
 }
@@ -210,7 +229,12 @@ export function changeStatus(value, ids,currentPage,url) {
         }
       })
       .catch(err => {
+        if(err.isAxiosError){
+          toasterMessage("error", 'ERROR CHANGING BRANDS STATUS');
+      }
+      else{
         toasterMessage("error", err);
+      }
       });
   };
 }

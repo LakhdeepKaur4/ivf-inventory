@@ -24,7 +24,6 @@ export function GetInitialCategory(URL){
 }
 
 export function GetParticularCategory(URL,id){
-    console.log('reached',URL,id);
     const request = axios.get(`${URL}/api/category/${id}`)
     .then((response => {
         if(response.data && response.data.length){

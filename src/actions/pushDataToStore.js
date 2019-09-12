@@ -3,18 +3,13 @@ import { toasterMessage } from "../utils.js"
 import axios from 'axios';
 
 export function getProducts(URL,productId){
-    console.log(URL);
-    console.log(productId);
     var arr= productId.map((item)=>{
         return `ids=${item}`
-    })
-    console.log(arr);
+    });
     var newArr= arr.join('&');
-    console.log(newArr);
     const request = axios.get(`${URL}/api/item/multiselect/ids?${newArr}`)
     .then((response => response.data)).catch(err=>{
-        if(err.isAxiosError){
-            console.log('shd');
+        if(err.isAxiosError){;
             toasterMessage("error", 'ERROR FETCHING RECORDS');
         }
         else{
@@ -28,7 +23,6 @@ export function getProducts(URL,productId){
     }
 }
 export function getStores(URL){
-    console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii',URL)
     const request = axios.get(`${URL}/provision/instances`)
     .then((response => response.data))
     .catch(err=>{

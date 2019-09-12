@@ -56,7 +56,7 @@ class ProductVariant extends Component {
     }
   }
 
-
+// for file upload
 
   componentDidMount() {
     $("input[type=file]").attr("id", "file-upload");
