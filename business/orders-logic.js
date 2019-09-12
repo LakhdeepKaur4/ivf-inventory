@@ -171,6 +171,7 @@ exports.getCartProductsOfExistingOrder = async (req, res, next) => {
 exports.advancedSearchOrders = (req, res, next) => {
   try {
     const body = req.query;
+    console.log(body);
     Orders.findAll({
       where: {
         [Op.and]: [
@@ -257,6 +258,12 @@ exports.advancedSearchOrdersNew = (req, res, next) => {
           })
           orders = ordersNew;
         }
+        if (order.shop !== 'undefined' && order.shop !== '' && order.shop !== null) {
+          ordersNew = orders.filter(item => {
+            return order.shop === item.storeId;
+          })
+          orders = ordersNew;
+        }
         if (order.orderStart !== 'undefined' && order.orderStart !== '' && order.orderStart !== null) {
           ordersNew = orders.filter(item => {
             return order.orderStart <= item.payment.amount;
@@ -269,27 +276,27 @@ exports.advancedSearchOrdersNew = (req, res, next) => {
           })
           orders = ordersNew;
         }
-        if (order.createStartDate !== 'undefined' && order.createStartDate !== '' && order.createStartDate !== null) {
+        if (order.createStartDate !== 'NaN' && order.createStartDate !== 'undefined' && order.createStartDate !== '' && order.createStartDate !== null) {
           ordersNew = orders.filter(item => {
-            return Date.parse(order.createStartDate) <= Date.parse(item.createdAt);
+            return Number(order.createStartDate) <= Date.parse(item.createdAt);
           })
           orders = ordersNew;
         }
-        if (order.createEndDate !== 'undefined' && order.createEndDate !== '' && order.createEndDate !== null) {
+        if (order.createEndDate !== 'NaN' && order.createEndDate !== 'undefined' && order.createEndDate !== '' && order.createEndDate !== null) {
           ordersNew = orders.filter(item => {
-            return Date.parse(order.createEndDate) >= Date.parse(item.createdAt);
+            return Number(order.createEndDate) >= Date.parse(item.createdAt);
           })
           orders = ordersNew;
         }
-        if (order.updateStartDate !== 'undefined' && order.updateStartDate !== '' && order.updateStartDate !== null) {
+        if (order.updateStartDate !== 'NaN' && order.updateStartDate !== 'undefined' && order.updateStartDate !== '' && order.updateStartDate !== null) {
           ordersNew = orders.filter(item => {
-            return Date.parse(order.updateStartDate) <= Date.parse(item.updatedAt);
+            return Number(order.updateStartDate) <= Date.parse(item.updatedAt);
           })
           orders = ordersNew;
         }
-        if (order.updateEndDate !== 'undefined' && order.updateEndDate !== '' && order.updateEndDate !== null) {
+        if (order.updateEndDate !== 'NaN' && order.updateEndDate !== 'undefined' && order.updateEndDate !== '' && order.updateEndDate !== null) {
           ordersNew = orders.filter(item => {
-            return Date.parse(order.updateEndDate) >= Date.parse(item.updatedAt);
+            return Number(order.updateEndDate) >= Date.parse(item.updatedAt);
           })
           orders = ordersNew;
         }

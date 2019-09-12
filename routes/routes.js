@@ -12,6 +12,7 @@ module.exports = (router) => {
     const storesCategorymappingRoutes = require('./stores-category-mapping');
     const ordersRoutes = require('./orders');
     const shipmentsRoutes = require('./shipments');
+    const paymentsRoutes = require('./payments');
     const customersRoutes = require('./customer');
     const uploadRoutes = require('./upload');
     
@@ -26,6 +27,7 @@ module.exports = (router) => {
     router.use('/map/stores/categories', storesCategorymappingRoutes);
     router.use('/orders', ordersRoutes);
     router.use('/shipments', shipmentsRoutes);
+    router.use('/payments', paymentsRoutes);
     router.use('/customer', customersRoutes);
     router.use('/upload', uploadRoutes);
 }
