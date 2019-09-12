@@ -11,7 +11,7 @@ import thunk from "redux-thunk";
 // Bootstrap 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-dropzone-uploader/dist/styles.css'
-
+import './common.css';
 import createInterceptors from './axiosInterceptor';
 
 const sagaMiddleware = createSagaMiddleware()
