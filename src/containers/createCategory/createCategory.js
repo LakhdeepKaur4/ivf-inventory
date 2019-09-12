@@ -250,6 +250,7 @@ class ClassCategory extends Component {
 
     render() {
         let editableData = this.state;
+        console.log("editable", editableData)
         return (
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);

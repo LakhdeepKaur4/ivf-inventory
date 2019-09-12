@@ -415,6 +415,7 @@ class ProductsView extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log(state)
     return {
         ProductsViewReducer: state.ProductsViewReducer
     }

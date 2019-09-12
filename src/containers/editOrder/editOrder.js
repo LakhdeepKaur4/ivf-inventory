@@ -34,6 +34,7 @@ class EditOrder extends Component {
 
     /* fetch lsit of data from db */
     viewEditOrder = ({ editOrder }) => {
+        console.log("================",editOrder)
         if (editOrder) {
             return editOrder.map(item => {
                 return (
@@ -153,6 +154,7 @@ class EditOrder extends Component {
 
                         {/* Details Form */}
                         <div className="billingDiv p-4 mt-4 mb-1">
+                              <h5>Shipping to</h5>
                             <form>
                                 <div className="form-row">
                                     <div className="form-group col-md-6">

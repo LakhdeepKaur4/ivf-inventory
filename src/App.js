@@ -47,7 +47,7 @@ class App extends Component {
           <Spinner />
           <Switch>
             <Route path="/statusbar" component={StatusBar} />
-            <Route path="/processOrder" component={ProcessOrder} />
+            <Route path="/processOrder/:id" component={ProcessOrder} />
 
             <Route path="/uploadComponent" component={UploadComponent}/>
             <Route path="/storeSettings" component={ UnderConstruction } />
@@ -83,7 +83,7 @@ class App extends Component {
             {/* <Route path="/shipping" component={Shipping} /> */}
             <Route path="/pushProductsView" component={PushProductsView} />
             <Route path="/addBrand" component={AddBrand} />
-            <Route path="/editanorder/:id" component={EditCustomerOrder} />
+            <Route path="/editanorder/:orderId" component={EditCustomerOrder} />
             <Route path="/editanorder" component={EditCustomerOrder} />
             <Route path="/finalizeorder" component={EditOrder} />
             <Route path="/addbrand" component={AddBrand} />
