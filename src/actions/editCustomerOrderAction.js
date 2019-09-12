@@ -49,18 +49,20 @@ export function getOrderAddress(URL, orderId) {
 }
 
 
-export function addCustomer(URL, payload) {
-
+export function addCustomer(URL, payload,orderId) {
     return (dispatch) => {
-        debugger;
-        const request = axios.post(`${URL}/api/customer`, payload)
+        axios.post(`${URL}/api/customer`, payload)
             .then((response => {
-                debugger;
-                console.log("response ", response);
-            })).catch((err) => {   
+                if(response.status===200 && response.data.message==='Customer created successfully'){
+                    dispatch({type:ADD_CUSTOMER, payload:response.data.customer})
+                    toasterMessage("success", response.data.message);
+                    dispatch(addCustomerInOrder(URL,response.data.customer.customerId,orderId))
+                }
+            }))
+            .catch((err) => {   
 
                 if (err.isAxiosError) {
-                    toasterMessage("error", 'ERROR FETCHING ORDER DETAILS');
+                    toasterMessage("error", 'ERROR ADDING CUSTOMER');
                 }
                 else {
                     toasterMessage("error", err);
@@ -89,4 +91,15 @@ export function getCustomer(URL, search) {
             }))
     }
 
+}
+
+//Add customer to an order
+
+export function addCustomerInOrder(URL,customerId,orderId){
+    return(dispatch)=>{
+        axios.put(`${URL}/api/customer/${orderId}/${customerId}`)
+        .then(response=>{
+            dispatch(getOrderDetail(URL, orderId))
+        })
+    }
 }
