@@ -10,6 +10,8 @@ router.route("/search/cart/:limit/:page").get(controller.searchCartProducts);
 
 router.route("/advancedSearch").get(controller.advancedSearchOrdersNew);
 
+router.route("/filter/store").get(controller.filterOrders);
+
 router.route("/:id").get(controller.getOrderById);
 
 router.route("/").post(controller.create);

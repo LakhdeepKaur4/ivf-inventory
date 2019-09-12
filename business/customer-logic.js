@@ -1,5 +1,8 @@
 const Customer = require('../models/customer');
 const Addresses = require('../config/relations').addresses;
+const CartProducts = require('../config/relations').cartProducts; // CartProducts model imported
+const Shipments = require('../config/relations').shipments; // Shipments model imported
+const Orders = require('../config/relations').orders;
 const httpStatus = require('http-status');
 const Sequelize = require('sequelize');
 
@@ -41,19 +44,106 @@ exports.searchCustomer = async (req, res) => {
 exports.createCustomer = async (req, res, next) => {
     try {
         let body = req.body;
-        console.log(body);
         await new Customer(body).save()
             .then(customer => {
-                body.address.customerId = customer.customerId;
-                body.address.type = 'address';
-                body.billingAddress.customerId = customer.customerId;
-                body.billingAddress.type = 'billing';
-                Addresses.create(body.address);
-                Addresses.create(body.billingAddress);
+                body.customerId = customer.customerId;
+                body.address1 = body.address;
+                body.type = 'address';
+                Addresses.create(body);
+                return res.status(httpStatus.OK).json({ message: "Customer created successfully", customer });
             });
-        return res.status(httpStatus.OK).json({ message: "Customer created successfully" });
+
     } catch (error) {
-        console.log(error);
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error })
     }
 };
+
+/* 
+    Updating customer
+*/
+exports.updateCustomer = async (req, res, next) => {
+    try {
+        const customerId = req.params.customerId;
+        let body = req.body;
+        const updatedCustomer = await Customer.findOne({ where: { customerId: customerId } }).then(customer => {
+            return customer.update(body);
+        })
+        if (updatedCustomer) {
+            return res.status(httpStatus.OK).json({ message: "Customer updated successfully" });
+        }
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error })
+    }
+};
+
+/* 
+  Add billing address of customer
+*/
+exports.addBillingAddressofCustomer = async (req, res, next) => {
+    try {
+        const orderId = req.params.orderId;
+        const customerId = req.params.customerId;
+        const existingAddress = await Addresses.findOne({ where: { customerId: customerId } });
+        const { dataValues } = existingAddress;
+        delete dataValues.addressId;
+        dataValues.type = 'billing';
+        const newAddress = await Addresses.create(dataValues);
+        const updatedOrder = await Orders.update({ customerId: customerId }, { where: { orderId: orderId } })
+        if (newAddress && updatedOrder) {
+            return res.status(httpStatus.OK).json({ message: "Address updated successfully" });
+        }
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error })
+    }
+};
+
+exports.updateQuantityInCartProducts = async (req, res, next) => {
+    try {
+        console.log("____")
+        const cartProductId = req.params.cartProductId;
+        const updatedCartProducts = await CartProducts.update({ quantity: req.body.quantity }, { where: { cartProductId: cartProductId } });
+        if (updatedCartProducts) {
+            return res.status(httpStatus.OK).json({ message: "Updated cart products successfully" });
+        }
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error })
+    }
+}
+
+exports.addProductsToExistingCart = async (req, res, next) => {
+    try {
+        const body = req.body;
+        body['SKU'] = body.Sku;
+        body['price'] = body.price.range;
+        body['productVendor'] = body.vendor;
+        body['productTitle'] = body.name;
+        console.log(body);
+        const products = await new CartProducts(body).save();
+        if (products) {
+            return res.status(httpStatus.OK).json({ message: "Updated cart products successfully" });
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error })
+    }
+}
+
+exports.updateExistingAddresses = async (req, res, next) => {
+    try {
+        const orderId = req.params.orderId;
+        const body = req.body;
+        const order = await Orders.findOne({ where: { orderId: orderId } });
+        const { dataValues } = order;
+        if (body.billingAddress) {
+            await Addresses.update(body.billingAddress, { customerId: dataValues.customerId });
+        }
+        if (body.shippingAddress) {
+            const shipment = await Shipments.findOne({ where: { shipmentId: dataValues.shipmentId } });
+            const { dataValues } = shipment;
+            await Addresses.update(body.shippingAddress, { addressId: dataValues.addressId });
+        }
+        return res.status(httpStatus.OK).json({ message: "Addresses updated successfully" });
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error })
+    }
+}

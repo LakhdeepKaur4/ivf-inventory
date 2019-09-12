@@ -7,7 +7,7 @@ const Payments = require('../config/relations').payments; // Payments model impo
 const Shipments = require('../config/relations').shipments; // Shipments model imported
 const httpStatus = require('http-status'); // Module to provide HTTP response codes
 const Op = require('sequelize').Op; // Sequelize operators imported
-
+const { voxel } = require('../env');
 const resJson = require('../helpers/response').resJson; //helper function to send response in JSON format
 
 // Getting all orders
@@ -388,6 +388,5 @@ exports.getAddresses = async (req, res, next) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
   }
 }
-
 
 

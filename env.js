@@ -43,5 +43,5 @@ module.exports = {
         MINIO_USE_SSL: process.env.MINIO_USE_SSL == 'true',
         MINIO_ACCESSKEY: process.env.MINIO_ACCESSKEY,
         MINIO_SECRETKEY: process.env.MINIO_SECRETKEY
-    }
+    },
 }
