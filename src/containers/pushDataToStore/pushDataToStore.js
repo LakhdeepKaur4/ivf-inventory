@@ -92,7 +92,8 @@ class PushDataToStore extends React.Component {
     }
     navigateAhead = () => {
         // this.props.history.push('/')
-        axios.post(`${this.state.host[1]}/api/map/stores/products`,{products:this.state.productId,stores:this.state.storeId})
+        axios.post(`${this.state.host[2]}/api/map/stores/products`,{products:this.state.productId,stores:this.state.storeId})
+        .then((res)=>console.log(res.data.message));
          this.props.history.push('/sidebar');
     }
 

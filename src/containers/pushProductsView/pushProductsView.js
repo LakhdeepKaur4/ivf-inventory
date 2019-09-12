@@ -221,10 +221,14 @@ class ProductsView extends Component {
         this.setState({ error: false });
         console.log(this.state.allIds);
         if (action === true) {
-            this.setState({ ids: [...this.state.allIds], checked: true });
+            this.setState({ ids: [...this.state.ids,...this.state.allIds], checked: true });
 
         } else {
-            this.setState({ ids: [], checked: false });
+            let ids = this.state.ids;
+            ids = ids.filter(item => {
+                return !this.state.allIds.includes(item);
+            })
+            this.setState({ ids: ids, checked: false });
         }
     }
 
