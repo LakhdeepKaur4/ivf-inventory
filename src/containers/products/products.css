@@ -7,11 +7,6 @@ ul li{
     height: 300px;
     overflow: auto;
 } 
-.subDivBottom { 
-    position: absolute; 
-    display: flex;
-    align-items: baseline;
-} 
 
 .productsMainContainer {
     margin: auito;
@@ -50,4 +45,15 @@ ul li{
     top: 36px;
     height: 1px;
     border-top: 1px solid #F74A4A;
+}
+.hide{
+	display: none !important;
+}
+
+.underline.visible{
+	visibility: hidden !important;
+}
+
+.card-title.visible{
+	color: #999999 !important;
 }

@@ -2,8 +2,6 @@ import axios from 'axios';
 
 import{CREATE_PRODUCT,POST_CREATE_PRODUCT, PRODUCT_DATA, PRODUCT_VARIANT, UPDATE_VARIANT, UPDATE_PRODUCT, UPDATE_PRODUCT_ID} from '../actionCreators/index';
 
-
-
 export function createProductDetails(URL){
     const request = axios.get(`${URL}/api/item`)
     .then(response =>response.data)
@@ -21,7 +19,6 @@ export const createProductData=(brandId, name,sku, optStock, price,  subTitle, v
    const data={
         brandId, name,sku, optStock, price,  subTitle, vendor, description, originCountry, template, hashtags, metafields, tagsInfo, productPictures
     }
-    console.log(data);
     return {
         type: POST_CREATE_PRODUCT,
         payload:data
@@ -36,7 +33,6 @@ export const productVariant=(data)=>{
 }
 
 export const productData=(URL,payload)=>{
-    console.log("==========payload",payload)
     const request = axios.post(`${URL}/api/item`, payload)
      .then(response => response.data)
      return{
@@ -53,7 +49,6 @@ export const updateVariant=(variants)=>{
 }
 
 export const updateProduct=(URL,id,product)=>{
-    console.log(id,product,"=================id, product")
     const request = axios.put(`${URL}/api/item/${id}`, product )
     .then(response => response.data)
     .then(()=>{

@@ -23,11 +23,8 @@
 
 
 .view-order-list th{
-    top: 299px;
-    left: 473px;
+    /* left: 473px; */
     width: 64px;
-    height: 14px;
-    text-align: left;
     font: Bold 11px/14px Source Sans Pro;
     letter-spacing: 0;
     color: #a3a6b4;
@@ -35,14 +32,10 @@
     opacity: 1
 }
 .view-order-list td {
-    text-align: left;
     font: 13px/20px Source Sans Pro;
     letter-spacing: 0;
     color: #4d4f5c;
     opacity: 1;
-  }
-  .pagination{
-      float:right;
   }
   .view-orders-heading{
     text-align: left;
@@ -54,4 +47,57 @@
   }
   .view-order-list.search{
       border: none !important
+  }
+  .view-order-list i{
+    color: #777777;
+  }
+  .viewOrderTable{
+      background-color: #ffffff
+  }
+  .iconsRow{
+    text-align: left;
+    font: 14px/40px Source Sans Pro;
+    letter-spacing: 0;
+    color: #777777;
+    opacity: 1;
+  }
+  .view-order-list.sw-action-bar__item .page-item {
+    top: 227px;
+    left: 649px;
+    width: 24px;
+    height: 18px;
+    text-align: left;
+    font: 14px/40px 'Source Sans Pro', sans-serif;
+    letter-spacing: 0;
+    color: #777777;
+    opacity: 1;
+    margin: 0 !important;
+  }
+  
+  .view-order-list.sw-action-bar__item .pagination {
+    text-align: right !important;
+  }
+  
+  .view-order-list .sw-action-bar__item{
+    margin-right: -1rem !important;
+  }
+  input{
+    background-color: transparent;
+    border:0;
+  }
+  .view-order-list .pagination {
+    float: right;
+  }
+  .iconRow select,.iconRow label{
+    background: transparent;
+    border: 0;
+    font: 14px/40px Source Sans Pro;
+    letter-spacing: 0;
+    color: #777777;
+    opacity: 1;
+  }
+  .iconRow i{
+    font-size: 14px;
+    color: #777777;
+    opacity: 1;
   }

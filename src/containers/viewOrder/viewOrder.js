@@ -43,12 +43,15 @@ class ViewOrder extends Component {
   searchFilter = search => {
     return function(x) {
       return (
-        // x.customer.firstname.toLowerCase().includes(search.toLowerCase()) ||
+        x.customer.firstname.toLowerCase().includes(search.toLowerCase()) ||
+        x.customer.lastname.toLowerCase().includes(search.toLowerCase())||
         x.status.toLowerCase().includes(search.toLowerCase()) ||
+        x.orderId.toString().includes(search.toString())||
         !search
       );
     };
   };
+
 
   // Get host url
     setHost = async host => {
@@ -61,50 +64,39 @@ class ViewOrder extends Component {
     this.props.history.push(`/editanorder/${id}`);
   };
 
-  // Display orders list
 
+  // Handle Process order
+  handleProcessOrder=id=>{
+    this.props.history.push(`/processOrder/${id}`)
+  }
+  // handle back button
+
+  handleBackButton=()=>{
+    this.props.history.push("/advancedSearch")
+  }
+  // Display orders list
   viewOrdersList = ({ viewOrder }) => {
-    let orderStr = [];
+    const orderStr = [];
     if (viewOrder) {
       return viewOrder
         .filter(this.searchFilter(this.state.search))
         .map(item => {
           item.cart.cartProducts.map(data => {
-             return orderStr.push(data.productTitle);
+              orderStr.push(data.productTitle);
           });
-          orderStr = orderStr.join(", ");
+          let productStr = orderStr.join(", ");
+          let color=item.status==='NEW'?'#F46565':(item.status==='COMPLETED'?'#1ABC9C':'#F79F2B')
           return (
             <tr key={item.orderId}>
-              <td>{item.createdAt}</td>
+              <td>{item.createdAt.split('T')[0]}</td>
               <td>{item.orderId}</td>
-              <td>
-                {item.status === "Failed" ? (
-                  <span>
-                    <i
-                      className="fa fa-circle"
-                      style={{ marginRight: "4px", color: "red" }}
-                    ></i>
-                  </span>
-                ) : item.status === "Successful" ? (
-                  <span>
-                    <i
-                      className="fa fa-circle"
-                      style={{ marginRight: "4px", color: "green" }}
-                    ></i>
-                  </span>
-                ) : (
-                  <span>
-                    <i
-                      className="fa fa-circle"
-                      style={{ marginRight: "4px", color: "yellow" }}
-                    ></i>
-                  </span>
-                )}
-                {item.status}
+              <td style={{color:color}}>
+              
+              {item.status}
               </td>
               <td>{item.customer.firstname}</td>
-              <td>{item.payment.amount}</td>
-              <td>{orderStr}</td>
+              <td>{item.amount}</td>
+              <td>{productStr}</td>
               <td>
                 <div className="dropdown">
                   <button
@@ -130,7 +122,7 @@ class ViewOrder extends Component {
                       Edit Order
                     </a>
 
-                    <a className="dropdown-item">Process Order</a>
+                    <a className="dropdown-item" onClick={()=>{this.handleProcessOrder(item.orderId)}}>Process Order</a>
                   </div>
                 </div>
               </td>
@@ -143,7 +135,7 @@ class ViewOrder extends Component {
   render() {
     let viewOrderData = (
       <div className="table-responsive">
-        <table className="table" style={{ fontSize: "13px" }}>
+        <table className="table viewOrderTable">
           <thead>
             <tr>
               <th scope="col">DATE</th>
@@ -174,21 +166,32 @@ class ViewOrder extends Component {
                   <p className="view-orders-heading">View Orders</p>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-2"><i className="fas fa-sort-amount-down" aria-hidden="true"></i></div>
-                  <div className="col-2"><i className="fas fa-sort-amount-up" aria-hidden="true"></i></div>
-                  <div className="col-3">
-                  <select type="select">
-                    <option>Limit</option>
-                    <option>Limit10</option>
-                    <option>Limit20</option>
-                    <option>Limit30</option>
+                <div className="col-12 row p-0 iconRow">
+                <div className="col-5 p-0 d-flex justify-content-around">
+                <div className="">
+                    <i className="fa fa-sort-amount-down" aria-hidden="true"></i></div>
+                  <div className="">
+                    <i className="fa fa-sort-amount-up" aria-hidden="true"></i></div>
+                  <div className="col-4 p-0 d-flex justify-content-start">
+                    <label className="float-left my-auto">Limit</label>
+                  <select type="select" className="float-left my-auto" >
+                    <option>10</option>
+                    <option>20</option>
+                    <option>30</option>
                   </select>
-                  <i className="fa fa-angle-down"/>
+                  <i className="fa fa-angle-down my-auto float-left"/>
                   </div>
-                  <div className="col-2">search</div>
-                  <div className="col-2">
-                  <div className="sw-action-bar__item sw-action-bar__item--right">
+                  <div className="col-4">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input type="text"
+                    className="col-3"
+                    placeholder="Search"
+                    value={this.state.search}
+                    onChange={this.handleSearchInput}/>
+                    </div>
+                </div>
+                
+                  <div className="sw-action-bar__item sw-action-bar__item--right col-7 p-0">
                   <Pagination
                     activePage={this.state.activePage}
                     firstPageText={<i className="fa fa-angle-left"></i>}
@@ -199,12 +202,21 @@ class ViewOrder extends Component {
                     itemClass="page-item"
                     linkClasss="page-link"
                   />
-                </div>
+        
                   </div>
                 </div>
               <div className="orders_list">
                 <div>{viewOrderData}</div>
               </div>
+            </div>
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                className="btn pl-5 pr-5 rounded-pill btnNextAdvanced"
+                onClick={this.handleBackButton}
+              >
+                back
+              </button>
             </div>
           </div>
         </Dashboard>
