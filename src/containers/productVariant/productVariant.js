@@ -267,7 +267,6 @@ class ProductVariant extends Component {
   componentWillReceiveProps(nextProps) {
     let variantId = nextProps.match.params.variantId;
     let itemId = nextProps.match.params.itemid;
-    // debugger;
     if (itemId && !this.alreadyFetchedProductDetail) {
       this.alreadyFetchedProductDetail = true;
       this.props.getProductById(this.state.host[1], itemId)

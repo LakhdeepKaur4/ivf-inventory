@@ -470,8 +470,7 @@ class CreateProduct extends Component {
 
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-
-          <td><img src={item ? item : `${this.state.host[0]}${item}`} style={{ width: "60px" }} value={this.state.picture} alt="productPic" /></td>
+          <td><img src={item.picture ? item.picture : `${this.state.host[0]}${item}`} style={{ width: "60px" }} value={this.state.picture} alt="productPic" /></td>
           <td> <i className="fa fa-close close-icon" onClick={() => {
             this.setState(prevState => {
               let productPictures = [...prevState.productPictures]
