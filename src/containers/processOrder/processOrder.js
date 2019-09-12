@@ -3,10 +3,12 @@ import "../../commonCss/style.css";
 import "./processOrder.css";
 import Dashboard from "../../components/dashboard/dashboard";
 import StatusBar from "../../components/orderStatus/orderStatus";
-// import { connect } from 'react-redux';
+import { getProcessOrderStatus } from "../../actions/processOrderAction";
+import { connect } from 'react-redux';
 import HostResolver from "../../components/resolveHost/resolveHost";
 import axios from "axios";
 import { toasterMessage } from "../../utils";
+import { bindActionCreators } from "redux";
 
 class ProcessOrder extends Component {
   constructor(props) {
@@ -17,7 +19,6 @@ class ProcessOrder extends Component {
       currentStatusIndex: 0,
       host: "",
       _id: props.match.params.id,
-      orderSpecificData: []
     };
   }
 
@@ -38,10 +39,8 @@ class ProcessOrder extends Component {
 
   setHost = host => {
     this.setState({ host });
-
     if (this.state._id) {
-      axios
-        .get(`${host}/api/orders/${this.state._id}`)
+      this.props.getProcessOrderStatus(host, this.state._id)
         .then(res => {
           let arr = [];
           arr.push(res.data);
@@ -54,6 +53,81 @@ class ProcessOrder extends Component {
         });
     }
   };
+
+  orderDetails = ({ orderDataStatus }) => {
+    const orderStr = []
+    if (orderDataStatus) {
+
+      return orderDataStatus.map(item => {
+        item.cart.cartProducts.map(data => {
+          orderStr.push(data.productTitle);
+        });
+        let productStr = orderStr.join(", ");
+
+        return (
+          <div
+            className="col-5 underSummarySection"
+            key={item.orderId}
+          >
+            <div className="row">
+              <div className="summaryContentHeading col-6">
+                <label>DATE</label>
+              </div>
+              <div className="summaryContentData col-6">
+                <label>{item.createdAt.split("T")[0]}</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="summaryContentHeading col-6">
+                <label>ORDER ID</label>
+              </div>
+              <div className="summaryContentData col-6">
+                <label>{item.orderId}</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="summaryContentHeading col-6">
+                <label>CUSTOMER</label>
+              </div>
+              <div className="summaryContentData col-6">
+                <label>{`${item.customer.firstname} ${item.customer.lastname}`}</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="summaryContentHeading col-6">
+                <label>STATUS</label>
+              </div>
+              <div className="summaryContentData col-6">
+                <label style={{ color: "#1ABC9C" }}>
+                  {item.status}
+                </label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="summaryContentHeading col-6">
+                <label>ST. TOTAL</label>
+              </div>
+              <div className="summaryContentData col-6">
+                <label>{item.amount}</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="summaryContentHeading col-6">
+                <label>ORDER</label>
+              </div>
+              <div className="summaryContentData col-6">
+                <label>{productStr}s</label>
+              </div>
+            </div>
+          </div>
+        )
+      })
+    }
+  }
+
+  handleBackButton = () => {
+    this.props.history.push('/vieworders');
+  }
 
   moveToNextStatus = () => {
     if (this.state.currentStatusIndex + 1 < this.state.headingData.length) {
@@ -107,71 +181,7 @@ class ProcessOrder extends Component {
             <div className="headingContentHeading">Summary</div>
             <div className="parentProcessOrder">
               <div className="row">
-                {this.state.orderSpecificData.length !== 0 &&
-                  this.state.orderSpecificData.map(item => {
-                    item.cart.cartProducts.map(data => {
-                      orderStr.push(data.productTitle);
-                    });
-                    let productStr = orderStr.join(", ");
-                    return (
-                      <div
-                        className="col-5 underSummarySection"
-                        key={item.orderId}
-                      >
-                        <div className="row">
-                          <div className="summaryContentHeading col-6">
-                            <label>DATE</label>
-                          </div>
-                          <div className="summaryContentData col-6">
-                            <label>{item.createdAt.split("T")[0]}</label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="summaryContentHeading col-6">
-                            <label>ORDER ID</label>
-                          </div>
-                          <div className="summaryContentData col-6">
-                            <label>{item.orderId}</label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="summaryContentHeading col-6">
-                            <label>CUSTOMER</label>
-                          </div>
-                          <div className="summaryContentData col-6">
-                            <label>{`${item.customer.firstname} ${item.customer.lastname}`}</label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="summaryContentHeading col-6">
-                            <label>STATUS</label>
-                          </div>
-                          <div className="summaryContentData col-6">
-                            <label style={{ color: "#FFCA83" }}>
-                              {item.status}
-                            </label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="summaryContentHeading col-6">
-                            <label>ST. TOTAL</label>
-                          </div>
-                          <div className="summaryContentData col-6">
-                            <label>{item.amount}</label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="summaryContentHeading col-6">
-                            <label>ORDER</label>
-                          </div>
-                          <div className="summaryContentData col-6">
-                            <label>{productStr}s</label>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-
+                {this.orderDetails((this.props.processOrderReducer))}
                 <div className="col-6 invoiceSection">
                   <div>
                     <i
@@ -229,7 +239,7 @@ class ProcessOrder extends Component {
               {this.renderStatusButton()}
             </div>
             <div className="backToOrdersButton">
-              <label className="backToOrdersButtonText">back to orders</label>
+              <button className="backToOrdersButtonText" onClick={this.handleBackButton}>back to orders</button>
             </div>
           </Dashboard>
         </div>
@@ -238,4 +248,16 @@ class ProcessOrder extends Component {
   }
 }
 
-export default ProcessOrder;
+function mapStateToProps(state) {
+  return {
+    processOrderReducer:state.processOrderReducer
+  }
+};
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getProcessOrderStatus
+  }, dispatch)
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProcessOrder);
