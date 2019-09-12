@@ -39,6 +39,7 @@ class ClassCategory extends Component {
             highlighted: false,
             errors: {},
             host: '',
+            categoryThumbnail:'',
             folderStructure:'createCategory',
             _id: props.match.params.id,
             editorState: EditorState.createEmpty(),
@@ -240,10 +241,10 @@ class ClassCategory extends Component {
         this.setState({ editorState, errors: errorObject });
     };
 
-    onFileUploaded = (files) => {
-        this.setState({ fileName: files[0].name, picture: files[0].base64 });
-
-    }
+    onFileUploaded = URL => {
+        console.log(URL);
+        this.setState({ categoryThumbnail: URL });
+      };
 
     //Previous state
     clickToBack = () => {

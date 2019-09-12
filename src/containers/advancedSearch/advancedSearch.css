@@ -1,11 +1,15 @@
-.selectAdvancedSearch{
-  text-align: left;
-  font: 12px/25px Muli;
+.selectAdvancedSearch option{
+  font:12px/25px Muli;
   letter-spacing: 0;
-  color: #43425d !important;
+  color: #43425D;
   opacity: 1;
 }
-
+ select.selectAdvancedSearch{
+  font:12px/25px Muli;
+  letter-spacing: 0;
+  color: #43425D;
+  opacity: 1;
+}
 .search-keyword {
   text-align: left;
   font: 9px/25px Muli;
@@ -14,16 +18,24 @@
   opacity: 1;
 }
 
-.advanced-search{
-text-align: left;
-font: 12px/25px Muli;
-letter-spacing: 0;
-color: #43425D;
-opacity: 1;
+.advanced-search input{
+  font:12px/25px Muli;
+  letter-spacing: 0;
+  color: #43425D;
+  opacity: 1;
 }
 .btnNextAdvanced {
   background-color: #333333 !important ;
   color: #ffffff !important;
   float: left;
   margin-left: 12px;
+}
+.fontLabels{
+font:12px/25px Muli;
+letter-spacing: 0;
+color: #43425D;
+opacity: 1;
+}
+.react-datepicker__input-container input{
+  background-color: transparent
 }
