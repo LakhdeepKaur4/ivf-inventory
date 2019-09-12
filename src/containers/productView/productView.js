@@ -23,7 +23,6 @@ class ProductsView extends Component {
             visible: [],
             allProductIds: [],
             productId: [],
-            errMessage:'',
             productID: props.match.params.id,
             host: []
         }
@@ -66,7 +65,7 @@ class ProductsView extends Component {
                         //  limit: res.payload.items.limit,
                           totalItemsCount: res.payload.items.total })
                 }
-            }).then(()=>console.log(this.state.totalItemsCount))
+            })
         if (this.state.productID) {
             const request = axios.get(`${host}/api/item/category/${this.state.productID}`)
                 .then(response => {
@@ -174,13 +173,12 @@ class ProductsView extends Component {
             } else {
                 arrReturned = this.sorted(arr, 'dec');
             }
-            console.log(arrReturned);
             return arrReturned.filter(this.searchFilter)
                 .map((item) => {
                     return (
-                        <tr>
+                        <tr key={item._id}>
                             <td scope="row">
-                                <input type="checkbox" checked={this.state.productId.includes(item._id)}
+                                <input type="checkbox"  onChange={()=>{}} checked={this.state.productId.includes(item._id)}
                                     onClick={(e) => this.pickIds(item._id, e.currentTarget.checked)} />
                             </td>
                             <td>
@@ -277,7 +275,7 @@ class ProductsView extends Component {
                 <table className="table productView">
                     <thead>
                         <tr>
-                            <th scope="col"><input type="checkbox" checked={(this.state.productId.length === this.state.allProductIds.length) ? true : false} onClick={(e) => this.selectAll(e.currentTarget.checked)} /></th>
+                            <th scope="col"><input type="checkbox" onChange={()=>{}} checked={(this.state.productId.length === this.state.allProductIds.length) ? true : false} onClick={(e) => this.selectAll(e.currentTarget.checked)} /></th>
                             <th scope="col">IMAGES</th>
                             <th scope="col">Name</th>
                             <th scope="col">SKU</th>
@@ -288,21 +286,17 @@ class ProductsView extends Component {
                             <th scope="col">...</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    
-                        {this.state.errMessage}
+                    <tbody> 
                         {this.productsResult(this.props.ProductsViewReducer)}
                     </tbody>
                 </table>
             </div>
-
         let navLink =
             <nav className="navbar navbar-expand-sm navbar-light bg-faded">
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div><h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4></div>
-
                 {/* <div className="collapse navbar-collapse justify-content-end" id="nav-content">
                     <ul className="navbar-nav">
                         <li className="nav-item">
@@ -327,10 +321,6 @@ class ProductsView extends Component {
                     </ul>
                 </div> */}
             </nav>
-
-
-
-
         let navIcon =
             <nav className="navbar navbar-expand-lg navbar-light bg-faded">
 

@@ -73,6 +73,7 @@ class CreateProduct extends Component {
       </div>
     }
   }
+  // for file upload
   componentDidMount() {
     $("input[type=file]").attr("id", "file-upload");
     $("#file-upload").change(function () {
@@ -115,6 +116,7 @@ class CreateProduct extends Component {
                 ></i>
               </span>
             </div>
+            
             <div className="variants-option mt-2">
               {item.options
                 ? item.options.map(option1 => {

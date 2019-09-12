@@ -66,10 +66,8 @@ class DataToStore extends Component {
         var IDS = [];
         IDS = this.state.storeIds;
         if (action === true) {
-            console.log('true')
             IDS.push(id);
         } else {
-            console.log('hii');
             IDS.splice(IDS.indexOf(id), 1);
         }
         this.setState({ storeIds: IDS })
@@ -93,7 +91,6 @@ class DataToStore extends Component {
     
 
     viewOrderFun = ({ dataStore }) => {
-        console.log(dataStore)
         if (dataStore) {
             if(dataStore.data.data){
                 let arr= dataStore.data.data;
@@ -107,7 +104,7 @@ class DataToStore extends Component {
             .map((item => {
                 return (
                     <tr key={item.instanceId}>
-                        <td><input type="checkbox" checked={(this.state.storeIds.includes(item.instanceId)) ? true : false} onClick={(e) => {
+                        <td><input type="checkbox"  onChange={()=>{}}  checked={(this.state.storeIds.includes(item.instanceId)) ? true : false} onClick={(e) => {
                             let action = e.currentTarget.checked;
                             this.getStoreId(item.instanceId, action)
                         }}></input></td>
@@ -193,7 +190,7 @@ class DataToStore extends Component {
                 <table className="table dataToStore">
                     <thead>
                         <tr style={{ color: "#777777" }}>
-                            <th scope="col"><input type="checkbox" checked={(this.state.storeIds.length === this.state.allIds.length) ? true : false} onClick={(e) => {
+                            <th scope="col"><input type="checkbox" onChange={()=>{}} checked={(this.state.storeIds.length === this.state.allIds.length) ? true : false} onClick={(e) => {
                                 this.selectAll(e.currentTarget.checked)
                             }}></input></th>
                             {/* <th scope="col">STORE LOGO</th> */}
@@ -231,11 +228,11 @@ class DataToStore extends Component {
                     <ul className="navbar-nav">
 
                         <li className="nav-item">
-                            <span className="nav-link" onClick={this.onSort}><i class="fas fa-sort-amount-down" aria-hidden="true"></i></span>
+                            <span className="nav-link" onClick={this.onSort}><i className="fas fa-sort-amount-down" aria-hidden="true"></i></span>
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link" onClick={this.onSortInv}><i class="fas fa-sort-amount-up" aria-hidden="true"></i></span>
+                            <span className="nav-link" onClick={this.onSortInv}><i className="fas fa-sort-amount-up" aria-hidden="true"></i></span>
                         </li>
                         <li className="nav-item">
                             <span className="nav-link" style={{ paddingTop: '1px' }}><span className="form-group has-search">
@@ -247,11 +244,11 @@ class DataToStore extends Component {
 
 
                         <li className="nav-item">
-                            <span className="nav-link"><spna>Filter</spna><span style={{ marginLeft: '5px' }}><i class="fas fa-angle-down" aria-hidden="true" style={{ marginLeft: '5px' }}></i></span></span>
+                            <span className="nav-link"><span>Filter</span><span style={{ marginLeft: '5px' }}><i className="fas fa-angle-down" aria-hidden="true" style={{ marginLeft: '5px' }}></i></span></span>
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link"><spna>Push Information to stores</spna><span style={{ marginLeft: '5px' }}><i className="fas fa-check-circle" aria-hidden="true" style={{ marginLeft: '5px' }}></i></span></span>
+                            <span className="nav-link"><span>Push Information to stores</span><span style={{ marginLeft: '5px' }}><i className="fas fa-check-circle" aria-hidden="true" style={{ marginLeft: '5px' }}></i></span></span>
                         </li>
 
 
