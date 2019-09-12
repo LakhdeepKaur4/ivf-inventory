@@ -83,7 +83,7 @@ class FileStructure extends React.Component {
         }
         return (
             <React.Fragment>
-                {this.props.item ? <div 
+                {this.props.item ? <div
                     style={{marginLeft:this.props.level*10}}
                     className={`${this.props.level} folder-item fa fa-folder 
                         ${showHighlighter ? 'higlightStructure' : ''}`}

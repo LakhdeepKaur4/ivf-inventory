@@ -73,6 +73,7 @@ class CreateProduct extends Component {
       </div>
     }
   }
+  // for file upload
   componentDidMount() {
     $("input[type=file]").attr("id", "file-upload");
     $("#file-upload").change(function () {
@@ -115,6 +116,7 @@ class CreateProduct extends Component {
                 ></i>
               </span>
             </div>
+            
             <div className="variants-option mt-2">
               {item.options
                 ? item.options.map(option1 => {
@@ -390,7 +392,6 @@ class CreateProduct extends Component {
       let productData = nextProps.CreateProductReducer.productData;
       if (productData) {
         let product = productData.item;
-
         if (this.alreadyFetchedProductDetail && product) {
 
           this.setState({
@@ -469,7 +470,6 @@ class CreateProduct extends Component {
 
         return <tr>
           <td><span className="orderNo">{index + 1}</span></td>
-
           <td><img src={item.picture ? item.picture : `${this.state.host[0]}${item}`} style={{ width: "60px" }} value={this.state.picture} alt="productPic" /></td>
           <td> <i className="fa fa-close close-icon" onClick={() => {
             this.setState(prevState => {

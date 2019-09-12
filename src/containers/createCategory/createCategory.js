@@ -178,60 +178,58 @@ class ClassCategory extends Component {
     }
 
 
-    getInitialCategory = ({ initialCategory }) => {
-        if (initialCategory) {
-            return initialCategory.category.map((item) => {
-                return (
-                    <div id={item._id}><div className="fa fa-folder" onClick={(e) => this.push(e, item._id)} key={item._id} value={item._id}>
-                        {item.name}</div></div>
-                )
-            }
-            )
-        }
-    }
+    // getInitialCategory = ({ initialCategory }) => {
+    //     if (initialCategory) {
+    //         return initialCategory.category.map((item) => {
+    //             return (
+    //                 <div id={item._id}><div className="fa fa-folder" onClick={(e) => this.push(e, item._id)} key={item._id} value={item._id}>
+    //                     {item.name}</div></div>
+    //             )
+    //         }
+    //         )
+    //     }
+    // }
 
-    getParticularCategory = ({ getParticularCategory }) => {
-        console.log(getParticularCategory);
-        if (getParticularCategory) {
-            if ($(`#${this.state.parent}`).children().length !== 1) {
-                return true;
-            }
-            else {
-                getParticularCategory.map((item) => item.subCategories.map((item) => {
-                    if (this.state.parent === item.parent) {
-                        console.log(5456);
-                        // <div style={{marginLeft:'20px'}} onClick={()=>this.getsubCategory(item._id)} className="fa fa-folder">{item.name}</div>
-                        $(`#${this.state.parent}`).append(`<div id=${item._id}><div key=${item._id}>
-                    <i class="fa fa-folder ml-3"
-                    name="getParticularCategory" />${item.name}
-                    </div></div>`),
-                            $(`#${item._id} > div`).click((e) => this.getCategory(e, item._id));
-                    }
-                }))
-            }
-        }
-        return true;
-    }
+    // getParticularCategory = ({ getParticularCategory }) => {
+    //     if (getParticularCategory) {
+    //         if ($(`#${this.state.parent}`).children().length !== 1) {
+    //             return true;
+    //         }
+    //         else {
+    //             getParticularCategory.map((item) => item.subCategories.map((item) => {
+    //                 if (this.state.parent === item.parent) {
+    //                     // <div style={{marginLeft:'20px'}} onClick={()=>this.getsubCategory(item._id)} className="fa fa-folder">{item.name}</div>
+    //                     $(`#${this.state.parent}`).append(`<div id=${item._id}><div key=${item._id}>
+    //                 <i className="fa fa-folder ml-3"
+    //                 name="getParticularCategory" />${item.name}
+    //                 </div></div>`),
+    //                         $(`#${item._id} > div`).click((e) => this.getCategory(e, item._id));
+    //                 }
+    //             }))
+    //         }
+    //     }
+    //     return true;
+    // }
     getCategory = (e, id) => {
         this.props.GetSubCategory(this.state.host, id);
         this.highlighter(e.currentTarget);
     }
 
-    getSubCategory = ({ getSubCategory }) => {
-        if (getSubCategory) {
-            if ($(`#${this.state.parent}`).children().length !== 1) {
-                return true;
-            }
-            else {
-                getSubCategory.map((item) => item.subCategories.map((item) => {
-                    if (this.state.parent === item.parent) {
-                        $(`#${this.state.parent}`).append(`<div key=${item._id}><i class="fa fa-folder ml-4"/>${item.name}</div>`);
-                    }
-                }))
-            }
-        }
-        return;
-    }
+    // getSubCategory = ({ getSubCategory }) => {
+    //     if (getSubCategory) {
+    //         if ($(`#${this.state.parent}`).children().length !== 1) {
+    //             return true;
+    //         }
+    //         else {
+    //             getSubCategory.map((item) => item.subCategories.map((item) => {
+    //                 if (this.state.parent === item.parent) {
+    //                     $(`#${this.state.parent}`).append(`<div key=${item._id}><i class="fa fa-folder ml-4"/>${item.name}</div>`);
+    //                 }
+    //             }))
+    //         }
+    //     }
+    //     return;
+    // }
 
     onEditorStateChange = (editorState) => {
         let errorObject = this.state.errors;
@@ -242,7 +240,6 @@ class ClassCategory extends Component {
     };
 
     onFileUploaded = URL => {
-        console.log(URL);
         this.setState({ categoryThumbnail: URL });
       };
 
@@ -286,7 +283,7 @@ class ClassCategory extends Component {
                                                     default
                                                 </option>
                                             </select>
-                                            <i class="fa fa-caret-down" aria-hidden="true"></i>                                        </div>
+                                            <i className="fa fa-caret-down" aria-hidden="true"></i>                                        </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-6 titleSection">Sort</div>
@@ -326,7 +323,7 @@ class ClassCategory extends Component {
                                                     default
                                                 </option>
                                             </select>
-                                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                            <i className="fa fa-caret-down" aria-hidden="true"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -381,8 +378,9 @@ class ClassCategory extends Component {
                                 </div>
                                 <div className="col-4 card cardCreateCategory">
                                     {this.state.host? <FileStructure2
+
                                     onActiveOpenedItemId={(id)=>{
-                                        console.log("GOT ID",id);
+                                        
                                         this.setState({
                                             parent:id
                                         });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './editCustomerOrder.css';
-import { addCustomer, getCustomer, getOrderDetail } from '../../actions/editCustomerOrderAction';
+import { addCustomer, getCustomer, getOrderDetail, getOrderAddress } from '../../actions/editCustomerOrderAction';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dashboard from '../../components/dashboard/dashboard';
@@ -43,7 +43,7 @@ class EditCustomerOrder extends Component {
     componentWillReceiveProps(nextProps) {
         let orderId = nextProps.match.params.orderId;
         if (this.state.orderId != orderId) {
-            this.getOrderDetailsData(orderId);
+            this.getOrderDetailsData(orderId);           
         }
     }
 
@@ -52,11 +52,15 @@ class EditCustomerOrder extends Component {
             orderId
         });
         this.props.getOrderDetail(this.state.host, orderId);
+        this.props.getOrderAddress(this.state.host, orderId);
     }
 
     nextStepHandle = () => {
-        this.props.history.push("/editproducts");
+        if(this.props.orderId){
+            this.props.history.push(`/editproducts/${this.props.orderId}`);
+        }
     }
+
     prevStatusHandle = () => {
         this.props.history.push('/vieworders');
     }
@@ -75,15 +79,19 @@ class EditCustomerOrder extends Component {
     }
 
     onChangeData = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-
+        let name = e.target.name;
+        let value = e.target.value;
+        this.setState(prevState => ({
+            newCustomerDetail: {
+                ...prevState.newCustomerDetail,
+                [name]: value
+            }
+        }));
     }
 
     add = (e) => {
         e.preventDefault();
-        const { firstName, lastName, email, address, billingAddress, phone, password } = this.state;
+        const { firstName, lastName, email, address, billingAddress, phone, password } = this.state.newCustomerDetail;
         let payload = {
             firstName: firstName,
             lastName: lastName,
@@ -105,9 +113,9 @@ class EditCustomerOrder extends Component {
         }));
     }
 
-    existingCustomer = ({ view }) => {
-        if (view) {
-            return view.customer.map(item => {
+    existingCustomer = (customers) => {      
+        if (customers) {
+            return customers.map(item => {
                 return (
 
                     item ? <tr>
@@ -130,20 +138,34 @@ class EditCustomerOrder extends Component {
         let tabContent = null;
         if (this.state.tab.tabNo == 1) {
             tabContent = (
-                <div className="md-form active-purple-2 mb-3 row col-12 toggleCustomer1">
-                    <div className="col-1 mt-4" style={{ fontSize: "1.5rem", marginLeft: '-0.8rem' }}><i className="fa fa-search"></i></div>
-                    <div className="col-8 mt-4">
-                        <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" list="customer" name="search" onChange={this.searchOnChange} style={{ backgroundColor: 'transparent' }} placeholder="Search by name and email" value={this.state.search} />
+                <div className="row">
+                    <div className="col-12">
+                        <div 
+                        style={{padding:"15px"}}
+                        className="md-form active-purple-2 mb-3 toggleCustomer1 row mt-3">
+                            <div className="col-1" style={{ fontSize: "1.5rem", marginLeft: '-0.8rem' }}><i className="fa fa-search"></i></div>
+                            <div className="col-11">
+                                <input 
+                                className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" 
+                                list="customer" name="search" 
+                                onChange={this.searchOnChange} style={{ 
+                                    width:"50%",
+                                    backgroundColor: 'transparent' }} 
+                                placeholder="Search by name and email" 
+                                value={this.state.search} />
 
-                        <table className='table table-borderless'>
-                            <tbody>
+                                <table className='table table-borderless existing-customers'>
+                                    <tbody>
 
-                                {/* {this.existingCustomer(this.props.EditCustomerOrderReducer)} */}
+                                        {this.existingCustomer(this.props.existingCustomers)}
 
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             );
         }
         else {
@@ -151,7 +173,10 @@ class EditCustomerOrder extends Component {
                 <div className="toggleCustomer2">
                     <div className="row mt-3 col-12">
                         <div className="md-form active-purple-2 mb-3 col-sm">
-                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{ backgroundColor: 'transparent' }} name="firstName" placeholder="First name" onChange={this.onChangeData} value={this.state.firstName} />
+                            <input
+                                className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{ backgroundColor: 'transparent' }} name="firstName" placeholder="First name"
+                                onChange={this.onChangeData}
+                                value={this.state.newCustomerDetail.firstName} />
                         </div>
                         <div className="md-form active-purple-2 mb-3 col-sm ">
                             <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{ backgroundColor: 'transparent' }} name="address" placeholder="Address" onChange={this.onChangeData} value={this.state.address} />
@@ -159,7 +184,10 @@ class EditCustomerOrder extends Component {
                     </div>
                     <div className="row col-12">
                         <div className="md-form active-purple-2 mb-3 col-sm">
-                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{ backgroundColor: 'transparent' }} name="lastName" placeholder="Last name" value={this.state.lastName} onChange={this.onChangeData} />
+                            <input
+                                className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{ backgroundColor: 'transparent' }} name="lastName" placeholder="Last name"
+                                value={this.state.newCustomerDetail.lastName} 
+                                onChange={this.onChangeData} />
                         </div>
                         <div className="md-form active-purple-2 mb-3 col-sm">
                             <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{ backgroundColor: 'transparent' }} name="billingAddress" placeholder="Billing Address" onChange={this.onChangeData} value={this.state.billingAddress} />
@@ -168,19 +196,23 @@ class EditCustomerOrder extends Component {
                     </div>
                     <div className="row col-12">
                         <div className="md-form active-purple-2 mb-3 col-sm">
-                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="email" style={{ backgroundColor: 'transparent' }} name="email" placeholder="Email" onChange={this.onChangeData} value={this.state.email} />
+                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="email" style={{ backgroundColor: 'transparent' }} name="email" placeholder="Email" onChange={this.onChangeData}
+                                value={this.state.newCustomerDetail.email} />
                         </div>
                         <div className="md-form active-purple-2 mb-3 col-sm">
-                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="password" style={{ backgroundColor: 'transparent' }} name="password" placeholder="Password" onChange={this.onChangeData} value={this.state.password} />
+                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="password" style={{ backgroundColor: 'transparent' }} name="password" placeholder="Password" onChange={this.onChangeData}
+                                value={this.state.newCustomerDetail.password} />
                         </div>
 
                     </div>
                     <div className="row col-12">
                         <div className="md-form active-purple-2 mb-3 col-sm">
-                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{ backgroundColor: 'transparent' }} name="phone" placeholder="phone" onChange={this.onChangeData} value={this.state.phone} />
+                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="text" style={{ backgroundColor: 'transparent' }} name="phone" placeholder="phone" onChange={this.onChangeData}
+                                value={this.state.newCustomerDetail.phone} />
                         </div>
                         <div className="md-form active-purple-2 mb-3 col-sm">
-                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="password" style={{ backgroundColor: 'transparent' }} name="confirmPassword" placeholder="Retype Password" onChange={this.onChangeData} value={this.state.confirmPassword} />
+                            <input className="form-control border border-top-0 border-right-0 border-left-0 border-dark rounded-0" type="password" style={{ backgroundColor: 'transparent' }} name="confirmPassword" placeholder="Retype Password" onChange={this.onChangeData}
+                                value={this.state.newCustomerDetail.confirmPassword} />
                         </div>
                     </div>
                     <div className='text-center'>
@@ -194,73 +226,125 @@ class EditCustomerOrder extends Component {
 
     renderCustomerDetails = () => {
         let customerDetails = {};
+        let shipmentAddress = null;
+        let billingAddress = null;
+        let address = null;
+
         if (this.props.customerDetails) {
-            customerDetails = this.props.customerDetails;
+            if(this.props.orderId == this.props.match.params.orderId){
+                customerDetails = this.props.customerDetails;
+                debugger;
+                if(customerDetails.addresses &&
+                    customerDetails.addresses.length){
+                        customerDetails.addresses.forEach(_address=>{
+                            console.log(_address.type);
+                            if(_address.type == "billing"){
+                                billingAddress = _address;
+                            }
+                            else if (_address.type == 'address'){
+                                address =  _address;
+                            }
+                        });
+                }
+            }
+        }
+       
+        if(this.props.orderAddress &&  
+            this.props.orderAddress.orderId == this.props.match.params.orderId){
+                if(this.props.orderAddress.shipment &&
+                    this.props.orderAddress.shipment.address)
+                   {
+                    shipmentAddress = this.props.orderAddress.shipment.address;
+                }
         }
         return (
             <div className="card col-4 mr-4 ">
-                <div className="card-body">
+                <div className="card-body customer-info">
                     <div className="row details">
                         <div className="col">
-                            First Name
+                            <label>First Name</label>
                     </div>
-                        <div className="col">
+                        <div className="col value">
                             {customerDetails.firstname}
                         </div>
                     </div>
 
                     <div className="row details ">
                         <div className="col">
-                            Last Name
-                    </div>
-                        <div className="col">
+                            <label>Last Name</label>
+                        </div>
+                        <div className="col value">
                             {customerDetails.lastname}
                         </div>
                     </div>
                     <div className="row details">
                         <div className="col">
-                            Email
-                    </div>
-                        <div className="col">
+                            <label>Email</label>
+                        </div>
+                        <div className="col value">
                             {customerDetails.email}
                         </div>
                     </div>
                     <div className="row details">
                         <div className="col">
-                            Phone No
-                    </div>
-                        <div className="col">
+                            <label>Phone No</label>
+                        </div>
+                        <div className="col value">
                             {customerDetails.phone}
                         </div>
                     </div>
                     <div className="row details">
                         <div className="col">
-                            Address
-                    </div>
-                        <div className="col">
-                            {(customerDetails.addresses && customerDetails.addresses[0]) ?
+                            <label>Address</label>    
+                        </div>
+                        <div className="col value">
+                            {address ?
                                 <p>
-                                    {customerDetails.addresses[0].address1}
-                                     <br />
-                                    {customerDetails.addresses[0].address2}
-                            </p>:''
-                    }
+                                    {address.address1}
+                                    <br />
+                                    {address.address2}
+                                    <br/>
+                                    {address.city}
+                                    <br/>
+                                    {address.country}
+                                </p> : ''
+                            }
                         </div>
                     </div>
                     <div className="row details">
                         <div className="col">
-                            Billing
-                    </div>
-                        <div className="col">
-                            {customerDetails.billing}
+                            <label>Billing</label>    
+                        </div>
+                        <div className="col value">
+                        {billingAddress ?
+                                <p>
+                                    {billingAddress.address1}
+                                    <br />
+                                    {billingAddress.address2}
+                                    <br/>
+                                    {billingAddress.city}
+                                    <br/>
+                                    {billingAddress.country}
+                                </p> : ''
+                            }
                         </div>
                     </div>
                     <div className="row details">
                         <div className="col">
-                            Shipping
-                    </div>
-                        <div className="col">
-                            {customerDetails.shipping}
+                            <label>Shipping</label>
+                        </div>
+                        <div className="col value">
+                        {(shipmentAddress) ?
+                                <p>
+                                    {shipmentAddress.address1}
+                                    <br />
+                                    {shipmentAddress.address2}
+                                    <br/>
+                                    {shipmentAddress.city}
+                                    <br/>
+                                    {shipmentAddress.country}
+                                </p> : ''
+                            }
                         </div>
                     </div>
                 </div>
@@ -302,7 +386,7 @@ class EditCustomerOrder extends Component {
                         <div className="card-group row col-12 ">
                             {this.renderCustomerDetails()}
                             <div className="card col-8">
-                                <div className="card-body row">
+                                <div className="card-body">
                                     <div className="row">
                                         <div className="col" >
                                             <div
@@ -358,17 +442,37 @@ class EditCustomerOrder extends Component {
 function mapStateToProps(state) {
     let customerDetails = null;
     let reducerState = state.EditCustomerOrderReducer;
+    let existingCustomers = [];
+    let orderAddress = null;
+    let orderId = null;
+
     if (reducerState.orderDetails) {
         customerDetails = reducerState.orderDetails.customer;
+        orderId = reducerState.orderDetails.orderId;
     }
+
+    if(reducerState.existingCustomers){
+        existingCustomers = reducerState.existingCustomers
+    }
+
+    if(reducerState.orderAddress){
+        orderAddress = reducerState.orderAddress;
+    }
+
     return {
-        customerDetails
+        customerDetails,
+        existingCustomers,
+        orderAddress,
+        orderId
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        addCustomer, getCustomer, getOrderDetail
+        addCustomer, 
+        getCustomer, 
+        getOrderDetail,
+        getOrderAddress,
     }, dispatch)
 }
 

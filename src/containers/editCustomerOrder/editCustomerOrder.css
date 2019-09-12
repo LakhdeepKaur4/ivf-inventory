@@ -197,3 +197,16 @@ select {
 	font: ExtraBold 12px/40px Muli;
 	color: #555555;	
 }
+
+.customer-info, .customer-info label,.customer-info p{
+	font-size: 12px;
+}
+
+.customer-info .value, .customer-info p{
+	color: #818080;
+}
+
+table.existing-customers{
+	font-size: 12px;
+	color: #4D4F5C;
+}

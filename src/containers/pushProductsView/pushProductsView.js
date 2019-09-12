@@ -22,7 +22,7 @@ class ProductsView extends Component {
             allIds: [],
             flag: false,
             error: false,
-            host: ''
+            host: []
         }
     }
     btnClick = () => {
@@ -36,15 +36,17 @@ class ProductsView extends Component {
         }
     }
 
-    setHost = host => {
+    setHost = async host => {
         var defaultPage = this.state.activePage;
         var limit = this.state.limit
-        this.setState({ host });
+        let arr = this.state.host;
+        arr.push(host);
+        await this.setState({ host:arr });
         if (localStorage.getItem('product') !== null) {
             let products = localStorage.getItem('product').split(',');
             this.setState({ ids: products });
         }
-        this.props.getMockProductsView(host, defaultPage, limit)
+        this.props.getMockProductsView(this.state.host[1], defaultPage, limit)
             .then(res => {
                 let Ids = [];
                 res.payload.items.docs.map(item => {
@@ -133,7 +135,6 @@ class ProductsView extends Component {
     }
 
     productsResult = ({ productListMock }) => {
-        console.log(productListMock);
         if (productListMock && productListMock.items && productListMock.items.docs ) {
             // let Ids = [];
             // productListMock.item.map(item => {
@@ -147,13 +148,13 @@ class ProductsView extends Component {
             }
             return productListMock.items.docs.filter(this.searchFilter).map((item) => {
                 return (
-                    <tr>
-                        <td scope="row"><input type="checkbox" checked={(this.state.ids.includes(item._id)) ? true : false} onClick={(e) => {
+                    <tr key={item._id}>
+                        <td scope="row"><input type="checkbox" onChange={()=>{}} checked={(this.state.ids.includes(item._id)) ? true : false} onClick={(e) => {
                             let action = e.currentTarget.checked;
                             this.pickIds(item._id, action);
                         }} /></td>
                         <td>
-                        {/* <img src={`${this.state.host}`+item.productPicture[0]} className="img-fluid" alt="Sheep" /> */}
+                        <img src={`${this.state.host[0]}`+item.productPictures[0]} className="img-fluid" alt="Sheep" />
                         </td>
                         <td>{item.sku}</td>
                         <td>
@@ -193,7 +194,7 @@ class ProductsView extends Component {
                 <table className="table pushProductView">
                     <thead>
                         <tr>
-                            <th scope="col"><input type="checkbox" checked={(this.state.ids.length === this.state.allIds.length) ? true : false} onClick={
+                            <th scope="col"><input type="checkbox" onChange={()=>{}} checked={(this.state.ids.length === this.state.allIds.length) ? true : false} onClick={
 
                                 (e) => {
                                     this.selectAll(e.currentTarget.checked);
@@ -258,18 +259,18 @@ class ProductsView extends Component {
                     <ul className="navbar-nav">
 
                         <li className="nav-item">
-                            <span className="nav-link" onClick={this.onSort}><i class="fas fa-sort-amount-down" aria-hidden="true"></i></span>
+                            <span className="nav-link" onClick={this.onSort}><i className="fas fa-sort-amount-down" aria-hidden="true"></i></span>
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link" onClick={this.onSortInv}><i class="fas fa-sort-amount-up" aria-hidden="true"></i></span>
+                            <span className="nav-link" onClick={this.onSortInv}><i className="fas fa-sort-amount-up" aria-hidden="true"></i></span>
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link"><i class="fas fa-th-large" aria-hidden="true"></i></span>
+                            <span className="nav-link"><i className="fas fa-th-large" aria-hidden="true"></i></span>
                         </li>
                         <li className="nav-item">
-                            <span className="nav-link">Limits 20<i class="fas fa-angle-down" aria-hidden="true" style={{ marginLeft: '5px' }} ></i></span>
+                            <span className="nav-link">Limits 20<i className="fas fa-angle-down" aria-hidden="true" style={{ marginLeft: '5px' }} ></i></span>
                         </li>
 
                         <li className="nav-item dropdown">
@@ -302,6 +303,12 @@ class ProductsView extends Component {
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
+                 <HostResolver
+        hostToGet="minio"
+        hostResolved={host => {
+          this.setHost(host);
+        }}
+      >
                 <div>
                     <Dashboard>
 
@@ -355,6 +362,7 @@ class ProductsView extends Component {
 
                     </Dashboard>
                 </div>
+            </HostResolver>
             </HostResolver>
 
         )

@@ -68,6 +68,10 @@ a, a:hover, a:focus {
     padding: 10px;
 }
 
+#sidebar ul li{
+    margin-left: 11px;
+}
+
 #sidebar ul li a {
     font-size: 14px;
     padding: 10px;
