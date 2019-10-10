@@ -50,20 +50,22 @@ class ProductsView extends Component {
     }
     setHost = async host => {
         var defaultPage = this.state.activePage;
-        var limit=this.state.limit;
+        var limit = this.state.limit;
         let arr = this.state.host;
         arr.push(host);
-        await this.setState({ host:arr });
-        this.props.getProductsView(this.state.host[1], this.state.productID, defaultPage,limit)
+        await this.setState({ host: arr });
+        this.props.getProductsView(this.state.host[1], this.state.productID, defaultPage, limit)
             .then((res) => {
                 let Ids = [];
                 if (res.payload && res.payload.items && res.payload.items.docs) {
                     res.payload.items.docs.map((item) => {
                         Ids.push(item._id)
                     })
-                    this.setState({ allProductIds: Ids,
+                    this.setState({
+                        allProductIds: Ids,
                         //  limit: res.payload.items.limit,
-                          totalItemsCount: res.payload.items.total })
+                        totalItemsCount: res.payload.items.total
+                    })
                 }
             })
         if (this.state.productID) {
@@ -75,21 +77,21 @@ class ProductsView extends Component {
 
     }
 
-    handleEditBrand=(itemid,productPictures)=>{
+    handleEditBrand = (itemid, productPictures) => {
         this.props.history.push(`/productTree/editProduct/${itemid}`)
     }
 
 
     handlePageChange = (pageNumber) => {
         // this.props.getPageDetails(pageNumber);
-        this.props.getProductsView(this.state.host,null,pageNumber,this.state.limit);
+        this.props.getProductsView(this.state.host, null, pageNumber, this.state.limit);
     }
 
     searchOnChange = (e) => {
         this.setState({ search: e.target.value })
     }
 
-    searchFilter =  (x)=> {
+    searchFilter = (x) => {
         let search = this.state.search;
         let ret = {};
 
@@ -159,8 +161,8 @@ class ProductsView extends Component {
         }
         else if (productList && productList.items && productList.items.docs) {
             data = productList.items.docs
-        }else{
-            
+        } else {
+
         }
         if (data && data.length) {
             let arr = [];
@@ -178,11 +180,11 @@ class ProductsView extends Component {
                     return (
                         <tr key={item._id}>
                             <td scope="row">
-                                <input type="checkbox"  onChange={()=>{}} checked={this.state.productId.includes(item._id)}
+                                <input type="checkbox" onChange={() => { }} checked={this.state.productId.includes(item._id)}
                                     onClick={(e) => this.pickIds(item._id, e.currentTarget.checked)} />
                             </td>
                             <td>
-                            <img src={`${this.state.host[0]}`+item.productPictures[0]} className="img-fluid" alt="Sheep" />
+                                <img src={`${this.state.host[0]}` + item.productPictures[0]} className="img-fluid" alt="Sheep" />
                             </td>
                             <td>{item.name}</td>
                             <td>
@@ -216,7 +218,7 @@ class ProductsView extends Component {
                                     >
                                         <a
                                             className="dropdown-item"
-                                            onClick={() => this.handleEditBrand(item._id,item.productPictures)}
+                                            onClick={() => this.handleEditBrand(item._id, item.productPictures)}
                                         >
                                             Edit
                     </a>
@@ -259,14 +261,14 @@ class ProductsView extends Component {
     navigate = () => {
         this.props.history.push('/createProduct');
     }
-    renderPagination=()=>{
+    renderPagination = () => {
         return <Pagination activePage={this.state.activePage}
-        itemsCountPerPage={this.state.limit}
-        totalItemsCount={this.state.totalItemsCount}
-        onChange={this.handlePageChange}
-        itemClass='page-item'
-        linkClasss='page-link'
-    />
+            itemsCountPerPage={this.state.limit}
+            totalItemsCount={this.state.totalItemsCount}
+            onChange={this.handlePageChange}
+            itemClass='page-item'
+            linkClasss='page-link'
+        />
     }
     render() {
 
@@ -275,7 +277,7 @@ class ProductsView extends Component {
                 <table className="table productView">
                     <thead>
                         <tr>
-                            <th scope="col"><input type="checkbox" onChange={()=>{}} checked={(this.state.productId.length === this.state.allProductIds.length) ? true : false} onClick={(e) => this.selectAll(e.currentTarget.checked)} /></th>
+                            <th scope="col"><input type="checkbox" onChange={() => { }} checked={(this.state.productId.length === this.state.allProductIds.length) ? true : false} onClick={(e) => this.selectAll(e.currentTarget.checked)} /></th>
                             <th scope="col">IMAGES</th>
                             <th scope="col">Name</th>
                             <th scope="col">SKU</th>
@@ -286,7 +288,7 @@ class ProductsView extends Component {
                             <th scope="col">...</th>
                         </tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
                         {this.productsResult(this.props.ProductsViewReducer)}
                     </tbody>
                 </table>
@@ -370,45 +372,45 @@ class ProductsView extends Component {
                     </ul>
                 </div>
                 <div
-                            style={{
-                                alignSelf: "flex-end",
-                                height: "30px"
-                            }}
-                            className="sw-action-bar__item sw-action-bar__item--right parent-flex-center">
-                            {this.renderPagination()}
-                        </div>
+                    style={{
+                        alignSelf: "flex-end",
+                        height: "30px"
+                    }}
+                    className="sw-action-bar__item sw-action-bar__item--right parent-flex-center">
+                    {this.renderPagination()}
+                </div>
             </nav>
 
         return (
             <HostResolver hostToGet="inventory" hostResolved={host => {
                 this.setHost(host);
             }}>
-                 <HostResolver
-        hostToGet="minio"
-        hostResolved={host => {
-          this.setHost(host);
-        }}
-      >
-                <div>
-                    <Dashboard>
+                <HostResolver
+                    hostToGet="minio"
+                    hostResolved={host => {
+                        this.setHost(host);
+                    }}
+                >
+                    <div>
+                        <Dashboard>
 
 
-                        <div>
-                            {navLink}
-                        </div>
-                        {navIcon}                        
-                        <div>
-                            {tableData}
-                        </div>
-                        <div>
-                            {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
-                        </div>
+                            <div>
+                                {navLink}
+                            </div>
+                            {navIcon}
+                            <div>
+                                {tableData}
+                            </div>
+                            <div>
+                                {/* <button className="button-main button3" onClick={this.navigate}>Next</button> */}
+                            </div>
 
 
-                    </Dashboard>
-                </div>
+                        </Dashboard>
+                    </div>
 
-            </HostResolver>
+                </HostResolver>
             </HostResolver>
         )
     }

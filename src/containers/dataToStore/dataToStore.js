@@ -20,7 +20,7 @@ class DataToStore extends Component {
             activePage: '1',
             limit: '5',
             totalItemsCount: '',
-            sortVal:false,
+            sortVal: false,
             productId: [],
             storeIds: [],
             allIds: [],
@@ -73,56 +73,57 @@ class DataToStore extends Component {
         this.setState({ storeIds: IDS })
     }
 
-    sortArr=(arr,way)=>{
-        if(way==='inc'){
-            arr.sort((a,b)=>{
-                var orderBool= a.name > b.name
-                return orderBool ?1 :-1;
+    sortArr = (arr, way) => {
+        if (way === 'inc') {
+            arr.sort((a, b) => {
+                var orderBool = a.name > b.name
+                return orderBool ? 1 : -1;
 
             })
-        }else{
-            arr.sort((a,b)=>{
-                var orderBool= a.name < b.name
-                return orderBool ?1 :-1;
-            
-        })
+        } else {
+            arr.sort((a, b) => {
+                var orderBool = a.name < b.name
+                return orderBool ? 1 : -1;
 
-    }}
-    
+            })
+
+        }
+    }
+
 
     viewOrderFun = ({ dataStore }) => {
         if (dataStore) {
-            if(dataStore.data.data){
-                let arr= dataStore.data.data;
-            if(this.state.sortVal===true){
-                this.sortArr(arr,'inc');
-            }else{
-                this.sortArr(arr,'dec');
-            }
-            return dataStore.data.data
-            .filter(this.searchFilter)
-            .map((item => {
-                return (
-                    <tr key={item.instanceId}>
-                        <td><input type="checkbox"  onChange={()=>{}}  checked={(this.state.storeIds.includes(item.instanceId)) ? true : false} onClick={(e) => {
-                            let action = e.currentTarget.checked;
-                            this.getStoreId(item.instanceId, action)
-                        }}></input></td>
-                        {/* <td>
+            if (dataStore.data.data) {
+                let arr = dataStore.data.data;
+                if (this.state.sortVal === true) {
+                    this.sortArr(arr, 'inc');
+                } else {
+                    this.sortArr(arr, 'dec');
+                }
+                return dataStore.data.data
+                    .filter(this.searchFilter)
+                    .map((item => {
+                        return (
+                            <tr key={item.instanceId}>
+                                <td><input type="checkbox" onChange={() => { }} checked={(this.state.storeIds.includes(item.instanceId)) ? true : false} onClick={(e) => {
+                                    let action = e.currentTarget.checked;
+                                    this.getStoreId(item.instanceId, action)
+                                }}></input></td>
+                                {/* <td>
                             <img src={item.brandImage} className="img-fluid" alt="store" />
                         </td> */}
-                        <td>{item.name}</td>
-                        <td>
-                        {item.rootDomain+' '+item.selectedNode}
-                        </td>
-                        <td>{item.description}</td>
-                        <td>{item['Group.name']}</td>
-                        <td>Trinity</td>
-                    </tr>
-                )
-            }))
+                                <td>{item.name}</td>
+                                <td>
+                                    {item.rootDomain + ' ' + item.selectedNode}
+                                </td>
+                                <td>{item.description}</td>
+                                <td>{item['Group.name']}</td>
+                                <td>Trinity</td>
+                            </tr>
+                        )
+                    }))
             }
-            
+
         }
 
     }
@@ -190,7 +191,7 @@ class DataToStore extends Component {
                 <table className="table dataToStore">
                     <thead>
                         <tr style={{ color: "#777777" }}>
-                            <th scope="col"><input type="checkbox" onChange={()=>{}} checked={(this.state.storeIds.length === this.state.allIds.length) ? true : false} onClick={(e) => {
+                            <th scope="col"><input type="checkbox" onChange={() => { }} checked={(this.state.storeIds.length === this.state.allIds.length) ? true : false} onClick={(e) => {
                                 this.selectAll(e.currentTarget.checked)
                             }}></input></th>
                             {/* <th scope="col">STORE LOGO</th> */}
@@ -210,7 +211,7 @@ class DataToStore extends Component {
 
         let navLink = <div>
             <nav className="navbar navbar-expand-sm navbar-light bg-faded">
-                <h4 className="navbar-brand"><b>PUSH DATA TO STORE</b></h4>
+                <h4 className="navbar-brand"><b>STORES LIST</b></h4>
 
 
             </nav>

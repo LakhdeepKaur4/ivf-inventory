@@ -57,10 +57,6 @@ class ProductsView extends Component {
                 this.setState({ allIds: Ids, limit: res.payload.items.limit, totalItemsCount: res.payload.items.total });
                 return Ids;
             })
-            .then(ids => {
-                console.log()
-
-            })
     }
 
     // This function will be used in pagination in later stage.
@@ -76,10 +72,8 @@ class ProductsView extends Component {
                 })
                 this.setState({ allIds: Ids})
                 let status = false;
-                console.log(this.state.ids);
 
                 for (let i = 0; i < this.state.allIds.length; i++) {
-                    console.log(this.state.allIds[i])
                     if (this.state.ids.includes(this.state.allIds[i])) {
                         status = true;
                     } else {
@@ -148,10 +142,7 @@ class ProductsView extends Component {
         }
         this.setState({ ids: IDS });
         let status = false;
-        console.log(this.state.ids)
-
         for (let i = 0; i < this.state.allIds.length; i++) {
-            console.log(this.state.allIds[i])
             if (this.state.ids.includes(this.state.allIds[i])) {
                 status = true;
             } else {
@@ -219,7 +210,6 @@ class ProductsView extends Component {
     }
     selectAll = (action) => {
         this.setState({ error: false });
-        console.log(this.state.allIds);
         if (action === true) {
             this.setState({ ids: [...this.state.ids,...this.state.allIds], checked: true });
 
@@ -235,7 +225,6 @@ class ProductsView extends Component {
 
 
     render() {
-        console.log(this.state.checked);
         let tableData =
             <div className="table-responsive card text-dark">
                 <table className="table pushProductView">
@@ -266,7 +255,7 @@ class ProductsView extends Component {
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div><h4 className="navbar-brand"><b>PRODUCTS (VIEW)</b></h4></div>
+                <div><h4 className="navbar-brand"><b>PRODUCTS LIST (VIEW)</b></h4></div>
 
                 <div className="collapse navbar-collapse justify-content-end" id="nav-content">
                     <ul className="navbar-nav">

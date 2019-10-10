@@ -9,7 +9,9 @@ class Header extends Component{
 
             <div className="card-header" id="headerList" style={{ backgroundColor: 'white', height: '70px' }}>
                 <label style={{ marginTop: '10px' }}><i className="fa fa-home" aria-hidden="true" style={{ paddingRight: 'padding: 7px' }} >
-                    </i>{this.props.breadCrumb}</label>
+                    </i>
+                    {this.props.breadCrumb}
+                    </label>
                 <span style={{ position: 'absolute', left: '51%' }}>
                 </span>
                 <span style={{ float: 'right' }}>

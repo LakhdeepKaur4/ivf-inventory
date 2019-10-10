@@ -52,8 +52,8 @@ class PushDataToStore extends React.Component {
                         <tr key={item._id}>
                             <td>
                                 <div className="prductWithStore">
-                                    <img src={`${this.state.host[0]}`+item.productPictures[0]} className="img-fluid" alt="Sheep" />
-                                    <span className="text-left">{item.name}</span>
+                                    {/* <img src={`${this.state.host[0]}`+item.productPictures[0]} className="img-fluid" alt="Sheep" /> */}
+                                    <span className="text-left"><b>{item.name}</b></span>
                                 </div>
                             </td>
 
@@ -73,7 +73,7 @@ class PushDataToStore extends React.Component {
                             <td>
                                 <div className="prductWithStore">
                                     {/* <img src={item.brandImage} className="img-fluid" alt="Sheep" /> */}
-                                    <span>{item.name}</span>
+                                    <span><b>{item.name}</b></span>
 
                                 </div>
                             </td>

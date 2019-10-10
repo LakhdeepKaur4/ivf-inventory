@@ -80,7 +80,7 @@ class Sidebar extends Component {
             <div>
                 <div id="sidebar">
                     <div className="sidebar-header">
-                        <img src="http://circle.usingimagination.co.uk/storage/settings/July2019/o84J95criNf1ZKNSBFuo.png" alt="Logo Icon" height="30" width="112" />
+                        <label style={{color:'white',marginLeft:'30px',fontFamily: 'fantasy',  fontSize: 'x-large'}}>Deal Ocean</label>{/* <img src="http://circle.usingimagination.co.uk/storage/settings/July2019/o84J95criNf1ZKNSBFuo.png" alt="Logo Icon" height="30" width="112" /> */}
                     </div>
 
                     <ul className="list-unstyled components">
@@ -96,12 +96,12 @@ class Sidebar extends Component {
                                 {(this.state.pageOn === 'storesView') ? <Link to="/storesView">
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
-                                        </span><span style={{ color: "red" }}>View Stores</span>
+                                        </span><span style={{ color: "red" }}>Store Names</span>
                                     </Link> : <Link to="/storesView" 
                                     onClick={this.onChangeHeader.bind(this,'Stores/View Stores')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
-                                            </span>View Stores
+                                            </span>Store Names
                                     </Link>}
                                 </li>   
                             </ul>
@@ -131,23 +131,23 @@ class Sidebar extends Component {
                                     {(this.state.pageOn === 'productsView') ? <Link to="/productsView" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
-                                        </span><span style={{ color: "red" }}>View Products</span>
+                                        </span><span style={{ color: "red" }}>Product Details</span>
                                     </Link> : <Link to="/productsView" onClick={this.onChangeHeader.bind(this,'Inventory/View Products')}>
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
-                                            </span>View Products
+                                            </span>Product Details
                                     </Link>}
                                 </li>
                                 <li>
                                 {(this.state.pageOn === 'brands') ? <Link to="/brands" >
                                         <span>
                                             <i className="fas fa-circle" aria-hidden="true"></i>
-                                        </span><span style={{ color: "red" }}>View Brands</span>
+                                        </span><span style={{ color: "red" }}>Types Of Brands</span>
                                     </Link> : 
                                     <Link to="/brands" onClick={this.onChangeHeader.bind(this,'Inventory/View Brands')} >
                                             <span>
                                                 <i className="far fa-circle" aria-hidden="true"></i>
-                                            </span><span>View Brands</span>
+                                            </span><span>Types Of Brands</span>
                                     </Link>
                                 }
                                 </li>
@@ -210,7 +210,7 @@ class Sidebar extends Component {
                                             </span>View Orders
                                     </Link>}
                                 </li>
-                                <li>
+                                {/* <li>
                                     {(this.state.pageOn === '') ? 
                                     <Link to="/"  >
                                         <span>
@@ -222,8 +222,8 @@ class Sidebar extends Component {
                                                 <i className="far fa-circle" aria-hidden="true"></i>
                                             </span>View Payments
                                     </Link>}
-                                </li>
-                                <li>
+                                </li> */}
+                                {/* <li>
                                 {(this.state.pageOn === '') ? 
                                     <Link to="/" >
                                         <span>
@@ -236,7 +236,7 @@ class Sidebar extends Component {
                                             </span><span>View Shipments</span>
                                     </Link>
                                 }
-                                </li>    
+                                </li>     */}
                             </ul>
                         </li>
                     </ul>

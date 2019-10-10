@@ -30,7 +30,7 @@ class ProductsView extends Component {
     this.props.getStores(host);
   };
 
-  handlePageChange = () => {};
+  handlePageChange = () => { };
 
   handleStoreSetting = (id) => {
     this.props.history.push(`/storeSetting/${id}`);
@@ -54,7 +54,7 @@ class ProductsView extends Component {
     return (
       <header>
         <div className="sw-header">
-          <h2 className="sw-title">View Stores</h2>
+          <h2 className="sw-title"> Store List</h2>
         </div>
         <div className="sw-action-bar">
           <div className="sw-action-bar__item">
@@ -116,8 +116,8 @@ class ProductsView extends Component {
               {this.state.ordering == 1 ? (
                 <i className="fas fa-sort-amount-down" aria-hidden="true"></i>
               ) : (
-                <i className="fas fa-sort-amount-up" aria-hidden="true"></i>
-              )}
+                  <i className="fas fa-sort-amount-up" aria-hidden="true"></i>
+                )}
               Order
             </span>
           </div>
@@ -137,7 +137,7 @@ class ProductsView extends Component {
 
   renderTableData() {
     return this.state.stores.map(store => {
-       return (
+      return (
         <tr key={store.InstanceID}>
           <td>
             <input type="checkbox" />
@@ -145,7 +145,7 @@ class ProductsView extends Component {
           <td>
             {store.name}
           </td>
-          <td>{store.rootDomain +''+ store.selectedNode }</td>
+          <td>{store.rootDomain + '' + store.selectedNode}</td>
           <td>{store.description}</td>
           <td>{store['Group.name']}</td>
           <td>Trinity</td>
@@ -165,7 +165,7 @@ class ProductsView extends Component {
                 className="dropdown-menu"
                 aria-labelledby="dropdownMenuButton"
               >
-                <a className="dropdown-item" onClick={()=>this.handleStoreSetting(store.id)}>
+                <a className="dropdown-item" onClick={() => this.handleStoreSetting(store.id)}>
                   Store Setting
                 </a>
 

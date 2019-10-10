@@ -95,8 +95,9 @@ class App extends Component {
             <Route path="/blog" component={Blog} />
             <Route path="/storeSetting/:id" component={StoreSetting}/>
             <Route path='/notFound' component={UnderConstruction} />
+            <Route path="/" exact component={Login} />
             <Redirect from='*' to='/notFound' />
-            <Route path="/" component={Login} />
+           
             
           </Switch>
         </div>
