@@ -18,12 +18,13 @@ router.route("/").post(controller.create);
 
 router.route("/:orderId").put(controller.updateOrder);
 
-router.route("/:orderId").put(controller.updateOrder);
+// router.route("/:orderId").put(controller.updateOrder);
 
 router.route("/customer/address/:orderId").get(controller.getAddresses);
 
 router.route("/status/:orderId").put(controller.changeStatus);
 
 router.route("/items/:orderId").get(controller.getCartProductsOfExistingOrder);
+
 
 module.exports = router; 

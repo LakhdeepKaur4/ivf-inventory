@@ -9,6 +9,7 @@ const httpStatus = require('http-status'); // Module to provide HTTP response co
 const Op = require('sequelize').Op; // Sequelize operators imported
 const { voxel } = require('../env');
 const resJson = require('../helpers/response').resJson; //helper function to send response in JSON format
+const Sequelize = require('sequelize');
 
 // Getting all orders
 exports.getOrders = (req, res, next) => {
@@ -123,6 +124,7 @@ exports.updateOrder = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
     const body = req.body;
+    console.log(body)
     const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(order => {
       if (body.product) {
         body.product.cartId = order.cartId;
@@ -354,6 +356,7 @@ exports.changeStatus = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
     const body = req.body;
+    console.log(body);
     const updatedOrder = await Orders.findOne({ where: { orderId: orderId } }).then(order => {
       return order.update(body);
     })
@@ -395,5 +398,66 @@ exports.getAddresses = async (req, res, next) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
   }
 }
+
+// attributes: [[sequelize.fn('DISTINCT', sequelize.col('col_name')), 'alias_name']],
+// /group: ['col_name']
+
+exports.filterOrders = async (req, res, next) => {
+  try {
+    let response = [];
+    let storeId = req.query.storeId;
+    let searchObject = {};
+    console.log(searchObject)
+    if (storeId && storeId !== '""' && storeId != null) {
+      searchObject.storeId = storeId
+    }
+    // Orders.count({ distinct: true, col: 'status' }).then(orders => {
+    //   console.log(orders)
+    //   res.status(httpStatus.OK).json(orders)
+    // })
+
+    Orders
+      .findAndCountAll({
+        // where:
+        //   searchObject,
+       
+        attributes: [
+          [Sequelize.fn('COUNT', Sequelize.col('status')), 'status'],
+        ],
+        distinct: true,
+      })
+      .then(function (result) {
+        console.log(result.count);
+        // console.log(result.rows);
+        result.rows.map(orders => {
+          // console.log("======================",orders.dataValues);
+          response.push(orders.dataValues)
+        })
+        res.status(httpStatus.OK).json(response);
+      });
+
+  } catch (error) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
+  }
+}
+
+// exports.filterOrders = async (req, res, next) => {
+//   try {
+//     let response = [];
+//     let storeId = req.query.storeId;
+//     let searchObject = {};
+//     if (storeId && storeId !== '""' && storeId != null) {
+//       searchObject.storeId = storeId
+//     }
+
+//     const orders = await Orders.findAll({
+//       attributes: ['currency',[Sequelize.fn('DISTINCT', Sequelize.col('status')), 'status']],
+//       group: ['status']
+//     })
+//     res.send(orders)
+//   } catch (error) {
+//     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: "Please try again", error: error.message });
+//   }
+// }
 
 
