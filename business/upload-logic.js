@@ -4,7 +4,7 @@ const minioClient = require('../config/minio').minioClient;
 const { decodeBase64Image } = require('../helpers/fileSave'); // helper function to convert base64 to buffer
 
 exports.makeBucket = () => {
-    minioClient.makeBucket('circle', function (err) {
+    minioClient.makeBucket('deal-ocean', function (err) {
         if (err) return console.log('Error creating bucket.', err)
         console.log('Bucket created successfully.')
     })
@@ -29,3 +29,31 @@ exports.uploadFiles = async (req, res, next) => {
     }
 }
 
+
+exports.setBucketPolicy = async (req, res, next) => {
+    const policy =
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "AddPerm",
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": ["s3:GetObject"],
+                "Resource": ["arn:aws:s3:::mainbucket/*"]
+            }
+        ]
+    }
+    minioClient.getBucketPolicy("mainbucket", (err, resp) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(resp)
+        }
+    })
+    minioClient.setBucketPolicy("mainbucket", JSON.stringify(policy), function (err) {
+        if (err) throw err
+
+        console.log('Bucket policy set')
+    });
+}
